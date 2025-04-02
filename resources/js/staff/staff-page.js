@@ -927,7 +927,9 @@ async function initializeStaffPageJs() {
                 }
             });
 
-            $('#paymentModal').on('show.bs.modal', function (event) {
+            //TODO: move this to payment handler class
+            const paymentModal = $('#paymentModal');
+            paymentModal.on('show.bs.modal', function (event) {
                 const button = $(event.relatedTarget);
                 const action = button.data('action');
 
@@ -938,10 +940,12 @@ async function initializeStaffPageJs() {
                 if (action === 'Add') {
                     modalTitle.text('Add Payment');
                     submitButton.text('Add Payment');
+                    modal.find('#reference_number').prop('readonly', false);
                     submitButton.attr('data-submissionMethod', 'add');
                 } else if (action === 'Update') {
                     modalTitle.text('Update Payment');
                     submitButton.text('Update Payment');
+                    modal.find('#reference_number').prop('readonly', true);
                     submitButton.attr('data-submissionMethod', 'update');
                     PaymentHandler.toUpdatePaymentRecord(
                         button.closest('tr'),
@@ -949,6 +953,10 @@ async function initializeStaffPageJs() {
                     );
                 }
             });
+
+            // paymentModal.on('hide.bs.modal', function () {
+            //     paymentModal.find('#paymentForm')[0].reset();
+            // });
 
             const ProjectLedgerInput = $('#projectLedgerLink');
             const ProjectLedgerSubmitBtn = $('#saveProjectLedgerLink');

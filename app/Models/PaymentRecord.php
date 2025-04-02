@@ -22,6 +22,7 @@ class PaymentRecord extends Model implements AuditableContract
         'payment_status',
         'payment_method',
         'due_date',
+        'note',
         'date_completed'
     ];
     protected $casts = [

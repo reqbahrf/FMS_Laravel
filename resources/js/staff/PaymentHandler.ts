@@ -12,6 +12,7 @@ export default class PaymentHandler {
     private paymentHistoryDataTableInstance: DataTables.Api;
     private project_id: string;
     private completeMarkBtn: JQuery<HTMLButtonElement>;
+    private paymentModal: JQuery<HTMLDivElement>;
     private paymentForm: JQuery<HTMLFormElement>;
     private totalPaid: JQuery<HTMLElement>;
     private remainingBalance: JQuery<HTMLElement>;
@@ -25,7 +26,8 @@ export default class PaymentHandler {
     ) {
         this.paymentHistoryDataTableInstance = DataTableInstance;
         this.project_id = project_id;
-        this.paymentForm = $('#paymentForm');
+        this.paymentModal = $('#paymentModal');
+        this.paymentForm = this.paymentModal.find('#paymentForm');
         this.totalPaid = $('#totalPaid');
         this.remainingBalance = $('#remainingBalance');
         this.completeMarkBtn = $('#MarkCompletedProjectBtn');
@@ -33,28 +35,58 @@ export default class PaymentHandler {
         this.paymentProgress = null;
     }
 
+    //Trigger in the staff-page.js when paymentModal show event is triggered
     static toUpdatePaymentRecord(
         selectedRow: JQuery<HTMLElement>,
         paymentForm: JQuery<HTMLFormElement>
     ) {
+        const dateToISO = (date: string): string => {
+            return new Date(date).toISOString().split('T')[0];
+        };
         const selected_reference_id = selectedRow
-            .find('td:eq(0)')
+            .find('td:nth-child(1)')
             .text()
             .trim();
-        const selected_amount = selectedRow.find('td:eq(1)').text().trim();
+        const selected_amount = selectedRow
+            .find('td:nth-child(2)')
+            .text()
+            .trim();
         const selected_payment_method = selectedRow
-            .find('td:eq(2)')
+            .find('td:nth-child(3)')
             .text()
             .trim();
         const selected_payment_status = selectedRow
-            .find('td:eq(3)')
+            .find('td:nth-child(4)')
             .text()
             .trim();
+        const selected_payment_due_date = selectedRow
+            .find('td:nth-child(6)')
+            .text()
+            .trim() as string;
+        const selected_completed_date = selectedRow
+            .find('td:nth-child(7)')
+            .text()
+            .trim() as string;
+        const selected_note = selectedRow
+            .find('input.hidden-payment-note')
+            .val() as string;
+        console.log(selected_payment_due_date);
 
         paymentForm.find('#reference_number').val(selected_reference_id);
-        paymentForm.find('#paymentAmount').val(selected_amount);
-        paymentForm.find('#paymentMethod').val(selected_payment_method);
-        paymentForm.find('#paymentStatus').val(selected_payment_status);
+        paymentForm.find('#payment_amount').val(selected_amount);
+        paymentForm
+            .find('#payment_due_date')
+            .val(dateToISO(selected_payment_due_date));
+        paymentForm.find('#payment_method').val(selected_payment_method);
+        paymentForm.find('#payment_status').val(selected_payment_status);
+        paymentForm
+            .find('#completed_date')
+            .val(
+                selected_completed_date === 'N/A'
+                    ? ''
+                    : dateToISO(selected_completed_date)
+            );
+        paymentForm.find('#payment_note').val(selected_note || '');
     }
     async storePaymentRecords(): Promise<void> {
         const processToast = showProcessToast('Storing Payment Record...');
@@ -152,9 +184,13 @@ export default class PaymentHandler {
             await this.getPaymentAndCalculation();
             hideProcessToast(processToast);
             showToastFeedback('text-bg-success', response.message);
-        } catch (error) {
+        } catch (error: any) {
             hideProcessToast(processToast);
-            throw new Error('Error in deleting payment record: ' + error);
+            throw new Error(
+                error?.responseJSON?.message ||
+                    error?.message ||
+                    'Failed to delete payment record'
+            );
         }
     }
 

@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PaymentRecord;
 use App\Models\ProjectInfo;
 use Illuminate\Http\Request;
+use App\Models\PaymentRecord;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Http\Requests\PaymentRecord\StorePaymentRecordRequest;
 
 class PaymentRecordController extends Controller
 {
@@ -21,7 +22,7 @@ class PaymentRecordController extends Controller
         ]);
         try {
             return DB::table('payment_records')->where('Project_id', $validated['project_id'])
-                ->select('reference_number', 'amount', 'payment_method', 'payment_status', 'quarter', 'due_date', 'date_completed', 'updated_at')
+                ->select('reference_number', 'amount', 'payment_method', 'payment_status', 'quarter', 'due_date', 'date_completed', 'updated_at', 'note')
                 ->get();
         } catch (\Exception $e) {
             Log::error('Error fetching payment records: ' . $e->getMessage());
@@ -40,19 +41,12 @@ class PaymentRecordController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StorePaymentRecordRequest $request)
     {
-        $validated = $request->validate([
-            'project_id' => 'required|string|max:15',
-            'reference_number' => 'required|string|max:15',
-            'amount' => 'required|regex:/^\d{1,3}(,\d{3})*(\.\d{2})?$/',
-            'paymentMethod' => 'required|string|max:15',
-            'paymentStatus' => 'required|string|max:15',
-        ]);
+        $validated = $request->validated();
 
         try {
             $exists = PaymentRecord::where('reference_number', $validated['reference_number'])->exists();
-
             if ($exists) {
                 return response()->json([
                     'success' => false,
@@ -64,9 +58,12 @@ class PaymentRecordController extends Controller
             $paymentRecord = new PaymentRecord();
             $paymentRecord->Project_id = $validated['project_id'];
             $paymentRecord->reference_number = $validated['reference_number'];
-            $paymentRecord->amount = number_format(str_replace(',', '', $validated['amount']), 2, '.', '');
-            $paymentRecord->payment_status = $validated['paymentStatus'];
-            $paymentRecord->payment_method = $validated['paymentMethod'];
+            $paymentRecord->amount = number_format(str_replace(',', '', $validated['payment_amount']), 2, '.', '');
+            $paymentRecord->payment_status = $validated['payment_status'];
+            $paymentRecord->payment_method = $validated['payment_method'];
+            $paymentRecord->due_date = $validated['payment_due_date'];
+            $paymentRecord->date_completed = $validated['completed_date'];
+            $paymentRecord->note = $validated['payment_note'];
 
             $ActualRefundAmount = $paymentRecord->projectInfo->actual_amount_to_be_refund;
             $RefundedAmount = $paymentRecord->projectInfo->refunded_amount;
@@ -111,15 +108,9 @@ class PaymentRecordController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(StorePaymentRecordRequest $request, string $id)
     {
-        $validated = $request->validate([
-            'project_id' => 'required|string|max:15',
-            'reference_number' => 'required|string|max:15',
-            'amount' => 'required|regex:/^\d{1,3}(,\d{3})*(\.\d{2})?$/',
-            'paymentMethod' => 'required|string|max:15',
-            'paymentStatus' => 'required|string|max:15',
-        ]);
+        $validated = $request->validated();
 
         try {
             $exists = PaymentRecord::where('reference_number', $validated['reference_number'])
@@ -133,7 +124,7 @@ class PaymentRecordController extends Controller
 
             $record = PaymentRecord::where('reference_number', $validated['reference_number'])
                 ->firstOrFail();
-            $newAmount = number_format(str_replace(',', '', $validated['amount']), 2, '.', '');
+            $newAmount = number_format(str_replace(',', '', $validated['payment_amount']), 2, '.', '');
 
             // Get the project info
             $projectInfo = $record->projectInfo;
@@ -168,8 +159,11 @@ class PaymentRecordController extends Controller
                 'Project_id' => $validated['project_id'],
                 'reference_number' => $validated['reference_number'],
                 'amount' => $newAmount,
-                'payment_status' => $validated['paymentStatus'],
-                'payment_method' => $validated['paymentMethod'],
+                'due_date' => $validated['payment_due_date'],
+                'date_completed' => $validated['completed_date'],
+                'payment_status' => $validated['payment_status'],
+                'payment_method' => $validated['payment_method'],
+                'note' => $validated['payment_note'],
             ]);
 
             return response()->json([
