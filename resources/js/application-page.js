@@ -851,12 +851,12 @@ export function initializeForm() {
 
             const response = await $.ajax({
                 type: 'POST',
-                url: REGISTRATIONFORM_SUBMISSION_ROUTE,
+                url: APPLICATION_FORM.attr('action'),
                 data: JSON.stringify(formDataObject),
                 contentType: 'application/json',
                 processData: false,
                 headers: {
-                    'X-XSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
                         'content'
                     ),
                 },

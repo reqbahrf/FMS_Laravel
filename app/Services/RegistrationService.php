@@ -55,62 +55,55 @@ class RegistrationService
             $this->storeUserAddress($validatedInputs, Auth::user()->id);
             // Process and store personal info
             $personalInfo = $this->storePersonalInfo($validatedInputs, $user_name);
-            $successful_inserts++;
 
             // Process and store business info
             $businessInfo = $this->storeBusinessInfo($validatedInputs, $personalInfo->id);
             $businessId = $businessInfo['businessId'];
-            $successful_inserts++;
+
 
             // Process and store assets
             $this->storeAssets($validatedInputs, $businessId);
-            $successful_inserts++;
+
 
             // Process and store personnel
             $this->storePersonnel($validatedInputs, $businessId);
-            $successful_inserts++;
+
 
             // Store files
             $firm_name = $validatedInputs['firm_name'];
             $this->fileHandler->storeFile($validatedInputs, $businessId, $firm_name);
-            $successful_inserts++;
+
 
             // Create application record
             $applicationId = $this->createApplicationRecord($businessId);
-            $successful_inserts++;
 
-            if ($successful_inserts == 6) {
-                $this->initializeApplicationProcessFormContainer($businessId, $applicationId);
-                $this->TNAdataHandlerService->setTNAData($validatedInputs, request()->user(), $businessId, $applicationId);
-                DB::commit();
+            $this->initializeApplicationProcessFormContainer($businessId, $applicationId);
+            $this->TNAdataHandlerService->setTNAData($validatedInputs, null, $businessId, $applicationId);
+            DB::commit();
 
-                $location = [
-                    'applicant_region' => $validatedInputs['home_region'],
-                    'applicant_province' => $validatedInputs['home_province'],
-                    'applicant_city' => $validatedInputs['home_city'],
-                    'applicant_barangay' => $validatedInputs['home_barangay'],
-                ];
+            $location = [
+                'applicant_region' => $validatedInputs['home_region'],
+                'applicant_province' => $validatedInputs['home_province'],
+                'applicant_city' => $validatedInputs['home_city'],
+                'applicant_barangay' => $validatedInputs['home_barangay'],
+            ];
 
-                // Trigger event
-                event(new ProjectEvent(
-                    $businessId,
-                    $businessInfo['enterprise_type'],
-                    $businessInfo['enterprise_level'],
-                    $location,
-                    'NEW_APPLICANT'
-                ));
+            // Trigger event
+            event(new ProjectEvent(
+                $businessId,
+                $businessInfo['enterprise_type'],
+                $businessInfo['enterprise_level'],
+                $location,
+                'NEW_APPLICANT'
+            ));
 
-                Cache::forget('applicants');
+            Cache::forget('applicants');
 
-                return [
-                    'status' => 'success',
-                    'message' => 'All data successfully saved.',
-                    'redirect' => route('Cooperator.index')
-                ];
-            } else {
-                DB::rollBack();
-                throw new Exception("Data insertion failed: Only {$successful_inserts} of 6 required insertions completed successfully.");
-            }
+            return [
+                'status' => 'success',
+                'message' => 'All data successfully saved.',
+                'redirect' => route('Cooperator.index')
+            ];
         } catch (Exception $e) {
             DB::rollBack();
             Log::error("Error inserting data:", ['error' => $e->getMessage()]);
@@ -362,8 +355,9 @@ class RegistrationService
         $landmark = $validatedInputs['home_landmark'];
         $zipcode = $validatedInputs['home_zipcode'];
 
-        AddressInfo::insert([
+        AddressInfo::updateOrCreate([
             'user_info_id' => $userId,
+        ], [
             'region' => $region,
             'province' => $province,
             'city' => $city,
@@ -397,8 +391,9 @@ class RegistrationService
         $full_mobile_number = $country_mobile_code . $mobile_number;
         $landline = $validatedInputs['landline'];
 
-        return CoopUserInfo::create([
+        return CoopUserInfo::updateOrCreate([
             'user_name' => $user_name,
+        ], [
             'prefix' => $name_prefix,
             'f_name' => $f_name,
             'mid_name' => $mid_name,
