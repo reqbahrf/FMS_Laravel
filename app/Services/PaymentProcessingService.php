@@ -77,6 +77,28 @@ class PaymentProcessingService
     }
 
     /**
+     * Extracts refunded payment flags from validated data.
+     *
+     * @param array $validatedData The validated data containing payment structure
+     * @return array The extracted refunded payment flags with only valid keys
+     * @throws Exception If extraction process fails
+     */
+    public static function extractRefundedPayments(array $validatedData): array
+    {
+        try {
+            $keys = ProjectRefundConstants::REFUNDED_PAYMENT_KEYS;
+
+            $keysArray = array_fill_keys($keys, false);
+
+            $refundedPayments = array_intersect_key($validatedData, $keysArray);
+
+            return $refundedPayments;
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+
+    /**
      * Clean payment structure by removing total keys and null values
      */
     private function cleanPaymentStructure(array $paymentStructure): array
