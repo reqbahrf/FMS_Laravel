@@ -32,6 +32,62 @@ class NewRegistrationRequest extends FormRequest
             'f_personnelIndPart' => str_replace(',', '', $this->f_personnelIndPart) ?? 0,
         ]);
 
+        // Consolidate activity sectors into a structured array
+        $sectors = [];
+
+        $activityMapping = [
+            'food_processing_activity' => [
+                'name' => 'Food Processing',
+                'specific' => 'food_processing_specific_sector'
+            ],
+            'furniture_activity' => [
+                'name' => 'Furniture',
+                'specific' => 'furniture_specific_sector'
+            ],
+            'natural_fibers_activity' => [
+                'name' => 'Natural Fibers',
+                'specific' => 'natural_fibers_specific_sector'
+            ],
+            'metals_and_engineering_activity' => [
+                'name' => 'Metals and Engineering',
+                'specific' => 'metals_and_engineering_specific_sector'
+            ],
+            'aquatic_and_marine_activity' => [
+                'name' => 'Aquatic and Marine',
+                'specific' => 'aquatic_and_marine_specific_sector'
+            ],
+            'horticulture_activity' => [
+                'name' => 'Horticulture',
+                'specific' => 'horticulture_specific_sector'
+            ],
+            'other_activity' => [
+                'name' => 'Other',
+                'specific' => 'other_specific_sector'
+            ],
+        ];
+
+        foreach ($activityMapping as $activity => $details) {
+            if ($this->input($activity) === 'on') {
+                $specificSector = $this->input($details['specific']);
+                $sectorName = $details['name'];
+
+                if (!empty($specificSector)) {
+                    $sectors[] = [
+                        'name' => $sectorName,
+                        'specific' => $specificSector
+                    ];
+                } else {
+                    $sectors[] = [
+                        'name' => $sectorName
+                    ];
+                }
+            }
+        }
+
+        $this->merge([
+            'sectors' => $sectors
+        ]);
+
         if ($this->has('same_address_with_home') && $this->same_address_with_home) {
             // Copy home address fields to office address fields
             $this->merge([
@@ -159,7 +215,7 @@ class NewRegistrationRequest extends FormRequest
             'metals_and_engineering_specific_sector' => 'nullable|string|required_if:metals_and_engineering_activity,on',
 
             'aquatic_and_marine_activity' => 'nullable|in:on,null',
-            'aquatic_and_marine_specific_sector' => 'nullable|string|required_if:metals_and_engineering_activity,on',
+            'aquatic_and_marine_specific_sector' => 'nullable|string|required_if:aquatic_and_marine_activity,on',
 
             'horticulture_activity' => 'nullable|in:on,null',
             'horticulture_specific_sector' => 'nullable|string|required_if:horticulture_activity,on',
@@ -167,8 +223,8 @@ class NewRegistrationRequest extends FormRequest
             'other_activity' => 'nullable|in:on,null',
             'other_specific_sector' => 'nullable|string|required_if:other_activity,on',
 
-            'specificProductOrService' => 'nullable|string|required_if:other_activity,on',
-            'reasonsWhyAssistanceIsBeingSought' => 'nullable|string|required_if:other_activity,on',
+            'specificProductOrService' => 'nullable|string',
+            'reasonsWhyAssistanceIsBeingSought' => 'nullable|string',
 
             //TNA Important Data
             'consultationAnswer' => 'nullable|in:yes,no',
@@ -227,6 +283,18 @@ class NewRegistrationRequest extends FormRequest
             'production.*.volumeProduction' => 'nullable|string',
             'production.*.unitCost' => 'nullable|string',
 
+            'exportMarket' => 'nullable|array',
+            'exportMarket.*.product' => 'nullable|string',
+            'exportMarket.*.location' => 'nullable|string',
+            'exportMarket.*.volume' => 'nullable|string',
+            'exportMarket.*.unit' => 'nullable|string',
+
+            'localMarket' => 'nullable|array',
+            'localMarket.*.product' => 'nullable|string',
+            'localMarket.*.location' => 'nullable|string',
+            'localMarket.*.volume' => 'nullable|string',
+            'localMarket.*.unit' => 'nullable|string',
+
             'productionEquipment' => 'nullable|array',
             'productionEquipment.*.typeOfEquipment' => 'nullable|string',
             'productionEquipment.*.specification' => 'nullable|string',
@@ -240,8 +308,7 @@ class NewRegistrationRequest extends FormRequest
             'f_personnelIndRe' => 'nullable|numeric',
             'm_personnelIndPart' => 'nullable|numeric',
             'f_personnelIndPart' => 'nullable|numeric',
-            'exportMarket' => 'nullable|array',
-            'localMarket' => 'nullable|array',
+
             'organizationalStructure' =>  'nullable|string',
             'planLayout' => 'nullable|string',
             'processFlow' => 'nullable|string',
