@@ -297,6 +297,8 @@ export default class AddApplicant {
             undefined,
             undefined,
             {
+                loadHomeAddressDropdowns:
+                    AddressFormInput.loadHomeAddressDropdowns,
                 loadOfficeAddressDropdowns:
                     AddressFormInput.loadOfficeAddressDropdowns,
                 loadFactoryAddressDropdowns:
@@ -353,6 +355,7 @@ export default class AddApplicant {
             });
 
         const addressForms = [
+            new AddressFormInput({ prefix: 'home' }),
             new AddressFormInput({ prefix: 'office' }),
             new AddressFormInput({ prefix: 'factory' }),
         ];

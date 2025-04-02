@@ -40,8 +40,6 @@ class NewRegistrationRequest extends FormRequest
      */
     public function rules(): array
     {
-        $user = Auth::user();
-        $isCooperator = $user && $user->role === 'Cooperator';
         return [
             'email' => 'required|email|sometimes',
             'prefix' => 'nullable',
@@ -55,9 +53,19 @@ class NewRegistrationRequest extends FormRequest
             'country_code' => 'required|max:4',
             'mobile_no' => 'required|max:15',
             'landline' => 'nullable|max:20',
-            'firm_name' => 'required|string|max:30',
+
+            //Home Address Information
+            'home_region' => 'required|string',
+            'home_province' => 'required|string',
+            'home_city' => 'required|string',
+            'home_barangay' => 'required|string',
+            'home_landmark' => 'nullable|string',
+            'home_zipcode' => 'required|string',
+
+
 
             //TNA Important Data
+            'firm_name' => 'required|string|max:30',
             'enterpriseType' => 'required|in:Sole Proprietorship,Partnership,Corporation (Non-Profit),Corporation (Profit)',
             'brief_background' => 'required|string|max:1000',
             'website' => 'nullable|string',
@@ -97,28 +105,28 @@ class NewRegistrationRequest extends FormRequest
 
             //TNA Important Data
             'food_processing_activity' => 'nullable|in:on,null',
-            'food_processing_specific_sector' => 'nullable|string',
+            'food_processing_specific_sector' => 'nullable|string|required_if:food_processing_activity,on',
 
             'furniture_activity' => 'nullable|in:on,null',
-            'furniture_specific_sector' => 'nullable|string',
+            'furniture_specific_sector' => 'nullable|string|required_if:furniture_activity,on',
 
             'natural_fibers_activity' => 'nullable|in:on,null',
-            'natural_fibers_specific_sector' => 'nullable|string',
+            'natural_fibers_specific_sector' => 'nullable|string|required_if:natural_fibers_activity,on',
 
             'metals_and_engineering_activity' => 'nullable|in:on,null',
-            'metals_and_engineering_specific_sector' => 'nullable|string',
+            'metals_and_engineering_specific_sector' => 'nullable|string|required_if:metals_and_engineering_activity,on',
 
             'aquatic_and_marine_activity' => 'nullable|in:on,null',
-            'aquatic_and_marine_specific_sector' => 'nullable|string',
+            'aquatic_and_marine_specific_sector' => 'nullable|string|required_if:metals_and_engineering_activity,on',
 
             'horticulture_activity' => 'nullable|in:on,null',
-            'horticulture_specific_sector' => 'nullable|string',
+            'horticulture_specific_sector' => 'nullable|string|required_if:horticulture_activity,on',
 
             'other_activity' => 'nullable|in:on,null',
-            'other_specific_sector' => 'nullable|string',
+            'other_specific_sector' => 'nullable|string|required_if:other_activity,on',
 
-            'specificProductOrService' => 'nullable|string',
-            'reasonsWhyAssistanceIsBeingSought' => 'nullable|string',
+            'specificProductOrService' => 'nullable|string|required_if:other_activity,on',
+            'reasonsWhyAssistanceIsBeingSought' => 'nullable|string|required_if:other_activity,on',
 
             //TNA Important Data
             'consultationAnswer' => 'nullable|in:yes,no',
@@ -146,13 +154,13 @@ class NewRegistrationRequest extends FormRequest
             'nutritionEvaluationDetails' => 'nullable|string',
 
             'barCode' => 'nullable|in:on,null',
-            'barCodeDetails' => 'nullable|string',
+            'barCodeDetails' => 'nullable|string|required_if:barCode,on',
 
             'productLabel' => 'nullable|in:on,null',
-            'productLabelDetails' => 'nullable|string',
+            'productLabelDetails' => 'nullable|string|required_if:productLabel,on',
 
             'expiryDate' => 'nullable|in:on,null',
-            'expiryDateDetails' => 'nullable|string',
+            'expiryDateDetails' => 'nullable|string|required_if:expiryDate,on',
 
             'CashFlowAndRelatedDocuments' => 'nullable|string',
             'SourceOfCapitalCredits' => 'nullable|in:on,null',
@@ -192,28 +200,28 @@ class NewRegistrationRequest extends FormRequest
             'f_personnelIndPart' => 'nullable|numeric',
             'exportMarket' => 'nullable|array',
             'localMarket' => 'nullable|array',
-            'organizationalStructure' =>  $isCooperator ? 'required|string' : 'nullable|string',
-            'planLayout' => $isCooperator ? 'required|string' : 'nullable|string',
-            'processFlow' => $isCooperator ? 'required|string' : 'nullable|string',
-            'intentFile' =>   $isCooperator ? 'required|string' : 'nullable|string',
-            'DSC_file_Selector' => $isCooperator ? 'required|string|in:DTI,SEC,CDA' : 'nullable|string|in:DTI,SEC,CDA',
-            'DTI_SEC_CDA_File' => $isCooperator ? 'required|string' : 'nullable|string',
-            'businessPermitFile' => $isCooperator ? 'required|string' : 'nullable|string',
+            'organizationalStructure' =>  'nullable|string',
+            'planLayout' => 'nullable|string',
+            'processFlow' => 'nullable|string',
+            'intentFile' =>   'required|string',
+            'DSC_file_Selector' => 'required|string|in:DTI,SEC,CDA',
+            'DTI_SEC_CDA_File' => 'required|string',
+            'businessPermitFile' => 'required|string',
             'Fda_Lto_Selector' => 'nullable|string|in:FDA,LTO',
             'fdaLtoFile' => 'nullable|string',
-            'receiptFile' => $isCooperator ? 'required|string' : 'nullable|string',
-            'govIdFile' => $isCooperator ? 'required|string' : 'nullable|string',
-            'GovIdSelector' => $isCooperator ? 'required|string|in:National ID,SSS ID,GSIS ID,Passport ID' : 'nullable|string|in:National ID,SSS ID,GSIS ID,Passport ID',
-            'OrganizationalStructureFileID_Data_Handler' => $isCooperator ? 'required|string' : 'nullable|string',
-            'PlanLayoutFileID_Data_Handler' => $isCooperator ? 'required|string' : 'nullable|string',
-            'ProcessFlowFileID_Data_Handler' => $isCooperator ? 'required|string' : 'nullable|string',
-            'IntentFileID_Data_Handler' => $isCooperator ? 'required|string' : 'nullable|string',
-            'DtiSecCdaFileID_Data_Handler' => $isCooperator ? 'required|string' : 'nullable|string',
-            'BusinessPermitFileID_Data_Handler' => $isCooperator ? 'required|string' : 'nullable|string',
+            'receiptFile' =>  'required|string',
+            'govIdFile' => 'required|string',
+            'GovIdSelector' => 'required|string|in:National ID,SSS ID,GSIS ID,Passport ID',
+            'OrganizationalStructureFileID_Data_Handler' => 'nullable|string',
+            'PlanLayoutFileID_Data_Handler' => 'nullable|string',
+            'ProcessFlowFileID_Data_Handler' =>  'nullable|string',
+            'IntentFileID_Data_Handler' =>  'required|string',
+            'DtiSecCdaFileID_Data_Handler' => 'required|string',
+            'BusinessPermitFileID_Data_Handler' => 'required|string',
             'FdaLtoFileID_Data_Handler' => 'nullable|string',
-            'ReceiptFileID_Data_Handler' => $isCooperator ? 'required|string' : 'nullable|string',
-            'GovIdFileID_Data_Handler' => $isCooperator ? 'required|string' : 'nullable|string',
-            'BIRFileID_Data_Handler' => $isCooperator ? 'required|string' : 'nullable|string',
+            'ReceiptFileID_Data_Handler' => 'required|string',
+            'GovIdFileID_Data_Handler' => 'required|string',
+            'BIRFileID_Data_Handler' => 'required|string',
         ];
     }
 }
