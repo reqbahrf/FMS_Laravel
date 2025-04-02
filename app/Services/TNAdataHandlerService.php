@@ -59,7 +59,7 @@ class TNAdataHandlerService
         }
     }
 
-    public function setTNAData(array $data, ?User $user, int $business_id, int $application_id)
+    public function setTNAData(array $data, int $business_id, int $application_id, ?User $user = null)
     {
         try {
             // Find the existing record

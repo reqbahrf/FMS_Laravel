@@ -45,14 +45,15 @@ class RegistrationService
      */
     public function registerApplication(array $validatedInputs): array
     {
-        $user_name = Auth::user()->user_name;
+        $applicant = Auth::user();
+        $user_name = $applicant->user_name;
         $successful_inserts = 0;
 
         DB::beginTransaction();
 
         try {
             // Store user address
-            $this->storeUserAddress($validatedInputs, Auth::user()->id);
+            $this->storeUserAddress($validatedInputs, $applicant->id);
             $successful_inserts++;
             // Process and store personal info
             $personalInfo = $this->storePersonalInfo($validatedInputs, $user_name);
@@ -78,7 +79,12 @@ class RegistrationService
                 $firm_name = $validatedInputs['firm_name'];
                 $this->fileHandler->storeFile($validatedInputs, $businessId, $firm_name);
                 $this->initializeApplicationProcessFormContainer($businessId, $applicationId);
-                $this->TNAdataHandlerService->setTNAData($validatedInputs, null, $businessId, $applicationId);
+                $this->TNAdataHandlerService->setTNAData(
+                    $validatedInputs,
+                    $businessId,
+                    $applicationId
+                );
+                $this->updateDraftToSubmitted($applicant);
                 DB::commit();
                 $location = [
                     'applicant_region' => $validatedInputs['home_region'],
@@ -327,6 +333,13 @@ class RegistrationService
         FormDraft::where('form_type', self::DRAFT_PREFIX . $user->id)
             ->where('owner_id', $user->id)
             ->delete();
+    }
+
+    private function updateDraftToSubmitted(User $user): void
+    {
+        FormDraft::where('form_type', self::DRAFT_PREFIX . $user->id)
+            ->where('owner_id', $user->id)
+            ->update(['is_submitted' => true]);
     }
 
     public function isAddedApplicantExist(): bool
