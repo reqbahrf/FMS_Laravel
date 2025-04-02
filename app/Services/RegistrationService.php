@@ -53,57 +53,88 @@ class RegistrationService
         try {
             // Store user address
             $this->storeUserAddress($validatedInputs, Auth::user()->id);
+            $successful_inserts++;
             // Process and store personal info
             $personalInfo = $this->storePersonalInfo($validatedInputs, $user_name);
+            $successful_inserts++;
 
             // Process and store business info
             $businessInfo = $this->storeBusinessInfo($validatedInputs, $personalInfo->id);
             $businessId = $businessInfo['businessId'];
-
+            $successful_inserts++;
 
             // Process and store assets
             $this->storeAssets($validatedInputs, $businessId);
-
+            $successful_inserts++;
 
             // Process and store personnel
             $this->storePersonnel($validatedInputs, $businessId);
-
-
-            // Store files
-            $firm_name = $validatedInputs['firm_name'];
-            $this->fileHandler->storeFile($validatedInputs, $businessId, $firm_name);
-
+            $successful_inserts++;
 
             // Create application record
             $applicationId = $this->createApplicationRecord($businessId);
+            $successful_inserts++;
+            if ($successful_inserts == 6) {
+                $firm_name = $validatedInputs['firm_name'];
+                $this->fileHandler->storeFile($validatedInputs, $businessId, $firm_name);
+                $this->initializeApplicationProcessFormContainer($businessId, $applicationId);
+                $this->TNAdataHandlerService->setTNAData($validatedInputs, null, $businessId, $applicationId);
+                DB::commit();
+                $location = [
+                    'applicant_region' => $validatedInputs['home_region'],
+                    'applicant_province' => $validatedInputs['home_province'],
+                    'applicant_city' => $validatedInputs['home_city'],
+                    'applicant_barangay' => $validatedInputs['home_barangay'],
+                ];
 
-            $this->initializeApplicationProcessFormContainer($businessId, $applicationId);
-            $this->TNAdataHandlerService->setTNAData($validatedInputs, null, $businessId, $applicationId);
-            DB::commit();
+                // Trigger event
+                event(new ProjectEvent(
+                    $businessId,
+                    $businessInfo['enterprise_type'],
+                    $businessInfo['enterprise_level'],
+                    $location,
+                    'NEW_APPLICANT'
+                ));
 
-            $location = [
-                'applicant_region' => $validatedInputs['home_region'],
-                'applicant_province' => $validatedInputs['home_province'],
-                'applicant_city' => $validatedInputs['home_city'],
-                'applicant_barangay' => $validatedInputs['home_barangay'],
-            ];
+                Cache::forget('applicants');
 
-            // Trigger event
-            event(new ProjectEvent(
-                $businessId,
-                $businessInfo['enterprise_type'],
-                $businessInfo['enterprise_level'],
-                $location,
-                'NEW_APPLICANT'
-            ));
+                return [
+                    'status' => 'success',
+                    'message' => 'All data successfully saved.',
+                    'redirect' => route('Cooperator.index')
+                ];
+            } else {
+                DB::rollBack();
+                $insertionSteps = [
+                    1 => 'User Address',
+                    2 => 'Personal Information',
+                    3 => 'Business Information',
+                    4 => 'Assets',
+                    5 => 'Personnel',
+                    6 => 'Application Record'
+                ];
 
-            Cache::forget('applicants');
+                $failedSteps = array_filter($insertionSteps, function ($key) use ($successful_inserts) {
+                    return $key > $successful_inserts;
+                }, ARRAY_FILTER_USE_KEY);
 
-            return [
-                'status' => 'success',
-                'message' => 'All data successfully saved.',
-                'redirect' => route('Cooperator.index')
-            ];
+                $errorMessage = sprintf(
+                    "Data insertion incomplete. Only %d of 6 required insertions completed successfully. " .
+                        "Failed to complete the following steps: %s",
+                    $successful_inserts,
+                    implode(', ', $failedSteps)
+                );
+
+                Log::error($errorMessage, [
+                    'successful_inserts' => $successful_inserts,
+                    'failed_steps' => $failedSteps
+                ]);
+
+                return [
+                    'status' => 'error',
+                    'message' => $errorMessage
+                ];
+            }
         } catch (Exception $e) {
             DB::rollBack();
             Log::error("Error inserting data:", ['error' => $e->getMessage()]);
