@@ -1,5 +1,5 @@
 <!-- Where Personal Info Displayed -->
-@props(['withRequestRefundInput' => true])
+@props(['withRequestRefundInput' => true, 'personalInfo' => null])
 <div class="row mb-3 gy-3">
     <h5>Contact Person:</h5>
     <x-custom-input.prefix-input />
@@ -13,7 +13,7 @@
             id="f_name"
             name="f_name"
             type="text"
-            value="{{ old('f_name') }}"
+            value="{{ $personalInfo->f_name ?? '' }}"
             placeholder="John"
             required
         >
@@ -45,7 +45,7 @@
             id="l_name"
             name="l_name"
             type="text"
-            value="{{ old('l_name') }}"
+            value="{{ $personalInfo->l_name ?? '' }}"
             placeholder="Doe"
             required
         >

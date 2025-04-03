@@ -2,10 +2,11 @@
 
 namespace App\Services;
 
-use App\Models\ApplicationForm;
-use App\Models\User;
-use App\Actions\DocumentStatusAction as DSA;
 use Exception;
+use App\Models\User;
+use App\Models\OrgUserInfo;
+use App\Models\ApplicationForm;
+use App\Actions\DocumentStatusAction as DSA;
 
 class RTECReportdataHandlerService
 {
@@ -43,7 +44,7 @@ class RTECReportdataHandlerService
         }
     }
 
-    public function setRTECReportData(array $data, User $user, int $business_id, int $application_id)
+    public function setRTECReportData(array $data, OrgUserInfo $user, int $business_id, int $application_id)
     {
         try {
             // Find the existing record

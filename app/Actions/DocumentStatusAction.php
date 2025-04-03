@@ -4,6 +4,7 @@ namespace App\Actions;
 
 use Exception;
 use App\Models\User;
+use App\Models\OrgUserInfo;
 use Illuminate\Support\Carbon;
 
 class DocumentStatusAction
@@ -12,11 +13,11 @@ class DocumentStatusAction
      * Determine reviewer or modifier information based on document status
      *
      * @param string $status The document status (reviewed or pending)
-     * @param User $user The user performing the action
+     * @param OrgUserInfo $user The user performing the action
      * @return array The reviewer/modifier information
      * @throws Exception If the status is invalid
      */
-    public static function determineReviewerOrModifier(string $status, User $user): array
+    public static function determineReviewerOrModifier(string $status, OrgUserInfo $user): array
     {
         switch ($status) {
             case 'reviewed':

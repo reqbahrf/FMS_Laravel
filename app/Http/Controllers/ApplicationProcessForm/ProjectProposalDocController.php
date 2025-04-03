@@ -62,7 +62,7 @@ class ProjectProposalDocController extends Controller
             DB::transaction(function () use ($validated, $request) {
                 $this->ProjectProposal->setProjectProposalData(
                     $validated,
-                    $request->user(),
+                    $request->user()->orgUserInfo,
                     $request->business_id,
                     $request->application_id
                 );

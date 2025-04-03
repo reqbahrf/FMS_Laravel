@@ -67,7 +67,7 @@ class TNADocController extends Controller
                     $validated,
                     $request->business_id,
                     $request->application_id,
-                    $request->user(),
+                    $request->user()->orgUserInfo,
                 );
             });
 

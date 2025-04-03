@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Exception;
 use App\Models\User;
+use App\Models\OrgUserInfo;
 use App\Models\ApplicationForm;
 use App\Constants\ProjectRefundConstants;
 use App\Actions\DocumentStatusAction as DSA;
@@ -46,7 +47,7 @@ class ProjectProposaldataHandlerService
         }
     }
 
-    public function setProjectProposalData(array $data, User $user, int $business_id, int $application_id)
+    public function setProjectProposalData(array $data, OrgUserInfo $user, int $business_id, int $application_id)
     {
         try {
             $existingRecord = $this->ProjectProposalForm->where([

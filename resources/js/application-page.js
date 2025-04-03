@@ -35,6 +35,7 @@ export function initializeForm() {
     }
 
     customFormatNumericInput('form', [
+        '#requested_fund_amount',
         '#initial_capitalization',
         '#present_capitalization',
     ]);

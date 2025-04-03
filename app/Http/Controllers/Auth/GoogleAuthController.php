@@ -6,16 +6,23 @@ use Exception;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
+use App\Actions\GenerateUniqueUsernameAction;
 use Laravel\Socialite\Contracts\User as GoogleUser;
 
 class GoogleAuthController extends Controller
 {
+
+    public function __construct(
+        private GenerateUniqueUsernameAction $generateUniqueUsername
+    ) {}
     public function AuthenticateWithGoogle()
     {
         $previousRequest = app('request')->create(url()->previous());
@@ -142,8 +149,9 @@ class GoogleAuthController extends Controller
                 ]);
             }
 
-            $username = $this->generateUniqueUsername($googleUser->user['given_name']);
+            $username = $this->generateUniqueUsername->execute($googleUser->user['given_name']);
 
+            DB::beginTransaction();
             // Create new user
             $newUser = User::create([
                 'email' => $googleUser->getEmail(),
@@ -155,6 +163,17 @@ class GoogleAuthController extends Controller
                 'role' => 'Cooperator', // Default role
                 'password' => Hash::make(Str::random(16)) // Random password for social users
             ]);
+
+            $firstName = ucwords(strtolower($googleUser->user['given_name']));
+            $lastName = ucwords(strtolower($googleUser->user['family_name']));
+
+            // Create Cooperator user info
+            $newUser->coopUserInfo()->create([
+                'user_name' => $username,
+                'f_name' => $firstName,
+                'l_name' => $lastName,
+            ]);
+            DB::commit();
 
             // Optional: Additional setup for new users
             // For example, creating a profile or sending a welcome email
@@ -169,25 +188,20 @@ class GoogleAuthController extends Controller
         }
     }
 
-    protected function generateUniqueUsername(string $name)
-    {
-        // Generate a unique username based on name
-        $baseUsername = '@' . Str::slug(strtolower($name));
-        $username = $baseUsername;
-        $counter = 1;
-
-        while (User::where('user_name', $username)->exists()) {
-            $username = $baseUsername . $counter;
-            $counter++;
-        }
-
-        return $username;
-    }
 
     protected function CoopIntentedRoute(User $user)
     {
         try {
-            return is_null($user->coopUserInfo) ? redirect()->route('application.form') : redirect()->route('Cooperator.index');
+            // Check if coopUserInfo exists or has business info
+            $redirectToApplicationForm =
+                is_null($user->coopUserInfo) ||
+                ($user->coopUserInfo->businessInfo()->count() === 0);
+
+            return $redirectToApplicationForm
+                ? redirect()->to(
+                    URL::signedRoute('application.form', ['id' => $user->id])
+                )
+                : redirect()->route('Cooperator.index');
         } catch (Exception $e) {
             Log::error("Failed to get intended route for user {$user->email}: " . $e->getMessage());
             return redirect()->route('home');

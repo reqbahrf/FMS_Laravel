@@ -18,6 +18,7 @@ class ApplicationInfo extends Model
         'Project_id',
         'business_id',
         'date_applied',
+        'requested_fund_amount',
         'application_status',
         'Evaluation_date',
         'is_assisted',

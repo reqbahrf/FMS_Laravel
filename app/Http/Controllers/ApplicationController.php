@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\NewRegistrationRequest;
-use App\Services\RegistrationService;
+use App\Models\User;
+use App\Models\CoopUserInfo;
 use Illuminate\Http\JsonResponse;
+use App\Services\RegistrationService;
+use App\Http\Requests\NewRegistrationRequest;
 
 class ApplicationController extends Controller
 {
@@ -14,11 +16,12 @@ class ApplicationController extends Controller
 
     public function show($ownerId)
     {
+        $personalInfo = User::find($ownerId)->coopUserInfo;
         $draft_type = $this->registrationService->isApplicantHasAssistDraft($ownerId)
             ? $this->registrationService->getDraftType($ownerId)
             : 'Applicant_' . $ownerId;
 
-        return view('registerpage.application', compact('ownerId', 'draft_type'));
+        return view('registerpage.application', compact('ownerId', 'draft_type', 'personalInfo'));
     }
     /**
      * Store a new application with all related data
