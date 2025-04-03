@@ -82,9 +82,9 @@ class AdminViewController extends Controller
         NotifyOnService $notifyOnService
     ) {
         if ($request->ajax()) {
-            $fee_percentage = $projectFeeService->getProjectFee();
-            $notify_duration = $notifyOnService->getNotifyDuration();
-            $notify_interval = $notifyOnService->getNotifyEvery();
+            $fee_percentage = $projectFeeService->getProjectFee() ?? 0;
+            $notify_duration = $notifyOnService->getNotifyDuration() ?? 0;
+            $notify_interval = $notifyOnService->getNotifyEvery() ?? 0;
             return view(
                 'admin-view.admin-page-tab.project-settings-tab',
                 compact(

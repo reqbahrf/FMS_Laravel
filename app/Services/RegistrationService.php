@@ -183,7 +183,7 @@ class RegistrationService
     {
         try {
             $username = $this->generateUniqueUsernameAction->execute($validatedInputs['f_name']);
-            $initial_password = str_replace('-', '', $validatedInputs['b_date']);
+            $initial_password = $validatedInputs['l_name'] . str_replace('-', '', $validatedInputs['b_date']);
 
             DB::beginTransaction();
             $user = User::create([
@@ -228,7 +228,7 @@ class RegistrationService
     {
         try {
             $username = $this->generateUniqueUsernameAction->execute($validatedInputs['f_name']);
-            $initial_password = str_replace('-', '', $validatedInputs['b_date']);
+            $initial_password = $validatedInputs['l_name'] . str_replace('-', '', $validatedInputs['b_date']);
 
             DB::beginTransaction();
             $user = User::create([

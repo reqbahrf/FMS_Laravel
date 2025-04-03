@@ -86,7 +86,8 @@
                                 novalidate
                             >
                                 <div class="row">
-                                    <div class="col-12 col-md-6">
+                                    <x-custom-input.prefix-input />
+                                    <div class="col-12 col-md-3">
                                         <label
                                             class="form-label"
                                             for="validationCustom01"
@@ -106,7 +107,27 @@
                                             Enter the first name of the user
                                         </div>
                                     </div>
-                                    <div class="col-12 col-md-6">
+                                    <div class="col-12 col-md-2">
+                                        <label
+                                            class="form-label"
+                                            for="validationName"
+                                        >Middle Name:</label>
+                                        <input
+                                            class="form-control"
+                                            id="validationName"
+                                            name="mid_Name"
+                                            type="text"
+                                            value=""
+                                            required
+                                        >
+                                        <div class="valid-feedback">
+                                            Looks good!
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Enter the middle name of the user
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-3">
                                         <label
                                             class="form-label"
                                             for="validationName"
@@ -126,6 +147,7 @@
                                             Enter the last name of the user
                                         </div>
                                     </div>
+                                    <x-custom-input.suffix-input />
                                     <div class="col-12 mb-3">
                                         <label
                                             class="form-label"
@@ -167,7 +189,6 @@
                                             >Choose...</option>
                                             <option value="Male">Male</option>
                                             <option value="Female">Female</option>
-                                            <option value="Prefer not to say">Prefer not to say</option>
                                         </select>
                                         <div class="invalid-feedback">
                                             Please select sex.
@@ -277,7 +298,11 @@
                 </div>
             </div>
             <div class="card mt-3">
-                <table id="StaffActivityLogTable" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                <table
+                    class="table table-striped table-bordered dt-responsive nowrap"
+                    id="StaffActivityLogTable"
+                    style="border-collapse: collapse; border-spacing: 0; width: 100%;"
+                >
                     <thead>
                         <tr>
                             <th>User Type</th>
@@ -397,4 +422,3 @@
         </div>
     </div>
 </div>
-

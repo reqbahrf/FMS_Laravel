@@ -24,7 +24,18 @@ class PasswordChangeController extends Controller
 
             $validator = Validator::make($request->all(), [
                 'current_password' => 'required',
-                'new_password' => 'required|min:8|confirmed',
+                'new_password' => [
+                    'required',
+                    'string',
+                    'min:8',
+                    'max:32',
+                    'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/',
+                    'confirmed'
+                ],
+            ], [
+                'new_password.regex' => 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
+                'new_password.min' => 'Password must be at least 8 characters long.',
+                'new_password.confirmed' => 'Password confirmation does not match.'
             ]);
 
             if ($validator->fails()) {

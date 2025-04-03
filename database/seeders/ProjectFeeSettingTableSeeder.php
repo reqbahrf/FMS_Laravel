@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+
 use App\Models\ProjectSetting;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class ProjectFeeSettingTableSeeder extends Seeder
@@ -13,9 +15,12 @@ class ProjectFeeSettingTableSeeder extends Seeder
      */
     public function run(): void
     {
-        ProjectSetting::create([
-            'key' => 'fee_percentage',
-            'value' => "5",
-        ]);
+        DB::beginTransaction();
+        ProjectSetting::insert(
+            ['key' => 'fee_percentage', 'value' => "0"],
+            ['key' => 'notify_duration', 'value' => "20"],
+            ['key' => 'notify_interval', 'value' => "5"]
+        );
+        DB::commit();
     }
 }

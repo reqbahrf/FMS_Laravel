@@ -287,87 +287,6 @@ async function initializeAdminPageJs() {
                 '#CompletedpaymentTable'
             ).DataTable(paymentTableConfig);
 
-            //TODO: deprecate this function
-            // const populateProjectProposalContainer = (data) => {
-            //     const ProjectProposalContainer = $('#projectProposalContainer');
-
-            //     ProjectProposalContainer.find('#ProjectId').val(
-            //         data.proposal_data.projectID
-            //     );
-            //     ProjectProposalContainer.find('#ProjectTitle').val(
-            //         data.proposal_data.projectTitle
-            //     );
-            //     ProjectProposalContainer.find('#funded_Amount').val(
-            //         data.proposal_data.fundAmount
-            //     );
-
-            //     ProjectProposalContainer.find(
-            //         '#ExpectedOutputContainer'
-            //     ).append(
-            //         data.proposal_data.expectedOutputs.map(
-            //             (item) => `<li>${item}</li>`
-            //         )
-            //     );
-
-            //     ProjectProposalContainer.find(
-            //         '#ApprovedEquipmentContainer'
-            //     ).append(
-            //         data.proposal_data.equipmentDetails.map((item) => {
-            //             return /*html*/ `<tr>
-            //     <td>${item.Qty}</td>
-            //     <td>${item.Actual_Particulars}</td>
-            //     <td>${item.Cost}</td>
-            // </tr>`;
-            //         })
-            //     );
-
-            //     ProjectProposalContainer.find(
-            //         '#ApprovedNonEquipmentContainer'
-            //     ).append(
-            //         data.proposal_data.nonEquipmentDetails.map((item) => {
-            //             return /*html*/ `<tr>
-            //     <td>${item.Qty}</td>
-            //     <td>${item.Actual_Particulars}</td>
-            //     <td>${item.Cost}</td>
-            // </tr>`;
-            //         })
-            //     );
-            //     ProjectProposalContainer.find('#To_Be_Refunded').val(
-            //         formatNumber(parseFloat(data.To_Be_Refunded))
-            //     );
-            //     ProjectProposalContainer.find('#Date_FundRelease').val(
-            //         customDateFormatter(data.proposal_data.dateOfFundRelease)
-            //     );
-            //     ProjectProposalContainer.find('#Applied').val(
-            //         customDateFormatter(data.date_applied)
-            //     );
-            //     ProjectProposalContainer.find('#evaluated').val(
-            //         `${data?.prefix} ${data.f_name} ${data.mid_name} ${data.l_name} ${data?.suffix}`
-            //     );
-            // };
-            //TODO: deprecate this function
-            // const getProjectProposal = async (businessId, projectId) => {
-            //     try {
-            //         const response = await $.ajax({
-            //             headers: {
-            //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-            //                     'content'
-            //                 ),
-            //             },
-            //             url: PROJECT_LIST_ROUTE.GET_PROJECTS_PROPOSAL.replace(
-            //                 ':business_id',
-            //                 businessId
-            //             ).replace(':project_id', projectId),
-            //             type: 'GET',
-            //             dataType: 'json', // Expect a JSON response
-            //         });
-
-            //         populateProjectProposalContainer(response);
-            //     } catch (error) {
-            //         console.log('Error: ' + error);
-            //     }
-            // };
-
             /**
              * Event listener for the click event on the .viewApproval button.
              * Retrieves the input values from the clicked table row and updates the form fields.
@@ -1946,7 +1865,7 @@ async function initializeAdminPageJs() {
         },
 
         Users: async () => {
-            $('#user_staff').DataTable({
+            const USER_ORG_TABLE = $('#user_staff').DataTable({
                 autoWidth: false,
                 responsive: true,
                 columns: [
@@ -1990,11 +1909,9 @@ async function initializeAdminPageJs() {
                         },
                     });
 
-                    const staffUserTable = $('#user_staff').DataTable();
+                    USER_ORG_TABLE.clear();
 
-                    staffUserTable.clear();
-
-                    staffUserTable.rows.add(
+                    USER_ORG_TABLE.rows.add(
                         response.map((staff) => [
                             staff.id,
                             /*html*/ `
@@ -2054,7 +1971,7 @@ async function initializeAdminPageJs() {
                         ])
                     );
 
-                    staffUserTable.draw();
+                    USER_ORG_TABLE.draw();
                 } catch (error) {
                     showToastFeedback(
                         'text-bg-danger',
@@ -2128,7 +2045,7 @@ async function initializeAdminPageJs() {
                     hideProcessToast(processToast);
                     showToastFeedback(
                         'text-bg-danger',
-                        error.responseJSON.message
+                        error?.responseJSON?.message || error?.message
                     );
                 }
             };

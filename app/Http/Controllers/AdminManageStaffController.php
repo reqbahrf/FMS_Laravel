@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\GenerateUniqueUsernameAction;
 use App\Mail\NewStaffRegistered;
 use App\Models\OrgUserInfo;
 use App\Models\User;
@@ -14,6 +15,10 @@ use Illuminate\Support\Facades\Mail;
 
 class AdminManageStaffController extends Controller
 {
+
+    public function __construct(
+        private GenerateUniqueUsernameAction $generateUniqueUsernameAction
+    ) {}
     /**
      * Display a listing of the resource.
      */
@@ -50,8 +55,11 @@ class AdminManageStaffController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
+            'prefix' => 'nullable',
             'f_Name' => 'required',
+            'mid_Name' => 'nullable',
             'l_Name' => 'required',
+            'suffix' => 'nullable',
             'email' => 'required|unique:users|email',
             'sex' => 'required',
             'role' => 'required',
@@ -61,29 +69,27 @@ class AdminManageStaffController extends Controller
             $user = (object) null;
             $orgUserInfo = (object) null;
 
-            $NewUser_username = 'DOST-SETUP' . '-' . strtok($validated['l_Name'], " ") .  Carbon::parse($validated['b_date'])->format('Y') . substr(md5(uniqid()), 0, 3);
+            $username = $this->generateUniqueUsernameAction->execute($validated['f_Name']);
+            $initial_password = $validated['l_Name'] . str_replace('-', '', $validated['b_date']);
 
-            $NewUser_password = $validated['l_Name'] . Carbon::parse($validated['b_date'])->format('Y');
-
-            DB::transaction(function () use (&$user, &$orgUserInfo, $validated, $NewUser_username, $NewUser_password) {
+            DB::transaction(function () use (&$user, &$orgUserInfo, $validated, $username,  $initial_password) {
 
                 $user = User::create([
-                    'user_name' => $NewUser_username,
+                    'user_name' => $username,
                     'email' => $validated['email'],
                     'email_verified_at' => now(),
-                    'password' => Hash::make($NewUser_password),
+                    'password' => Hash::make($initial_password),
                     'role' => $validated['role'],
                     'must_change_password' => true,
                 ]);
 
                 $orgUserInfo = OrgUserInfo::create([
-                    'user_name' => $NewUser_username,
-                    'profile_pic' => '',
-                    'prefix' => '',
+                    'user_name' => $username,
+                    'prefix' => $validated['prefix'],
                     'f_name' => $validated['f_Name'],
-                    'mid_name' => '',
+                    'mid_name' => $validated['mid_Name'],
                     'l_name' => $validated['l_Name'],
-                    'suffix' => '',
+                    'suffix' => $validated['suffix'],
                     'sex' => $validated['sex'],
                     'birthdate' => $validated['b_date'],
                     'access_to' => 'Restricted',

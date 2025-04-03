@@ -2,6 +2,7 @@
 
 namespace App\Actions;
 
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class GenerateUniqueUsernameAction
@@ -47,8 +48,7 @@ class GenerateUniqueUsernameAction
             $username = "{$cleanFirstName}{$separator}{$randomSuffix}";
 
             // Check if username already exists
-            $existingUser = DB::table('coop_users_info')
-                ->where('user_name', $username)
+            $existingUser = User::where('user_name', $username)
                 ->first();
 
             if (!$existingUser) {
