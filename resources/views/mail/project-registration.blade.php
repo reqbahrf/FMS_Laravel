@@ -6,17 +6,17 @@ Dear {{ $user->name }},
 We are pleased to inform you that you have been successfully registered for the following project:
 
 <x-mail::panel>
-**Project Name:** {{ $project->name }}
-**Project ID:** {{ $project->id }}
-**Project Description:** {{ $project->description }}
+- **Project Name:** {{ $project->name }}
+- **Project ID:** {{ $project->id }}
+- **Project Description:** {{ $project->description }}
 </x-mail::panel>
 
 ## Your Login Credentials
 Please use the credentials below to access the system:
 
 <x-mail::panel>
-    **Email:** {{ $user->email }}
-    **Temporary Password:** {{ $password }}
+- **Email:** {{ $user->email }}
+- **Temporary Password:** {{ $password }}
 </x-mail::panel>
 
 For security reasons, we strongly recommend changing your password upon your first login.
