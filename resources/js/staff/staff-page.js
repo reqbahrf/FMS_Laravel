@@ -921,7 +921,10 @@ async function initializeStaffPageJs() {
                     }
                     closeModal('#paymentModal');
                 } catch (error) {
-                    processError('Failed to save payment record: ' + error);
+                    processError(
+                        'Failed to save payment record: ' + error,
+                        true
+                    );
                 }
             });
 
@@ -934,6 +937,7 @@ async function initializeStaffPageJs() {
                 const modal = $(this);
                 const modalTitle = modal.find('.modal-title');
                 const submitButton = modal.find('#submitPayment');
+                customFormatNumericInput(modal, '#payment_amount');
 
                 if (action === 'Add') {
                     modalTitle.text('Add Payment');
@@ -1261,7 +1265,7 @@ async function initializeStaffPageJs() {
                         .find('td:eq(0)')
                         .text()
                         .trim();
-                    paymentHandler
+                    classInstance.paymentHandler
                         .deletePaymentRecord(reference_number, {
                             options: {
                                 confirm: `Are you sure you want to delete this payment record? ${reference_number}`,
