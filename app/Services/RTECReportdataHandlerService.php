@@ -54,9 +54,21 @@ class RTECReportdataHandlerService
                 'key' => self::RTEC_REPORT_FORM
             ])->first();
 
-            $documentStatus = $data['rtec_report_doc_status'];
-            $filteredData = array_diff_key($data, array_flip(['rtec_report_doc_status']));
-            $statusData = DSA::determineReviewerOrModifier($documentStatus, $user);
+            if ($user && isset($data['rtec_report_doc_status'])) {
+                $documentStatus = $data['rtec_report_doc_status'];
+                $filteredData = array_diff_key($data, array_flip(['rtec_report_doc_status']));
+
+                $existingStatusData = $existingRecord ? [
+                    'modified_by' => $existingRecord->modified_by,
+                    'modified_at' => $existingRecord->modified_at,
+                    'reviewed_by' => $existingRecord->reviewed_by,
+                    'reviewed_at' => $existingRecord->reviewed_at
+                ] : null;
+
+                $statusData = DSA::determineReviewerOrModifier($documentStatus, $user, $existingStatusData);
+            }
+
+            $filteredData = $filteredData ?? $data;
 
             $mergeData = $existingRecord
                 ? array_merge($existingRecord->data, $filteredData, [
