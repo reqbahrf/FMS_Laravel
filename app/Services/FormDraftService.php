@@ -87,7 +87,7 @@ class FormDraftService
         if (!$draft) {
             return [
                 'success' => true,
-                'message' => 'No draft found'
+                'message' => 'This draft is already deleted'
             ];
         }
 

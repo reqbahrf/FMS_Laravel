@@ -1,6 +1,8 @@
 import * as FilePond from 'filepond';
 import { TableDataExtractor } from './TableDataExtractor';
 import { TableRowConfig, DraftFormConfig } from 'global-form-config';
+import { showToastFeedback } from './feedback-toast';
+import { processError } from './error-handler-util';
 interface FilePondDraftData {
     [key: string]:
         | string
@@ -27,6 +29,7 @@ export class FormDraftHandler {
     private observers: MutationObserver[] = [];
     private boundInputSelectors: string[] = [];
     private boundTableSelectors: string[] = [];
+    private deleteDraftRoute: string;
 
     constructor(
         formInstance: JQuery<HTMLFormElement>,
@@ -35,6 +38,7 @@ export class FormDraftHandler {
         this.formInstance = formInstance;
         this.getDraftRoute = formInstance.data('get-draft');
         this.storeDraftRoute = formInstance.data('store-draft');
+        this.deleteDraftRoute = formInstance.data('delete-draft');
         this.saveInterval = saveInterval;
         this.changedFields = {};
         this.autoSaveTimeout = null;
@@ -578,6 +582,23 @@ export class FormDraftHandler {
             this._removeDraftLoadingHandler();
         }
     }
+    public async deleteDraft() {
+        if (!this.deleteDraftRoute) return;
+        try {
+            const response = await $.ajax({
+                type: 'DELETE',
+                url: this.deleteDraftRoute,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                        'content'
+                    ),
+                },
+            });
+            showToastFeedback('text-bg-success', response?.message);
+        } catch (error) {
+            throw error;
+        }
+    }
 
     private _draftLoadingHandler(customLoadingMessage = null) {
         if (this.formInstance.find('#DraftingIndicator').length > 0) {
@@ -587,8 +608,8 @@ export class FormDraftHandler {
         // Create a container for the drafting indicator that will be sticky
         const indicatorContainer =
             /*html*/
-            `<div class="position-sticky top-0 start-0 z-3 w-100 p-2">
-                <div class="bg-white rounded-5 bg-opacity-90 py-2 shadow-sm" id="DraftingIndicatorContainer">
+            `<div class="position-sticky top-0 start-0 z-3 w-100 p-2" id="DraftingIndicatorContainer">
+                <div class="bg-white rounded-5 bg-opacity-90 py-2 shadow-sm" >
                     <div class="d-flex align-items-center px-3" id="DraftingIndicator">
                         <div class="spinner-grow spinner-grow-sm text-primary" role="status">
                             <span class="visually-hidden">Loading...</span>
@@ -632,8 +653,8 @@ export class FormDraftHandler {
         // Create a container for the saved indicator
         const savedIndicatorContainer =
             /*html*/
-            `<div class="position-sticky top-0 start-0 z-3 w-100 p-2">
-                <div class="bg-white rounded-5 bg-opacity-90 py-2 shadow-sm border border-1 border-success" id="SavedIndicatorContainer">
+            `<div class="position-sticky top-0 start-0 z-3 w-100 p-2" id="SavedIndicatorContainer">
+                <div class="bg-white rounded-5 bg-opacity-90 py-2 shadow-sm border border-1 border-success" >
                     <div class="d-flex align-items-center px-3" id="SavedIndicator">
                         <div class="text-success">
                             <i class="bi bi-check-circle-fill"></i>
