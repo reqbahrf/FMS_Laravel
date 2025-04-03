@@ -30,12 +30,22 @@
                         >
                     </div>
                     <div class="col-md-12">
-                        <label for="address"><strong>Address:</strong></label>
+                        <label for="address"><strong>Office Address:</strong></label>
                         <input
                             class="form-control"
                             id="address"
                             type="text"
-                            value="{{ $row->landMark ?? '' }}, {{ $row->barangay ?? '' }} , {{ $row->city ?? '' }}, {{ $row->province ?? '' }}, {{ $row->region ?? '' }}"
+                            value="{{ $row->office_landmark ?? '' }}, {{ $row->office_barangay ?? '' }} , {{ $row->office_city ?? '' }}, {{ $row->office_province ?? '' }}, {{ $row->office_region ?? '' }}"
+                            readonly
+                        >
+                    </div>
+                    <div class="col-md-12">
+                        <label for="address"><strong>Factory Address:</strong></label>
+                        <input
+                            class="form-control"
+                            id="address"
+                            type="text"
+                            value="{{ $row->factory_landmark ?? '' }}, {{ $row->factory_barangay ?? '' }} , {{ $row->factory_city ?? '' }}, {{ $row->factory_province ?? '' }}, {{ $row->factory_region ?? '' }}"
                             readonly
                         >
                     </div>

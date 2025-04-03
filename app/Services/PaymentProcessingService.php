@@ -39,6 +39,9 @@ class PaymentProcessingService
 
             // Set the payment start date
             $startDateCarbon = Carbon::parse($startDate);
+            
+            // Track payment dates to avoid duplicates
+            $processedDates = [];
 
             // Process each year's payments
             foreach ($activeYears as $year) {
@@ -47,7 +50,8 @@ class PaymentProcessingService
                     $startDateCarbon->copy(),
                     $projectId,
                     $cleanedStructure,
-                    $refundedPayments
+                    $refundedPayments,
+                    $processedDates
                 );
             }
         } catch (Exception $e) {
@@ -153,7 +157,8 @@ class PaymentProcessingService
         Carbon $startDate,
         string $projectId,
         array $paymentStructure,
-        ?array $refundedPayments = null
+        ?array $refundedPayments = null,
+        array &$processedDates = []
     ): void {
         try {
             $months = [
@@ -209,6 +214,17 @@ class PaymentProcessingService
                             ->addDays(14);
                     }
 
+                    // Check if we've already processed a payment for this date
+                    $dueDateStr = $dueDate->toDateString();
+                    if (in_array($dueDateStr, $processedDates)) {
+                        // Log a warning about skipping a duplicate payment
+                        Log::warning("Skipping duplicate payment for date: {$dueDateStr}, month: {$month}, year: Y{$yearNumber}");
+                        continue;
+                    }
+                    
+                    // Add this date to our processed dates
+                    $processedDates[] = $dueDateStr;
+
                     $paymentStatus = $isRefunded ? 'Paid' : 'Pending';
 
                     PaymentRecord::create([
@@ -217,8 +233,8 @@ class PaymentProcessingService
                         'amount' => $monthAmount,
                         'payment_status' => $paymentStatus,
                         'payment_method' => 'N/A',
-                        'due_date' => $dueDate->toDateString(),
-                        'date_completed' => $isRefunded ? $dueDate->toDateString() : null,
+                        'due_date' => $dueDateStr,
+                        'date_completed' => $isRefunded ? $dueDateStr : null,
                     ]);
                 }
             }
