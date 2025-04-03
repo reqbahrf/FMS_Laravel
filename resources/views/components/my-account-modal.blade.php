@@ -224,7 +224,7 @@
 
                                     <form
                                         class="card shadow-sm mt-3"
-                                        id="resetPasswordForm"
+                                        id="changePasswordForm"
                                     >
                                         <div class="card-header">Reset Password</div>
                                         <div class="card-body">

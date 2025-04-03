@@ -56,7 +56,7 @@ const notificationManager = new NotificationManager(
 notificationManager.fetchNotifications();
 notificationManager.setupEventListeners();
 
-const changePassword = new ChangePassword($('#resetPasswordForm'));
+const changePassword = new ChangePassword($('#changePasswordForm'));
 
 const urlMapFunction = {
     [NAV_ROUTES.DASHBOARD]: (functions) => functions.Dashboard,

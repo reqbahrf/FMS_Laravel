@@ -27,9 +27,11 @@ import NotificationManager from '../Utilities/NotificationManager';
 import ActivityLogHandler from '../Utilities/ActivityLogHandler';
 import CoopPageNavHandler from './CoopPageNavHandler';
 import ReportedQuarterlyReportEvent from '../Utilities/ReportedQuarterlyReportEvent';
+import ChangePassword from '../Utilities/ChangePassword';
 
 const MAIN_CONTENT_CONTAINER = $('#main-content');
 const ACTIVITY_LOG_MODAL = $('#userActivityLogModal');
+const changePassword = new ChangePassword($('#changePasswordForm'));
 const USER_ROLE = 'coop';
 const ExportAndLocalMktTableConfig = {
     ExportProduct: {

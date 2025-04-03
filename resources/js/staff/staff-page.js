@@ -24,6 +24,7 @@ import ProjectInfoSheet from './project-form-class/ProjectInfoSheet';
 import ProjectDataSheet from './project-form-class/ProjectDataSheet';
 import ProjectStatusReportSheet from './project-form-class/ProjectStatusReportSheet';
 import FileCoopRequirementHandler from '../staff/FileCoopRequirementHandler';
+import ChangePassword from '../Utilities/ChangePassword';
 
 import DataTable from 'datatables.net-bs5';
 import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
@@ -59,6 +60,8 @@ const notificationManager = new NotificationManager(
 );
 notificationManager.fetchNotifications();
 notificationManager.setupEventListeners();
+
+const passwordChange = new ChangePassword($('#changePasswordForm'));
 
 const urlMapFunctions = {
     [NAV_ROUTES.DASHBOARD]: (functions) => functions.Dashboard,
