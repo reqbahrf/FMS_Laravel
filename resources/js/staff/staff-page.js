@@ -897,7 +897,6 @@ async function initializeStaffPageJs() {
                         'data-submissionmethod'
                     );
 
-                    closeModal('#paymentModal');
                     const isConfirmed = await createConfirmationModal({
                         title: 'Save Payment Record',
                         titleBg: 'bg-primary',
@@ -920,13 +919,9 @@ async function initializeStaffPageJs() {
                         default:
                             throw new Error('Submission method is not defined');
                     }
+                    closeModal('#paymentModal');
                 } catch (error) {
-                    showToastFeedback(
-                        'text-bg-danger',
-                        error?.responseJSON?.message ||
-                            error?.message ||
-                            'Failed to save payment record'
-                    );
+                    processError('Failed to save payment record: ' + error);
                 }
             });
 

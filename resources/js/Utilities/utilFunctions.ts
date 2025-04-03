@@ -91,9 +91,12 @@ function parseFormattedNumberToFloat(value: string): number {
     return parseFloat(value?.replace(/,/g, '')) || 0;
 }
 
-function closeModal(modelId: string): void {
-    const model = bootstrap.Modal.getInstance(modelId);
-    if (!model) return console.warn(`No modal instance found for ${modelId}`);
+function closeModal(modal: string | JQuery<HTMLElement>): void {
+    if (typeof modal === 'string') {
+        modal = $(modal);
+    }
+    const model = bootstrap.Modal.getInstance(modal[0]);
+    if (!model) return console.warn(`No modal instance found for ${modal}`);
     model.hide();
 }
 
