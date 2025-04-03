@@ -17,7 +17,7 @@ class PaymentProcessingService
     /**
      * Execute the payment calculation and creation
      *
-     * @param string $startDate The starting date in Y-m-d format
+     * @param string $startDate The starting date in Y-m-d format (fund release date)
      * @param array $paymentStructure Array of yearly payment structure
      * @param string $projectId Project identifier
      * @param array|null $refundedPayments Optional array of refunded payment flags
@@ -30,16 +30,15 @@ class PaymentProcessingService
         ?array $refundedPayments = null
     ): void {
         try {
-
             // Clean the payment structure (remove _total keys and null values)
             $cleanedStructure = $this->cleanPaymentStructure($paymentStructure);
 
             // Get unique years with payments
             $activeYears = $this->getActiveYears($cleanedStructure);
 
-            // Set the payment start date
-            $startDateCarbon = Carbon::parse($startDate);
-            
+            // Set the payment start date - exactly one year after fund release
+            $startDateCarbon = Carbon::parse($startDate)->addYear();
+
             // Track payment dates to avoid duplicates
             $processedDates = [];
 
@@ -132,7 +131,6 @@ class PaymentProcessingService
     private function getActiveYears(array $cleanedStructure): array
     {
         try {
-
             $years = [];
             foreach ($cleanedStructure as $key => $value) {
                 if (preg_match('/Y(\d+)$/', $key, $matches)) {
@@ -176,67 +174,78 @@ class PaymentProcessingService
                 'December'
             ];
 
+            // Get the starting month (0-based index)
             $startingMonth = (int) $startDate->format('n') - 1;
 
             foreach ($months as $monthIndex => $month) {
                 $key = "{$month}_Y{$yearNumber}";
                 $refundedKey = "{$key}_refunded";
 
+                // Skip if payment structure doesn't have this month/year
                 if (!isset($paymentStructure[$key])) {
                     continue;
                 }
 
                 $monthAmount = $this->structurePaymentYearService->parseNumber($paymentStructure[$key]);
 
+                // Skip if amount is zero
+                if ($monthAmount <= 0) {
+                    continue;
+                }
+
+                // Critical check: For Year 1, only process months starting from startingMonth
+                if ($yearNumber === 1 && $monthIndex < $startingMonth) {
+                    continue;
+                }
+
                 $isRefunded = isset($refundedPayments[$refundedKey]) &&
                     ($refundedPayments[$refundedKey] === true || $refundedPayments[$refundedKey] === '1' || $refundedPayments[$refundedKey] === 1);
 
-                if ($monthAmount > 0) {
-                    if ($yearNumber === 1) {
-                        if ($monthIndex < $startingMonth) {
-                            continue;
-                        }
+                // Calculate the payment due date
+                $dueDate = null;
 
-                        if ($monthIndex === $startingMonth) {
-                            $dueDate = $startDate->copy()->addYear();
-                        } else {
-                            $dueDate = $startDate->copy()
-                                ->addYear()
-                                ->addMonths($monthIndex - $startingMonth)
-                                ->startOfMonth()
-                                ->addDays(14);
-                        }
+                if ($yearNumber === 1) {
+                    if ($monthIndex === $startingMonth) {
+                        // First payment (same month as start date): use the start date
+                        $dueDate = $startDate->copy();
                     } else {
+                        // For months after the starting month in Year 1
                         $dueDate = $startDate->copy()
-                            ->addYears($yearNumber - 1)
                             ->addMonths($monthIndex - $startingMonth)
                             ->startOfMonth()
                             ->addDays(14);
                     }
-
-                    // Check if we've already processed a payment for this date
-                    $dueDateStr = $dueDate->toDateString();
-                    if (in_array($dueDateStr, $processedDates)) {
-                        // Log a warning about skipping a duplicate payment
-                        Log::warning("Skipping duplicate payment for date: {$dueDateStr}, month: {$month}, year: Y{$yearNumber}");
-                        continue;
-                    }
-                    
-                    // Add this date to our processed dates
-                    $processedDates[] = $dueDateStr;
-
-                    $paymentStatus = $isRefunded ? 'Paid' : 'Pending';
-
-                    PaymentRecord::create([
-                        'Project_id' => $projectId,
-                        'reference_number' => Str::random(10),
-                        'amount' => $monthAmount,
-                        'payment_status' => $paymentStatus,
-                        'payment_method' => 'N/A',
-                        'due_date' => $dueDateStr,
-                        'date_completed' => $isRefunded ? $dueDateStr : null,
-                    ]);
+                } else {
+                    // For subsequent years (Y2, Y3, etc.) - calculate relative to the start date
+                    $dueDate = $startDate->copy()
+                        ->addYears($yearNumber - 1)
+                        ->addMonths($monthIndex - $startingMonth)
+                        ->startOfMonth()
+                        ->addDays(14);
                 }
+
+                // Check if we've already processed a payment for this date
+                $dueDateStr = $dueDate->toDateString();
+                if (in_array($dueDateStr, $processedDates)) {
+                    // Log a warning about skipping a duplicate payment
+                    Log::warning("Skipping duplicate payment for date: {$dueDateStr}, month: {$month}, year: Y{$yearNumber}");
+                    continue;
+                }
+
+                // Add this date to our processed dates
+                $processedDates[] = $dueDateStr;
+
+                $paymentStatus = $isRefunded ? 'Paid' : 'Pending';
+
+                PaymentRecord::create([
+                    'Project_id' => $projectId,
+                    'reference_number' => Str::random(10),
+                    'amount' => $monthAmount,
+                    'payment_status' => $paymentStatus,
+                    'payment_method' => 'N/A',
+                    'due_date' => $dueDateStr,
+                    'date_completed' => $isRefunded ? $dueDateStr : null,
+                ]);
             }
         } catch (Exception $e) {
             throw $e;
