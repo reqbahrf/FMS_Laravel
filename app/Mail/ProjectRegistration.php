@@ -78,7 +78,7 @@ class ProjectRegistration extends Mailable implements ShouldQueue
     public function content()
     {
         return new Content(
-            markdown: 'emails.project-registration',
+            markdown: 'mail.project-registration',
         );
     }
 

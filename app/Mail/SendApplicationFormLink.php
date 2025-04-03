@@ -55,7 +55,6 @@ class SendApplicationFormLink extends Mailable
                 'user' => $this->user,
                 'applicationFormUrl' => $this->applicationFormUrl,
                 'userName' => $this->userName,
-
             ]
         );
     }

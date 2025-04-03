@@ -76,7 +76,6 @@ class FormDraftService
      * @param string $ownerId
      * @param string $draftType
      * @return array
-     * @throws Exception
      */
     public function deleteDraft(string $ownerId, string $draftType): array
     {
