@@ -20,6 +20,7 @@ import NavigationHandler from '../Utilities/TabNavigationHandler';
 import DarkMode from '../Utilities/DarkModeHandler';
 import AdminDashboard from './AdminDashboard';
 import ProjectSettings from './ProjectSettings';
+import ChangePassword from '../Utilities/ChangePassword';
 
 import DataTable from 'datatables.net-bs5';
 import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
@@ -54,6 +55,8 @@ const notificationManager = new NotificationManager(
 
 notificationManager.fetchNotifications();
 notificationManager.setupEventListeners();
+
+const changePassword = new ChangePassword($('#resetPasswordForm'));
 
 const urlMapFunction = {
     [NAV_ROUTES.DASHBOARD]: (functions) => functions.Dashboard,

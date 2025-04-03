@@ -231,40 +231,71 @@
                                             <div class="mb-3">
                                                 <label
                                                     class="form-label"
-                                                    for="currentPassword"
+                                                    for="current_password"
                                                 >Current Password</label>
-                                                <input
-                                                    class="form-control"
-                                                    id="currentPassword"
-                                                    type="password"
-                                                    required
-                                                >
+                                                <div class="input-group">
+                                                    <input
+                                                        class="form-control"
+                                                        id="current_password"
+                                                        name="current_password"
+                                                        type="password"
+                                                        required
+                                                    >
+                                                    <button
+                                                        class="password-toggle  btn"
+                                                        type="button"
+                                                    >
+                                                        <i class="ri-eye-off-line"></i>
+                                                    </button>
+                                                </div>
                                             </div>
                                             <div class="mb-3">
                                                 <label
                                                     class="form-label"
-                                                    for="newPassword"
+                                                    for="new_password"
                                                 >New Password</label>
-                                                <input
-                                                    class="form-control"
-                                                    id="newPassword"
-                                                    type="password"
-                                                    required
-                                                >
+                                                <div class="input-group">
+                                                    <input
+                                                        class="form-control"
+                                                        id="new_password"
+                                                        name="new_password"
+                                                        type="password"
+                                                        required
+                                                    >
+                                                    <button
+                                                        class="password-toggle  btn"
+                                                        type="button"
+                                                    >
+                                                        <i class="ri-eye-off-line"></i>
+                                                    </button>
+                                                </div>
                                             </div>
                                             <div class="mb-3">
                                                 <label
                                                     class="form-label"
-                                                    for="confirmPassword"
+                                                    for="new_password_confirmation"
                                                 >Confirm Password</label>
-                                                <input
-                                                    class="form-control"
-                                                    id="confirmPassword"
-                                                    type="password"
-                                                    required
-                                                >
+                                                <div class="input-group">
+                                                    <input
+                                                        class="form-control"
+                                                        id="new_password_confirmation"
+                                                        name="new_password_confirmation"
+                                                        type="password"
+                                                        required
+                                                    >
+                                                    <button
+                                                        class="password-toggle btn"
+                                                        type="button"
+                                                    >
+                                                        <i class="ri-eye-off-line"></i>
+                                                    </button>
+                                                </div>
                                             </div>
                                             <div class="mb-3 text-end">
+                                                <a
+                                                    class="text-decoration-none text-primary"
+                                                    href="{{ route('password.request') }}"
+                                                >Forgot Password?</a>
                                                 <button
                                                     class="btn btn-primary"
                                                     type="submit"

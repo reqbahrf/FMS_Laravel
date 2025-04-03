@@ -39,6 +39,12 @@ class PasswordChangeController extends Controller
             ]);
 
             if ($validator->fails()) {
+                if ($request->ajax()) {
+                    return response()->json([
+                        'success' => false,
+                        'errors' => $validator->errors()
+                    ], 422);
+                }
                 return redirect()->back()->withErrors($validator)->withInput();
             }
 
@@ -46,6 +52,12 @@ class PasswordChangeController extends Controller
 
             // Check if current password matches
             if (!Hash::check($request->current_password, $user->password)) {
+                if ($request->ajax()) {
+                    return response()->json([
+                        'success' => false,
+                        'errors' => ['current_password' => 'Current password is incorrect']
+                    ], 422);
+                }
                 return redirect()->back()->withErrors(['current_password' => 'Current password is incorrect']);
             }
 
@@ -54,12 +66,27 @@ class PasswordChangeController extends Controller
             $user->must_change_password = false;
             $user->save();
 
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Password changed successfully'
+                ]);
+            }
+
             return redirect()->route(Auth::user()->role . '.index')->with('success', 'Password changed successfully');
         } catch (Exception $e) {
             Log::error("Failed to change password for user:", [
-                'user' => $user->id,
+                'user' => $user->id ?? 'Unknown',
                 'error' => $e->getMessage()
             ]);
+
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'errors' => ['error' => 'Something went wrong. Please try again']
+                ], 500);
+            }
+
             return redirect()->back()->withErrors(['error' => 'Something went wrong. Please try again']);
         }
     }
