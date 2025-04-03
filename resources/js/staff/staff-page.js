@@ -1483,6 +1483,16 @@ async function initializeStaffPageJs() {
                 const action = $(this).data('project-state');
                 const projectID = $('#ProjectID').val();
                 const businessID = $('#hiddenbusiness_id').val();
+                const isConfirmed = await createConfirmationModal({
+                    title: 'Confirm Project State Update',
+                    message: `Are you sure you want to update the project state to ${action}?`,
+                    confirmText: 'Update',
+                    cancelText: 'Cancel',
+                });
+                if (!isConfirmed) return;
+                const processToast = showProcessToast(
+                    `Updating Project State to ${action}...`
+                );
                 try {
                     const response = await $.ajax({
                         type: 'PUT',
@@ -1503,11 +1513,9 @@ async function initializeStaffPageJs() {
                         response?.message || response?.responseJSON?.message
                     );
                 } catch (error) {
-                    showToastFeedback(
-                        'text-bg-danger',
-                        error.responseJSON.message
-                    );
+                    processError('Failed to update project state', error);
                 } finally {
+                    hideProcessToast(processToast);
                     await getHandleProject();
                 }
             });
