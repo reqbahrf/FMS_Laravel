@@ -2972,13 +2972,18 @@ async function initializeStaffPageJs() {
         },
         Applicant: async () => {
             new smartWizard();
-            const TNArejectionModal = $('#tnaEvaluationResultModal');
-            const ReviewFileModalContainer = $('#reviewFileModal');
-            const ReviewedFileFormContainer =
-                ReviewFileModalContainer.find('#reviewedFileForm');
-            const ApplicantDetailsContainer = $('#applicantDetails');
-            const ApplicantProgressContainer = $('#ApplicationProgress');
-            const RequirementsTable = $('#requirementsTables');
+            const TNA_REJECTION_MODAL = $('#tnaEvaluationResultModal');
+            const REVIEW_FILE_MODAL_CONTAINER = $('#reviewFileModal');
+            const REVIEWED_FILE_FORM_CONTAINER =
+                REVIEW_FILE_MODAL_CONTAINER.find('#reviewedFileForm');
+            const APPLICANT_DETAILS_CONTAINER = $('#applicantDetails');
+            const APPLICANT_PROGRESS_CONTAINER =
+                APPLICANT_DETAILS_CONTAINER.find('#ApplicationProgress');
+            const REQUIREMENTS_TABLE = APPLICANT_DETAILS_CONTAINER.find(
+                '#requirementsTables'
+            );
+            const SET_EVALUATION_DATE_BTN =
+                APPLICANT_PROGRESS_CONTAINER.find('#setEvaluationDate');
 
             const FORM_CLASS_INSTANCE = {
                 tnaForm: null,
@@ -3003,9 +3008,10 @@ async function initializeStaffPageJs() {
                 async function () {
                     const row = $(this).closest('tr');
                     const fullName = row.find('td:nth-child(1)').text().trim();
-                    const actionBtn = ApplicantProgressContainer.find(
+                    const actionBtn = APPLICANT_PROGRESS_CONTAINER.find(
                         '#viewTNA, #editTNA, #viewProjectProposal, #editProjectProposal, #viewRTECReport, #editRTECReport, #submitToAdmin'
                     );
+
                     const birthDate = row
                         .find('input[name="birth_date"]')
                         .val();
@@ -3099,11 +3105,15 @@ async function initializeStaffPageJs() {
                             .val(),
                     };
 
-                    const ApplicantDetails = ApplicantDetailsContainer.find(
+                    const ApplicantDetails = APPLICANT_DETAILS_CONTAINER.find(
                         '#applicantDetails input'
                     );
 
                     actionBtn
+                        .attr('data-business-id', businessID)
+                        .attr('data-application-id', ApplicationID);
+
+                    SET_EVALUATION_DATE_BTN.attr('data-user-id', userID)
                         .attr('data-business-id', businessID)
                         .attr('data-application-id', ApplicationID);
 
@@ -3220,7 +3230,7 @@ async function initializeStaffPageJs() {
                 }
             );
 
-            ApplicantProgressContainer.on(
+            APPLICANT_PROGRESS_CONTAINER.on(
                 'click',
                 'button#submitToAdmin',
                 async function (e) {
@@ -3279,10 +3289,10 @@ async function initializeStaffPageJs() {
                 }
             );
 
-            ApplicantDetailsContainer.on('hidden.bs.offcanvas', function () {
+            APPLICANT_DETAILS_CONTAINER.on('hidden.bs.offcanvas', function () {
                 applicantTable.broadcastClosedViewingEvent();
 
-                RequirementsTable.empty();
+                REQUIREMENTS_TABLE.empty();
             });
 
             const getApplicantRequirements = async (businessID) => {
@@ -3323,14 +3333,14 @@ async function initializeStaffPageJs() {
                             application_id: applicationID,
                         },
                     });
-                    const nofi_dateCont = $('#nofi_ScheduleCont');
-                    const setAndUpdateBtn = $('#setEvaluationDate');
+                    const nofi_dateCont =
+                        APPLICANT_PROGRESS_CONTAINER.find('#nofi_ScheduleCont');
                     nofi_dateCont.empty();
                     if (response.Scheduled_date) {
-                        nofi_dateCont.append(/*html*/ `<div class="alert alert-primary mb-auto" role="alert">An evaluation date of <strong>' +
-                                ${response.Scheduled_date} +
-                                '</strong> has been set for this applicant. <p class="my-auto text-secondary">Applicant is already notified through email and notification.</p></div>`);
-                        setAndUpdateBtn.text('Update');
+                        nofi_dateCont.append(
+                            /*html*/ `<div class="alert alert-primary mb-auto" role="alert">An evaluation date of <strong>${response.Scheduled_date}</strong> has been set for this applicant. <p class="my-auto text-secondary">Applicant is already notified through email and notification.</p></div>`
+                        );
+                        SET_EVALUATION_DATE_BTN.text('Update');
                     } else {
                         nofi_dateCont.append(
                             /*html*/ `<div class="alert alert-primary my-auto" role="alert">No evaluation date has been set for this applicant.</div>`
@@ -3342,7 +3352,7 @@ async function initializeStaffPageJs() {
             }
             //Get applicant requirements to populate the requirements table
             function populateReqTable(response) {
-                RequirementsTable.empty();
+                REQUIREMENTS_TABLE.empty();
 
                 $.each(response, function (index, requirement) {
                     const row = $('<tr>');
@@ -3399,11 +3409,11 @@ async function initializeStaffPageJs() {
                             '">'
                     );
 
-                    RequirementsTable.append(row);
+                    REQUIREMENTS_TABLE.append(row);
                 });
             }
             //View applicant requirements
-            RequirementsTable.on('click', '.viewReq', async function () {
+            REQUIREMENTS_TABLE.on('click', '.viewReq', async function () {
                 const processToast = showProcessToast('Retrieving file...');
                 try {
                     const row = $(this).closest('tr');
@@ -3424,7 +3434,7 @@ async function initializeStaffPageJs() {
                     const uploader = $('#contact_person').val();
 
                     const reviewFileModalInput =
-                        ReviewFileModalContainer.find('input');
+                        REVIEW_FILE_MODAL_CONTAINER.find('input');
 
                     reviewFileModalInput.filter('#selectedFile_ID').val(fileID);
                     reviewFileModalInput.filter('#fileName').val(file_Name);
@@ -3457,7 +3467,7 @@ async function initializeStaffPageJs() {
                 return new Promise((resolve, reject) => {
                     try {
                         const fileContent =
-                            ReviewFileModalContainer.find('#fileContent');
+                            REVIEW_FILE_MODAL_CONTAINER.find('#fileContent');
                         fileContent.empty();
 
                         if (fileType === 'pdf') {
@@ -3496,7 +3506,7 @@ async function initializeStaffPageJs() {
 
                         // Show the modal
                         const reviewFileModal = new bootstrap.Modal(
-                            ReviewFileModalContainer[0]
+                            REVIEW_FILE_MODAL_CONTAINER[0]
                         );
                         reviewFileModal.show();
                     } catch (error) {
@@ -3510,11 +3520,11 @@ async function initializeStaffPageJs() {
             }
 
             //TODO: need some working
-            ReviewedFileFormContainer.on('submit', async function (e) {
+            REVIEWED_FILE_FORM_CONTAINER.on('submit', async function (e) {
                 e.preventDefault();
 
                 const action = $(e.originalEvent.submitter).val();
-                const selected_id = ReviewFileModalContainer.find(
+                const selected_id = REVIEW_FILE_MODAL_CONTAINER.find(
                     'input[type="hidden"]#selectedFile_ID'
                 ).val();
                 const isconfimed = await createConfirmationModal({
@@ -3559,17 +3569,16 @@ async function initializeStaffPageJs() {
             });
 
             //set evaluation date
-            $('#setEvaluationDate').on('click', async function () {
+            SET_EVALUATION_DATE_BTN.on('click', async function () {
                 const container =
-                    ApplicantDetailsContainer.find('.businessInfo');
-                const user_id = container.find('#selected_userId').val();
-                const application_id = container
-                    .find('#selected_applicationId')
-                    .val();
-                const business_id = container
-                    .find('#selected_businessID')
-                    .val();
-                const Scheduledate = $('#evaluationSchedule-datepicker').val();
+                    APPLICANT_DETAILS_CONTAINER.find('.businessInfo');
+                const user_id = SET_EVALUATION_DATE_BTN.data('user-id');
+                const application_id =
+                    SET_EVALUATION_DATE_BTN.data('application-id');
+                const business_id = SET_EVALUATION_DATE_BTN.data('business-id');
+                const Scheduledate = APPLICANT_PROGRESS_CONTAINER.find(
+                    '#evaluationSchedule-datepicker'
+                ).val();
                 const confirmed = await createConfirmationModal({
                     title: 'Evaluation Date',
                     titleBg: 'bg-primary',
@@ -3619,12 +3628,13 @@ async function initializeStaffPageJs() {
                 }
             });
 
-            TNArejectionModal.on('show.bs.modal', function () {
-                const selectedApplicantUserId = ApplicantDetailsContainer.find(
-                    'input[type="hidden"]#selected_userId'
-                ).val();
+            TNA_REJECTION_MODAL.on('show.bs.modal', function () {
+                const selectedApplicantUserId =
+                    APPLICANT_DETAILS_CONTAINER.find(
+                        'input[type="hidden"]#selected_userId'
+                    ).val();
                 const selectedApplicantApplicationId =
-                    ApplicantDetailsContainer.find(
+                    APPLICANT_DETAILS_CONTAINER.find(
                         'input[type="hidden"]#selected_applicationId'
                     ).val();
                 const modalHiddenInput = $(this).find('input[type="hidden"]');
@@ -3681,19 +3691,23 @@ async function initializeStaffPageJs() {
                 }
             });
 
-            const smartWizardInstance = ApplicantProgressContainer.smartWizard({
-                selected: 0,
-                theme: 'dots',
-                transition: {
-                    animation: 'slideHorizontal',
-                },
-                toolbar: {
-                    showNextButton: true, // show/hide a Next button
-                    showPreviousButton: true, // show/hide a Previous button
-                    position: 'both buttom', // none/ top/ both bottom
-                    extraHtml: /*html*/ `<button class="btn btn-success hidden" id="submitToAdmin" data-action="DraftForm">Submit To Admin</button>`,
-                },
-            });
+            const smartWizardInstance =
+                APPLICANT_PROGRESS_CONTAINER.smartWizard({
+                    selected: 0,
+                    theme: 'dots',
+                    transition: {
+                        animation: 'slideHorizontal',
+                    },
+                    keyboard: {
+                        keyNavigation: false,
+                    },
+                    toolbar: {
+                        showNextButton: true,
+                        showPreviousButton: true,
+                        position: 'both buttom',
+                        extraHtml: /*html*/ `<button class="btn btn-success hidden" id="submitToAdmin" data-action="DraftForm">Submit To Admin</button>`,
+                    },
+                });
 
             smartWizardInstance.on(
                 'showStep',
@@ -3705,8 +3719,7 @@ async function initializeStaffPageJs() {
                     stepPosition
                 ) {
                     const submitToAdminBtn =
-                        ApplicantProgressContainer.find('#submitToAdmin');
-                    console.log(stepPosition);
+                        APPLICANT_PROGRESS_CONTAINER.find('#submitToAdmin');
                     if (stepPosition !== 'last') {
                         submitToAdminBtn.hide();
                     } else {
