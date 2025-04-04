@@ -208,7 +208,9 @@ abstract class BaseApplicationForm {
         formRequest: { [key: string]: string | string[] },
         url: string
     ): Promise<void> {
-        const processToast = showProcessToast(`Setting ${this.formName} form...`);
+        const processToast = showProcessToast(
+            `Setting ${this.formName} form...`
+        );
         try {
             const response = await $.ajax({
                 type: 'PUT',

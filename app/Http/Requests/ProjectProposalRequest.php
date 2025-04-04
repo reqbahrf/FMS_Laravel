@@ -32,7 +32,7 @@ class ProjectProposalRequest extends FormRequest
             'specific_objectives' => 'nullable|string',
 
             // Company Profile Fields
-            'name_of_firm' => 'nullable|string|max:255',
+            'firm_name' => 'nullable|string|max:255',
             'address' => 'nullable|string|max:255',
             'contact_person' => 'nullable|string|max:255',
             'contact_no' => 'nullable|string|max:20',
@@ -41,7 +41,7 @@ class ProjectProposalRequest extends FormRequest
 
             // Radio Button Fields
             'type_of_organization' => 'nullable|in:Single Proprietorship,Partnership,Cooperative,Corporation',
-            'profit_status' => 'nullable|in:Profit,Non-Profit',
+            'profit_status' => 'nullable|in:Profit,Non-Profit|prohibited_unless:type_of_organization,Corporation',
             'size_of_organization' => 'nullable|string',
 
             // Workforce Fields

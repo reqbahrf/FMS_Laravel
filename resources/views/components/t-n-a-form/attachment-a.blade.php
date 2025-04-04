@@ -140,12 +140,12 @@
                     >Year enterprise was established:
                         @if ($isEditable)
                             <input
-                                name="yearEstablished"
+                                name="year_established"
                                 type="text"
-                                value="{{ $TNAdata['yearEstablished'] ?? '' }}"
+                                value="{{ $TNAdata['year_established'] ?? '' }}"
                             >
                         @else
-                            {{ $TNAdata['yearEstablished'] ?? '' }}
+                            {{ $TNAdata['year_established'] ?? '' }}
                         @endIf
                     </span>
                 </p>
@@ -320,11 +320,11 @@
             <td style="">
                 @if ($isEditable)
                     <input
-                        id="type_of_cooperation"
-                        name="type_of_cooperation"
+                        id="type_of_corporation"
+                        name="type_of_corporation"
                         type="radio"
                         value="Profit"
-                        {{ $TNA_data['type_of_cooperation'] ?? (($TNAdata['enterpriseType'] ?? '') == 'Corporation (Profit)' ? 'checked' : '') }}
+                        {{ $TNA_data['type_of_corporation'] ?? (($TNAdata['enterpriseType'] ?? '') == 'Corporation (Profit)' ? 'checked' : '') }}
                     >
                 @else
                     {{ $TNA_data['type_of_cooperation'] ?? (($TNAdata['enterpriseType'] ?? '') == 'Corporation (Profit)' ? '/' : '') }}

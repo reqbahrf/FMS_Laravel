@@ -21,13 +21,13 @@
         <td colspan="8">
             @if ($isEditable)
                 <input
-                    name="name_of_firm"
+                    name="firm_name"
                     type="text"
-                    value="{{ $ProjectProposaldata['name_of_firm'] ?? '' }}"
+                    value="{{ $ProjectProposaldata['firm_name'] ?? '' }}"
                     placeholder="XYZ Company"
                 >
             @else
-                {{ $ProjectProposaldata['name_of_firm'] ?? '' }}
+                {{ $ProjectProposaldata['firm_name'] ?? '' }}
             @endif
         </td>
     </tr>
