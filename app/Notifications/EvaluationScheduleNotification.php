@@ -26,7 +26,7 @@ class EvaluationScheduleNotification extends Notification
     public function __construct($schedule)
     {
         $this->schedule = $schedule;
-        $this->evaluationDate = Carbon::parse($this->schedule->Evaluation_date)->format('Y-m-d h:i A');
+        $this->evaluationDate = Carbon::parse($this->schedule->Evaluation_date)->format('F j, Y h:i A');
     }
 
     /**
