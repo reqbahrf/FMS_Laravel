@@ -52,17 +52,17 @@ class CheckDuePayments extends Command
                 $duePayments = $this->getDuePayments($projectId);
                 $upcomingDuePayments = $this->getUpcomingDuePayments($projectId);
                 if ($duePayments->isNotEmpty()) {
-                    $this->info("Found " . $duePayments->count() . " due payments for project ID: {$projectId}" . " that will be due on: " . Carbon::now()->addDays(15)->format('Y-m-d'));
+                    $this->info("Found " . $duePayments->count() . " due payments for project ID: {$projectId}" . " that will be due on: " . Carbon::now()->addDays(15)->format('F j, Y'));
                     $this->processPayments($duePayments);
                 } else {
-                    $this->info("No due payments found for project ID: {$projectId} with due date: " . Carbon::now()->addDays(15)->format('Y-m-d'));
+                    $this->info("No due payments found for project ID: {$projectId} with due date: " . Carbon::now()->addDays(15)->format('F j, Y'));
                 }
 
                 if ($upcomingDuePayments->isNotEmpty()) {
-                    $this->info("Found " . $upcomingDuePayments->count() . " upcoming due payments for project ID: {$projectId}" . " that will be due on: " . Carbon::now()->addDays(15)->format('Y-m-d'));
+                    $this->info("Found " . $upcomingDuePayments->count() . " upcoming due payments for project ID: {$projectId}" . " that will be due on: " . Carbon::now()->addDays(15)->format('F j, Y'));
                     $this->processPayments($upcomingDuePayments);
                 } else {
-                    $this->info("No upcoming due payments found for project ID: {$projectId} with due date: " . Carbon::now()->addDays(15)->format('Y-m-d'));
+                    $this->info("No upcoming due payments found for project ID: {$projectId} with due date: " . Carbon::now()->addDays(15)->format('F j, Y'));
                 }
             }
             return Command::SUCCESS;

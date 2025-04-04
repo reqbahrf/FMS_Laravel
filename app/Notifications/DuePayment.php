@@ -21,7 +21,7 @@ class DuePayment extends Notification
         public string $amount,
         public string $status
     ) {
-        $ParseDate = Carbon::parse($this->dueDate)->format('Y-m-d');
+        $ParseDate = Carbon::parse($this->dueDate)->format('F j, Y');
         $this->dueDate = $ParseDate;
     }
 
