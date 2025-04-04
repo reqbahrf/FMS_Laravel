@@ -228,11 +228,7 @@ abstract class BaseApplicationForm {
             showToastFeedback('text-bg-success', response.message);
         } catch (error: any) {
             hideProcessToast(processToast);
-            processError(
-                `Error in Setting ${this.formName} form:`,
-                error,
-                true
-            );
+            processError(`Error setting ${this.formName} form: `, error, true);
         } finally {
             this._getFormStatus();
         }
