@@ -13,15 +13,28 @@
 
 <div class="card m-0 m-md-3">
     <div class="card-body">
+        @php
+            $userId = auth()->id();
+        @endphp
         <form
             id="ExistingProjectForm"
+            data-get-draft="@secureGetDraft('new.project', $userId)"
+            data-store-draft="@secureStoreDraft('new.project', $userId)"
+            data-delete-draft="@secureDeleteDraft('new.project', $userId)"
             method="POST"
             action="{{ URL::signedRoute('staff.Project.submit.new.project', ['staffId' => $staffId]) }}"
         >
             @csrf
             <div class="row mb-3">
-                <div class="col-md-12">
-                    <h2>Project Information</h2>
+                <div class="col-md-6 d-flex align-items-center">
+                    <h2 class="me-auto">Project Information</h2>
+                </div>
+                <div class="col-md-6 text-end">
+                    <button
+                        class="btn btn-sm btn-danger"
+                        id="deleteDraftButton"
+                        type="button"
+                    >Delete Draft</button>
                 </div>
                 <div class="col-12">
                     <label

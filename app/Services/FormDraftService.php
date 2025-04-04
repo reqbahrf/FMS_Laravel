@@ -76,7 +76,6 @@ class FormDraftService
      * @param string $ownerId
      * @param string $draftType
      * @return array
-     * @throws Exception
      */
     public function deleteDraft(string $ownerId, string $draftType): array
     {
@@ -87,7 +86,7 @@ class FormDraftService
         if (!$draft) {
             return [
                 'success' => true,
-                'message' => 'No draft found'
+                'message' => 'This draft is already deleted'
             ];
         }
 

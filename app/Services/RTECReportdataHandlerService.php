@@ -2,10 +2,11 @@
 
 namespace App\Services;
 
-use App\Models\ApplicationForm;
-use App\Models\User;
-use App\Actions\DocumentStatusAction as DSA;
 use Exception;
+use App\Models\User;
+use App\Models\OrgUserInfo;
+use App\Models\ApplicationForm;
+use App\Actions\DocumentStatusAction as DSA;
 
 class RTECReportdataHandlerService
 {
@@ -43,7 +44,7 @@ class RTECReportdataHandlerService
         }
     }
 
-    public function setRTECReportData(array $data, User $user, int $business_id, int $application_id)
+    public function setRTECReportData(array $data, OrgUserInfo $user, int $business_id, int $application_id)
     {
         try {
             // Find the existing record
@@ -53,9 +54,21 @@ class RTECReportdataHandlerService
                 'key' => self::RTEC_REPORT_FORM
             ])->first();
 
-            $documentStatus = $data['rtec_report_doc_status'];
-            $filteredData = array_diff_key($data, array_flip(['rtec_report_doc_status']));
-            $statusData = DSA::determineReviewerOrModifier($documentStatus, $user);
+            if ($user && isset($data['rtec_report_doc_status'])) {
+                $documentStatus = $data['rtec_report_doc_status'];
+                $filteredData = array_diff_key($data, array_flip(['rtec_report_doc_status']));
+
+                $existingStatusData = $existingRecord ? [
+                    'modified_by' => $existingRecord->modified_by,
+                    'modified_at' => $existingRecord->modified_at,
+                    'reviewed_by' => $existingRecord->reviewed_by,
+                    'reviewed_at' => $existingRecord->reviewed_at
+                ] : null;
+
+                $statusData = DSA::determineReviewerOrModifier($documentStatus, $user, $existingStatusData);
+            }
+
+            $filteredData = $filteredData ?? $data;
 
             $mergeData = $existingRecord
                 ? array_merge($existingRecord->data, $filteredData, [

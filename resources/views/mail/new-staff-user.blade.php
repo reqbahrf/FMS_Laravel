@@ -6,11 +6,11 @@ We are excited to have you on board. You can now log in to the system using the 
 @component('mail::panel')
 - **Username:** {{ $user->user_name }}
 - **Email:** {{ $user->email }}
-- **Password:** Your password is your last name followed by your birth year (without space in between).
+- **Password:** Your password is your last name and birth date (without space in between).
 @endcomponent
 
-For example, if your last name is **Smith** and you were born in **1985**, your password will be:
-**Smith1985**
+For example, if your birthdate is February 1, 1990, and your last name is **Smith**, your password will be:
+**Smith19900201**
 
 Please make sure to change your password after logging in for the first time.
 

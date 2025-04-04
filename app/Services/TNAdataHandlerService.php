@@ -59,7 +59,7 @@ class TNAdataHandlerService
         }
     }
 
-    public function setTNAData(array $data, int $business_id, int $application_id, ?User $user = null)
+    public function setTNAData(array $data, int $business_id, int $application_id, ?OrgUserInfo $user = null)
     {
         try {
             // Find the existing record
@@ -69,10 +69,18 @@ class TNAdataHandlerService
                 'key' => self::TNA_FORM
             ])->first();
 
-            if ($user) {
+            if ($user && isset($data['tna_doc_status'])) {
                 $documentStatus = $data['tna_doc_status'];
                 $filteredData = array_diff_key($data, array_flip(['tna_doc_status']));
-                $statusData = DSA::determineReviewerOrModifier($documentStatus, $user);
+
+                $existingStatusData = $existingRecord ? [
+                    'modified_by' => $existingRecord->modified_by,
+                    'modified_at' => $existingRecord->modified_at,
+                    'reviewed_by' => $existingRecord->reviewed_by,
+                    'reviewed_at' => $existingRecord->reviewed_at
+                ] : null;
+
+                $statusData = DSA::determineReviewerOrModifier($documentStatus, $user, $existingStatusData);
             }
 
             $filteredData = $filteredData ?? $data;
@@ -95,7 +103,7 @@ class TNAdataHandlerService
                 'reviewed_at' => $statusData['reviewed_at'] ?? null,
                 'modified_at' => $statusData['modified_at'] ?? null,
                 'data' => $mergedData,
-                'status' => $documentStatus ?? 'Pending'
+                'status' => $data['tna_doc_status'] ?? 'Pending'
             ]);
         } catch (Exception $e) {
             throw new Exception("Failed to set TNA data: " . $e->getMessage());

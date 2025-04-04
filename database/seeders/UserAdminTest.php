@@ -15,20 +15,21 @@ class UserAdminTest extends Seeder
      */
     public function run(): void
     {
+        DB::beginTransaction();
         DB::table('users')->insert([
             'user_name' => 'Admin101',
             'email' => 'Admin@example.com',
             'email_verified_at' => now(),
-            'password' => Hash::make('password123'), // You can use bcrypt instead if you prefer
+            'password' => Hash::make('password123'),
+            'must_change_password' => true,
             'remember_token' => Str::random(10),
             'created_at' => now(),
             'updated_at' => now(),
-            'role' => 'Admin', // Default role, can be changed
+            'role' => 'Admin',
         ]);
 
         DB::table('org_users_info')->insert([
             'user_name' => 'Admin101',
-            'profile_pic' => null,
             'prefix' => '',
             'f_name' => 'Admin',
             'mid_name' => 'A.',
@@ -38,5 +39,6 @@ class UserAdminTest extends Seeder
             'birthdate' => '2000-01-01',
             'access_to' => 'Allowed',
         ]);
+        DB::commit();
     }
 }

@@ -22,7 +22,7 @@ class CheckStaffUser
         }
 
         if (Auth::user()->role != 'Staff' || Auth::user()->orgUserInfo->access_to != 'Allowed') {
-            abort(Response::HTTP_UNAUTHORIZED, 'Please wait for admin approval to access this section');
+            abort(Response::HTTP_UNAUTHORIZED, 'You do not have the necessary permissions to access this section. Please contact the administrator for assistance.');
         }
         return $next($request);
     }

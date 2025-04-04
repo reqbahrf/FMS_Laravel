@@ -27,7 +27,6 @@ class UserTest extends Seeder
 
         DB::table('org_users_info')->insert([
             'user_name' => 'Staff101',
-            'profile_pic' => null,
             'prefix' => '',
             'f_name' => 'User',
             'mid_name' => 'A.',

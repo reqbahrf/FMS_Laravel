@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Exception;
 use App\Models\User;
+use App\Models\OrgUserInfo;
 use App\Models\ApplicationForm;
 use App\Constants\ProjectRefundConstants;
 use App\Actions\DocumentStatusAction as DSA;
@@ -46,7 +47,7 @@ class ProjectProposaldataHandlerService
         }
     }
 
-    public function setProjectProposalData(array $data, User $user, int $business_id, int $application_id)
+    public function setProjectProposalData(array $data, OrgUserInfo $user, int $business_id, int $application_id)
     {
         try {
             $existingRecord = $this->ProjectProposalForm->where([
@@ -55,9 +56,21 @@ class ProjectProposaldataHandlerService
                 'key' => self::PROJECT_PROPOSAL_FORM
             ])->first();
 
-            $documentStatus = $data['project_proposal_doc_status'];
-            $filteredData = array_diff_key($data, array_flip(['project_proposal_doc_status']));
-            $statusData = DSA::determineReviewerOrModifier($documentStatus, $user);
+            if ($user && isset($data['project_proposal_doc_status'])) {
+                $documentStatus = $data['project_proposal_doc_status'];
+                $filteredData = array_diff_key($data, array_flip(['project_proposal_doc_status']));
+
+                $existingStatusData = $existingRecord ? [
+                    'modified_by' => $existingRecord->modified_by,
+                    'modified_at' => $existingRecord->modified_at,
+                    'reviewed_by' => $existingRecord->reviewed_by,
+                    'reviewed_at' => $existingRecord->reviewed_at
+                ] : null;
+
+                $statusData = DSA::determineReviewerOrModifier($documentStatus, $user, $existingStatusData);
+            }
+
+            $filteredData = $filteredData ?? $data;
 
             $mergedData = $existingRecord
                 ? array_merge($existingRecord->data, $filteredData, [

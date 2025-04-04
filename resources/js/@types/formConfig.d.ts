@@ -15,7 +15,7 @@ declare module 'global-form-config' {
         formSelector: string;
         tableSelectors: TableSelectors;
         tableRowConfigs: TableRowConfigs;
-        filepondSelector: string[];
+        filepondSelector?: string[];
         excludedFields?: string[];
     }
 

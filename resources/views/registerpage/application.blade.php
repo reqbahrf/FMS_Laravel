@@ -201,6 +201,7 @@
     <x-application-form.main
         :$draft_type
         :$ownerId
+        :$personalInfo
     />
     <x-toast-alert />
     <x-footer />

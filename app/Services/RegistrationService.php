@@ -16,6 +16,7 @@ use App\Models\CoopUserInfo;
 use App\Models\ApplicationForm;
 use App\Models\ApplicationInfo;
 use App\Models\NotificationLog;
+use App\Mail\ProjectRegistration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
@@ -183,7 +184,7 @@ class RegistrationService
     {
         try {
             $username = $this->generateUniqueUsernameAction->execute($validatedInputs['f_name']);
-            $initial_password = str_replace('-', '', $validatedInputs['b_date']);
+            $initial_password = $validatedInputs['l_name'] . str_replace('-', '', $validatedInputs['b_date']);
 
             DB::beginTransaction();
             $user = User::create([
@@ -228,7 +229,7 @@ class RegistrationService
     {
         try {
             $username = $this->generateUniqueUsernameAction->execute($validatedInputs['f_name']);
-            $initial_password = str_replace('-', '', $validatedInputs['b_date']);
+            $initial_password = $validatedInputs['l_name'] . str_replace('-', '', $validatedInputs['b_date']);
 
             DB::beginTransaction();
             $user = User::create([
@@ -266,9 +267,12 @@ class RegistrationService
                 $refundedPayments
             );
 
+            // Send project registration email
+            Mail::to($user->email)->queue(new ProjectRegistration($user, $projectInfo, $initial_password));
+
             return [
                 'status' => 'success',
-                'message' => 'Project registered successfully'
+                'message' => 'Project registered successfully. A notification has been sent to the Cooperator.'
             ];
         } catch (Exception $e) {
             DB::rollBack();

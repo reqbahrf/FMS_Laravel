@@ -19,10 +19,10 @@ return new class extends Migration
             $table->string('mid_name', 30)->nullable();
             $table->string('l_name', 30);
             $table->string('suffix', 15)->nullable();
-            $table->enum('sex', ['Male', 'Female']);
-            $table->date('birth_date');
-            $table->string('designation', 30);
-            $table->string('mobile_number', 20);
+            $table->enum('sex', ['Male', 'Female'])->nullable();
+            $table->date('birth_date')->nullable();
+            $table->string('designation', 30)->nullable();
+            $table->string('mobile_number', 20)->nullable();
             $table->string('landline', 20)->nullable();
             $table->foreign('user_name')->references('user_name')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });

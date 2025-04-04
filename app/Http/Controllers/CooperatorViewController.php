@@ -45,6 +45,7 @@ class CooperatorViewController extends Controller
             $row = DB::table('coop_users_info')
                 ->Join('users', 'users.user_name', '=', 'coop_users_info.user_name')
                 ->join('business_info', 'business_info.user_info_id', '=', 'coop_users_info.id')
+                ->join('business_address_info', 'business_address_info.business_info_id', '=', 'business_info.id')
                 ->join('project_info', 'project_info.business_id', '=', 'business_info.id')
                 ->select(
                     'users.user_name',
@@ -55,12 +56,18 @@ class CooperatorViewController extends Controller
                     'coop_users_info.designation',
                     'coop_users_info.landline',
                     'coop_users_info.mobile_number',
-                    'business_info.firm_name',
-                    'business_info.landMark',
-                    'business_info.barangay',
-                    'business_info.city',
-                    'business_info.province',
-                    'business_info.region',
+                    'business_address_info.office_landmark',
+                    'business_address_info.office_barangay',
+                    'business_address_info.office_city',
+                    'business_address_info.office_province',
+                    'business_address_info.office_region',
+                    'business_address_info.office_zip_code',
+                    'business_address_info.factory_landmark',
+                    'business_address_info.factory_barangay',
+                    'business_address_info.factory_city',
+                    'business_address_info.factory_province',
+                    'business_address_info.factory_region',
+                    'business_address_info.factory_zip_code'
                 )
                 ->where('coop_users_info.user_name', $this->username)
                 ->where('project_info.Project_id', $this->session_project_id)

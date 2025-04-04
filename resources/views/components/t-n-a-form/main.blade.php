@@ -113,11 +113,11 @@
                                         id="office_address"
                                         name="office_address"
                                         type="text"
-                                        value="{{ $TNAdata['office_address'] ?? ($TNAdata['officeLandmark'] ?? '') . ' ' . ($TNAdata['officeBarangay'] ?? '') . ' ' . ($TNAdata['officeCity'] ?? '') . ' ' . ($TNAdata['officeProvince'] ?? '') . ' ' . ($TNAdata['officeRegion'] ?? '') . ' ' . ($TNAdata['officeZipCode'] ?? '') }}"
+                                        value="{{ $TNAdata['office_address'] ?? ($TNAdata['office_landmark'] ?? '') . ' ' . ($TNAdata['office_barangay'] ?? '') . ' ' . ($TNAdata['office_city'] ?? '') . ' ' . ($TNAdata['office_province'] ?? '') . ' ' . ($TNAdata['office_region'] ?? '') . ' ' . ($TNAdata['office_zip_code'] ?? '') }}"
                                         placeholder="Office Address"
                                     >
                                 @else
-                                    {{ $TNAdata['office_address'] ?? ($TNAdata['officeLandmark'] ?? '') . ' ' . ($TNAdata['officeBarangay'] ?? '') . ' ' . ($TNAdata['officeCity'] ?? '') . ' ' . ($TNAdata['officeProvince'] ?? '') . ' ' . ($TNAdata['officeRegion'] ?? '') . ' ' . ($TNAdata['officeZipCode'] ?? '') }}
+                                    {{ $TNAdata['office_address'] ?? ($TNAdata['office_landmark'] ?? '') . ' ' . ($TNAdata['office_barangay'] ?? '') . ' ' . ($TNAdata['office_city'] ?? '') . ' ' . ($TNAdata['office_province'] ?? '') . ' ' . ($TNAdata['office_region'] ?? '') . ' ' . ($TNAdata['office_zip_code'] ?? '') }}
                                 @endIf
                             </span>
                         </p>
@@ -131,14 +131,14 @@
                             >Tel No.:
                                 @if ($isEditable)
                                     <input
-                                        id="officeTelNo"
-                                        name="officeTelNo"
+                                        id="office_telNo"
+                                        name="office_telNo"
                                         type="text"
-                                        value="{{ $TNAdata['officeTelNo'] ?? '' }}"
+                                        value="{{ $TNAdata['office_telNo'] ?? '' }}"
                                         placeholder="Tel No."
                                     >
                                 @else
-                                    {{ $TNAdata['officeTelNo'] ?? '' }}
+                                    {{ $TNAdata['office_telNo'] ?? '' }}
                                 @endIf
                             </span>
                         </p>
@@ -151,14 +151,14 @@
                             <span lang="en-US">Fax No.:
                                 @if ($isEditable)
                                     <input
-                                        id="officeFaxNo"
-                                        name="officeFaxNo"
+                                        id="office_faxNo"
+                                        name="office_faxNo"
                                         type="text"
-                                        value="{{ $TNAdata['officeFaxNo'] ?? '' }}"
+                                        value="{{ $TNAdata['office_faxNo'] ?? '' }}"
                                         placeholder="Fax No."
                                     >
                                 @else
-                                    {{ $TNAdata['officeFaxNo'] ?? '' }}
+                                    {{ $TNAdata['office_faxNo'] ?? '' }}
                                 @endIf
                             </span>
                         </p>
@@ -174,14 +174,14 @@
                             >E-mail Address:&nbsp;
                                 @if ($isEditable)
                                     <input
-                                        id="officeEmailAddress"
-                                        name="officeEmailAddress"
+                                        id="office_emailAddress"
+                                        name="office_emailAddress"
                                         type="text"
-                                        value="{{ $TNAdata['officeEmailAddress'] ?? '' }}"
+                                        value="{{ $TNAdata['office_emailAddress'] ?? '' }}"
                                         placeholder="E-mail Address"
                                     >
                                 @else
-                                    {{ $TNAdata['officeEmailAddress'] ?? '' }}
+                                    {{ $TNAdata['office_emailAddress'] ?? '' }}
                                 @endIf
                             </span></p>
                         <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;">
@@ -204,11 +204,11 @@
                                         id="factory_address"
                                         name="factory_address"
                                         type="text"
-                                        value="{{ $TNAdata['factory_address'] ?? ($TNAdata['factoryLandmark'] ?? '') . ' ' . ($TNAdata['factoryBarangay'] ?? '') . ' ' . ($TNAdata['factoryCity'] ?? '') . ' ' . ($TNAdata['factoryProvince'] ?? '') . ' ' . ($TNAdata['factoryRegion'] ?? '') . ' ' . ($TNAdata['factoryZipCode'] ?? '') }}"
+                                        value="{{ $TNAdata['factory_address'] ?? ($TNAdata['office_landmark'] ?? '') . ' ' . ($TNAdata['factory_barangay'] ?? '') . ' ' . ($TNAdata['factory_city'] ?? '') . ' ' . ($TNAdata['factory_province'] ?? '') . ' ' . ($TNAdata['factory_region'] ?? '') . ' ' . ($TNAdata['office_zipcode'] ?? '') }}"
                                         placeholder="Factory Address"
                                     >
                                 @else
-                                    {{ $TNAdata['factory_address'] ?? ($TNAdata['factoryLandmark'] ?? '') . ' ' . ($TNAdata['factoryBarangay'] ?? '') . ' ' . ($TNAdata['factoryCity'] ?? '') . ' ' . ($TNAdata['factoryProvince'] ?? '') . ' ' . ($TNAdata['factoryRegion'] ?? '') . ' ' . ($TNAdata['factoryZipCode'] ?? '') }}
+                                    {{ $TNAdata['factory_address'] ?? ($TNAdata['office_landmark'] ?? '') . ' ' . ($TNAdata['factory_barangay'] ?? '') . ' ' . ($TNAdata['factory_city'] ?? '') . ' ' . ($TNAdata['factory_province'] ?? '') . ' ' . ($TNAdata['factory_region'] ?? '') . ' ' . ($TNAdata['office_zipcode'] ?? '') }}
                                 @endIf
                             </span></p>
                         <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;">
@@ -221,14 +221,14 @@
                             >Tel No.:
                                 @if ($isEditable)
                                     <input
-                                        id="factoryTelNo"
-                                        name="factoryTelNo"
+                                        id="factory_telNo"
+                                        name="factory_telNo"
                                         type="text"
-                                        value="{{ $TNAdata['factoryTelNo'] ?? '' }}"
+                                        value="{{ $TNAdata['factory_telNo'] ?? '' }}"
                                         placeholder="Tel No."
                                     >
                                 @else
-                                    {{ $TNAdata['factoryTelNo'] ?? '' }}
+                                    {{ $TNAdata['factory_telNo'] ?? '' }}
                                 @endIf
                             </span></p>
                         <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;">
@@ -240,14 +240,14 @@
                             <span lang="en-US">Fax No.:&nbsp;
                                 @if ($isEditable)
                                     <input
-                                        id="factoryFaxNo"
-                                        name="factoryFaxNo"
+                                        id="factory_faxNo"
+                                        name="factory_faxNo"
                                         type="text"
-                                        value="{{ $TNAdata['factoryFaxNo'] ?? '' }}"
+                                        value="{{ $TNAdata['factory_faxNo'] ?? '' }}"
                                         placeholder="Fax No."
                                     >
                                 @else
-                                    {{ $TNAdata['factoryFaxNo'] ?? '' }}
+                                    {{ $TNAdata['factory_faxNo'] ?? '' }}
                                 @endIf
                             </span>
                         </p>
@@ -263,14 +263,14 @@
                             >E-mail Address:
                                 @if ($isEditable)
                                     <input
-                                        id="factoryEmailAddress"
-                                        name="factoryEmailAddress"
+                                        id="factory_emailAddress"
+                                        name="factory_emailAddress"
                                         type="text"
-                                        value="{{ $TNAdata['factoryEmailAddress'] ?? '' }}"
+                                        value="{{ $TNAdata['factory_emailAddress'] ?? '' }}"
                                         placeholder="E-mail Address"
                                     >
                                 @else
-                                    {{ $TNAdata['factoryEmailAddress'] ?? '' }}
+                                    {{ $TNAdata['factory_emailAddress'] ?? '' }}
                                 @endIf
                             </span></p>
                         <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;">
@@ -929,30 +929,6 @@
                 @endif
             </li>
         </ul>
-        <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
-        <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
-        <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
-        <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
-        <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
-        <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
-        <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
-        <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
-        <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
-        <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
-        <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
-        <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
-        <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
-        <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
-        <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
-        <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
-        <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
-        <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
-        <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
-        <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
-        <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
-        <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
-        <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
-        <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
         <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
         <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
         <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>

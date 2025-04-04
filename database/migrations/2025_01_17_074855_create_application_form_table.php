@@ -16,12 +16,11 @@ return new class extends Migration
             $table->bigInteger('business_id')->unsigned();
             $table->string('key', 64);
             $table->json('data');
-            $table->enum('status', ['Pending', 'Submitted', 'Approved', 'Rejected'])->default('Pending');
+            $table->enum('status', ['pending', 'reviewed', 'submitted', 'approved', 'rejected'])->default('pending');
             $table->timestamps();
 
             $table->foreign('business_id')->references('id')->on('business_info')->onDelete('cascade')->onUpdate('cascade');
         });
-
     }
 
     /**

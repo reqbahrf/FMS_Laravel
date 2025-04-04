@@ -44,3 +44,5 @@ const createMarketTableRow = (rowData) => {
         </tr>
     `;
 };
+
+export default EXISTING_PROJECT_FORM_CONFIG;

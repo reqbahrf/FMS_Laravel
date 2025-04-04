@@ -24,6 +24,7 @@ import ProjectInfoSheet from './project-form-class/ProjectInfoSheet';
 import ProjectDataSheet from './project-form-class/ProjectDataSheet';
 import ProjectStatusReportSheet from './project-form-class/ProjectStatusReportSheet';
 import FileCoopRequirementHandler from '../staff/FileCoopRequirementHandler';
+import ChangePassword from '../Utilities/ChangePassword';
 
 import DataTable from 'datatables.net-bs5';
 import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
@@ -59,6 +60,8 @@ const notificationManager = new NotificationManager(
 );
 notificationManager.fetchNotifications();
 notificationManager.setupEventListeners();
+
+const passwordChange = new ChangePassword($('#changePasswordForm'));
 
 const urlMapFunctions = {
     [NAV_ROUTES.DASHBOARD]: (functions) => functions.Dashboard,
@@ -894,7 +897,6 @@ async function initializeStaffPageJs() {
                         'data-submissionmethod'
                     );
 
-                    closeModal('#paymentModal');
                     const isConfirmed = await createConfirmationModal({
                         title: 'Save Payment Record',
                         titleBg: 'bg-primary',
@@ -917,12 +919,11 @@ async function initializeStaffPageJs() {
                         default:
                             throw new Error('Submission method is not defined');
                     }
+                    closeModal('#paymentModal');
                 } catch (error) {
-                    showToastFeedback(
-                        'text-bg-danger',
-                        error?.responseJSON?.message ||
-                            error?.message ||
-                            'Failed to save payment record'
+                    processError(
+                        'Failed to save payment record: ' + error,
+                        true
                     );
                 }
             });
@@ -936,6 +937,7 @@ async function initializeStaffPageJs() {
                 const modal = $(this);
                 const modalTitle = modal.find('.modal-title');
                 const submitButton = modal.find('#submitPayment');
+                customFormatNumericInput(modal, '#payment_amount');
 
                 if (action === 'Add') {
                     modalTitle.text('Add Payment');
@@ -1263,7 +1265,7 @@ async function initializeStaffPageJs() {
                         .find('td:eq(0)')
                         .text()
                         .trim();
-                    paymentHandler
+                    classInstance.paymentHandler
                         .deletePaymentRecord(reference_number, {
                             options: {
                                 confirm: `Are you sure you want to delete this payment record? ${reference_number}`,
@@ -1481,6 +1483,16 @@ async function initializeStaffPageJs() {
                 const action = $(this).data('project-state');
                 const projectID = $('#ProjectID').val();
                 const businessID = $('#hiddenbusiness_id').val();
+                const isConfirmed = await createConfirmationModal({
+                    title: 'Confirm Project State Update',
+                    message: `Are you sure you want to update the project state to ${action}?`,
+                    confirmText: 'Update',
+                    cancelText: 'Cancel',
+                });
+                if (!isConfirmed) return;
+                const processToast = showProcessToast(
+                    `Updating Project State to ${action}...`
+                );
                 try {
                     const response = await $.ajax({
                         type: 'PUT',
@@ -1501,11 +1513,9 @@ async function initializeStaffPageJs() {
                         response?.message || response?.responseJSON?.message
                     );
                 } catch (error) {
-                    showToastFeedback(
-                        'text-bg-danger',
-                        error.responseJSON.message
-                    );
+                    processError('Failed to update project state', error);
                 } finally {
+                    hideProcessToast(processToast);
                     await getHandleProject();
                 }
             });

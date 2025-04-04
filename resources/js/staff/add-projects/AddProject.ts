@@ -14,17 +14,21 @@ import {
     hideProcessToast,
     showToastFeedback,
 } from '../../Utilities/feedback-toast';
+import EXISTING_PROJECT_FORM_CONFIG from '../../Form_Config/EXISTING_PROJECT_CONFIG';
+import { FormDraftHandler } from '../../Utilities/FormDraftHandler';
 
 export default class AddProject {
     private form: JQuery<HTMLFormElement> | null;
     private refundStrutureTable: JQuery<HTMLTableElement> | null;
     private refundCalculator: RefundStructureCalculator | null;
     private calculationBtn: JQuery<HTMLButtonElement> | null;
+    private draftClass: FormDraftHandler | null;
     constructor() {
         this.form = null;
         this.refundStrutureTable = null;
         this.refundCalculator = null;
         this.calculationBtn = null;
+        this.draftClass = null;
         this._initDependencies();
         this._initTableTotalsCalculator();
         this._initRefundCalculationBtn();
@@ -74,6 +78,24 @@ export default class AddProject {
             new AddressFormInput({ prefix: 'office' }),
             new AddressFormInput({ prefix: 'factory' }),
         ];
+
+        this.draftClass = new FormDraftHandler(this.form);
+        this.draftClass.syncTextInputData();
+        this.draftClass.loadDraftData(
+            EXISTING_PROJECT_FORM_CONFIG,
+            undefined,
+            undefined,
+            undefined,
+            {
+                loadHomeAddressDropdowns:
+                    AddressFormInput.loadHomeAddressDropdowns,
+                loadOfficeAddressDropdowns:
+                    AddressFormInput.loadOfficeAddressDropdowns,
+                loadFactoryAddressDropdowns:
+                    AddressFormInput.loadFactoryAddressDropdowns,
+            }
+        );
+        this._initDeleteDraftEvent();
     }
 
     private _initFormDataSubmitEvent() {
@@ -100,6 +122,19 @@ export default class AddProject {
                 processError('Error in Adding Project: ', error, true);
             } finally {
                 hideProcessToast(processToast);
+            }
+        });
+    }
+
+    private _initDeleteDraftEvent() {
+        if (!this.form) return;
+        this.form.find('#deleteDraftButton').on('click', async () => {
+            try {
+                console.log('This is triggered');
+                if (!this.draftClass) return;
+                await this.draftClass.deleteDraft();
+            } catch (error) {
+                processError('Error in Deleting Draft: ', error, true);
             }
         });
     }
