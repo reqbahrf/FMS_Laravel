@@ -40,25 +40,32 @@ export default class TNAFormEvent {
     }
 
     private _initAddTableRowEvent() {
-        console.log('This is initializes');
+        if (!this.form) return;
+
         addNewRowHandler(
             '#addProductAndSupplyRow',
-            '#productAndSupplyChainContainer'
+            this.form.find('#productAndSupplyChainContainer')
         );
         removeRowHandler(
             '#removeProductAndSupplyRow',
-            '#productAndSupplyChainContainer'
+            this.form.find('#productAndSupplyChainContainer')
         );
-        addNewRowHandler('#addProductionRow', '#productionContainer');
-        removeRowHandler('#removeProductionRow', '#productionContainer');
+        addNewRowHandler(
+            '#addProductionRow',
+            this.form.find('#productionContainer')
+        );
+        removeRowHandler(
+            '#removeProductionRow',
+            this.form.find('#productionContainer')
+        );
 
         addNewRowHandler(
             '#addProductionEquipmentRow',
-            '#productionEquipmentContainer'
+            this.form.find('#productionEquipmentContainer')
         );
         removeRowHandler(
             '#removeProductionEquipmentRow',
-            '#productionEquipmentContainer'
+            this.form.find('#productionEquipmentContainer')
         );
     }
 
