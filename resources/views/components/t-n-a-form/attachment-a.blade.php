@@ -60,11 +60,11 @@
                             <input
                                 name="factory_address"
                                 type="text"
-                                value="{{ $TNAdata['factory_address'] ?? ($TNAdata['factoryLandmark'] ?? '') . ' ' . ($TNAdata['factoryBarangay'] ?? '') . ' ' . ($TNAdata['factoryCity'] ?? '') . ' ' . ($TNAdata['factoryProvince'] ?? '') . ' ' . ($TNAdata['factoryRegion'] ?? '') . ' ' . ($TNAdata['factoryZipCode'] ?? '') }}"
+                                value="{{ $TNAdata['factory_address'] ?? ($TNAdata['factory_landmark'] ?? '') . ' ' . ($TNAdata['factory_barangay'] ?? '') . ' ' . ($TNAdata['factory_city'] ?? '') . ' ' . ($TNAdata['factory_province'] ?? '') . ' ' . ($TNAdata['factory_region'] ?? '') . ' ' . ($TNAdata['factory_zipcode'] ?? '') }}"
                                 placeholder="Production Site"
                             >
                         @else
-                            {{ $TNAdata['factory_address'] ?? ($TNAdata['factoryLandmark'] ?? '') . ' ' . ($TNAdata['factoryBarangay'] ?? '') . ' ' . ($TNAdata['factoryCity'] ?? '') . ' ' . ($TNAdata['factoryProvince'] ?? '') . ' ' . ($TNAdata['factoryRegion'] ?? '') . ' ' . ($TNAdata['factoryZipCode'] ?? '') }}
+                            {{ $TNAdata['factory_address'] ?? ($TNAdata['factory_landmark'] ?? '') . ' ' . ($TNAdata['factory_barangay'] ?? '') . ' ' . ($TNAdata['factory_city'] ?? '') . ' ' . ($TNAdata['factory_province'] ?? '') . ' ' . ($TNAdata['factory_region'] ?? '') . ' ' . ($TNAdata['factory_zipcode'] ?? '') }}
                         @endIf
                     </span></p>
             </td>
@@ -80,13 +80,13 @@
                     >Business Permit No:
                         @if ($isEditable)
                             <input
-                                name="business_permit_No"
+                                name="business_permit_no"
                                 type="text"
-                                value="{{ $TNAdata['business_permit_No'] ?? '' }}"
+                                value="{{ $TNAdata['business_permit_no'] ?? '' }}"
                                 placeholder="Business Permit"
                             >
                         @else
-                            {{ $TNAdata['business_permit_No'] ?? '' }}
+                            {{ $TNAdata['business_permit_no'] ?? '' }}
                         @endIf
                     </span></p>
             </td>

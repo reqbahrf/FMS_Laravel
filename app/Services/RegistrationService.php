@@ -499,6 +499,7 @@ class RegistrationService
         $factory_telNo = $validatedInputs['factory_telNo'];
         $factory_faxNo = $validatedInputs['factory_faxNo'];
         $factory_emailAddress = $validatedInputs['factory_emailAddress'];
+        $sector = $validatedInputs['sector'];
         $export_market = json_encode($validatedInputs['exportMarket'] ?? []);
         $local_market = json_encode($validatedInputs['localMarket'] ?? []);
 
@@ -521,6 +522,7 @@ class RegistrationService
             'factory_telephone' => $factory_telNo,
             'factory_fax_no' => $factory_faxNo,
             'factory_email' => $factory_emailAddress,
+            'sector' => $sector,
             'Export_Mkt_Outlet' => $export_market,
             'Local_Mkt_Outlet' => $local_market,
         ]);

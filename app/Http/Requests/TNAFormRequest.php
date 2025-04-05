@@ -102,19 +102,19 @@ class TNAFormRequest extends FormRequest
             'horticulture_specific_sector' => 'nullable|string|max:255',
             'other_specific_sector' => 'nullable|string|max:255',
 
-            'specificProductOrService' => 'nullable|string|max:255',
-            'reasonsWhyAssistanceIsBeingSought' => 'nullable|string|max:255',
+            'specificProductOrService' => 'nullable|string|max:5000',
+            'reasonsWhyAssistanceIsBeingSought' => 'nullable|string|max:5000',
             'consultationAnswer' => 'nullable|in:yes,no',
-            'fromWhatCompanyAgency' => 'nullable|string|max:255',
-            'pleaseSpecifyTheTypeOfAssistanceSought' => 'nullable|string|max:255',
+            'fromWhatCompanyAgency' => 'nullable|string|max:5000',
+            'pleaseSpecifyTheTypeOfAssistanceSought' => 'nullable|string|max:5000',
             'NoWhyNot' => 'nullable|string|max:255',
-            'enterprisePlanForTheNext5Years' => 'nullable|string|max:255',
-            'nextTenYears' => 'nullable|string|max:255',
-            'currentAgreementAndAlliancesUndertaken' => 'nullable|string|max:255',
+            'enterprisePlanForTheNext5Years' => 'nullable|string|max:5000',
+            'nextTenYears' => 'nullable|string|max:5000',
+            'currentAgreementAndAlliancesUndertaken' => 'nullable|string|max:5000',
 
 
             // Fields from attachment-a.blade.php
-            'business_permit_No' => 'nullable|string|max:100',
+            'business_permit_no' => 'nullable|string|max:100',
             'permit_year_registered' => 'nullable|string|max:10',
             'brief_background' => 'nullable|string',
             'year_established' => 'nullable|string|max:10',
