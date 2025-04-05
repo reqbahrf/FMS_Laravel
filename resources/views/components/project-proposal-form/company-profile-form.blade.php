@@ -273,6 +273,7 @@
                     data-custom-numeric-input
                     type="text"
                     value="{{ $ProjectProposaldata['direct_workers_total'] ?? '' }}"
+                    readonly
                 >
             @else
                 {{ $ProjectProposaldata['direct_workers_total'] ?? '' }}
@@ -312,6 +313,7 @@
                     data-custom-numeric-input
                     type="text"
                     value="{{ $ProjectProposaldata['production_total'] ?? '' }}"
+                    readonly
                 >
             @else
                 {{ $ProjectProposaldata['production_total'] ?? '' }}
@@ -351,6 +353,7 @@
                     data-custom-numeric-input
                     type="text"
                     value="{{ $ProjectProposaldata['non_production_total'] ?? '' }}"
+                    readonly
                 >
             @else
                 {{ $ProjectProposaldata['non_production_total'] ?? '' }}
@@ -390,6 +393,7 @@
                     data-custom-numeric-input
                     type="text"
                     value="{{ $ProjectProposaldata['indirect_contract_workers_total'] ?? '' }}"
+                    readonly
                 >
             @else
                 {{ $ProjectProposaldata['indirect_contract_workers_total'] ?? '' }}
@@ -405,6 +409,7 @@
                     data-custom-numeric-input
                     type="text"
                     value="{{ $ProjectProposaldata['total_male'] ?? '' }}"
+                    readonly
                 >
             @else
                 {{ $ProjectProposaldata['total_male'] ?? '' }}
@@ -417,6 +422,7 @@
                     data-custom-numeric-input
                     type="text"
                     value="{{ $ProjectProposaldata['total_female'] ?? '' }}"
+                    readonly
                 >
             @else
                 {{ $ProjectProposaldata['total_female'] ?? '' }}
@@ -429,6 +435,7 @@
                     data-custom-numeric-input
                     type="text"
                     value="{{ $ProjectProposaldata['employee_total'] ?? '' }}"
+                    readonly
                 >
             @else
                 {{ $ProjectProposaldata['employee_total'] ?? '' }}

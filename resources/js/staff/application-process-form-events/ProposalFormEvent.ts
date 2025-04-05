@@ -33,6 +33,7 @@ export default class ProposalFormEvent {
         customFormatNumericInput(this.form, this.numberInputSelectors);
         yearInputs(this.form, this.yearInputSelectors);
         this._initTableTotalsCalculator();
+        this._initWorkerTotalsCalculator();
         this.refundCalculator.calculateAllTotals();
     }
 
@@ -121,6 +122,132 @@ export default class ProposalFormEvent {
         }
     }
 
+    private _initWorkerTotalsCalculator(): void {
+        if (!this.form) return;
+
+        const workerCategories = [
+            'direct_workers',
+            'production',
+            'non_production',
+            'indirect_contract_workers',
+        ];
+
+        workerCategories.forEach((category) => {
+            if (!this.form) return;
+            const maleInput = this.form.find(
+                `input[name="${category}_male"]`
+            ) as JQuery<HTMLInputElement>;
+            const femaleInput = this.form.find(
+                `input[name="${category}_female"]`
+            ) as JQuery<HTMLInputElement>;
+            const totalInput = this.form.find(
+                `input[name="${category}_total"]`
+            ) as JQuery<HTMLInputElement>;
+
+            maleInput.on('input', () => {
+                this._calculateCategoryTotal(
+                    maleInput,
+                    femaleInput,
+                    totalInput
+                );
+            });
+
+            femaleInput.on('input', () => {
+                this._calculateCategoryTotal(
+                    maleInput,
+                    femaleInput,
+                    totalInput
+                );
+            });
+        });
+
+        // Calculate total male, female, and employee total
+        const calculateOverallTotals = () => {
+            const totalMaleInputs = workerCategories.map(
+                (category) =>
+                    parseFormattedNumberToFloat(
+                        this.form
+                            ?.find(`input[name="${category}_male"]`)
+                            .val() as string
+                    ) || 0
+            );
+            const totalFemaleInputs = workerCategories.map(
+                (category) =>
+                    parseFormattedNumberToFloat(
+                        this.form
+                            ?.find(`input[name="${category}_female"]`)
+                            .val() as string
+                    ) || 0
+            );
+
+            const totalMale = totalMaleInputs.reduce((a, b) => a + b, 0);
+            const totalFemale = totalFemaleInputs.reduce((a, b) => a + b, 0);
+            const employeeTotal = totalMale + totalFemale;
+
+            this.form
+                ?.find('input[name="total_male"]')
+                .val(totalMale.toLocaleString());
+            this.form
+                ?.find('input[name="total_female"]')
+                .val(totalFemale.toLocaleString());
+            this.form
+                ?.find('input[name="employee_total"]')
+                .val(employeeTotal.toLocaleString());
+
+            // Calculate grand total
+            this._calculateGrandTotal();
+        };
+
+        workerCategories.forEach((category) => {
+            if (!this.form) return;
+            this.form
+                .find(`input[name="${category}_male"]`)
+                .on('input', calculateOverallTotals);
+            this.form
+                .find(`input[name="${category}_female"]`)
+                .on('input', calculateOverallTotals);
+        });
+
+        // Add event listener for employee_total to trigger grand total calculation
+        this.form.find('input[name="employee_total"]').on('input', () => {
+            this._calculateGrandTotal();
+        });
+    }
+
+    private _calculateCategoryTotal(
+        maleInput: JQuery<HTMLInputElement>,
+        femaleInput: JQuery<HTMLInputElement>,
+        totalInput: JQuery<HTMLInputElement>
+    ): void {
+        const maleValue =
+            parseFormattedNumberToFloat(maleInput.val() as string) || 0;
+        const femaleValue =
+            parseFormattedNumberToFloat(femaleInput.val() as string) || 0;
+        const total = maleValue + femaleValue;
+
+        totalInput.val(total.toLocaleString());
+    }
+
+    private _calculateGrandTotal(): void {
+        if (!this.form) return;
+
+        // Get the employee total value
+        const employeeTotalInput = this.form.find(
+            'input[name="employee_total"]'
+        );
+        const employeeTotal =
+            parseFormattedNumberToFloat(employeeTotalInput.val() as string) ||
+            0;
+
+        // Assuming there might be other inputs for grand total calculation
+        // You can modify this logic based on your specific requirements
+        const grandTotalInput = this.form.find('input[name="grand_total"]');
+
+        // For now, just set the grand total to be the same as employee total
+        // You might want to add more complex logic here if needed
+        grandTotalInput.val(employeeTotal.toLocaleString());
+    }
+
     destroy(): void {
         if (
             !this.form ||
@@ -132,6 +259,20 @@ export default class ProposalFormEvent {
         this.form.off('input', this.yearInputSelectors.join(','));
         this.form.off('input', '[data-custom-numeric-input]');
         this.tableRefundStructure.off('input', '[data-custom-numeric-input]');
+        const workerCategories = [
+            'direct_workers',
+            'production',
+            'non_production',
+            'indirect_contract_workers',
+        ];
+        workerCategories.forEach((category) => {
+            this.form?.find(`input[name="${category}_male"]`).off('input');
+            this.form?.find(`input[name="${category}_female"]`).off('input');
+        });
+        this.form?.find('input[name="total_male"]').off('input');
+        this.form?.find('input[name="total_female"]').off('input');
+        this.form?.find('input[name="employee_total"]').off('input');
+        this.form?.find('input[name="grand_total"]').off('input');
         this.form = null;
         this.numberInputSelectors = null;
         this.yearInputSelectors = null;
