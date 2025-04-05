@@ -3728,8 +3728,15 @@ async function initializeStaffPageJs() {
                 }
             );
 
-            const { TNAForm, ProjectProposalForm, RTECReportForm } =
-                await import('./application-process-form-class');
+            const { default: TNAForm } = await import(
+                './application-process-form-class/TNAForm'
+            );
+            const { default: ProjectProposalForm } = await import(
+                './application-process-form-class/ProjectProposalForm'
+            );
+            const { default: RTECReportForm } = await import(
+                './application-process-form-class/RTECReportForm'
+            );
             const TNADocumentContainerModal = $('#tnaDocContainerModal');
             const ProjectProposalDocumentContainerModal = $(
                 '#projectProposalDocContainerModal'
