@@ -39,6 +39,7 @@ export default class ProposalFormEvent {
         this._initTableTotalsCalculator();
         this._initWorkerTotalsCalculator();
         this._initEquipmentTableCalculator();
+        this._initBudgetTableCalculator();
         this.refundCalculator.calculateAllTotals();
         this._initTableAddRowEvent();
     }
@@ -234,7 +235,6 @@ export default class ProposalFormEvent {
     private _calculateGrandTotal(): void {
         if (!this.form) return;
 
-        // Get the employee total value
         const employeeTotalInput = this.form.find(
             'input[name="employee_total"]'
         );
@@ -248,8 +248,13 @@ export default class ProposalFormEvent {
     }
 
     private _initEquipmentTableCalculator(): void {
-        const equipmentTable = this.form?.find('#equipmentTable');
+        const equipmentTable = this.form?.find(
+            '#equipmentTable'
+        ) as JQuery<HTMLTableElement>;
         if (!equipmentTable) return;
+        const calculateEquipmentTable =
+            this._calculateEquipmentTableFooterTotal;
+        calculateEquipmentTable(equipmentTable);
 
         equipmentTable.on('input', '.Qty, .Unit_cost', function () {
             const row = $(this).closest('tr');
@@ -264,17 +269,15 @@ export default class ProposalFormEvent {
 
             row.find('.Total_cost').val(totalCost.toLocaleString());
 
-            ProposalFormEvent.calculateEquipmentTableFooterTotal(
-                equipmentTable as JQuery<HTMLTableElement>
-            );
+            calculateEquipmentTable(equipmentTable as JQuery<HTMLTableElement>);
         });
     }
 
-    private static calculateEquipmentTableFooterTotal(
-        $table: JQuery<HTMLTableElement>
+    private _calculateEquipmentTableFooterTotal(
+        table: JQuery<HTMLTableElement>
     ): void {
         let totalCost = 0;
-        $table.find('tbody tr').each(function () {
+        table.find('tbody tr').each(function () {
             const rowTotalCost =
                 parseFormattedNumberToFloat(
                     $(this).find('.Total_cost').val() as string
@@ -282,7 +285,75 @@ export default class ProposalFormEvent {
             totalCost += rowTotalCost;
         });
 
-        $table.find('tfoot td:last-child').text(totalCost.toLocaleString());
+        table.find('tfoot td:last-child').text(totalCost.toLocaleString());
+    }
+
+    private _initBudgetTableCalculator(): void {
+        const budgetTable = this.form?.find(
+            '#budgetTable'
+        ) as JQuery<HTMLTableElement>;
+        if (!budgetTable) return;
+        const calculateBudgetTable = this._calculateBudgetTableFooterTotal;
+        calculateBudgetTable(budgetTable);
+
+        budgetTable.on('input', '.SETUP, .LGIA, .Cooperator', function () {
+            const row = $(this).closest('tr');
+            const setupCost =
+                parseFormattedNumberToFloat(
+                    row.find('.SETUP').val() as string
+                ) || 0;
+            const lgiaCost =
+                parseFormattedNumberToFloat(
+                    row.find('.LGIA').val() as string
+                ) || 0;
+            const cooperatorCost =
+                parseFormattedNumberToFloat(
+                    row.find('.Cooperator').val() as string
+                ) || 0;
+
+            const totalCost = setupCost + lgiaCost + cooperatorCost;
+            row.find('.Total_cost').val(totalCost.toLocaleString());
+
+            calculateBudgetTable(budgetTable as JQuery<HTMLTableElement>);
+        });
+    }
+
+    private _calculateBudgetTableFooterTotal(
+        table: JQuery<HTMLTableElement>
+    ): void {
+        let totalSETUP = 0;
+        let totalLGIA = 0;
+        let totalCooperator = 0;
+        let grandTotal = 0;
+
+        table.find('tbody tr').each(function () {
+            const setupCost =
+                parseFormattedNumberToFloat(
+                    $(this).find('.SETUP').val() as string
+                ) || 0;
+            const lgiaCost =
+                parseFormattedNumberToFloat(
+                    $(this).find('.LGIA').val() as string
+                ) || 0;
+            const cooperatorCost =
+                parseFormattedNumberToFloat(
+                    $(this).find('.Cooperator').val() as string
+                ) || 0;
+            const rowTotal = setupCost + lgiaCost + cooperatorCost;
+
+            totalSETUP += setupCost;
+            totalLGIA += lgiaCost;
+            totalCooperator += cooperatorCost;
+            grandTotal += rowTotal;
+        });
+
+        const footerRow = table.find('tfoot tr');
+        footerRow.find('td:nth-child(2)').text(totalSETUP.toLocaleString());
+        footerRow.find('td:nth-child(3)').text(totalLGIA.toLocaleString());
+        footerRow
+            .find('td:nth-child(4)')
+            .text(totalCooperator.toLocaleString());
+        footerRow.find('td:nth-child(5)').text(grandTotal.toLocaleString());
     }
 
     private _initTableAddRowEvent(): void {
