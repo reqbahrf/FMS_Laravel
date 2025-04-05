@@ -540,31 +540,31 @@
                 lang="en-US">Raw Material</span></p>
     </li>
 </ul>
-@if ($isEditable)
-    <div
-        class="mb-3"
-        style="text-align: right;"
+<div id="productAndSupplyChainContainer">
+    @if ($isEditable)
+        <div
+            class="mb-3"
+            style="text-align: right;"
+        >
+            <button
+                class="btn btn-sm btn-success"
+                id="addProductAndSupplyRow"
+                type="button"
+            ><i class="ri-add-line"></i></button>
+            <button
+                class="btn btn-sm btn-danger"
+                id="removeProductAndSupplyRow"
+                data-remove-row-btn
+                type="button"
+            ><i class="ri-subtract-line"></i></button>
+        </div>
+    @endif
+    <table
+        id="productAndSupplyChainTable"
+        style="width: 100%; table-layout: fixed;"
+        cellpadding="7"
     >
-        <button
-            class="btn btn-sm btn-success"
-            id="addProductAndSupplyRow"
-            type="button"
-        ><i class="ri-add-line"></i></button>
-        <button
-            class="btn btn-sm btn-danger"
-            id="removeProductAndSupplyRow"
-            data-remove-row-btn
-            type="button"
-        ><i class="ri-subtract-line"></i></button>
-    </div>
-@endif
-<table
-    id="productAndSupplyChainContainer"
-    style="width: 100%; table-layout: fixed;"
-    cellpadding="7"
->
-    <tbody>
-        <tr>
+        <thead>
             <td width="25%">
                 Raw Material
             </td>
@@ -577,101 +577,103 @@
             <td width="25%">
                 Volume Used/Year
             </td>
-        </tr>
-        @forelse ($TNAdata['productAndSupply'] ?? [] as $productInfo)
-            <tr>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="RawMaterial"
-                            type="text"
-                            value="{{ $productInfo['rowMaterial'] ?? '' }}"
-                            style="width: 100%;"
-                        >
-                    @else
-                        {{ $productInfo['rowMaterial'] ?? '' }}
-                    @endIf
-                </td>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="Source"
-                            type="text"
-                            value="{{ $productInfo['source'] ?? '' }}"
-                            style="width: 100%;"
-                        >
-                    @else
-                        {{ $productInfo['source'] ?? '' }}
-                    @endIf
-                </td>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="UnitCost"
-                            type="text"
-                            value="{{ $productInfo['unitCost'] ?? '' }}"
-                            style="width: 100%;"
-                        >
-                    @else
-                        {{ $productInfo['unitCost'] ?? '' }}
-                    @endIf
-                </td>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="VolumeUsed"
-                            type="text"
-                            value="{{ $productInfo['volumeUsed'] ?? '' }}"
-                            style="width: 100%;"
-                        >
-                    @else
-                        {{ $productInfo['volumeUsed'] ?? '' }}
-                    @endIf
-                </td>
-            </tr>
-        @empty
-            <tr>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="RawMaterial"
-                            type="text"
-                            value=""
-                            style="width: 100%;"
-                        >
-                    @endIf
-                </td>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="Source"
-                            type="text"
-                            value=""
-                            style="width: 100%;"
-                        >
-                    @endIf
-                </td>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="UnitCost"
-                            type="text"
-                            value=""
-                            style="width: 100%;"
-                        >
-                    @endIf
-                </td>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="VolumeUsed"
-                            type="text"
-                            value=""
-                            style="width: 100%;"
-                        >
-                    @endIf
-                </td>
-            </tr>
-        @endforelse
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @forelse ($TNAdata['productAndSupply'] ?? [] as $productInfo)
+                <tr>
+                    <td>
+                        @if ($isEditable)
+                            <input
+                                class="RawMaterial"
+                                type="text"
+                                value="{{ $productInfo['rowMaterial'] ?? '' }}"
+                                style="width: 100%;"
+                            >
+                        @else
+                            {{ $productInfo['rowMaterial'] ?? '' }}
+                        @endIf
+                    </td>
+                    <td>
+                        @if ($isEditable)
+                            <input
+                                class="Source"
+                                type="text"
+                                value="{{ $productInfo['source'] ?? '' }}"
+                                style="width: 100%;"
+                            >
+                        @else
+                            {{ $productInfo['source'] ?? '' }}
+                        @endIf
+                    </td>
+                    <td>
+                        @if ($isEditable)
+                            <input
+                                class="UnitCost"
+                                type="text"
+                                value="{{ $productInfo['unitCost'] ?? '' }}"
+                                style="width: 100%;"
+                            >
+                        @else
+                            {{ $productInfo['unitCost'] ?? '' }}
+                        @endIf
+                    </td>
+                    <td>
+                        @if ($isEditable)
+                            <input
+                                class="VolumeUsed"
+                                type="text"
+                                value="{{ $productInfo['volumeUsed'] ?? '' }}"
+                                style="width: 100%;"
+                            >
+                        @else
+                            {{ $productInfo['volumeUsed'] ?? '' }}
+                        @endIf
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td>
+                        @if ($isEditable)
+                            <input
+                                class="RawMaterial"
+                                type="text"
+                                value=""
+                                style="width: 100%;"
+                            >
+                        @endIf
+                    </td>
+                    <td>
+                        @if ($isEditable)
+                            <input
+                                class="Source"
+                                type="text"
+                                value=""
+                                style="width: 100%;"
+                            >
+                        @endIf
+                    </td>
+                    <td>
+                        @if ($isEditable)
+                            <input
+                                class="UnitCost"
+                                type="text"
+                                value=""
+                                style="width: 100%;"
+                            >
+                        @endIf
+                    </td>
+                    <td>
+                        @if ($isEditable)
+                            <input
+                                class="VolumeUsed"
+                                type="text"
+                                value=""
+                                style="width: 100%;"
+                            >
+                        @endIf
+                    </td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>

@@ -1,4 +1,8 @@
 import {
+    addNewRowHandler,
+    removeRowHandler,
+} from '../../Utilities/add-and-remove-table-row-handler';
+import {
     customFormatNumericInput,
     yearInputs,
 } from '../../Utilities/input-utils';
@@ -28,16 +32,39 @@ export default class TNAFormEvent {
             'input[name="non_production"]',
             'input[name="indirect_workers"]',
             'input[name="total"]',
-
         ];
 
         customFormatNumericInput(this.form, this.numberInputSelectors);
         yearInputs(this.form, this.yearInputSelectors);
+        this._initAddTableRowEvent();
+    }
+
+    private _initAddTableRowEvent() {
+        console.log('This is initializes');
+        addNewRowHandler(
+            '#addProductAndSupplyRow',
+            '#productAndSupplyChainContainer'
+        );
+        removeRowHandler(
+            '#removeProductAndSupplyRow',
+            '#productAndSupplyChainContainer'
+        );
+        addNewRowHandler('#addProductionRow', '#productionContainer');
+        removeRowHandler('#removeProductionRow', '#productionContainer');
+
+        addNewRowHandler(
+            '#addProductionEquipmentRow',
+            '#productionEquipmentContainer'
+        );
+        removeRowHandler(
+            '#removeProductionEquipmentRow',
+            '#productionEquipmentContainer'
+        );
     }
 
     destroy(): void {
         // Remove specific input event listeners
-        if(!this.form || !this.yearInputSelectors) return;
+        if (!this.form || !this.yearInputSelectors) return;
         const yearInputSelectors = this.yearInputSelectors.join(',');
         this.form?.off('input', yearInputSelectors);
 
