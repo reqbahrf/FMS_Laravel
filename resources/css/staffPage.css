@@ -816,17 +816,15 @@ Form Styles
 }
 
 #TNAForm :is(#EnterpriseInformationTable, #productionContainer, #productionEquipmentContainer, #productAndSupplyChainContainer) th {
-    padding: 10px;
     border: 1px solid #000;
 }
 #TNAForm :is(#EnterpriseInformationTable, #productionContainer, #productionEquipmentContainer, #productAndSupplyChainContainer) tr {
     border: 1px solid #000;
-    padding: 10px;
 }
 
 #TNAForm :is(#EnterpriseInformationTable, #productionContainer, #productionEquipmentContainer, #productAndSupplyChainContainer) td {
     border: 1px solid #000;
-    padding: 10px;
+
 }
 
 

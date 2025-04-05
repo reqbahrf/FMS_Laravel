@@ -734,7 +734,7 @@
                 <tbody>
                     @forelse ($TNAdata['productionEquipment'] ?? [] as $productionEquipment)
                         <tr>
-                            <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
+                            <td>
                                 @if ($isEditable)
                                     <input
                                         class="TypeOfEquipment"
@@ -745,7 +745,7 @@
                                     {{ $productionEquipment['typeOfEquipment'] ?? '' }}
                                 @endIf
                             </td>
-                            <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
+                            <td>
                                 @if ($isEditable)
                                     <input
                                         class="Specification"
@@ -756,7 +756,7 @@
                                     {{ $productionEquipment['specification'] ?? '' }}
                                 @endIf
                             </td>
-                            <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
+                            <td>
                                 @if ($isEditable)
                                     <input
                                         class="Capacity"
