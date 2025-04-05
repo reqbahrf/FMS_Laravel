@@ -57,6 +57,7 @@ class RTECRequest extends FormRequest
             'technical_constraints_on_the_production_line_and_proposed_s_t_intervention' => 'nullable|string',
 
             'processExistingPracticeProblem' => 'nullable|array',
+            'processExistingPracticeProblem.*.processExistingPracticeProblem' => 'nullable|string',
             'processExistingPracticeProblem.*.proposedSTIntervention' => 'nullable|string',
             'processExistingPracticeProblem.*.proposedSTInterventionRelatedEquipmentSkillsUpgrading' => 'nullable|string',
             'processExistingPracticeProblem.*.impact' => 'nullable|string',
@@ -64,8 +65,8 @@ class RTECRequest extends FormRequest
             'equipment' => 'nullable|array',
             'equipment.*.stnInterventionRelatedEquipmentSpecification' => 'nullable|string',
             'equipment.*.qty' => 'nullable|string',
-            'equipment.*.unit_cost' => 'nullable|string',
-            'equipment.*.total_cost' => 'nullable|string',
+            'equipment.*.unitCost' => 'nullable|string',
+            'equipment.*.totalCost' => 'nullable|string',
 
             'marketing_aspect' => 'nullable|string',
             'financial_aspect' => 'nullable|string',

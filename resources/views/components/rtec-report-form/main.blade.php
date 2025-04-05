@@ -705,75 +705,98 @@
             </tr>
         </tbody>
     </table>
-    <table
-        id="processExistingPracticeProblemTable"
-        style="width: 100%;"
-    >
-        <tbody>
-            <tr>
-                <td style="text-align: center; width: 25%">Process/Existing Practice/Problem</td>
-                <td style="text-align: center; width: 25%">Proposed S&T Intervention</td>
-                <td style="text-align: center; width: 25%">Proposed S&T intervention-related equipment/skills upgrading
-                </td>
-                <td style="text-align: center; width: 25%">Impact</td>
-            </tr>
-            @forelse($RTECReportdata['processExistingPracticeProblem'] ?? [] as $data)
+    <div id="processExistingPractiveProblemTableContainer">
+        @if ($isEditable)
+            <div
+                class="mb-3"
+                style="text-align: right;"
+            >
+                <button
+                    class="btn btn-sm btn-success"
+                    id="addProcessExistingPractiveProblemTableRow"
+                    type="button"
+                ><i class="ri-add-line"></i></button>
+                <button
+                    class="btn btn-sm btn-danger"
+                    id="removeProcessExistingPractiveProblemTableRow"
+                    data-remove-row-btn
+                    type="button"
+                ><i class="ri-subtract-line"></i></button>
+            </div>
+        @endif
+        <table
+            id="processExistingPracticeProblemTable"
+            style="width: 100%;"
+        >
+            <thead>
                 <tr>
-                    <td>
-                        @if ($isEditable)
-                            <textarea class="form-control Process_Existing_PracticeProblem">{{ $data['processExistingPracticeProblem'] ?? '' }}</textarea>
-                        @else
-                            {{ $data['processExistingPracticeProblem'] ?? '' }}
-                        @endif
+                    <td style="text-align: center; width: 25%">Process/Existing Practice/Problem</td>
+                    <td style="text-align: center; width: 25%">Proposed S&T Intervention</td>
+                    <td style="text-align: center; width: 25%">Proposed S&T intervention-related equipment/skills
+                        upgrading
                     </td>
-                    <td>
-                        @if ($isEditable)
-                            <textarea class="form-control ProposedS_TIntervention">{{ $data['proposedSTIntervention'] ?? '' }}</textarea>
-                        @else
-                            {{ $data['proposedSTIntervention'] ?? '' }}
-                        @endif
-                    </td>
-                    <td>
-                        @if ($isEditable)
-                            <textarea class="form-control ProposedS_TInterventionRelatedEquipmentSkillsUpgrading">{{ $data['proposedSTInterventionRelatedEquipmentSkillsUpgrading'] ?? '' }}</textarea>
-                        @else
-                            {{ $data['proposedSTInterventionRelatedEquipmentSkillsUpgrading'] ?? '' }}
-                        @endif
-                    </td>
-                    <td>
-                        @if ($isEditable)
-                            <textarea class="form-control Impact">{{ $data['impact'] ?? '' }}</textarea>
-                        @else
-                            {{ $data['impact'] ?? '' }}
-                        @endif
-                    </td>
+                    <td style="text-align: center; width: 25%">Impact</td>
                 </tr>
-            @empty
-                <tr>
-                    <td>
-                        @if ($isEditable)
-                            <textarea class="form-control Process_Existing_PracticeProblem"></textarea>
-                        @endif
-                    </td>
-                    <td>
-                        @if ($isEditable)
-                            <textarea class="form-control ProposedS_TIntervention"></textarea>
-                        @endif
-                    </td>
-                    <td>
-                        @if ($isEditable)
-                            <textarea class="form-control ProposedS_TInterventionRelatedEquipmentSkillsUpgrading"></textarea>
-                        @endif
-                    </td>
-                    <td>
-                        @if ($isEditable)
-                            <textarea class="form-control Impact"></textarea>
-                        @endif
-                    </td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @forelse($RTECReportdata['processExistingPracticeProblem'] ?? [] as $data)
+                    <tr>
+                        <td>
+                            @if ($isEditable)
+                                <textarea class="form-control Process_Existing_PracticeProblem">{{ $data['processExistingPracticeProblem'] ?? '' }}</textarea>
+                            @else
+                                {{ $data['processExistingPracticeProblem'] ?? '' }}
+                            @endif
+                        </td>
+                        <td>
+                            @if ($isEditable)
+                                <textarea class="form-control ProposedS_TIntervention">{{ $data['proposedSTIntervention'] ?? '' }}</textarea>
+                            @else
+                                {{ $data['proposedSTIntervention'] ?? '' }}
+                            @endif
+                        </td>
+                        <td>
+                            @if ($isEditable)
+                                <textarea class="form-control ProposedS_TInterventionRelatedEquipmentSkillsUpgrading">{{ $data['proposedSTInterventionRelatedEquipmentSkillsUpgrading'] ?? '' }}</textarea>
+                            @else
+                                {{ $data['proposedSTInterventionRelatedEquipmentSkillsUpgrading'] ?? '' }}
+                            @endif
+                        </td>
+                        <td>
+                            @if ($isEditable)
+                                <textarea class="form-control Impact">{{ $data['impact'] ?? '' }}</textarea>
+                            @else
+                                {{ $data['impact'] ?? '' }}
+                            @endif
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td>
+                            @if ($isEditable)
+                                <textarea class="form-control Process_Existing_PracticeProblem"></textarea>
+                            @endif
+                        </td>
+                        <td>
+                            @if ($isEditable)
+                                <textarea class="form-control ProposedS_TIntervention"></textarea>
+                            @endif
+                        </td>
+                        <td>
+                            @if ($isEditable)
+                                <textarea class="form-control ProposedS_TInterventionRelatedEquipmentSkillsUpgrading"></textarea>
+                            @endif
+                        </td>
+                        <td>
+                            @if ($isEditable)
+                                <textarea class="form-control Impact"></textarea>
+                            @endif
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
     <table>
         <tbody>
             <tr>
@@ -790,114 +813,138 @@
             </tr>
         </tbody>
     </table>
-    <table id="equipmentTable">
-        <tbody>
-            <tr>
-                <td style="text-align: center; width: 50%">S&T Intervention-related equipment/specification</td>
-                <td style="text-align: center; width: 10%">Qty</td>
-                <td style="text-align: center; width: 20%">Unit Cost</td>
-                <td style="text-align: center; width: 20%">Total Cost</td>
-            </tr>
-            @php
-                $grand_total_cost = 0;
-            @endphp
-            @forelse($RTECReportdata['equipment'] ?? [] as $data)
+    <div id="equipmentTableContainer">
+        @if ($isEditable)
+            <div
+                class="mb-3"
+                style="text-align: right;"
+            >
+                <button
+                    class="btn btn-sm btn-success"
+                    id="addEquipmentTableRow"
+                    type="button"
+                ><i class="ri-add-line"></i></button>
+                <button
+                    class="btn btn-sm btn-danger"
+                    id="removeEquipmentTableRow"
+                    data-remove-row-btn
+                    type="button"
+                ><i class="ri-subtract-line"></i></button>
+            </div>
+        @endif
+        <table id="equipmentTable">
+            <thead>
+                <tr>
+                    <td style="text-align: center; width: 50%">S&T Intervention-related equipment/specification</td>
+                    <td style="text-align: center; width: 10%">Qty</td>
+                    <td style="text-align: center; width: 20%">Unit Cost</td>
+                    <td style="text-align: center; width: 20%">Total Cost</td>
+                </tr>
+            </thead>
+            <tbody>
                 @php
-                    $row_total_cost =
-                        doubleval(str_replace(',', '', $data['qty'] ?? 0)) *
-                        doubleval(str_replace(',', '', $data['unit_cost'] ?? 0));
-                    $grand_total_cost += $row_total_cost;
+                    $grand_total_cost = 0;
                 @endphp
+                @forelse($RTECReportdata['equipment'] ?? [] as $data)
+                    @php
+                        $row_total_cost =
+                            doubleval(str_replace(',', '', $data['qty'] ?? 0)) *
+                            doubleval(str_replace(',', '', $data['unit_cost'] ?? 0));
+                        $grand_total_cost += $row_total_cost;
+                    @endphp
+                    <tr>
+                        <td>
+                            @if ($isEditable)
+                                <textarea class="S_TInterventionRelatedEquipmentSpecification form-control">{{ $data['stnInterventionRelatedEquipmentSpecification'] ?? '' }}</textarea>
+                            @else
+                                {{ $data['stnInterventionRelatedEquipmentSpecification'] ?? '' }}
+                            @endif
+                        </td>
+                        <td>
+                            @if ($isEditable)
+                                <input
+                                    class="Qty"
+                                    data-custom-numeric-input
+                                    type="text"
+                                    value="{{ $data['qty'] ?? '' }}"
+                                >
+                            @else
+                                {{ $data['qty'] ?? '' }}
+                            @endif
+                        </td>
+                        <td>
+                            @if ($isEditable)
+                                <input
+                                    class="UnitCost"
+                                    data-custom-numeric-input
+                                    type="text"
+                                    value="{{ $data['unitCost'] ?? '' }}"
+                                >
+                            @else
+                                {{ $data['unitCost'] ?? '' }}
+                            @endif
+                        </td>
+                        <td>
+                            @if ($isEditable)
+                                <input
+                                    class="TotalCost"
+                                    data-custom-numeric-input
+                                    type="text"
+                                    value="{{ $data['totalCost'] ?? ($row_total_cost ?? '') }}"
+                                >
+                            @else
+                                {{ $data['totalCost'] ?? ($row_total_cost ?? '') }}
+                            @endif
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td>
+                            @if ($isEditable)
+                                <textarea class="form-control S_TInterventionRelatedEquipmentSpecification"></textarea>
+                            @endif
+                        </td>
+                        <td>
+                            @if ($isEditable)
+                                <input
+                                    class="Qty"
+                                    data-custom-numeric-input
+                                    type="text"
+                                >
+                            @endif
+                        </td>
+                        <td>
+                            @if ($isEditable)
+                                <input
+                                    class="UnitCost"
+                                    data-custom-numeric-input
+                                    type="text"
+                                >
+                            @endif
+                        </td>
+                        <td>
+                            @if ($isEditable)
+                                <input
+                                    class="TotalCost"
+                                    data-custom-numeric-input
+                                    type="text"
+                                >
+                            @endif
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+            <tfoot>
                 <tr>
-                    <td>
-                        @if ($isEditable)
-                            <textarea class="S_TInterventionRelatedEquipmentSpecification">{{ $data['stnInterventionRelatedEquipmentSpecification'] ?? '' }}</textarea>
-                        @else
-                            {{ $data['stnInterventionRelatedEquipmentSpecification'] ?? '' }}
-                        @endif
-                    </td>
-                    <td>
-                        @if ($isEditable)
-                            <input
-                                class="Qty"
-                                data-custom-numeric-input
-                                type="text"
-                                value="{{ $data['qty'] ?? '' }}"
-                            >
-                        @else
-                            {{ $data['qty'] ?? '' }}
-                        @endif
-                    </td>
-                    <td>
-                        @if ($isEditable)
-                            <input
-                                class="UnitCost"
-                                data-custom-numeric-input
-                                type="text"
-                                value="{{ $data['unit_cost'] ?? '' }}"
-                            >
-                        @else
-                            {{ $data['unit_cost'] ?? '' }}
-                        @endif
-                    </td>
-                    <td>
-                        @if ($isEditable)
-                            <input
-                                class="TotalCost"
-                                data-custom-numeric-input
-                                type="text"
-                                value="{{ $data['total_cost'] ?? ($row_total_cost ?? '') }}"
-                            >
-                        @else
-                            {{ $data['total_cost'] ?? ($row_total_cost ?? '') }}
-                        @endif
-                    </td>
+                    <td
+                        style="text-align: center;"
+                        colspan="3"
+                    >Total</td>
+                    <td>{{ $grand_total_cost }}</td>
                 </tr>
-            @empty
-                <tr>
-                    <td>
-                        @if ($isEditable)
-                            <textarea class="form-control S_TInterventionRelatedEquipmentSpecification"></textarea>
-                        @endif
-                    </td>
-                    <td>
-                        @if ($isEditable)
-                            <input
-                                class="Qty"
-                                data-custom-numeric-input
-                                type="text"
-                            >
-                        @endif
-                    </td>
-                    <td>
-                        @if ($isEditable)
-                            <input
-                                class="UnitCost"
-                                data-custom-numeric-input
-                                type="text"
-                            >
-                        @endif
-                    </td>
-                    <td>
-                        @if ($isEditable)
-                            <input
-                                class="TotalCost"
-                                data-custom-numeric-input
-                                type="text"
-                            >
-                        @endif
-                    </td>
-                </tr>
-            @endforelse
-            <tr>
-                <td
-                    style="text-align: center;"
-                    colspan="3"
-                >Total</td>
-                <td>{{ $grand_total_cost }}</td>
-            </tr>
-        </tbody>
-    </table>
+            </tfoot>
+        </table>
+    </div>
     <table>
         <tbody>
             <tr>

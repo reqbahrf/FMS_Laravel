@@ -1,5 +1,6 @@
 import { Action, BaseApplicationForm } from './BaseApplicationForm';
 import RTECFormEvent from '../application-process-form-events/RTECFormEvent';
+import RTECTableConfig from '../../Form_Config/form-table-config/rtec-table-config';
 /**
  * RTEC Report Form class that extends the base functionality
  */
@@ -21,7 +22,7 @@ export default class RTECReportForm extends BaseApplicationForm {
         this._updateStatusModalLabel();
         switch (actionMode) {
             case 'edit':
-                this._setupFormSubmission();
+                this._setupFormSubmission(RTECTableConfig);
                 this._createFormEvent();
                 break;
             case 'view':
