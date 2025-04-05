@@ -540,6 +540,24 @@
                 lang="en-US">Raw Material</span></p>
     </li>
 </ul>
+@if ($isEditable)
+    <div
+        class="mb-3"
+        style="text-align: right;"
+    >
+        <button
+            class="btn btn-sm btn-success"
+            id="addProductAndSupplyRow"
+            type="button"
+        ><i class="ri-add-line"></i></button>
+        <button
+            class="btn btn-sm btn-danger"
+            id="removeProductAndSupplyRow"
+            data-remove-row-btn
+            type="button"
+        ><i class="ri-subtract-line"></i></button>
+    </div>
+@endif
 <table
     id="productAndSupplyChainContainer"
     style="width: 100%; table-layout: fixed;"

@@ -33,6 +33,7 @@
         <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;"><br>&nbsp;</p>
         <table
             id="EnterpriseInformationTable"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -560,7 +561,24 @@
                     >Production&nbsp;</span></p>
             </li>
         </ul>
-        <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
+        @if ($isEditable)
+            <div
+                class="mb-3"
+                style="text-align: right; "
+            >
+                <button
+                    class="btn btn-sm btn-success"
+                    id="addProductionRow"
+                    type="button"
+                ><i class="ri-add-line"></i></button>
+                <button
+                    class="btn btn-sm btn-danger"
+                    id="removeProductionRow"
+                    data-remove-row-btn
+                    type="button"
+                ><i class="ri-subtract-line"></i></button>
+            </div>
+        @endif
         <table
             id="productionContainer"
             style="width: 100%; table-layout: fixed;"
@@ -676,7 +694,24 @@
                     >Production Equipment</span></p>
             </li>
         </ul>
-        <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
+        @if ($isEditable)
+            <div
+                class="mb-3"
+                style="text-align: right;"
+            >
+                <button
+                    class="btn btn-sm btn-success"
+                    id="addProductionEquipmentRow"
+                    type="button"
+                ><i class="ri-add-line"></i></button>
+                <button
+                    class="btn btn-sm btn-danger"
+                    id="removeProductionEquipmentRow"
+                    data-remove-row-btn
+                    type="button"
+                ><i class="ri-subtract-line"></i></button>
+            </div>
+        @endif
         <table
             id="productionEquipmentContainer"
             style="width: 100%; table-layout: fixed;"
@@ -772,7 +807,7 @@
             </li>
         </ul>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -812,7 +847,7 @@
             </li>
         </ul>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -847,7 +882,7 @@
             </li>
         </ul>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -940,7 +975,7 @@
             </li>
         </ul>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -972,7 +1007,7 @@
             </li>
         </ul>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -1004,7 +1039,7 @@
             </li>
         </ul>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -1036,7 +1071,7 @@
             </li>
         </ul>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -1077,7 +1112,7 @@
             </li>
         </ul>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -1111,7 +1146,7 @@
             </li>
         </ul>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -1147,7 +1182,7 @@
             </li>
         </ul>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -1179,7 +1214,7 @@
             </li>
         </ul>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -1217,7 +1252,7 @@
                         <dl>
                             <dd>
                                 <table
-                                    style="width: 455px;"
+                                    style="width: 100%; table-layout: fixed;"
                                     cellpadding="7"
                                 >
                                     <tbody>
@@ -1384,7 +1419,7 @@
             </li>
         </ul>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -1415,7 +1450,7 @@
             </li>
         </ul>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -1446,7 +1481,7 @@
             </li>
         </ul>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -1485,7 +1520,7 @@
             </li>
         </ul>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -1514,7 +1549,7 @@
             </li>
         </ul>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -1543,7 +1578,7 @@
             </li>
         </ul>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -1572,7 +1607,7 @@
             </li>
         </ul>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -1603,7 +1638,7 @@
             </li>
         </ul>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -1635,7 +1670,7 @@
             <br>
         </p>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
