@@ -117,7 +117,10 @@ class PISDocController extends Controller
             }
 
             try {
-                return $generatePDFAction->execute('Project Information Sheet', $html, true, $customHeader);
+                return $generatePDFAction->execute('Project Information Sheet', $html, true, $customHeader, [
+                    'margin_left' => 0,
+                    'margin_right' => 0,
+                ]);
             } catch (\Mpdf\MpdfException $e) {
                 return response()->json([
                     'message' => 'Error generating PDF',
