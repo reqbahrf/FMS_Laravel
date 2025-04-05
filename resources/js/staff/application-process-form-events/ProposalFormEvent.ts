@@ -5,6 +5,10 @@ import {
 } from '../../Utilities/input-utils';
 import { parseFormattedNumberToFloat } from '../../Utilities/utilFunctions';
 import RefundStructureCalculator from '../../Utilities/RefundStructureCalculator';
+import {
+    addNewRowHandler,
+    removeRowHandler,
+} from '../../Utilities/add-and-remove-table-row-handler';
 
 export default class ProposalFormEvent {
     private form: JQuery<HTMLFormElement> | null;
@@ -35,6 +39,7 @@ export default class ProposalFormEvent {
         this._initTableTotalsCalculator();
         this._initWorkerTotalsCalculator();
         this.refundCalculator.calculateAllTotals();
+        this._initTableAddRowEvent();
     }
 
     private _getNumericInputs(): string[] {
@@ -246,6 +251,42 @@ export default class ProposalFormEvent {
         // For now, just set the grand total to be the same as employee total
         // You might want to add more complex logic here if needed
         grandTotalInput.val(employeeTotal.toLocaleString());
+    }
+
+    private _initTableAddRowEvent(): void {
+        if (!this.form) return;
+        addNewRowHandler(
+            '#addTechnicalConstraintRow',
+            this.form.find('#technicalConstraintTableContainer')
+        );
+        removeRowHandler(
+            '#removeTechnicalConstraintRow',
+            this.form.find('#technicalConstraintTableContainer')
+        );
+
+        addNewRowHandler(
+            '#addEquipmentRow',
+            this.form.find('#equipmentTableContainer')
+        );
+        removeRowHandler(
+            '#removeEquipmentRow',
+            this.form.find('#equipmentTableContainer')
+        );
+
+        addNewRowHandler(
+            '#addBudgetRow',
+            this.form.find('#budgetTableContainer')
+        );
+        removeRowHandler(
+            '#removeBudgetRow',
+            this.form.find('#budgetTableContainer')
+        );
+
+        addNewRowHandler('#addRiskRow', this.form.find('#riskTableContainer'));
+        removeRowHandler(
+            '#removeRiskRow',
+            this.form.find('#riskTableContainer')
+        );
     }
 
     destroy(): void {

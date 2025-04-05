@@ -1,6 +1,6 @@
 import { BaseApplicationForm, Action } from './BaseApplicationForm';
 import ProposalFormEvent from '../application-process-form-events/ProposalFormEvent';
-import PROJECT_PROPOSAL_TABLE_CONFIG from '../../Form_Config/form-table-config/projectProposalTableConfig';
+import PROJECT_PROPOSAL_TABLE_CONFIG from '../../Form_Config/form-table-config/project-proposal-table-config';
 /**
  * Project Proposal Form class that extends the base functionality
  */

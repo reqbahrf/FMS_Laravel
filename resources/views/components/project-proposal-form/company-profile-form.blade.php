@@ -1200,86 +1200,108 @@
         </td>
     </tr>
 </table>
-<table
-    id="technicalConstraintTable"
-    style="table-layout: fixed; width: 100%; border-collapse: collapse"
->
-    <tr>
-        <td
-            style="text-align: center;"
-            width="25%"
-        >Process/Existing Practice/Problem</th>
-        <td
-            style="text-align: center;"
-            width="25%"
-        >Proposed S&T Intervention</td>
-        <td
-            style="text-align: center;"
-            width="25%"
-        >Proposed S&T intervention-related equipment / skills upgrading</td>
-        <td
-            style="text-align: center;"
-            width="25%"
-        >Impact</th>
-    </tr>
-    <tbody>
-        @forelse ($ProjectProposaldata['technicalConstraints'] ?? [] as $data)
+<div id="technicalConstraintTableContainer">
+    @if ($isEditable)
+        <div
+            class="mb-3"
+            style="text-align: right;"
+        >
+            <button
+                class="btn btn-sm btn-success"
+                id="addTechnicalConstraintRow"
+                type="button"
+            ><i class="ri-add-line"></i></button>
+            <button
+                class="btn btn-sm btn-danger"
+                id="removeTechnicalConstraintRow"
+                data-remove-row-btn
+                type="button"
+            ><i class="ri-subtract-line"></i></button>
+        </div>
+    @endif
+    <table
+        id="technicalConstraintTable"
+        style="table-layout: fixed; width: 100%; border-collapse: collapse"
+    >
+        <thead>
             <tr>
-                <td>
-                    @if ($isEditable)
-                        <textarea class="form-control Process_existing_practice_problem">{{ $data['processExistingPracticeProblem'] ?? '' }}</textarea>
-                    @else
-                        {{ $data['processExistingPracticeProblem'] ?? '' }}
-                    @endif
-                </td>
-                <td>
-                    @if ($isEditable)
-                        <textarea class="form-control Proposed_s_t_intervention">{{ $data['proposedSTInterventionRelatedEquipmentSkillsUpgrading'] ?? '' }}</textarea>
-                    @else
-                        {{ $data['proposedSTInterventionRelatedEquipmentSkillsUpgrading'] ?? '' }}
-                    @endif
-                </td>
-                <td>
-                    @if ($isEditable)
-                        <textarea class="form-control Proposed_s_t_intervention_related_equipment_skills_upgrading">{{ $data['proposed_s_t_intervention_related_equipment_skills_upgrading'] ?? '' }}</textarea>
-                    @else
-                        {{ $data['proposed_s_t_intervention_related_equipment_skills_upgrading'] ?? '' }}
-                    @endif
-                </td>
-                <td>
-                    @if ($isEditable)
-                        <textarea class="form-control Impact">{{ $data['impact'] ?? '' }}</textarea>
-                    @else
-                        {{ $data['impact'] ?? '' }}
-                    @endif
-                </td>
+                <td
+                    style="text-align: center;"
+                    width="25%"
+                >Process/Existing Practice/Problem</th>
+                <td
+                    style="text-align: center;"
+                    width="25%"
+                >Proposed S&T Intervention</td>
+                <td
+                    style="text-align: center;"
+                    width="25%"
+                >Proposed S&T intervention-related equipment / skills upgrading</td>
+                <td
+                    style="text-align: center;"
+                    width="25%"
+                >Impact</th>
             </tr>
-        @empty
-            <tr>
-                <td>
-                    @if ($isEditable)
-                        <textarea class="form-control Process_existing_practice_problem"></textarea>
-                    @endif
-                </td>
-                <td>
-                    @if ($isEditable)
-                        <textarea class="form-control Proposed_s_t_intervention"></textarea>
-                    @endif
-                </td>
-                <td>
-                    @if ($isEditable)
-                        <textarea class="form-control Proposed_s_t_intervention_related_equipment_skills_upgrading"></textarea>
-                    @endif
-                </td>
-                <td>
-                    @if ($isEditable)
-                        <textarea class="form-control Impact"></textarea>
-                    @endif
-                </td>
-            </tr>
-        @endforelse
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @forelse ($ProjectProposaldata['technicalConstraints'] ?? [] as $data)
+                <tr>
+                    <td>
+                        @if ($isEditable)
+                            <textarea class="form-control Process_existing_practice_problem">{{ $data['processExistingPracticeProblem'] ?? '' }}</textarea>
+                        @else
+                            {{ $data['processExistingPracticeProblem'] ?? '' }}
+                        @endif
+                    </td>
+                    <td>
+                        @if ($isEditable)
+                            <textarea class="form-control Proposed_s_t_intervention">{{ $data['proposedSTIntervention'] ?? '' }}</textarea>
+                        @else
+                            {{ $data['proposedSTIntervention'] ?? '' }}
+                        @endif
+                    </td>
+                    <td>
+                        @if ($isEditable)
+                            <textarea class="form-control Proposed_s_t_intervention_related_equipment_skills_upgrading">{{ $data['proposedSTInterventionRelatedEquipmentSkillsUpgrading'] ?? '' }}</textarea>
+                        @else
+                            {{ $data['proposedSTInterventionRelatedEquipmentSkillsUpgrading'] ?? '' }}
+                        @endif
+                    </td>
+                    <td>
+                        @if ($isEditable)
+                            <textarea class="form-control Impact">{{ $data['impact'] ?? '' }}</textarea>
+                        @else
+                            {{ $data['impact'] ?? '' }}
+                        @endif
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td>
+                        @if ($isEditable)
+                            <textarea class="form-control Process_existing_practice_problem"></textarea>
+                        @endif
+                    </td>
+                    <td>
+                        @if ($isEditable)
+                            <textarea class="form-control Proposed_s_t_intervention"></textarea>
+                        @endif
+                    </td>
+                    <td>
+                        @if ($isEditable)
+                            <textarea class="form-control Proposed_s_t_intervention_related_equipment_skills_upgrading"></textarea>
+                        @endif
+                    </td>
+                    <td>
+                        @if ($isEditable)
+                            <textarea class="form-control Impact"></textarea>
+                        @endif
+                    </td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
 <table width="100%">
     <tr>
         <td>
@@ -1292,123 +1314,147 @@
         </td>
     </tr>
 </table>
-<table
-    id="equipmentTable"
-    style="table-layout: fixed; width: 100%; border-collapse: collapse"
->
-    @php
-        $total_cost = 0;
-    @endphp
-    <tr>
-        <td style="text-align: center; width: 50%">S&T Intervention-related equipment/specification</td>
-        <td style="text-align: center; width: 10%">Qty</td>
-        <td style="text-align: center; width: 20%">(₱)Unit Cost</td>
-        <td style="text-align: center; width: 20%">(₱)Total Cost</td>
-    </tr>
-    <tbody>
-        @forelse ($ProjectProposaldata['equipment'] ?? [] as $data)
-            @php
-                $row_total_cost = floatval($data['qty'] ?? 0) * floatval($data['unit_cost'] ?? 0);
-                $total_cost += $row_total_cost;
-            @endphp
+<div id="equipmentTableContainer">
+    @if ($isEditable)
+        <div
+            class="mb-3"
+            style="text-align: right;"
+        >
+            <button
+                class="btn btn-sm btn-success"
+                id="addEquipmentRow"
+                type="button"
+            ><i class="ri-add-line"></i></button>
+            <button
+                class="btn btn-sm btn-danger"
+                id="removeEquipmentRow"
+                data-remove-row-btn
+                type="button"
+            ><i class="ri-subtract-line"></i></button>
+        </div>
+    @endif
+    <table
+        id="equipmentTable"
+        style="table-layout: fixed; width: 100%; border-collapse: collapse"
+    >
+        @php
+            $total_cost = 0;
+        @endphp
+        <thead>
             <tr>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="S_T_intervention_related_equipment"
-                            data-custom-numeric-input
-                            type="text"
-                            value="{{ $data['stInterventionRelatedEquipment'] ?? '' }}"
-                        >
-                    @else
-                        {{ $data['stInterventionRelatedEquipment'] ?? '' }}
-                    @endif
-                </td>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="Qty"
-                            data-custom-numeric-input
-                            type="text"
-                            value="{{ $data['qty'] ?? '' }}"
-                        >
-                    @else
-                        {{ $data['qty'] ?? '' }}
-                    @endif
-                </td>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="Unit_cost"
-                            data-custom-numeric-input
-                            type="text"
-                            value="{{ $data['unitCost'] ?? '' }}"
-                        >
-                    @else
-                        {{ $data['unitCost'] ?? '' }}
-                    @endif
-                </td>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="Total_cost"
-                            data-custom-numeric-input
-                            type="text"
-                            value="{{ $data['totalCost'] ?? '' }}"
-                        >
-                    @else
-                        {{ $data['totalCost'] ?? '' }}
-                    @endif
-                </td>
+                <td style="text-align: center; width: 50%">S&T Intervention-related equipment/specification</td>
+                <td style="text-align: center; width: 10%">Qty</td>
+                <td style="text-align: center; width: 20%">(₱)Unit Cost</td>
+                <td style="text-align: center; width: 20%">(₱)Total Cost</td>
             </tr>
-        @empty
+        </thead>
+        <tbody>
+            @forelse ($ProjectProposaldata['equipment'] ?? [] as $data)
+                @php
+                    $row_total_cost = floatval($data['qty'] ?? 0) * floatval($data['unit_cost'] ?? 0);
+                    $total_cost += $row_total_cost;
+                @endphp
+                <tr>
+                    <td>
+                        @if ($isEditable)
+                            <input
+                                class="S_T_intervention_related_equipment"
+                                data-custom-numeric-input
+                                type="text"
+                                value="{{ $data['stInterventionRelatedEquipment'] ?? '' }}"
+                            >
+                        @else
+                            {{ $data['stInterventionRelatedEquipment'] ?? '' }}
+                        @endif
+                    </td>
+                    <td>
+                        @if ($isEditable)
+                            <input
+                                class="Qty"
+                                data-custom-numeric-input
+                                type="text"
+                                value="{{ $data['qty'] ?? '' }}"
+                            >
+                        @else
+                            {{ $data['qty'] ?? '' }}
+                        @endif
+                    </td>
+                    <td>
+                        @if ($isEditable)
+                            <input
+                                class="Unit_cost"
+                                data-custom-numeric-input
+                                type="text"
+                                value="{{ $data['unitCost'] ?? '' }}"
+                            >
+                        @else
+                            {{ $data['unitCost'] ?? '' }}
+                        @endif
+                    </td>
+                    <td>
+                        @if ($isEditable)
+                            <input
+                                class="Total_cost"
+                                data-custom-numeric-input
+                                type="text"
+                                value="{{ $data['totalCost'] ?? '' }}"
+                            >
+                        @else
+                            {{ $data['totalCost'] ?? '' }}
+                        @endif
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td>
+                        @if ($isEditable)
+                            <input
+                                class="S_T_intervention_related_equipment"
+                                type="text"
+                            >
+                        @endif
+                    </td>
+                    <td>
+                        @if ($isEditable)
+                            <input
+                                class="Qty"
+                                data-custom-numeric-input
+                                type="text"
+                            >
+                        @endif
+                    </td>
+                    <td>
+                        @if ($isEditable)
+                            <input
+                                class="Unit_cost"
+                                data-custom-numeric-input
+                                type="text"
+                            >
+                        @endif
+                    </td>
+                    <td>
+                        @if ($isEditable)
+                            <input
+                                class="Total_cost"
+                                data-custom-numeric-input
+                                type="text"
+                            >
+                        @endif
+                    </td>
+                </tr>
+            @endforelse
+        </tbody>
+        <tfoot>
             <tr>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="S_T_intervention_related_equipment"
-                            type="text"
-                        >
-                    @endif
-                </td>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="Qty"
-                            data-custom-numeric-input
-                            type="text"
-                        >
-                    @endif
-                </td>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="Unit_cost"
-                            data-custom-numeric-input
-                            type="text"
-                        >
-                    @endif
-                </td>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="Total_cost"
-                            data-custom-numeric-input
-                            type="text"
-                        >
-                    @endif
-                </td>
+                <td
+                    class="bold"
+                    colspan="3"
+                >Total</td>
+                <td>{{ number_format($total_cost, 2) }}</td>
             </tr>
-        @endforelse
-    </tbody>
-    <tr>
-        <td
-            class="bold"
-            colspan="3"
-        >Total</td>
-        <td>{{ number_format($total_cost, 2) }}</td>
-    </tr>
-</table>
+        </tfoot>
+    </table>
+</div>
 <table>
     <tr>
         <td>
@@ -1578,226 +1624,251 @@
         </td>
     </tr>
 </table>
-<table
-    id="budgetTable"
-    style="width: 100%; table-layout: fixed;"
->
-    <tbody>
-        <tr class="no-border">
-            <td width="20%"></td>
-            <td width="5%"></td>
-            <td width="10%"></td>
-            <td width="10%"></td>
-            <td width="10%"></td>
-            <td width="10%"></td>
-            <td width="5%"></td>
-            <td width="5%"></td>
-        </tr>
-        <tr>
-            <td>Item of Expenditure</td>
-            <td>Qty</td>
-            <td>Unit Cost</td>
-            <td
-                style="text-align: center"
-                colspan="5"
-            >Cost</td>
-        </tr>
+<div id="budgetTableContainer">
+    @if ($isEditable)
+        <div
+            class="mb-3"
+            style="text-align: right;"
+        >
+            <button
+                class="btn btn-sm btn-success"
+                id="addBudgetRow"
+                type="button"
+            ><i class="ri-add-line"></i></button>
+            <button
+                class="btn btn-sm btn-danger"
+                id="removeBudgetRow"
+                data-remove-row-btn
+                type="button"
+            ><i class="ri-subtract-line"></i></button>
+        </div>
+    @endif
+    <table
+        id="budgetTable"
+        style="width: 100%; table-layout: fixed;"
+    >
+        <thead>
 
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>SETUP</td>
-            <td>LGIA</td>
-            <td>Cooperator</td>
-            <td colspan="2">Total</td>
-        </tr>
-        @php
-            $total_SETUP = 0;
-            $total_LGIA = 0;
-            $total_Cooperator = 0;
-            $grand_total = 0;
-        @endphp
-        @forelse ($ProjectProposaldata['budget'] ?? [] as $data)
+            <tr class="no-border">
+                <td width="20%"></td>
+                <td width="5%"></td>
+                <td width="10%"></td>
+                <td width="10%"></td>
+                <td width="10%"></td>
+                <td width="10%"></td>
+                <td width="5%"></td>
+                <td width="5%"></td>
+            </tr>
+            <tr>
+                <td>Item of Expenditure</td>
+                <td>Qty</td>
+                <td>Unit Cost</td>
+                <td
+                    style="text-align: center"
+                    colspan="5"
+                >Cost</td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>SETUP</td>
+                <td>LGIA</td>
+                <td>Cooperator</td>
+                <td colspan="2">Total</td>
+            </tr>
+        </thead>
+        <tbody>
             @php
-                $row_SETUP = floatval($data['SETUP'] ?? 0);
-                $row_LGIA = floatval($data['LGIA'] ?? 0);
-                $row_Cooperator = floatval($data['Cooperator'] ?? 0);
-                $row_total_cost = $row_SETUP + $row_LGIA + $row_Cooperator;
-
-                $total_SETUP += $row_SETUP;
-                $total_LGIA += $row_LGIA;
-                $total_Cooperator += $row_Cooperator;
-                $grand_total += $row_total_cost;
+                $total_SETUP = 0;
+                $total_LGIA = 0;
+                $total_Cooperator = 0;
+                $grand_total = 0;
             @endphp
+            @forelse ($ProjectProposaldata['budget'] ?? [] as $data)
+                @php
+                    $row_SETUP = floatval($data['setupCost'] ?? 0);
+                    $row_LGIA = floatval($data['lgiaCost'] ?? 0);
+                    $row_Cooperator = floatval($data['cooperatorCost'] ?? 0);
+                    $row_total_cost = $row_SETUP + $row_LGIA + $row_Cooperator;
+
+                    $total_SETUP += $row_SETUP;
+                    $total_LGIA += $row_LGIA;
+                    $total_Cooperator += $row_Cooperator;
+                    $grand_total += $row_total_cost;
+                @endphp
+                <tr>
+                    <td>
+                        @if ($isEditable)
+                            <input
+                                class="Item_of_expenditure"
+                                type="text"
+                                value="{{ $data['itemOfExpenditure'] ?? '' }}"
+                            >
+                        @else
+                            {{ $data['itemOfExpenditure'] ?? '' }}
+                        @endif
+                    </td>
+                    <td>
+                        @if ($isEditable)
+                            <input
+                                class="Qty"
+                                type="text"
+                                value="{{ $data['qty'] ?? '' }}"
+                            >
+                        @else
+                            {{ $data['qty'] ?? '' }}
+                        @endif
+                    </td>
+                    <td>
+                        @if ($isEditable)
+                            <input
+                                class="Unit_cost"
+                                type="text"
+                                value="{{ $data['unitCost'] ?? '' }}"
+                            >
+                        @else
+                            {{ $data['unitCost'] ?? '' }}
+                        @endif
+                    </td>
+                    <td>
+                        @if ($isEditable)
+                            <input
+                                class="SETUP"
+                                data-custom-numeric-input
+                                type="text"
+                                value="{{ $data['setupCost'] ?? '' }}"
+                            >
+                        @else
+                            {{ $data['setupCost'] ?? '' }}
+                        @endif
+                    </td>
+                    <td>
+                        @if ($isEditable)
+                            <input
+                                class="LGIA"
+                                data-custom-numeric-input
+                                type="text"
+                                value="{{ $data['lgiaCost'] ?? '' }}"
+                            >
+                        @else
+                            {{ $data['lgiaCost'] ?? '' }}
+                        @endif
+                    </td>
+                    <td>
+                        @if ($isEditable)
+                            <input
+                                class="Cooperator"
+                                data-custom-numeric-input
+                                type="text"
+                                value="{{ $data['cooperatorCost'] ?? '' }}"
+                            >
+                        @else
+                            {{ $data['cooperatorCost'] ?? '' }}
+                        @endif
+                    </td>
+                    <td colspan="2">
+                        @if ($isEditable)
+                            <input
+                                class="Total_cost"
+                                data-custom-numeric-input
+                                type="text"
+                                value="{{ $data['totalCost'] ?? '' }}"
+                            >
+                        @else
+                            {{ $data['totalCost'] ?? '' }}
+                        @endif
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td>
+                        @if ($isEditable)
+                            <input
+                                class="Item_of_expenditure"
+                                type="text"
+                                value=""
+                            >
+                        @endif
+                    </td>
+                    <td>
+                        @if ($isEditable)
+                            <input
+                                class="Qty"
+                                data-custom-numeric-input
+                                type="text"
+                                value=""
+                            >
+                        @endif
+                    </td>
+                    <td>
+                        @if ($isEditable)
+                            <input
+                                class="Unit_cost"
+                                data-custom-numeric-input
+                                type="text"
+                                value=""
+                            >
+                        @endif
+                    </td>
+                    <td>
+                        @if ($isEditable)
+                            <input
+                                class="SETUP"
+                                data-custom-numeric-input
+                                type="text"
+                                value=""
+                            >
+                        @endif
+                    </td>
+                    <td>
+                        @if ($isEditable)
+                            <input
+                                class="LGIA"
+                                data-custom-numeric-input
+                                type="text"
+                                value=""
+                            >
+                        @endif
+                    </td>
+                    <td>
+                        @if ($isEditable)
+                            <input
+                                class="Cooperator"
+                                data-custom-numeric-input
+                                type="text"
+                                value=""
+                            >
+                        @endif
+                    </td>
+                    <td colspan="2">
+                        @if ($isEditable)
+                            <input
+                                class="Total_cost"
+                                data-custom-numeric-input
+                                type="text"
+                                value=""
+                            >
+                        @endif
+                    </td>
+                </tr>
+            @endforelse
+        </tbody>
+        <tfoot>
             <tr>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="Item_of_expenditure"
-                            type="text"
-                            value="{{ $data['itemOfExpenditure'] ?? '' }}"
-                        >
-                    @else
-                        {{ $data['itemOfExpenditure'] ?? '' }}
-                    @endif
-                </td>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="Qty"
-                            type="text"
-                            value="{{ $data['qty'] ?? '' }}"
-                        >
-                    @else
-                        {{ $data['qty'] ?? '' }}
-                    @endif
-                </td>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="Unit_cost"
-                            type="text"
-                            value="{{ $data['unitCost'] ?? '' }}"
-                        >
-                    @else
-                        {{ $data['unitCost'] ?? '' }}
-                    @endif
-                </td>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="SETUP"
-                            data-custom-numeric-input
-                            type="text"
-                            value="{{ $data['setup'] ?? '' }}"
-                        >
-                    @else
-                        {{ $data['setup'] ?? '' }}
-                    @endif
-                </td>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="LGIA"
-                            data-custom-numeric-input
-                            type="text"
-                            value="{{ $data['lgia'] ?? '' }}"
-                        >
-                    @else
-                        {{ $data['lgia'] ?? '' }}
-                    @endif
-                </td>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="Cooperator"
-                            data-custom-numeric-input
-                            type="text"
-                            value="{{ $data['cooperator'] ?? '' }}"
-                        >
-                    @else
-                        {{ $data['cooperator'] ?? '' }}
-                    @endif
-                </td>
-                <td colspan="2">
-                    @if ($isEditable)
-                        <input
-                            class="Total_cost"
-                            data-custom-numeric-input
-                            type="text"
-                            value="{{ $data['totalCost'] ?? '' }}"
-                        >
-                    @else
-                        {{ $data['totalCost'] ?? '' }}
-                    @endif
-                </td>
+                <td
+                    class="bold"
+                    colspan="3"
+                >Total</td>
+                <td>{{ number_format($total_SETUP, 2) }}</td>
+                <td>{{ number_format($total_LGIA, 2) }}</td>
+                <td>{{ number_format($total_Cooperator, 2) }}</td>
+                <td colspan="2">{{ number_format($grand_total, 2) }}</td>
             </tr>
-        @empty
-            <tr>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="Item_of_expenditure"
-                            type="text"
-                            value=""
-                        >
-                    @endif
-                </td>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="Qty"
-                            data-custom-numeric-input
-                            type="text"
-                            value=""
-                        >
-                    @endif
-                </td>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="Unit_cost"
-                            data-custom-numeric-input
-                            type="text"
-                            value=""
-                        >
-                    @endif
-                </td>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="SETUP"
-                            data-custom-numeric-input
-                            type="text"
-                            value=""
-                        >
-                    @endif
-                </td>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="LGIA"
-                            data-custom-numeric-input
-                            type="text"
-                            value=""
-                        >
-                    @endif
-                </td>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="Cooperator"
-                            data-custom-numeric-input
-                            type="text"
-                            value=""
-                        >
-                    @endif
-                </td>
-                <td colspan="2">
-                    @if ($isEditable)
-                        <input
-                            class="Total_cost"
-                            data-custom-numeric-input
-                            type="text"
-                            value=""
-                        >
-                    @endif
-                </td>
-            </tr>
-        @endforelse
-        <tr>
-            <td
-                class="bold"
-                colspan="3"
-            >Total</td>
-            <td>{{ number_format($total_SETUP, 2) }}</td>
-            <td>{{ number_format($total_LGIA, 2) }}</td>
-            <td>{{ number_format($total_Cooperator, 2) }}</td>
-            <td colspan="2">{{ number_format($grand_total, 2) }}</td>
-        </tr>
-    </tbody>
-</table>
+        </tfoot>
+    </table>
+</div>
 <table>
     <tr>
         <td>
@@ -1954,79 +2025,99 @@
         </td>
     </tr>
 </table>
-<table
-    id="riskTable"
-    style="table-layout: fixed; width: 100%; border-collapse: collapse"
->
-    <tbody>
-        <tr>
+<div id="riskTableContainer">
+    @if ($isEditable)
+        <div
+            class="mb-3"
+            style="text-align: right;"
+        >
+            <button
+                class="btn btn-sm btn-success"
+                id="addRiskRow"
+                type="button"
+            ><i class="ri-add-line"></i></button>
+            <button
+                class="btn btn-sm btn-danger"
+                id="removeRiskRow"
+                data-remove-row-btn
+                type="button"
+            ><i class="ri-subtract-line"></i></button>
+        </div>
+    @endif
+    <table
+        id="riskTable"
+        style="table-layout: fixed; width: 100%; border-collapse: collapse"
+    >
+        <thead>
             <th style="text-align: center; width: 33.33%">OBJECTIVES</th>
             <th style="text-align: center; width: 33.33%">RISKS AND ASSUMPTIONS</th>
             <th style="text-align: center; width: 33.33%">RISK MANAGEMENT PLAN</th>
-        </tr>
-        @forelse ($ProjectProposaldata['riskManagement'] ?? [] as $data)
-            <tr>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="Objectives"
-                            type="text"
-                        >
-                    @else
-                        {{ $data['objectives'] ?? '' }}
-                    @endif
-                </td>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="Risks_and_assumptions"
-                            type="text"
-                        >
-                    @else
-                        {{ $data['risksAndAssumptions'] ?? '' }}
-                    @endif
-                </td>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="Risk_management_plan"
-                            type="text"
-                        >
-                    @else
-                        {{ $data['riskManagementPlan'] ?? '' }}
-                    @endif
-                </td>
-            </tr>
-        @empty
-            <tr>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="Objectives"
-                            type="text"
-                        >
-                    @endif
-                </td>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="Risks_and_assumptions"
-                            type="text"
-                        >
-                    @endif
-                </td>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="Risk_management_plan"
-                            type="text"
-                        >
-                    @endif
-                </td>
-            </tr>
-        @endforelse
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @forelse ($ProjectProposaldata['riskManagement'] ?? [] as $data)
+                <tr>
+                    <td>
+                        @if ($isEditable)
+                            <textarea
+                                class="Objectives  form-control"
+                                type="text"
+                            > {{ $data['objectives'] ?? '' }}</textarea>
+                        @else
+                            {{ $data['objectives'] ?? '' }}
+                        @endif
+                    </td>
+                    <td>
+                        @if ($isEditable)
+                            <textarea
+                                class="Risks_and_assumptions  form-control"
+                                type="text"
+                            >  {{ $data['risksAndAssumptions'] ?? '' }}</textarea>
+                        @else
+                            {{ $data['risksAndAssumptions'] ?? '' }}
+                        @endif
+                    </td>
+                    <td>
+                        @if ($isEditable)
+                            <textarea
+                                class="Risk_management_plan  form-control"
+                                type="text"
+                            >  {{ $data['riskManagementPlan'] ?? '' }}</textarea>
+                        @else
+                            {{ $data['riskManagementPlan'] ?? '' }}
+                        @endif
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td>
+                        @if ($isEditable)
+                            <textarea
+                                class="Objectives  form-control"
+                                type="text"
+                            ></textarea>
+                        @endif
+                    </td>
+                    <td>
+                        @if ($isEditable)
+                            <textarea
+                                class="Risks_and_assumptions  form-control"
+                                type="text"
+                            ></textarea>
+                        @endif
+                    </td>
+                    <td>
+                        @if ($isEditable)
+                            <textarea
+                                class="Risk_management_plan form-control"
+                                type="text"
+                            ></textarea>
+                        @endif
+                    </td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
 <p>
     <strong>Note:</strong> Risk -- refers to an uncertain event or condition that its occurrence has a negative
     effect on the project.

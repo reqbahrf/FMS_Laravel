@@ -113,7 +113,7 @@ class ProjectProposalRequest extends FormRequest
             'market_plans_strategies' => 'nullable|string',
 
             'technicalConstraints' => 'nullable|array',
-            'technicalConstraints.*.technicalConstraints' => 'nullable|string',
+            'technicalConstraints.*.processExistingPracticeProblem' => 'nullable|string',
             'technicalConstraints.*.proposedSTIntervention' => 'nullable|string',
             'technicalConstraints.*.proposedSTInterventionRelatedEquipmentSkillsUpgrading' => 'nullable|string',
             'technicalConstraints.*.impact' => 'nullable|string',
