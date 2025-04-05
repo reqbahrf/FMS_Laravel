@@ -38,6 +38,7 @@ export default class ProposalFormEvent {
         yearInputs(this.form, this.yearInputSelectors);
         this._initTableTotalsCalculator();
         this._initWorkerTotalsCalculator();
+        this._initEquipmentTableCalculator();
         this.refundCalculator.calculateAllTotals();
         this._initTableAddRowEvent();
     }
@@ -166,7 +167,6 @@ export default class ProposalFormEvent {
             });
         });
 
-        // Calculate total male, female, and employee total
         const calculateOverallTotals = () => {
             const totalMaleInputs = workerCategories.map(
                 (category) =>
@@ -199,7 +199,6 @@ export default class ProposalFormEvent {
                 ?.find('input[name="employee_total"]')
                 .val(employeeTotal.toLocaleString());
 
-            // Calculate grand total
             this._calculateGrandTotal();
         };
 
@@ -213,7 +212,6 @@ export default class ProposalFormEvent {
                 .on('input', calculateOverallTotals);
         });
 
-        // Add event listener for employee_total to trigger grand total calculation
         this.form.find('input[name="employee_total"]').on('input', () => {
             this._calculateGrandTotal();
         });
@@ -244,13 +242,47 @@ export default class ProposalFormEvent {
             parseFormattedNumberToFloat(employeeTotalInput.val() as string) ||
             0;
 
-        // Assuming there might be other inputs for grand total calculation
-        // You can modify this logic based on your specific requirements
         const grandTotalInput = this.form.find('input[name="grand_total"]');
 
-        // For now, just set the grand total to be the same as employee total
-        // You might want to add more complex logic here if needed
         grandTotalInput.val(employeeTotal.toLocaleString());
+    }
+
+    private _initEquipmentTableCalculator(): void {
+        const equipmentTable = this.form?.find('#equipmentTable');
+        if (!equipmentTable) return;
+
+        equipmentTable.on('input', '.Qty, .Unit_cost', function () {
+            const row = $(this).closest('tr');
+            const qty =
+                parseFormattedNumberToFloat(row.find('.Qty').val() as string) ||
+                0;
+            const unitCost =
+                parseFormattedNumberToFloat(
+                    row.find('.Unit_cost').val() as string
+                ) || 0;
+            const totalCost = qty * unitCost;
+
+            row.find('.Total_cost').val(totalCost.toLocaleString());
+
+            ProposalFormEvent.calculateEquipmentTableFooterTotal(
+                equipmentTable as JQuery<HTMLTableElement>
+            );
+        });
+    }
+
+    private static calculateEquipmentTableFooterTotal(
+        $table: JQuery<HTMLTableElement>
+    ): void {
+        let totalCost = 0;
+        $table.find('tbody tr').each(function () {
+            const rowTotalCost =
+                parseFormattedNumberToFloat(
+                    $(this).find('.Total_cost').val() as string
+                ) || 0;
+            totalCost += rowTotalCost;
+        });
+
+        $table.find('tfoot td:last-child').text(totalCost.toLocaleString());
     }
 
     private _initTableAddRowEvent(): void {
