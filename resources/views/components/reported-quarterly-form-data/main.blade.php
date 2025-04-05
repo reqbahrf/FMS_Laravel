@@ -21,7 +21,10 @@
     }
 </style>
 <div id="formWrapper">
-    <nav aria-label="breadcrumb">
+    <nav
+        class="mt-3"
+        aria-label="breadcrumb"
+    >
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a
                     class="revertToSelectDoc"

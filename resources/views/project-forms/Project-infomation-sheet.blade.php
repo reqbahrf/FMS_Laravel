@@ -19,6 +19,7 @@
             max-width: 794px;
             width: 100%;
             margin: 0 auto;
+            padding: 0.5cm;
         }
 
         #projectInfoSheetForm .row--description {

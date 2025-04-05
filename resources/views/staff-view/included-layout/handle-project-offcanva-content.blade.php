@@ -65,7 +65,7 @@
         aria-labelledby="nav-home-tab"
         tabindex="0"
     >
-        <div class="row gy-3">
+        <div class="row gy-3 mt-3">
             <div class="col-12 col-md-6">
                 <div class="card shadow-sm p-0 h-100">
                     <div class="card-header bg-primary">
@@ -479,7 +479,10 @@
                 class="h-100 mt-2"
                 id="selectDOC_toGenerate"
             >
-                <nav aria-label="breadcrumb">
+                <nav
+                    class="mt-3"
+                    aria-label="breadcrumb"
+                >
                     <ol class="breadcrumb">
                         <li
                             class="breadcrumb-item active"

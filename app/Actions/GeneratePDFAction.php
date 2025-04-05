@@ -15,6 +15,7 @@ class GeneratePDFAction
         string $documentTitle,
         string $htmlDocument,
         bool $withHeader = false,
+        string $customHeader = '',
         array $customConfig = [],
         string $outputMode = 'I'
     ): StreamedResponse {
@@ -25,8 +26,8 @@ class GeneratePDFAction
                 'format' => 'A4',
                 'orientation' => 'P',
                 'margin_top' => 35,
-                'margin_left' => 20.4,
-                'margin_right' => 20.4,
+                'margin_left' => 0,
+                'margin_right' => 0,
                 'margin_bottom' => 25.4,
                 'default_font_size' => 9,
                 'default_font' => 'arial',
@@ -44,10 +45,13 @@ class GeneratePDFAction
             $mpdf->SetAuthor(config('app.name'));
             $mpdf->SetCreator('Funding Monitoring Sys');
 
-            // Add header if requested
             if ($withHeader) {
-                $headerHtml = view('components.document-header')->render();
-                $mpdf->SetHTMLHeader($headerHtml);
+                if ($customHeader) {
+                    $mpdf->SetHTMLHeader($customHeader);
+                } else {
+                    $headerHtml = view('components.document-header')->render();
+                    $mpdf->SetHTMLHeader($headerHtml);
+                }
             }
 
             // Write HTML content

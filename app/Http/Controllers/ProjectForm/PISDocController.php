@@ -108,6 +108,7 @@ class PISDocController extends Controller
 
             try {
                 $html = view('project-forms.Project-infomation-sheet', compact('projectInfoSheetData'))->render();
+                $customHeader = view('components.project-info-sheet.document-header')->render();
             } catch (Exception $e) {
                 return response()->json([
                     'message' => 'Error generating information sheet template',
@@ -116,7 +117,7 @@ class PISDocController extends Controller
             }
 
             try {
-                return $generatePDFAction->execute('Project Information Sheet', $html, true);
+                return $generatePDFAction->execute('Project Information Sheet', $html, true, $customHeader);
             } catch (\Mpdf\MpdfException $e) {
                 return response()->json([
                     'message' => 'Error generating PDF',

@@ -2,7 +2,7 @@
 <div id="formWrapper">
     @if (!$isExporting)
         <nav
-            class="sticky-top position-sticky"
+            class="mt-3 sticky-top position-sticky"
             aria-label="breadcrumb"
         >
             <ol class="breadcrumb">
@@ -27,6 +27,10 @@
             'forYear' => $projectInfoSheetData['for_period'],
         ]) }}" @endif
     >
+        @if (!$isExporting)
+            <x-project-info-sheet.document-header
+                headerSubText="Project Information Sheet (PIS) for On-Going Projects" />
+        @endif
         <div class="tg-wrap">
             <table
                 class="tg"

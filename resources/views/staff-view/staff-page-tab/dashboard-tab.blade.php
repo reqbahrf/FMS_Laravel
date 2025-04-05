@@ -541,11 +541,6 @@
             <button class="btn btn-primary SaveLinkProjectBtn">Save</button>
         </div>
     </div>
-    <div class="completedProjectContent">
-        <div class="d-flex justify-content-end d-none p-3 AttachlinkTabMenu">
-            <button class="btn btn-primary SaveLinkProjectBtn">Save</button>
-        </div>
-    </div>
 </div>
 
 <div>

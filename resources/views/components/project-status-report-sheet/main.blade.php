@@ -2,7 +2,7 @@
 <div id="formWrapper">
     @if (!$isExporting)
         <nav
-            class="sticky-top position-sticky"
+            class="mt-3 sticky-top position-sticky"
             aria-label="breadcrumb"
         >
             <ol class="breadcrumb">
