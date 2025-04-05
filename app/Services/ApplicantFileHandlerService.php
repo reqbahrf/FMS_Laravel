@@ -154,7 +154,7 @@ class ApplicantFileHandlerService
         }
     }
 
-    public static function getFileAsBase64(string $fileName, int $businessId): string
+    public static function getRequirementImageAsBase64(string $fileName, int $businessId): string
     {
         try {
             $filePath = DB::table('requirements')
@@ -163,7 +163,24 @@ class ApplicantFileHandlerService
                 ->value('file_link');
 
             if (!$filePath) {
-                throw new Exception("File {$fileName} not found for business ID {$businessId}");
+                return '';
+            }
+
+            $fullPath = Storage::disk('private')->path($filePath);
+
+            $mimeType = mime_content_type($fullPath);
+
+            $allowedImageTypes = [
+                'image/jpeg',
+                'image/png',
+                'image/gif',
+                'image/webp',
+                'image/bmp',
+                'image/svg+xml'
+            ];
+
+            if (!in_array($mimeType, $allowedImageTypes)) {
+                return '';
             }
 
             return base64_encode(Storage::disk('private')->get($filePath));

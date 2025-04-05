@@ -2,17 +2,17 @@
 @php
     use App\Services\ApplicantFileHandlerService;
     try {
-        $organizationalStructure = ApplicantFileHandlerService::getFileAsBase64(
+        $organizationalStructure = ApplicantFileHandlerService::getRequirementImageAsBase64(
             'Organizational Structure',
             $TNAdata['business_id'],
         );
-        $planLayout = ApplicantFileHandlerService::getFileAsBase64('Plan Layout', $TNAdata['business_id']);
-        $processFlow = ApplicantFileHandlerService::getFileAsBase64('Process Flow', $TNAdata['business_id']);
+        $planLayout = ApplicantFileHandlerService::getRequirementImageAsBase64('Plan Layout', $TNAdata['business_id']);
+        $processFlow = ApplicantFileHandlerService::getRequirementImageAsBase64(
+            'Process Flow',
+            $TNAdata['business_id'],
+        );
     } catch (Exception $e) {
         Log::error('Error retrieving file: ' . $e->getMessage());
-        $organizationalStructure = null;
-        $planLayout = null;
-        $processFlow = null;
     }
 @endphp
 <div id="formWrapper">
