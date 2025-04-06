@@ -178,6 +178,9 @@ export function initializeForm() {
         transition: {
             animation: 'fade',
         },
+        keyboard: {
+            keyNavigation: false,
+        },
         toolbar: {
             toolbarPosition: 'bottom',
             toolbarButtonPosition: 'right',

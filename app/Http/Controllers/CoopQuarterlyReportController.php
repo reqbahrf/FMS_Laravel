@@ -77,8 +77,9 @@ class CoopQuarterlyReportController extends Controller
                 $Data = $this->getQuarterlyReportData($reportId, $projectId, $quarter);
 
                 $reportData = $Data->report_file;
+                $isEditable = $reportStatus === 'open' ? true : false;
 
-                return view('components.reported-quarterly-form-data.main', compact('reportId', 'projectId', 'quarter', 'reportStatus', 'reportData'));
+                return view('components.reported-quarterly-form-data.main', compact('reportId', 'projectId', 'quarter', 'reportStatus', 'reportData', 'isEditable'));
             } else if ($reportSubmitted === 'false' && $reportStatus === 'open') {
                 return view('cooperator-view.coop-page-tab.quarterly-report-form-tab', compact('reportId', 'projectId', 'quarter', 'reportStatus'));
             }
