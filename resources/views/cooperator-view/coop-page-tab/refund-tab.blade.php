@@ -2,8 +2,8 @@
 @php
     use App\Services\NumberFormatterService as NF;
 @endphp
-<div class="p-3">
-    <h4>Refund Structure</h4>
+<div class="m-3">
+    <h1>Refund Structure</h1>
 </div>
 
 <div class="m-0 m-md-3">
@@ -80,7 +80,9 @@
                                                 @endif
                                             </span>
                                         </td>
-                                        <td class="text-end">{{ $refund->date_completed ?? '-' }}</td>
+                                        <td class="text-end">
+                                            {{ $refund->date_completed ? $refund->date_completed->format('F j, Y') : '-' }}
+                                        </td>
                                     </tr>
                                 @empty
                                     <tr>

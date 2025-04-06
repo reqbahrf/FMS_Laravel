@@ -1,5 +1,5 @@
-<div class="p-3">
-    <h4>Dashboard</h4>
+<div class="m-3">
+    <h1>Dashboard</h1>
 </div>
 <div class="row gy-3 m-0 m-md-2">
     <div class="col-12 col-md-12">

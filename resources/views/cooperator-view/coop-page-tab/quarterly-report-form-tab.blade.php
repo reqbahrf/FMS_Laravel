@@ -27,8 +27,8 @@
         }
     }
 </style>
-<div class="p-3">
-    <h4>Quarterly Report for {{ $quarter }}</h4>
+<div class="m-3">
+    <h1>Quarterly Report for {{ $quarter }}</h1>
 </div>
 <div class="card m-0 m-md-3">
     <div class="card-body">
