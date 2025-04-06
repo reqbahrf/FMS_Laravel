@@ -15,17 +15,20 @@ class EsignatureHandler {
         signatureData: string;
     }[];
     private layout: Layout;
+    private hasAddRowButton: boolean;
     private hasDate: boolean;
     constructor(
         containerSelector: string,
         layout: Layout = 'default',
-        hasDate: boolean = false
+        hasDate: boolean = false,
+        hasAddRowButton: boolean = false
     ) {
         this.container = $(containerSelector);
         this.signaturePads = [];
         this.esignatures = [];
         this.layout = layout;
         this.hasDate = hasDate;
+        this.hasAddRowButton = hasAddRowButton;
         this.initialize();
     }
 
@@ -54,7 +57,7 @@ class EsignatureHandler {
         this.container.find('.card-body').prepend(btnContainer);
     }
 
-    initializeSignaturePad(canvas: HTMLCanvasElement): SignaturePad {
+    _initializeSignaturePad(canvas: HTMLCanvasElement): SignaturePad {
         const ratio = Math.max(window.devicePixelRatio || 1, 1);
         canvas.width = canvas.offsetWidth * ratio;
         canvas.height = canvas.offsetHeight * ratio;
@@ -72,7 +75,7 @@ class EsignatureHandler {
             '.esignature-canvas'
         )[0] as HTMLCanvasElement;
         if (firstCanvas) {
-            const firstPad = this.initializeSignaturePad(firstCanvas);
+            const firstPad = this._initializeSignaturePad(firstCanvas);
             if (firstPad) {
                 this.signaturePads.push(firstPad);
             }
@@ -101,7 +104,7 @@ class EsignatureHandler {
 
         container.find('.esignature-row:last').after(newRow);
 
-        const newPad = this.initializeSignaturePad(
+        const newPad = this._initializeSignaturePad(
             newCanvas[0] as HTMLCanvasElement
         );
         if (newPad) {
@@ -168,7 +171,7 @@ class EsignatureHandler {
                 // Reinitialize signature pad and redraw from data URL if available
                 if (this.signaturePads[index]) {
                     const oldDataUrl = this.signaturePads[index].toDataURL(); // Get the old signature
-                    this.signaturePads[index] = this.initializeSignaturePad(
+                    this.signaturePads[index] = this._initializeSignaturePad(
                         canvas as HTMLCanvasElement
                     );
                     if (oldDataUrl !== 'data:,') {
@@ -242,6 +245,14 @@ class EsignatureHandler {
             }
         });
         return this.esignatures;
+    }
+
+    destroy() {
+        this.container.off();
+        $(window).off('resize');
+        this.signaturePads.forEach((pad) => pad.clear());
+        this.signaturePads = [];
+        this.esignatures = [];
     }
 }
 
