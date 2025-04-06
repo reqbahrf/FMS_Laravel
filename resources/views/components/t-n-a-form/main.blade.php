@@ -93,10 +93,10 @@
                                         value="{{ $TNAdata['designation'] ?? '' }}"
                                         placeholder="Position in the Enterprise"
                                     >
+                                @else
+                                    {{ $TNAdata['designation'] ?? '' }}
+                                @endIf
                             </span>
-                        @else
-                            {{ $TNAdata['designation'] ?? '' }}
-                            @endIf
                         </p>
                     </td>
                 </tr>
@@ -526,7 +526,20 @@
         <div style="width: 100%;">
             <table style="width: 40%; margin-left: auto; border-collapse: collapse; text-align: center;">
                 <tr>
-                    <td>Reanz Arthur A Monera</td>
+                    <td>
+                        @if ($isEditable)
+                            <input
+                                id="dost_undertake_contact_person"
+                                name="dost_undertake_contact_person"
+                                type="text"
+                                value="{{ $TNAdata['dost_undertake_contact_person'] ?? ($TNAdata['contact_person'] ?? ($TNAdata['prefix'] ?? '') . ' ' . ($TNAdata['f_name'] ?? '') . ' ' . ($TNAdata['middle_name'] ?? '') . ' ' . ($TNAdata['l_name'] ?? '') . ' ' . ($TNAdata['suffix'] ?? '')) }}"
+                                style="width: 100%; text-align: center;"
+                                placeholder=""
+                            >
+                        @else
+                            {{ $TNAdata['dost_undertake_contact_person'] ?? ($TNAdata['contact_person'] ?? ($TNAdata['prefix'] ?? '') . ' ' . ($TNAdata['f_name'] ?? '') . ' ' . ($TNAdata['middle_name'] ?? '') . ' ' . ($TNAdata['l_name'] ?? '') . ' ' . ($TNAdata['suffix'] ?? '')) }}
+                        @endIf
+                    </td>
                 </tr>
                 <tr>
                     <td style="border-top: 1pt solid black; padding-top: 3pt;">
@@ -534,7 +547,20 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>CEO</td>
+                    <td>
+                        @if ($isEditable)
+                            <input
+                                id="dost_undertake_position"
+                                name="dost_undertake_position"
+                                type="text"
+                                value="{{ $TNAdata['dost_undertake_position'] ?? ($TNAdata['designation'] ?? '') }}"
+                                style="width: 100%; text-align: center;"
+                                placeholder=""
+                            >
+                        @else
+                            {{ $TNAdata['dost_undertake_position'] ?? ($TNAdata['designation'] ?? '') }}
+                        @endIf
+                    </td>
                 </tr>
                 <tr>
                     <td style="border-top: 1pt solid black; padding-top: 3pt;">
@@ -542,7 +568,20 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>March 1, 2025</td>
+                    <td>
+                        @if ($isEditable)
+                            <input
+                                id="dost_undertake_date"
+                                name="dost_undertake_date"
+                                type="date"
+                                value="{{ $TNAdata['dost_undertake_date'] ?? '' }}"
+                                style="width: 100%; text-align: center;"
+                                placeholder=""
+                            >
+                        @else
+                            {{ \Carbon\Carbon::parse($TNAdata['dost_undertake_date'] ?? '')->format('F j, Y') }}
+                        @endIf
+                    </td>
                 </tr>
                 <tr>
                     <td style="border-top: 1pt solid black; padding-top: 3pt;">
@@ -571,7 +610,6 @@
             :isEditable="$isEditable"
         />
 
-        <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
         <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
         <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
         <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
@@ -844,6 +882,7 @@
             cellpadding="7"
         >
             <tbody>
+
                 <tr>
                     <td style="">
                         <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;">
@@ -1774,7 +1813,20 @@
                     <p style="font-weight: bold; margin-bottom: 20px;">Prepared by:</p>
                     <table style="width: 100%; text-align: center; border-collapse: collapse;">
                         <tr>
-                            <td>Reanz Arthur A Monera</td>
+                            <td>
+                                @if ($isEditable)
+                                    <input
+                                        id="prepared_by"
+                                        name="prepared_by"
+                                        type="text"
+                                        value="{{ $TNAdata['prepared_by'] ?? ($TNAdata['contact_person'] ?? ($TNAdata['prefix'] ?? '') . ' ' . ($TNAdata['f_name'] ?? '') . ' ' . ($TNAdata['middle_name'] ?? '') . ' ' . ($TNAdata['l_name'] ?? '') . ' ' . ($TNAdata['suffix'] ?? '')) }}"
+                                        style="width: 100%; text-align: center;"
+                                        placeholder=""
+                                    >
+                                @else
+                                    {{ $TNAdata['prepared_by'] ?? ($TNAdata['contact_person'] ?? ($TNAdata['prefix'] ?? '') . ' ' . ($TNAdata['f_name'] ?? '') . ' ' . ($TNAdata['middle_name'] ?? '') . ' ' . ($TNAdata['l_name'] ?? '') . ' ' . ($TNAdata['suffix'] ?? '')) }}
+                                @endIf
+                            </td>
                         </tr>
                         <tr style="height: 20px;">
                             <td style="border-top: 1px solid black; padding: 0pt 4pt 4pt 4pt;">
@@ -1783,7 +1835,20 @@
                         </tr>
                         <!-- Date row (aligned) -->
                         <tr>
-                            <td>March 1, 2025</td>
+                            <td>
+                                @if ($isEditable)
+                                    <input
+                                        id="prepared_by_date"
+                                        name="prepared_by_date"
+                                        type="date"
+                                        value="{{ $TNAdata['prepared_by_date'] ?? '' }}"
+                                        style="width: 100%; text-align: center;"
+                                        placeholder=""
+                                    >
+                                @else
+                                    {{ $TNAdata['prepared_by_date'] ? \Carbon\Carbon::parse($TNAdata['prepared_by_date'])->format('F j, Y') : '' }}
+                                @endIf
+                            </td>
                         </tr>
                         <tr>
                             <td style="border-top: 1px solid black; padding-top: 3pt;">
@@ -1798,7 +1863,20 @@
                     <p style="font-weight: bold; margin-bottom: 20px;">Validated by:</p>
                     <table style="width: 100%; text-align: center; border-collapse: collapse;">
                         <tr>
-                            <td>Juan Dela Cruz</td>
+                            <td>
+                                @if ($isEditable)
+                                    <input
+                                        id="validated_by"
+                                        name="validated_by"
+                                        type="text"
+                                        value="{{ $TNAdata['validated_by'] ?? '' }}"
+                                        style="width: 100%; text-align: center;"
+                                        placeholder=""
+                                    >
+                                @else
+                                    {{ $TNAdata['validated_by'] ?? '' }}
+                                @endIf
+                            </td>
                         </tr>
                         <tr>
                             <td style="border-top: 1pt solid black; padding: 0pt 15pt 15pt 15pt;">
@@ -1807,7 +1885,20 @@
                         </tr>
                         <!-- Date row (aligned) -->
                         <tr>
-                            <td>March 1, 2025</td>
+                            <td>
+                                @if ($isEditable)
+                                    <input
+                                        id="validated_by_date"
+                                        name="validated_by_date"
+                                        type="date"
+                                        value="{{ $TNAdata['validated_by_date'] ?? '' }}"
+                                        style="width: 100%; text-align: center;"
+                                        placeholder=""
+                                    >
+                                @else
+                                    {{ $TNAdata['validated_by_date'] ? \Carbon\Carbon::parse($TNAdata['validated_by_date'])->format('F j, Y') : '' }}
+                                @endIf
+                            </td>
                         </tr>
                         <tr>
                             <td style="border-top: 1px solid black; padding-top: 3pt;">

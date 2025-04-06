@@ -159,6 +159,17 @@ class TNAFormRequest extends FormRequest
             'ProcessFlowFileID_Data_Handler' => 'nullable|string',
             'organizationalStructure' => 'nullable|string',
             'OrganizationalStructureFileID_Data_Handler' => 'nullable|string',
+
+            //Signature field
+            'dost_undertake_contact_person' => 'nullable|string',
+            'dost_undertake_position' => 'nullable|string',
+            'dost_undertake_date' => 'nullable|string|date',
+
+            'prepared_by' => 'nullable|string',
+            'prepared_by_date' => 'nullable|string|date',
+
+            'validated_by' => 'nullable|string',
+            'validated_by_date' => 'nullable|string|date',
         ];
     }
 }
