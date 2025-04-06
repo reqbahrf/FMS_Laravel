@@ -72,7 +72,15 @@ class RTECRequest extends FormRequest
             'financial_aspect' => 'nullable|string',
             'waste_disposal' => 'nullable|string',
             'risk_management' => 'nullable|string',
-            'recommendation' => 'nullable|string'
+            'recommendation' => 'nullable|string',
+
+
+            'rtec_chairperson' => 'nullable|string',
+            'rtec_member1' => 'nullable|string',
+            'rtec_member2' => 'nullable|string',
+            'rtec_member3' => 'nullable|string',
+            'rtec_rpmo_manager' => 'nullable|string',
+            'rtec_noted_by' => 'nullable|string',
 
         ];
     }

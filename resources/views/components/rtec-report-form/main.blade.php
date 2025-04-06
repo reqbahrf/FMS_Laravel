@@ -1030,7 +1030,18 @@
                     style="text-align: center; padding-top: 7.5pt; vertical-align: bottom;"
                     colspan="3"
                 >
-                    Reanz Arthur A. Monera
+                    @if ($isEditable)
+                        <input
+                            id="rtec_chairperson"
+                            name="rtec_chairperson"
+                            type="text"
+                            value="{{ $RTECReportdata['rtec_chairperson'] ?? '' }}"
+                            style="width: 50%; text-align: center;"
+                            placeholder="RTEC Chairperson"
+                        >
+                    @else
+                        {{ $RTECReportdata['rtec_chairperson'] ?? '' }}
+                    @endIf
                 </td>
             </tr>
             <tr>
@@ -1049,7 +1060,18 @@
                     <table style="width: 100%; border-collapse: collapse;">
                         <tr>
                             <td style="text-align: center;">
-                                Reanz Arthur A. Monera
+                                @if ($isEditable)
+                                    <input
+                                        id="rtec_member1"
+                                        name="rtec_member1"
+                                        type="text"
+                                        value="{{ $RTECReportdata['rtec_member1'] ?? '' }}"
+                                        style="width: 100%; text-align: center;"
+                                        placeholder="RTEC Member 1"
+                                    >
+                                @else
+                                    {{ $RTECReportdata['rtec_member1'] ?? '' }}
+                                @endIf
                             </td>
                         </tr>
                         <tr>
@@ -1063,7 +1085,18 @@
                     <table style="width: 100%; border-collapse: collapse;">
                         <tr>
                             <td style="text-align: center;">
-                                Reanz Arthur A. Monera
+                                @if ($isEditable)
+                                    <input
+                                        id="rtec_member2"
+                                        name="rtec_member2"
+                                        type="text"
+                                        value="{{ $RTECReportdata['rtec_member2'] ?? '' }}"
+                                        style="width: 100%; text-align: center;"
+                                        placeholder="RTEC Member 2"
+                                    >
+                                @else
+                                    {{ $RTECReportdata['rtec_member2'] ?? '' }}
+                                @endIf
                             </td>
                         </tr>
                         <tr>
@@ -1077,7 +1110,18 @@
                     <table style="width: 100%; border-collapse: collapse;">
                         <tr>
                             <td style="text-align: center;">
-                                Reanz Arthur A. Monera
+                                @if ($isEditable)
+                                    <input
+                                        id="rtec_member3"
+                                        name="rtec_member3"
+                                        type="text"
+                                        value="{{ $RTECReportdata['rtec_member3'] ?? '' }}"
+                                        style="width: 100%; text-align: center;"
+                                        placeholder="RTEC Member 3"
+                                    >
+                                @else
+                                    {{ $RTECReportdata['rtec_member3'] ?? '' }}
+                                @endIf
                             </td>
                         </tr>
                         <tr>
@@ -1089,24 +1133,53 @@
                 </td>
             </tr>
             <tr>
-                <td style="padding-top: 40px; vertical-align: top;">
-                    Reviewed and Endorsed By:
+                <td style="padding-top: 30pt; vertical-align: top;">
+                    Reviewed and Endorsed By: <br>
+                    @if ($isEditable)
+                        <input
+                            id="rtec_rpmo_manager"
+                            name="rtec_rpmo_manager"
+                            type="text"
+                            value="{{ $RTECReportdata['rtec_rpmo_manager'] ?? '' }}"
+                            style="width: 100%; text-align: center;"
+                            placeholder="Reviewed and Endorsed By"
+                        >
+                    @else
+                        <br>
+                        <br>
+
+                        {{ $RTECReportdata['rtec_rpmo_manager'] ?? '' }}
+                    @endIf
                 </td>
                 <td style="vertical-align: top;">
                 </td>
-                <td style="padding-top: 40px; vertical-align: top;">
-                    Noted By:
+                <td style="padding-top: 30pt; vertical-align: top;">
+                    Noted By: <br>
+                    @if ($isEditable)
+                        <input
+                            id="rtec_noted_by"
+                            name="rtec_noted_by"
+                            type="text"
+                            value="{{ $RTECReportdata['rtec_noted_by'] ?? '' }}"
+                            style="width: 100%; text-align: center; "
+                            placeholder="Noted By"
+                        >
+                    @else
+                        <br>
+                        <br>
+                        {{ $RTECReportdata['rtec_noted_by'] ?? '' }}
+                    @endIf
                 </td>
             </tr>
             <tr>
                 <td
-                    style="text-align: center; padding-top: 40px; padding-bottom: 5px; border-bottom: 1px solid black; vertical-align: bottom;">
+                    style="text-align: center; padding-top: 7pt; padding-bottom: 4.5pt; border-top: 1px solid black; vertical-align: bottom;">
                     RPMO Manager
                 </td>
                 <td>
                 </td>
                 <td
-                    style="text-align: center; padding-top: 40px; padding-bottom: 5px; border-bottom: 1px solid black; vertical-align: bottom;">
+                    style="text-align: center; padding-top: 7pt; padding-bottom: 4.5pt; border-top: 1px solid black; vertical-align: bottom;">
                     Regional Director
                 </td>
             </tr>
