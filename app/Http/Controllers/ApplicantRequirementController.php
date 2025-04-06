@@ -37,7 +37,7 @@ class ApplicantRequirementController extends Controller
 
             $result = $applicantUploadedFiles->map(function ($file) {
                 if (!Storage::disk('private')->exists($file->file_link)) {
-                    throw new FileNotFoundException('File not found');
+                    return;
                 }
 
                 return [
@@ -51,7 +51,7 @@ class ApplicantRequirementController extends Controller
                     'created_at' => $file->created_at->format('Y-m-d H:i:s'),
                     'updated_at' => $file->updated_at->format('Y-m-d H:i:s'),
                 ];
-            });
+            })->filter();
 
             return response()->json($result, 200);
         } catch (FileNotFoundException $e) {

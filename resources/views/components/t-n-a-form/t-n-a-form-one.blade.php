@@ -445,9 +445,27 @@
         lang="en-US">Organizational Structure</span></p>
 <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;"><br>&nbsp;</p>
 <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;"><br>&nbsp;</p>
-@if ($organizationalStructure)
+@if ($isEditable)
+    <div class="organizational-structure-image-upload">
+        <label
+            class="form-label"
+            for="organizationalStructure"
+        >Upload Organizational Structure</label>
+        <input
+            id="organizationalStructure"
+            name="organizationalStructure"
+            type="file"
+        >
+        <input
+            id="OrganizationalStructureFileID_Data_Handler"
+            name="OrganizationalStructureFileID_Data_Handler"
+            type="hidden"
+        >
+    </div>
+@endif
+@if (isset($organizationalStructure['base64']) && isset($organizationalStructure['mimeType']))
     <img
-        src="data:image/png;base64,{{ $organizationalStructure }}"
+        src="data:{{ $organizationalStructure['mimeType'] }};base64,{{ $organizationalStructure['base64'] }}"
         alt=""
         style="width: 16.17cm; height: 16.17cm"
     >

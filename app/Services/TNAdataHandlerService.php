@@ -13,7 +13,8 @@ class TNAdataHandlerService
 {
     private const TNA_FORM = 'tna_form';
     public function __construct(
-        private ApplicationForm $TNAFormData
+        private ApplicationForm $TNAFormData,
+        private ApplicantFileHandlerService $applicantFileHandler
     ) {}
     /**
      * Get TNA status with user information
@@ -80,6 +81,24 @@ class TNAdataHandlerService
                     'reviewed_at' => $existingRecord->reviewed_at
                 ] : null;
 
+
+                $file_to_insert = [
+                    'OrganizationalStructurePath' => $data['OrganizationalStructureFileID_Data_Handler'] ?? '',
+                    'PlanLayoutPath' => $data['PlanLayoutFileID_Data_Handler'] ?? '',
+                    'ProcessFlowPath' => $data['ProcessFlowFileID_Data_Handler'] ?? '',
+                ];
+
+                $fileNames = [
+                    'OrganizationalStructurePath' => 'Organizational Structure',
+                    'PlanLayoutPath' => 'Plan Layout',
+                    'ProcessFlowPath' => 'Process Flow',
+                ];
+
+                $file_to_insert = array_filter($file_to_insert);
+
+                foreach ($file_to_insert as $filekey => $fileIdentifier) {
+                    $this->applicantFileHandler->replaceOrCreateRequirementFile($business_id, $filekey, $fileIdentifier, $fileNames);
+                }
                 $statusData = DSA::determineReviewerOrModifier($documentStatus, $user, $existingStatusData);
             }
 
@@ -179,4 +198,6 @@ class TNAdataHandlerService
             throw new Exception('Error in initializing TNA data: ' . $e->getMessage());
         }
     }
+
+    private function handlerTNAUploadImage(): void {}
 }

@@ -538,7 +538,7 @@
         />
         <x-t-n-a-form.t-n-a-form-one
             :TNAdata="$TNAdata"
-            :organizationalStructure="$organizationalStructure"
+            :organizationalStructure="$organizationalStructure ?? ''"
             :isEditable="$isEditable"
         />
 
@@ -923,9 +923,27 @@
                         lang="en-US"
                     >Plant Lay-Out</span>
                 </p>
-                @if ($planLayout)
+                @if ($isEditable)
+                    <div class="plan-layout-image-upload">
+                        <label
+                            class="form-label"
+                            for="planLayout"
+                        >Upload Plan Layout</label>
+                        <input
+                            id="planLayout"
+                            name="planLayout"
+                            type="file"
+                        >
+                        <input
+                            id="PlanLayoutFileID_Data_Handler"
+                            name="PlanLayoutFileID_Data_Handler"
+                            type="hidden"
+                        >
+                    </div>
+                @endif
+                @if (isset($planLayout['base64']) && isset($planLayout['mimeType']))
                     <img
-                        src="data:image/png;base64,{{ $planLayout }}"
+                        src="data:{{ $planLayout['mimeType'] }};base64,{{ $planLayout['base64'] }}"
                         alt=""
                         style="width: 16.17cm; height: 16.17cm"
                     >
@@ -951,9 +969,27 @@
                 <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><span
                         lang="en-US"
                     >Process Flow</span></p>
-                @if ($processFlow)
+                @if ($isEditable)
+                    <div class="process-flow-image-upload">
+                        <label
+                            class="form-label"
+                            for="processFlow"
+                        >Upload Process Flow</label>
+                        <input
+                            id="processFlow"
+                            name="processFlow"
+                            type="file"
+                        >
+                        <input
+                            id="ProcessFlowFileID_Data_Handler"
+                            name="ProcessFlowFileID_Data_Handler"
+                            type="hidden"
+                        >
+                    </div>
+                @endif
+                @if (isset($processFlow['base64']) && isset($processFlow['mimeType']))
                     <img
-                        src="data:image/png;base64,{{ $processFlow }}"
+                        src="data:{{ $processFlow['mimeType'] }};base64,{{ $processFlow['base64'] }}"
                         alt=""
                         style="width: 16.17cm; height: 16.17cm"
                     >

@@ -152,7 +152,13 @@ class TNAFormRequest extends FormRequest
             'productAndSupply.*.unitCost' => 'nullable|string',
             'productAndSupply.*.volumeUsed' => 'nullable|string',
 
-
+            //File Upload Fields
+            'planLayout' => 'nullable|string',
+            'PlanLayoutFileID_Data_Handler' => 'nullable|string',
+            'processFlow' => 'nullable|string',
+            'ProcessFlowFileID_Data_Handler' => 'nullable|string',
+            'organizationalStructure' => 'nullable|string',
+            'OrganizationalStructureFileID_Data_Handler' => 'nullable|string',
         ];
     }
 }
