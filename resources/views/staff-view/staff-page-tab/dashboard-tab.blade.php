@@ -294,12 +294,12 @@
     >
         <div class="modal-content">
             <div class="modal-header bg-primary">
-                <h5
+                <h1
                     class="modal-title text-white"
                     id="modalTitleId"
                 >
                     Update Quarterly Record
-                </h5>
+                </h1>
                 <button
                     class="btn-close"
                     data-bs-dismiss="modal"
@@ -373,10 +373,10 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-primary">
-                <h5
-                    class="modal-titl text-white mb-0"
+                <h1
+                    class="modal-title text-white mb-0"
                     id="requirementModalLabel"
-                >Add Requirement</h5>
+                >Add Requirement</h1>
                 <button
                     class="btn-close"
                     data-bs-dismiss="modal"
@@ -500,12 +500,12 @@
     tabindex="-1"
 >
     <div class="offcanvas-header bg-primary">
-        <h5
+        <h1
             class="offcanvas-title text-white"
             id="staticBackdropLabel"
         >
             Handled Project
-        </h5>
+        </h1>
         <button
             class="btn-close btn-close-white"
             data-bs-dismiss="offcanvas"
@@ -543,12 +543,12 @@
     </div>
 </div>
 
-<div>
-    <h4 class="p-3">Dashboard</h4>
+<div class="m-3">
+    <h1>Dashboard</h1>
 </div>
 <div class="row gy-3 mx-2">
     <div class="col-12 col-md-4 d-flex align-items-center">
-        <h5 class="text-muted fw-medium me-2 w-auto">Statistics for Year:</h5>
+        <h3 class="text-muted fw-medium me-2 w-auto">Statistics for Year:</h3>
         <select
             class="form-select w-50"
             id="yearSelector"
@@ -557,7 +557,7 @@
             <option value="">Select Year</option>
         </select>
     </div>
-    <h5 class="text-muted fw-medium">This Month Project Statistics:</h5>
+    <h2 class="text-muted fw-medium">This Month Project Statistics:</h2>
     <div class="col-12 col-md-3">
         <div class="card stat-card shadow-sm">
             <div class="card-body d-flex flex-column justify-content-center align-items-center">
@@ -606,7 +606,7 @@
             </div>
         </div>
     </div>
-    <h5 class="text-muted fw-medium text-center">Projects</h5>
+    <h3 class="text-muted fw-medium text-center">Projects</h3>
     <div class="col-12">
         <div class="card shadow-sm">
             <div class="card-body">
@@ -615,7 +615,7 @@
             </div>
         </div>
     </div>
-    <h5 class="text-muted fw-medium text-center">Handled Project</h5>
+    <h3 class="text-muted fw-medium text-center">Handled Project</h3>
     <div class="col-12">
         <div class="card shadow-sm">
             <div class="card-body">

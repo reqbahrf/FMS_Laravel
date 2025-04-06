@@ -1,5 +1,5 @@
-<div>
-    <h4 class="p-3">Applicant:</h4>
+<div class="m-3">
+    <h1>Applicant:</h1>
 </div>
 <div>
     @include('staff-view.included-layout.tna-rejection-modal')

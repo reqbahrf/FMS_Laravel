@@ -69,7 +69,7 @@
             <div class="col-12 col-md-6">
                 <div class="card shadow-sm p-0 h-100">
                     <div class="card-header bg-primary">
-                        <h5 class="text-white p-0">Project Details</h5>
+                        <h1 class="text-white p-0">Project Details</h1>
                     </div>
                     <div class="card-body">
                         <div class="row gy-3">
@@ -166,7 +166,7 @@
             <div class="col-12 col-md-6">
                 <div class="card p-0 shadow-sm">
                     <div class="card-header bg-primary">
-                        <h5 class="text-white p-0">Business Information</h5>
+                        <h1 class="text-white p-0">Business Information</h1>
                     </div>
                     <div class="card-body">
                         <div class="row gy-3">
@@ -207,7 +207,7 @@
                                     >
                             </div>
                             <div class="col-12">
-                                <h6>Contact Details:</h6>
+                                <strong>Contact Details:</strong>
                             </div>
                             <div class="col-12 col-md-4">
                                 <label for="landline">Landline:</label>
@@ -255,7 +255,7 @@
                                 >
                             </div>
                             <div class="col-12">
-                                <h6>Assets:</h6>
+                                <strong>Assets:</strong>
                             </div>
                             <div class="col-12 col-md-4">
                                 <label for="buildingAsset">Building:</label>
@@ -300,7 +300,7 @@
             <div class="col-12 paymentProjectContent">
                 <div class="card shadow-sm p-0">
                     <div class="card-header bg-primary d-flex justify-content-between align-items-center">
-                        <h5 class="text-white mb-0">Payment History</h5>
+                        <h1 class="text-white mb-0">Payment History</h1>
                         <button
                             class="btn btn-light btn-sm btn-outline-primary"
                             data-bs-toggle="modal"
@@ -339,7 +339,7 @@
         <div class="card shadow-sm">
             <div class="card-header bg-primary">
                 <div class="d-flex justify-between align-items-center">
-                    <h6 class="text-white m-0">Cooperator Requirements:</h6>
+                    <h1 class="text-white m-0">Cooperator Requirements:</h1>
                     <button
                         class="btn btn-sm btn-light ms-auto"
                         id="addRequirement"
@@ -371,7 +371,7 @@
             <div class="col-12 col-md-8">
                 <div class="card shadow-sm p-0">
                     <div class="card-header bg-primary">
-                        <h5 class="text-white p-0">Quarterly Report List</h5>
+                        <h1 class="text-white p-0">Quarterly Report List</h1>
                     </div>
                     <div class="card-body">
                         <table
@@ -416,7 +416,7 @@
             </div>
             <div class="col-12 col-md-4">
                 <div class="card p-0">
-                    <h5 class="card-title p-3">Open Quarterly Report</h5>
+                    <h1 class="card-title p-3">Open Quarterly Report</h1>
                     <div class="card-body">
                         <form id="CreateQuarterlyReportForm">
                             @csrf
@@ -492,12 +492,12 @@
                 </nav>
                 <div class="row gy-3">
                     <div class="col-12 text-center mb-4">
-                        <h4 class="display-6">Please Select a Document to Generate</h4>
+                        <h1 class="display-6">Please Select a Document to Generate</h1>
                     </div>
                     <div class="col-12 col-md-4">
                         <div class="card h-100 shadow-sm">
                             <div class="card-body text-center">
-                                <h5 class="card-title fw-bold">Project Information Sheet</h5>
+                                <h2 class="card-title fw-bold">Project Information Sheet</h2>
                                 <div class="input-group mt-3">
                                     <select
                                         class="form-select"
@@ -544,7 +544,7 @@
                     <div class="col-12 col-md-4">
                         <div class="card h-100 shadow-sm">
                             <div class="card-body text-center">
-                                <h5 class="card-title fw-bold">Project Data Sheet</h5>
+                                <h2 class="card-title fw-bold">Project Data Sheet</h2>
                                 <div class="input-group mt-3">
                                     <select
                                         class="form-select"
@@ -589,7 +589,7 @@
                     <div class="col-12 col-md-4">
                         <div class="card h-100 shadow-sm">
                             <div class="card-body text-center">
-                                <h5 class="card-title fw-bold">Status Report Sheet</h5>
+                                <h2 class="card-title fw-bold">Status Report Sheet</h2>
                                 <div class="input-group mt-3">
                                     <select
                                         class="form-select"
