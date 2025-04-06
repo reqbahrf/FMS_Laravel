@@ -101,12 +101,12 @@ class ProjectDataSheetDataHandlerService
                 'project_info.Project_id',
                 'project_info.project_title',
                 'business_info.firm_name',
-                'business_info.landMark',
-                'business_info.barangay',
-                'business_info.city',
-                'business_info.province',
-                'business_info.region',
-                'business_info.zip_code',
+                'business_address_info.office_landmark',
+                'business_address_info.office_barangay',
+                'business_address_info.office_city',
+                'business_address_info.office_province',
+                'business_address_info.office_region',
+                'business_address_info.office_zip_code',
                 'coop_users_info.f_name',
                 'coop_users_info.mid_name',
                 'coop_users_info.l_name',
@@ -117,6 +117,7 @@ class ProjectDataSheetDataHandlerService
                 'users.email'
             )
                 ->join('business_info', 'project_info.business_id', '=', 'business_info.id')
+                ->join('business_address_info', 'business_info.id', '=', 'business_address_info.business_info_id')
                 ->join('coop_users_info', 'coop_users_info.id', '=', 'business_info.user_info_id')
                 ->join('users', 'users.user_name', '=', 'coop_users_info.user_name')
                 ->where('project_info.Project_id', $projectId)

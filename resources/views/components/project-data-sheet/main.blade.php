@@ -76,17 +76,18 @@
                             type="text"
                             readonly
                             :isEditable="$isEditable"
-                            :value="$reportData->landMark .
-                                ', ' .
-                                $reportData->barangay .
-                                ', ' .
-                                $reportData->city .
-                                ', ' .
-                                $reportData->province .
-                                ', ' .
-                                $reportData->region .
-                                ', ' .
-                                $reportData->zip_code"
+                            :value="$reportData->office_landmark ??
+                                '' .
+                                    ', ' .
+                                    ($reportData->office_barangay ?? '') .
+                                    ', ' .
+                                    ($reportData->office_city ?? '') .
+                                    ', ' .
+                                    ($reportData->office_province ?? '') .
+                                    ', ' .
+                                    ($reportData->office_region ?? '') .
+                                    ', ' .
+                                    ($reportData->office_zip_code ?? '')"
                         />
                     </td>
                 </tr>
