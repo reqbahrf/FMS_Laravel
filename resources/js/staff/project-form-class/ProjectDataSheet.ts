@@ -7,6 +7,7 @@ import {
 import createConfirmationModal from '../../Utilities/confirmation-modal';
 import ProjectClass from './ProjectClass';
 import ReportedQuarterlyReportEvent from '../../Utilities/ReportedQuarterlyReportEvent';
+import generatePDF from '../../Utilities/loading-overlay-pdf-generation';
 
 type Action = 'edit' | 'view';
 
@@ -207,7 +208,7 @@ export default class ProjectDataSheet extends ProjectClass {
                 const generateUrl =
                     this.generatePDFBtn?.attr('data-generated-url');
                 if (!generateUrl) throw new Error('Generate URL not found');
-                window.open(generateUrl, '_blank');
+                await generatePDF(generateUrl, 'Project Data Sheet');
             });
         } catch (error) {
             this._handleError('Error in Setting PDF Export: ', error);

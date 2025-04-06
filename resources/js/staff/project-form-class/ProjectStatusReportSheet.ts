@@ -15,6 +15,7 @@ import {
     NonEquipmentTableConfig,
     salesTableConfig,
 } from './table-config/project-status-report-table-config';
+import generatePDF from '../../Utilities/loading-overlay-pdf-generation';
 type Action = 'edit' | 'view';
 export default class ProjectStatusReportSheet extends ProjectClass {
     private loadSRBtn: JQuery<HTMLButtonElement>;
@@ -110,7 +111,9 @@ export default class ProjectStatusReportSheet extends ProjectClass {
         if (!isConfirmed) {
             return;
         }
-        const processToast = showProcessToast('Creating Project Status Report...');
+        const processToast = showProcessToast(
+            'Creating Project Status Report...'
+        );
         try {
             const response = await $.ajax({
                 type: 'POST',
@@ -176,7 +179,9 @@ export default class ProjectStatusReportSheet extends ProjectClass {
         },
         url: string
     ): Promise<void> {
-        const processToast = showProcessToast('Saving Project Status Report...');
+        const processToast = showProcessToast(
+            'Saving Project Status Report...'
+        );
         try {
             const response = await $.ajax({
                 type: 'PUT',
@@ -247,7 +252,7 @@ export default class ProjectStatusReportSheet extends ProjectClass {
                 const generateUrl =
                     this.generatePDFBtn?.attr('data-generated-url');
                 if (!generateUrl) throw new Error('Generate URL not found');
-                window.open(generateUrl, '_blank');
+                await generatePDF(generateUrl, 'Project Status Report');
             });
         } catch (error: any) {
             this._handleError('Error in Setting up PDF Export: ', error, true);

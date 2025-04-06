@@ -8,6 +8,7 @@ import {
 import createConfirmationModal from '../../Utilities/confirmation-modal';
 import ProjectClass from './ProjectClass';
 import ProjectInfoSheetEvent from '../project-form-class-events/ProjectInfoSheetEvent';
+import generatePDF from '../../Utilities/loading-overlay-pdf-generation';
 
 type Action = 'edit' | 'view';
 export default class ProjectInfoSheet extends ProjectClass {
@@ -232,7 +233,7 @@ export default class ProjectInfoSheet extends ProjectClass {
                 const generateUrl =
                     this.generatePDFBtn?.attr('data-generated-url');
                 if (!generateUrl) throw new Error('Generate URL not found');
-                window.open(generateUrl, '_blank');
+                await generatePDF(generateUrl, 'Project Information Sheet');
             });
         } catch (error: any) {
             this._handleError('Error in Setting PDF Export: ', error, true);
@@ -348,9 +349,6 @@ export default class ProjectInfoSheet extends ProjectClass {
                     );
 
                     try {
-
-
-
                         await this._getProjectInfoSheet(
                             this.project_id,
                             this.business_Id,
