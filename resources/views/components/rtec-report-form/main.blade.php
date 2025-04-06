@@ -1012,6 +1012,107 @@
             </tr>
         </tbody>
     </table>
+
+    <table
+        style="width: 100%; border-collapse: collapse; margin: auto; font-family: sans-serif; font-size: 14px; page-break-inside:avoid"
+    >
+        <tbody>
+            <tr>
+                <td
+                    style="padding-bottom: 30px; vertical-align: top;"
+                    colspan="3"
+                >
+                    Evaluated by:
+                </td>
+            </tr>
+            <tr>
+                <td
+                    style="text-align: center; padding-top: 7.5pt; vertical-align: bottom;"
+                    colspan="3"
+                >
+                    Reanz Arthur A. Monera
+                </td>
+            </tr>
+            <tr>
+                <td
+                    style="text-align: center; padding-bottom: 15pt; vertical-align: bottom;"
+                    colspan="3"
+                >
+                    <div
+                        style="display: inline-block; border-top: 1px solid black; padding-left: 37.5pt; padding-right: 37.5pt;">
+                        RTEC Chairperson
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 33%; text-align: center; padding: 7.5pt;">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tr>
+                            <td style="text-align: center;">
+                                Reanz Arthur A. Monera
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border-top: 1px solid black; padding-bottom: 5px;">
+                                RTEC Member
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td style="width: 33%; text-align: center; padding: 7.5pt ">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tr>
+                            <td style="text-align: center;">
+                                Reanz Arthur A. Monera
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border-top: 1px solid black; padding-bottom: 5px;">
+                                RTEC Member
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td style="width: 33%; text-align: center; padding: 7.5pt; ">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tr>
+                            <td style="text-align: center;">
+                                Reanz Arthur A. Monera
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border-top: 1px solid black; padding-bottom: 5px;">
+                                RTEC Member
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-top: 40px; vertical-align: top;">
+                    Reviewed and Endorsed By:
+                </td>
+                <td style="vertical-align: top;">
+                </td>
+                <td style="padding-top: 40px; vertical-align: top;">
+                    Noted By:
+                </td>
+            </tr>
+            <tr>
+                <td
+                    style="text-align: center; padding-top: 40px; padding-bottom: 5px; border-bottom: 1px solid black; vertical-align: bottom;">
+                    RPMO Manager
+                </td>
+                <td>
+                </td>
+                <td
+                    style="text-align: center; padding-top: 40px; padding-bottom: 5px; border-bottom: 1px solid black; vertical-align: bottom;">
+                    Regional Director
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
 </form>
 @if (!$isExporting)
     @if ($isEditable && auth()->user()->role === 'Staff')
