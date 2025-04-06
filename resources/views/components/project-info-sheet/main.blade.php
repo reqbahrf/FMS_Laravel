@@ -254,11 +254,9 @@
                             />
                         </td>
                         <td
-                            class="tg-8d8j row--description"
-                            rowspan="5"
-                        >Please indicate the estimated value of total assets of the SME prior to SET-UP assistance; Need
-                            not be the exact figure but should check to ensure that data provided are realistic and as
-                            close to the real value as possible</td>
+                            class="tg-8d8j"
+                            colspan="1"
+                        ></td>
                     </tr>
                     <tr>
                         <td class="tg-7zrl"> </td>
@@ -373,7 +371,7 @@
                         <td
                             class="tg-0lax"
                             colspan="2"
-                        >Regular</td>
+                        > Regular</td>
                         <td class="tg-7zrl"><x-custom-input.input
                                 class="maleInput"
                                 id="Regular_male"
@@ -1012,8 +1010,22 @@
                     </tr>
                 </tbody>
             </table>
-            {!! $esignatureElement ?? '' !!}
         </div>
+        <table
+            style="width: 25%; border-collapse: collapse; font-family: sans-serif; font-size: 14px; margin-top: 10pt; table-layout: fixed; margin-left: 0; position: relative; left: 0;"
+        >
+            <tbody>
+                <tr>
+                    <td style="padding-bottom: 7.5pt; text-align: left;">Prepared By:</td>
+                </tr>
+                <tr>
+                    <td style="text-align: left;">Reanz Arthur A. Monera</td>
+                </tr>
+                <tr>
+                    <td style="border-top: 1px solid black; text-align: left;">PSTD/CSTD</td>
+                </tr>
+            </tbody>
+        </table>
     </form>
     @if (!$isExporting)
         <div

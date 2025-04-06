@@ -1294,7 +1294,44 @@
                     </tr> --}}
                 </tbody>
             </table>
-            {!! $esignatureElement ?? '' !!}
+            <table style="border-collapse: collapse; font-family: sans-serif; font-size: 10pt; width: 375pt;">
+                <tbody>
+                    <tr>
+                        <td style="width: 112.5pt; vertical-align: top; padding-right: 7.5pt; font-size: 10pt;">
+                            Accomplished by</td>
+                        <td style="vertical-align: top; font-size: 10pt;">:</td>
+                        <td style="width: 262.5pt; padding-bottom: 7.5pt;">
+                            <div style="border-bottom: 1pt solid black; padding-bottom: 3.75pt; font-size: 10pt;">Name
+                                and Signature of Cooperator</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding-top: 3.75pt; vertical-align: top; padding-right: 7.5pt; font-size: 10pt;">
+                            Date</td>
+                        <td style="padding-top: 3.75pt; vertical-align: top; font-size: 10pt;">:</td>
+                        <td style="padding-top: 3.75pt;">
+                            <div style="border-bottom: 1pt solid black; padding-bottom: 3.75pt;"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding-top: 15pt; vertical-align: top; padding-right: 7.5pt; font-size: 10pt;">
+                            Reviewed and Submitted by</td>
+                        <td style="padding-top: 15pt; vertical-align: top; font-size: 10pt;">:</td>
+                        <td style="padding-top: 15pt; padding-bottom: 7.5pt;">
+                            <div style="border-bottom: 1pt solid black; padding-bottom: 3.75pt; font-size: 10pt;">Name
+                                and Signature of PSTD</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding-top: 3.75pt; vertical-align: top; padding-right: 7.5pt; font-size: 10pt;">
+                            Date</td>
+                        <td style="padding-top: 3.75pt; vertical-align: top; font-size: 10pt;">:</td>
+                        <td style="padding-top: 3.75pt;">
+                            <div style="border-bottom: 1pt solid black; padding-bottom: 3.75pt;"></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </form>
     @if (!$isExporting)
