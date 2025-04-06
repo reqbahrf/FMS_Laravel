@@ -523,13 +523,35 @@
             style="text-align: justify;background: transparent;line-height: 108%;margin-right: 0.02cm;margin-bottom: 0.28cm;">
             <br>&nbsp;
         </p>
-        @if ($isEditable)
-            <x-esignature.esignature-main
-                :containerSelector="'esignatureUndertaking'"
-                :layout="'default'"
-                :hasDate="true"
-            />
-        @endif
+        <div style="width: 100%;">
+            <table style="width: 40%; margin-left: auto; border-collapse: collapse; text-align: center;">
+                <tr>
+                    <td>Reanz Arthur A Monera</td>
+                </tr>
+                <tr>
+                    <td style="border-top: 1pt solid black; padding-top: 3pt;">
+                        <strong>Signature over Printed Name</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>CEO</td>
+                </tr>
+                <tr>
+                    <td style="border-top: 1pt solid black; padding-top: 3pt;">
+                        <strong>Position in the Enterprise</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>March 1, 2025</td>
+                </tr>
+                <tr>
+                    <td style="border-top: 1pt solid black; padding-top: 3pt;">
+                        <strong>Date</strong>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
         <p
             style="text-align: justify;background: transparent;line-height: 108%;margin-right: 0.02cm;margin-bottom: 0.28cm;">
             <br>&nbsp;
@@ -1745,6 +1767,58 @@
         <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
         <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
         <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
+        <table style="width: 100%; border-collapse: collapse;">
+            <tr>
+                <!-- Prepared by -->
+                <td style="width: 50%; vertical-align: top; padding: 10px;">
+                    <p style="font-weight: bold; margin-bottom: 20px;">Prepared by:</p>
+                    <table style="width: 100%; text-align: center; border-collapse: collapse;">
+                        <tr>
+                            <td>Reanz Arthur A Monera</td>
+                        </tr>
+                        <tr style="height: 20px;">
+                            <td style="border-top: 1px solid black; padding: 0pt 4pt 4pt 4pt;">
+                                <strong>Printed Name and Signature of Owner/Chair/Representative</strong>
+                            </td>
+                        </tr>
+                        <!-- Date row (aligned) -->
+                        <tr>
+                            <td>March 1, 2025</td>
+                        </tr>
+                        <tr>
+                            <td style="border-top: 1px solid black; padding-top: 3pt;">
+                                <strong>Date</strong>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+
+                <!-- Validated by -->
+                <td style="width: 50%; vertical-align: top; padding: 10px;">
+                    <p style="font-weight: bold; margin-bottom: 20px;">Validated by:</p>
+                    <table style="width: 100%; text-align: center; border-collapse: collapse;">
+                        <tr>
+                            <td>Juan Dela Cruz</td>
+                        </tr>
+                        <tr>
+                            <td style="border-top: 1pt solid black; padding: 0pt 15pt 15pt 15pt;">
+                                <strong>Printed Name and Signature of PSTD</strong>
+                            </td>
+                        </tr>
+                        <!-- Date row (aligned) -->
+                        <tr>
+                            <td>March 1, 2025</td>
+                        </tr>
+                        <tr>
+                            <td style="border-top: 1px solid black; padding-top: 3pt;">
+                                <strong>Date</strong>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
         <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
         <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
         <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
