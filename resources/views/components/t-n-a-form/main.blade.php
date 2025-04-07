@@ -1846,7 +1846,7 @@
                                         placeholder=""
                                     >
                                 @else
-                                    {{ $TNAdata['prepared_by_date'] ? \Carbon\Carbon::parse($TNAdata['prepared_by_date'])->format('F j, Y') : '' }}
+                                    {{ $TNAdata['prepared_by_date'] ?? '' ? \Carbon\Carbon::parse($TNAdata['prepared_by_date'])->format('F j, Y') : '' }}
                                 @endIf
                             </td>
                         </tr>
@@ -1896,7 +1896,7 @@
                                         placeholder=""
                                     >
                                 @else
-                                    {{ $TNAdata['validated_by_date'] ? \Carbon\Carbon::parse($TNAdata['validated_by_date'])->format('F j, Y') : '' }}
+                                    {{ $TNAdata['validated_by_date'] ?? '' ? \Carbon\Carbon::parse($TNAdata['validated_by_date'])->format('F j, Y') : '' }}
                                 @endIf
                             </td>
                         </tr>
