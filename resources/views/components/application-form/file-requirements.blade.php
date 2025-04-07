@@ -12,13 +12,13 @@
             id="intentFile"
             name="intentFile"
             type="file"
-            accept="application/pdf"
+            accept="application/pdf, image/png, image/jpeg"
             {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}
         >
         <div class="invalid-feedback">
             Please upload the Letter of Intent.
         </div>
-        <div class="form-text">Accepted formats: .pdf. Maximum file size: 10MB</div>
+        <div class="form-text">Accepted formats: .pdf, .png, .jpeg. Maximum file size: 10MB</div>
     </div>
     <div class="mb-3">
         <label
@@ -26,7 +26,7 @@
             for="DtiSecCdafile"
         >DTI/SEC/CDA
             <span class="form-text">(Certificate of Registration):</span>
-            <span class="requiredFields">{{ auth()->user()->hasRole('Cooperator') ? '*' : '' }}</span>
+            <span class="requiredFields">*</span>
         </label>
         <div class="row mb-3">
             <div class="col-2 d-flex align-items-center justify-content-center">
@@ -50,14 +50,15 @@
                     id="DTI_SEC_CDA_File"
                     name="DTI_SEC_CDA_File"
                     type="file"
-                    {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}
+                    accept="application/pdf, image/png, image/jpeg"
+                    required
                 >
                 <div class="invalid-feedback">
                     Please upload the DTI/SEC/CDA document.
                 </div>
             </div>
         </div>
-        <div class="form-text">Choose 1 out of 3 documents above. the accepted formats: .pdf.
+        <div class="form-text">Choose 1 out of 3 documents above. the accepted formats: .pdf, .png, .jpeg.
             Maximum file size: 10MB
         </div>
     </div>
@@ -66,19 +67,20 @@
             class="form-label"
             for="businessPermitFile"
         >Business Permit:
-            <span class="requiredFields">{{ auth()->user()->hasRole('Cooperator') ? '*' : '' }}</span>
+            <span class="requiredFields">*</span>
         </label>
         <input
             class="fileUploads"
             id="businessPermitFile"
             name="businessPermitFile"
             type="file"
-            {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}
+            accept="application/pdf, image/png, image/jpeg"
+            required
         >
         <div class="invalid-feedback">
             Please upload the Business Permit.
         </div>
-        <div class="form-text">Accepted formats: .pdf.</div>
+        <div class="form-text">Accepted formats: .pdf, .png, .jpeg. Maximum file size: 10MB</div>
     </div>
     <div class="mb-3">
         <label
@@ -123,26 +125,27 @@
             class="form-label"
             for="receiptFile"
         >Official Receipt of the Business:
-            <span class="requiredFields">{{ auth()->user()->hasRole('Cooperator') ? '*' : '' }}</span>
+            <span class="requiredFields">*</span>
         </label>
         <input
             class="fileUploads"
             id="receiptFile"
             name="receiptFile"
             type="file"
-            {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}
+            accept="application/pdf, image/png, image/jpeg"
+            required
         >
         <div class="invalid-feedback">
             Please upload the Official Receipt of the Business.
         </div>
-        <div class="form-text">Accepted formats: .pdf.</div>
+        <div class="form-text">Accepted formats: .pdf, .png, .jpeg. Maximum file size: 10MB</div>
     </div>
     <div class="mb-3">
         <label
             class="form-label"
             for="govIdFile"
         >Government Valid ID:
-            <span class="requiredFields">{{ auth()->user()->hasRole('Cooperator') ? '*' : '' }}</span>
+            <span class="requiredFields">*</span>
         </label>
         <div class="row">
             <div class="col-2 d-flex align-items-center justify-content-center">
@@ -165,7 +168,8 @@
                     name="govIdFile"
                     type="file"
                     capture="environment"
-                    {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}
+                    accept="image/jpeg, image/png"
+                    required
                 >
                 <div class="invalid-feedback">
                     Please upload the Copy of Government Valid ID.
@@ -181,7 +185,7 @@
             for="BIRFile"
         >BIR
             <span class="form-text">(Certificate of Registration):</span>
-            <span class="requiredFields">{{ auth()->user()->hasRole('Cooperator') ? '*' : '' }}</span>
+            <span class="requiredFields">*</span>
             <span class="form-text text-secondary fw-lighter">
                 Bureau of Internal Revenue(BIR) Certificate of Registration
             </span>
@@ -191,9 +195,10 @@
             id="BIRFile"
             name="BIRFile"
             type="file"
-            {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}
+            accept="application/pdf, image/png, image/jpeg"
+            required
         >
-        <div class="form-text">Accepted formats: .pdf. Maximum file size: 10MB</div>
+        <div class="form-text">Accepted formats: .pdf, .png, .jpeg. Maximum file size: 10MB</div>
         <div class="invalid-feedback">
             Please upload the BIR.
         </div>
