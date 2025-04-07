@@ -1,5 +1,5 @@
-<div class="p-3">
-    <h4>Project List</h4>
+<div class="m-3">
+    <h1>Project List</h1>
 </div>
 
 <!-- Modal -->
@@ -11,13 +11,13 @@
     aria-hidden="true"
     tabindex="-1"
 >
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-primary">
-                <h5
+                <h1
                     class="modal-title text-white"
                     id="assignNewStaffModalLabel"
-                >Assigned New Staff</h5>
+                >Assign New Staff</h1>
                 <button
                     class="btn-close"
                     data-bs-dismiss="modal"
@@ -70,13 +70,13 @@
     tabindex="-1"
 >
     <div class="offcanvas-header bg-primary">
-        <h5
+        <h1
             class="offcanvas-title text-white fs-4"
             id="staticBackdropLabel"
         >
             <i class="ri-id-card-fill ri-lg"></i>
             Approval Details
-        </h5>
+        </h1>
         <button
             class="btn-close"
             data-bs-dismiss="offcanvas"
@@ -87,11 +87,11 @@
     <div class="offcanvas-body">
         <div class="row gy-3">
             <div class="card p-0">
-                <div class="card-header bg-primary">
-                    <h5 class="text-white mb-0">
+                <div class="card-header">
+                    <h2 class="mb-0">
                         <i class="ri-contacts-fill"></i>
                         Personal Info
-                    </h5>
+                    </h2>
                 </div>
                 <div class="card-body">
                     <div class="row gy-2">
@@ -111,7 +111,7 @@
                                 readonly
                             >
                         </div>
-                        <h6>Contact Details:</h6>
+                        <h3 class="mb-3">Contact Details:</h3>
                         <div class="col-12 col-md-4">
                             <label for="landline">Landline:</label>
                             <input
@@ -140,11 +140,11 @@
                 </div>
             </div>
             <div class="card p-0">
-                <div class="card-header bg-primary">
-                    <h5 class="text-white mb-0">
+                <div class="card-header">
+                    <h2 class="mb-0">
                         <i class="ri-briefcase-fill"></i>
                         Business Info
-                    </h5>
+                    </h2>
                 </div>
                 <div class="card-body">
                     <div class="row gy-2">
@@ -228,11 +228,11 @@
                 </div>
             </div>
             <div class="card p-0">
-                <div class="card-header bg-primary">
-                    <h5 class="text-white mb-0">
+                <div class="card-header">
+                    <h2 class="mb-0">
                         <i class="ri-draft-fill"></i>
                         Project Forms
-                    </h5>
+                    </h2>
                 </div>
                 <div
                     class="card-body"
@@ -323,13 +323,13 @@
     tabindex="-1"
 >
     <div class="offcanvas-header bg-primary text-white">
-        <h5
+        <h1
             class="offcanvas-title text-white fs-4"
             id="staticBackdropLabel"
         >
             <i class="ri-progress-3-line ri-lg"></i>
             Ongoing Project Details
-        </h5>
+        </h1>
         <button
             class="btn-close"
             data-bs-dismiss="offcanvas"
@@ -341,11 +341,11 @@
         <div class="m-2">
             <div class="row gy-3">
                 <div class="card shadow-sm p-0">
-                    <div class="card-header bg-primary">
-                        <h5 class="text-white mb-0">
+                    <div class="card-header">
+                        <h2 class="mb-0">
                             <i class="ri-contacts-fill"></i>
                             Personal Info
-                        </h5>
+                        </h2>
                     </div>
                     <div class="card-body">
                         <div class="row gy-2">
@@ -365,7 +365,7 @@
                                     readonly
                                 >
                             </div>
-                            <h6>Contact Details:</h6>
+                            <h3 class="mb-3">Contact Details:</h3>
                             <div class="col-12 col-md-4">
                                 <label for="landline">Landline:</label>
                                 <input
@@ -394,11 +394,11 @@
                     </div>
                 </div>
                 <div class="card shadow-sm p-0">
-                    <div class="card-header bg-primary">
-                        <h5 class="text-white mb-0">
+                    <div class="card-header">
+                        <h2 class="mb-0">
                             <i class="ri-briefcase-fill"></i>
                             Business Info
-                        </h5>
+                        </h2>
                     </div>
                     <div class="card-body">
                         <div class="row gy-2">
@@ -497,11 +497,11 @@
                     </div>
                 </div>
                 <div class="card shadow-sm p-0">
-                    <div class="card-header bg-primary">
-                        <h5 class="text-white mb-0">
+                    <div class="card-header">
+                        <h2 class="mb-0">
                             <i class="ri-file-text-fill"></i>
                             Project Details
-                        </h5>
+                        </h2>
                     </div>
                     <div class="card-body">
                         <div class="row gy-2">
@@ -611,11 +611,11 @@
                     </div>
                 </div>
                 <div class="card shadow-sm p-0">
-                    <div class="card-header bg-primary">
-                        <h5 class="text-white mb-0">
+                    <div class="card-header">
+                        <h2 class="mb-0">
                             <i class="ri-file-text-fill"></i>
                             Payment History
-                        </h5>
+                        </h2>
                     </div>
                     <div class="card-body">
                         <table
@@ -640,13 +640,13 @@
     tabindex="-1"
 >
     <div class="offcanvas-header bg-primary ">
-        <h5
+        <h1
             class="offcanvas-title text-white fs-4"
             id="staticBackdropLabel"
         >
             <i class="ri-contract-fill ri-lg"></i>
             Completed Project Details
-        </h5>
+        </h1>
         <button
             class="btn-close"
             data-bs-dismiss="offcanvas"
@@ -658,11 +658,11 @@
         <div class="m-2">
             <div class="row gy-3">
                 <div class="card shadow-sm p-0">
-                    <div class="card-header bg-primary">
-                        <h5 class="text-white mb-0">
+                    <div class="card-header">
+                        <h2 class="mb-0">
                             <i class="ri-contacts-fill"></i>
                             Personal Info
-                        </h5>
+                        </h2>
                     </div>
                     <div class="card-body">
                         <div class="row gy-2">
@@ -682,7 +682,7 @@
                                     readonly
                                 >
                             </div>
-                            <h6>Contact Details:</h6>
+                            <h3 class="mb-3">Contact Details:</h3>
                             <div class="col-12 col-md-4">
                                 <label for="landline">Landline:</label>
                                 <input
@@ -711,11 +711,11 @@
                     </div>
                 </div>
                 <div class="card shadow-sm p-0">
-                    <div class="card-header bg-primary">
-                        <h5 class="text-white mb-0">
+                    <div class="card-header">
+                        <h2 class="mb-0">
                             <i class="ri-briefcase-fill"></i>
                             Business Info
-                        </h5>
+                        </h2>
                     </div>
                     <div class="card-body">
                         <div class="row gy-2">
@@ -805,11 +805,11 @@
                     </div>
                 </div>
                 <div class="card shadow-sm p-0">
-                    <div class="card-header bg-primary">
-                        <h5 class="text-white mb-0">
+                    <div class="card-header">
+                        <h2 class="mb-0">
                             <i class="ri-file-text-fill"></i>
                             Project Details
-                        </h5>
+                        </h2>
                     </div>
                     <div class="card-body">
                         <div class="row gy-2">
@@ -905,11 +905,11 @@
                     </div>
                 </div>
                 <div class="card shadow-sm p-0">
-                    <div class="card-header bg-primary">
-                        <h5 class="text-white mb-0">
+                    <div class="card-header">
+                        <h2 class="mb-0">
                             <i class="ri-file-text-fill"></i>
                             Payment History
-                        </h5>
+                        </h2>
                     </div>
                     <div class="card-body">
                         <table

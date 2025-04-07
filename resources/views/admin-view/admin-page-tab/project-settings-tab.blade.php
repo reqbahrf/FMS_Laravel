@@ -1,5 +1,5 @@
-<div class="p-3">
-    <h4>Project Settings</h4>
+<div class="m-3">
+    <h1>Project Settings</h1>
 </div>
 <div class="card shadow-sm">
     <div class="card-body">
@@ -9,9 +9,9 @@
                 <!-- Project Fee Section -->
                 <div class="col-12 col-md-6">
                     <div class="p-3 h-100 border-end border-md-end">
-                        <h6 class="mb-3 text-primary">
+                        <h2 class="text-primary">
                             <i class="ri-percent-fill me-2"></i>Project Fee
-                        </h6>
+                        </h2>
                         <div class="mb-3">
                             <label
                                 class="form-label fw-semibold"
@@ -52,9 +52,9 @@
                 <!-- Notification Settings Section -->
                 <div class="col-12 col-md-6">
                     <div class="p-3 h-100">
-                        <h6 class="mb-3 text-primary">
+                        <h2 class="text-primary">
                             <i class="ri-notification-3-line me-2"></i>Notification Settings
-                        </h6>
+                        </h2>
                         <div class="mb-3">
                             <label
                                 class="form-label fw-semibold"
