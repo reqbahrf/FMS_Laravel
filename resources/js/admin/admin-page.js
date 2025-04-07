@@ -316,9 +316,8 @@ async function initializeAdminPageJs() {
                 const designation = inputs.filter('.designation').val();
                 const businessId = inputs.filter('.business_id').val();
                 const projectId = inputs.filter('.Project_id').val();
-                const businessAddress = inputs
-                    .filter('.business_address')
-                    .val();
+                const officeAddress = inputs.filter('.officeAddress').val();
+                const factoryAddress = inputs.filter('.factoryAddress').val();
                 const typeOfEnterprise = inputs
                     .filter('.type_of_enterprise')
                     .val();
@@ -346,8 +345,11 @@ async function initializeAdminPageJs() {
                 offCanvaReadonlyInputs.filter('.designation').val(designation);
                 offCanvaReadonlyInputs.filter('#b_id').val(businessId);
                 offCanvaReadonlyInputs
-                    .filter('#businessAddress')
-                    .val(businessAddress);
+                    .filter('.officeAddress')
+                    .val(officeAddress);
+                offCanvaReadonlyInputs
+                    .filter('.factoryAddress')
+                    .val(factoryAddress);
                 offCanvaReadonlyInputs
                     .filter('#typeOfEnterprise')
                     .val(typeOfEnterprise);
@@ -394,7 +396,8 @@ async function initializeAdminPageJs() {
                     const businessDetails = {
                         business_id: inputs.filter('.business_id').val(),
                         firmName: row.find('td:nth-child(3)').text().trim(),
-                        address: inputs.filter('.address').val(),
+                        officeAddress: inputs.filter('.office_address').val(),
+                        factoryAddress: inputs.filter('.factory_address').val(),
                         enterprise_type: inputs
                             .filter('.enterprise_type')
                             .val(),
@@ -459,8 +462,11 @@ async function initializeAdminPageJs() {
                         .filter('.firmName')
                         .val(businessDetails.firmName);
                     readonlyInputs
-                        .filter('.businessAddress')
-                        .val(businessDetails.address);
+                        .filter('.officeAddress')
+                        .val(businessDetails.officeAddress);
+                    readonlyInputs
+                        .filter('.factoryAddress')
+                        .val(businessDetails.factoryAddress);
                     readonlyInputs
                         .filter('.typeOfEnterprise')
                         .val(businessDetails.enterprise_type);
@@ -1138,7 +1144,7 @@ async function initializeAdminPageJs() {
                         }
                     );
                     const data = await response.json();
-                    console.log(data);
+                    if (data.length === 0) return;
                     OngoingDataTable.clear();
                     OngoingDataTable.rows.add(
                         data.map((Ongoing) => {
@@ -1194,30 +1200,36 @@ async function initializeAdminPageJs() {
                                         type="hidden"
                                         class="evaluated_by"
                                         value="${
-                                            Ongoing?.evaluated_by_prefix +
-                                            ' ' +
-                                            Ongoing.evaluated_by_f_name +
-                                            ' ' +
-                                            Ongoing?.evaluated_by_mid_name +
-                                            ' ' +
-                                            Ongoing.evaluated_by_l_name +
-                                            ' ' +
-                                            Ongoing?.evaluated_by_suffix
+                                            Ongoing?.evaluated_by_prefix ||
+                                            '' +
+                                                ' ' +
+                                                Ongoing.evaluated_by_f_name +
+                                                ' ' +
+                                                Ongoing?.evaluated_by_mid_name ||
+                                            '' +
+                                                ' ' +
+                                                Ongoing.evaluated_by_l_name +
+                                                ' ' +
+                                                Ongoing?.evaluated_by_suffix ||
+                                            ''
                                         }"
                                     />
                                     <input
                                         type="hidden"
                                         class="handled_by"
                                         value="${
-                                            Ongoing?.handled_by_prefix +
-                                            ' ' +
-                                            Ongoing.handled_by_f_name +
-                                            ' ' +
-                                            Ongoing?.handled_by_mid_name +
-                                            ' ' +
-                                            Ongoing.handled_by_l_name +
-                                            ' ' +
-                                            Ongoing?.handled_by_suffix
+                                            Ongoing?.handled_by_prefix ||
+                                            '' +
+                                                ' ' +
+                                                Ongoing.handled_by_f_name +
+                                                ' ' +
+                                                Ongoing?.handled_by_mid_name ||
+                                            '' +
+                                                ' ' +
+                                                Ongoing.handled_by_l_name +
+                                                ' ' +
+                                                Ongoing?.handled_by_suffix ||
+                                            ''
                                         }"
                                     />`,
                                 /*html*/ `${Ongoing.firm_name}
@@ -1228,19 +1240,34 @@ async function initializeAdminPageJs() {
                                     />
                                     <input
                                         type="hidden"
-                                        class="address"
+                                        class="factory_address"
                                         value="${
-                                            Ongoing.landmark +
+                                            Ongoing.factory_landmark +
                                             ', ' +
-                                            Ongoing.barangay +
+                                            Ongoing.factory_barangay +
                                             ', ' +
-                                            Ongoing.city +
+                                            Ongoing.factory_city +
                                             ', ' +
-                                            Ongoing.province +
+                                            Ongoing.factory_province +
                                             ', ' +
-                                            Ongoing.region
+                                            Ongoing.factory_region
                                         }"
                                     />
+                                    <input
+                                    type="hidden"
+                                    class="office_address"
+                                    value="${
+                                        Ongoing.office_landmark +
+                                        ', ' +
+                                        Ongoing.office_barangay +
+                                        ', ' +
+                                        Ongoing.office_city +
+                                        ', ' +
+                                        Ongoing.office_province +
+                                        ', ' +
+                                        Ongoing.office_region
+                                    }"
+                                />
                                     <input
                                         type="hidden"
                                         class="enterprise_type"
@@ -1642,7 +1669,7 @@ async function initializeAdminPageJs() {
                                         value="${item.total_personnel || 0}"
                                     />
                                     <strong class="ps-2"> Office Address:</strong>
-                                    <span class="business_address text-truncate ps-3"
+                                    <span class="office_address text-truncate ps-3"
                                         >${item.office_landmark || ''}, ${item.office_barangay || ''},
                                         ${item.office_city || ''}, ${item.office_province || ''},
                                         ${item.office_region || ''}</span
@@ -1755,10 +1782,7 @@ async function initializeAdminPageJs() {
                     .trim();
                 const designation = row.find('td:nth-child(3)').text().trim();
                 const businessId = row.find('input[name="businessID"]').val();
-                const businessAddress = row
-                    .find('.business_address')
-                    .text()
-                    .trim();
+                const officeAddress = row.find('.office_address').text().trim();
                 const requestedFundAmount = row
                     .find('input[name="requested_fund_amount"]')
                     .val();
@@ -1817,7 +1841,7 @@ async function initializeAdminPageJs() {
                 offCanvaReadonlyInputs.filter('.business-id').val(businessId);
                 offCanvaReadonlyInputs
                     .filter('.office-address')
-                    .val(businessAddress.replace(/\s+/g, ' ').trim());
+                    .val(officeAddress.replace(/\s+/g, ' ').trim());
 
                 offCanvaReadonlyInputs
                     .filter('.factory-address')

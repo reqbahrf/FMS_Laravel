@@ -368,9 +368,17 @@
                                     >
                                 </div>
                                 <div class="col-12">
-                                    <label for="businessAddress">Business Address:</label>
+                                    <label for="officeAddress">Office Address:</label>
                                     <input
-                                        class="form-control businessAddress"
+                                        class="form-control officeAddress"
+                                        type="text"
+                                        readonly
+                                    >
+                                </div>
+                                <div class="col-12">
+                                    <label for="factoryAddress">Factory Address:</label>
+                                    <input
+                                        class="form-control factoryAddress"
                                         type="text"
                                         readonly
                                     >
