@@ -1,5 +1,5 @@
 <div class="p-3">
-    <h4>Applicant</h4>
+    <h1>Applicant</h1>
 </div>
 <div
     class="offcanvas offcanvas-end"
@@ -9,13 +9,13 @@
     tabindex="-1"
 >
     <div class="offcanvas-header bg-primary">
-        <h5
+        <h1
             class="offcanvas-title text-white fs-4"
             id="staticBackdropLabel"
         >
             <i class="ri-id-card-fill ri-lg"></i>
             Applicant Details
-        </h5>
+        </h1>
         <button
             class="btn-close"
             data-bs-dismiss="offcanvas"
@@ -26,11 +26,11 @@
     <div class="offcanvas-body">
         <div class="row gy-3">
             <div class="card p-0">
-                <div class="card-header bg-primary">
-                    <h5 class="text-white mb-0">
+                <div class="card-header">
+                    <h2 class="text-black mb-0">
                         <i class="ri-contacts-fill"></i>
                         Personal Info
-                    </h5>
+                    </h2>
                 </div>
                 <div class="card-body">
                     <div class="row gy-2">
@@ -50,7 +50,7 @@
                                 readonly
                             >
                         </div>
-                        <h6>Contact Details:</h6>
+                        <h3>Contact Details:</h3>
                         <div class="col-12 col-md-4">
                             <label for="landline">Landline:</label>
                             <input
@@ -79,11 +79,11 @@
                 </div>
             </div>
             <div class="card p-0">
-                <div class="card-header bg-primary">
-                    <h6 class="text-white mb-0">
+                <div class="card-header">
+                    <h2 class="text-black mb-0">
                         <i class="ri-briefcase-fill"></i>
                         Business Info
-                    </h6>
+                    </h2>
                 </div>
                 <div class="card-body">
                     <div class="row gy-2">
@@ -115,7 +115,7 @@
                                 readonly
                             >
                         </div>
-                        <h6>Assets:</h6>
+                        <h3>Assets:</h3>
                         <div class="col-12 col-md-4">
                             <label
                                 class="ps-2"
@@ -158,15 +158,32 @@
                                 >
                             </div>
                         </div>
+                        <div class="col-12">
+                            <h4 class="text-center">
+                                Requested Fund Amount by the Applicant:
+                            </h4>
+                            <div class="d-flex align-items-center justify-content-center">
+                                <div class="input-group w-50">
+                                    <span class="input-group-text">₱</span>
+                                    <input
+                                        class="form-control fw-bold"
+                                        id="requested_fund_amount"
+                                        type="text"
+                                        readonly
+                                    >
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
             <div class="card p-0">
-                <div class="card-header bg-primary">
-                    <h6 class="text-white mb-0">
+                <div class="card-header">
+                    <h2 class="text-black mb-0">
                         <i class="ri-team-fill"></i>
                         Personnel Information
-                    </h6>
+                    </h2>
                 </div>
                 <div class="card-body">
                     <table class="table table-bordered">

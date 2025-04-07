@@ -3015,7 +3015,6 @@ async function initializeStaffPageJs() {
                     const birthDate = row
                         .find('input[name="birth_date"]')
                         .val();
-                    console.log(birthDate);
                     const CONTACT_PERSON_INFO = {
                         fullName: row.find('td:nth-child(1)').text().trim(),
                         sex: row.find("input[name='sex']").val(),
