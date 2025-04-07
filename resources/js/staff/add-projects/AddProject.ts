@@ -129,6 +129,14 @@ export default class AddProject {
     private _initDeleteDraftEvent() {
         if (!this.form) return;
         this.form.find('#deleteDraftButton').on('click', async () => {
+            const isConfirmed = await createConfirmationModal({
+                title: 'Confirm Draft Deletion',
+                titleBg: 'bg-danger',
+                message: 'Are you sure you want to delete this draft?',
+                confirmText: 'Yes',
+                cancelText: 'No',
+            });
+            if (!isConfirmed) return;
             try {
                 console.log('This is triggered');
                 if (!this.draftClass) return;
