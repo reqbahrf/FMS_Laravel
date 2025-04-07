@@ -1600,7 +1600,7 @@ async function initializeAdminPageJs() {
                                 name="requested_fund_amount"
                                 value="${item.requested_fund_amount}"
                             />`,
-                                `${item.designation}`,
+                                /*html*/ `<span class="designation">${item.designation}</span>`,
                                 /*html*/ `<div>
                                     <strong>Firm Name:</strong>
                                     <span class="firm_name"
@@ -1777,10 +1777,10 @@ async function initializeAdminPageJs() {
                     $('#applicantDetails').find('input');
 
                 const cooperatorName = row
-                    .find('td:nth-child(2)')
+                    .find('td:nth-child(1)')
                     .text()
                     .trim();
-                const designation = row.find('td:nth-child(3)').text().trim();
+                const designation = row.find('.designation').text().trim();
                 const businessId = row.find('input[name="businessID"]').val();
                 const officeAddress = row.find('.office_address').text().trim();
                 const requestedFundAmount = row

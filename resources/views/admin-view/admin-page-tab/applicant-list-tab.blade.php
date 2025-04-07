@@ -158,7 +158,7 @@
                                 >
                             </div>
                         </div>
-                        <div class="col-12">
+                        <div class="col-12 mt-3">
                             <h4 class="text-center">
                                 Requested Fund Amount by the Applicant:
                             </h4>
