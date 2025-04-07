@@ -50,6 +50,7 @@ class RegistrationService
         $user_name = $applicant->user_name;
         $successful_inserts = 0;
 
+        Log::info('Starting application registration process', [$validatedInputs]);
         DB::beginTransaction();
 
         try {
@@ -499,7 +500,7 @@ class RegistrationService
         $factory_telNo = $validatedInputs['factory_telNo'];
         $factory_faxNo = $validatedInputs['factory_faxNo'];
         $factory_emailAddress = $validatedInputs['factory_emailAddress'];
-        $sector = $validatedInputs['sector'];
+        $sectors = $validatedInputs['sectors'];
         $export_market = json_encode($validatedInputs['exportMarket'] ?? []);
         $local_market = json_encode($validatedInputs['localMarket'] ?? []);
 
@@ -522,7 +523,7 @@ class RegistrationService
             'factory_telephone' => $factory_telNo,
             'factory_fax_no' => $factory_faxNo,
             'factory_email' => $factory_emailAddress,
-            'sector' => $sector,
+            'sectors' => $sectors,
             'Export_Mkt_Outlet' => $export_market,
             'Local_Mkt_Outlet' => $local_market,
         ]);

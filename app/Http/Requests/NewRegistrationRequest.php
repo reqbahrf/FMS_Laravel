@@ -22,6 +22,7 @@ class NewRegistrationRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
+            'requested_fund_amount' => str_replace(',', '', $this->requested_fund_amount) ?? 0,
             'm_personnelDiRe' => str_replace(',', '', $this->m_personnelDiRe) ?? 0,
             'f_personnelDiRe' => str_replace(',', '', $this->f_personnelDiRe) ?? 0,
             'm_personnelDiPart' => str_replace(',', '', $this->m_personnelDiPart) ?? 0,
@@ -160,7 +161,7 @@ class NewRegistrationRequest extends FormRequest
             'home_landmark' => 'nullable|string',
             'home_zipcode' => 'required|string',
 
-            'requested_fund_amount' => 'required|string',
+            'requested_fund_amount' => 'required|numeric',
 
 
 
@@ -198,10 +199,12 @@ class NewRegistrationRequest extends FormRequest
             'factory_faxNo' => 'nullable',
             'factory_emailAddress' => 'nullable|email',
 
+            'sectors' => 'nullable',
+
             'buildings' => 'required',
             'equipments' => 'required',
             'working_capital' => 'required',
-            'enterprise_level' => 'required|in:Micro Enterprise,Small Enterprise,Medium Enterprise,Large Enterprise',
+            'enterprise_level' => 'required|in:Micro Enterprise,Small Enterprise,Medium Enterprise',
 
             //TNA Important Data
             'food_processing_activity' => 'nullable|in:on,null',
