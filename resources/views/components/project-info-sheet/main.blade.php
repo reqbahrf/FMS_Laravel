@@ -256,6 +256,7 @@
                         <td
                             class="tg-8d8j"
                             colspan="1"
+                            rowspan="5"
                         ></td>
                     </tr>
                     <tr>
