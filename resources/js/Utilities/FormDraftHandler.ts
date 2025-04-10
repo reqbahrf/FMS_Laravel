@@ -3,6 +3,7 @@ import { TableDataExtractor } from './TableDataExtractor';
 import { TableRowConfig, DraftFormConfig } from 'global-form-config';
 import { showToastFeedback } from './feedback-toast';
 import { processError } from './error-handler-util';
+import { AddressFormInput } from './AddressInputHandler';
 interface FilePondDraftData {
     [key: string]:
         | string
@@ -444,6 +445,47 @@ export class FormDraftHandler {
     }
 
     /**
+     * Handles the loading of "Same Address With" checkboxes in the correct sequence
+     * to ensure that source addresses are fully loaded before copying to target addresses.
+     *
+     * @param {Object} draftData - The draft data containing form values
+     * @returns {Promise<void>} - A promise that resolves when all address checkboxes are properly handled
+     */
+    private async handleAddressCheckboxSequence(draftData: any): Promise<void> {
+        const addressSequence = [
+            { prefix: 'home', checkbox: null },
+            { prefix: 'office', checkbox: 'same_address_with_home' },
+            { prefix: 'factory', checkbox: 'same_address_with_office' },
+        ];
+
+        for (const addressType of addressSequence) {
+            if (!addressType.checkbox || !draftData[addressType.checkbox]) {
+                await AddressFormInput.loadAddressDropdowns(
+                    addressType.prefix,
+                    draftData
+                );
+            }
+
+            if (addressType.checkbox && draftData[addressType.checkbox]) {
+                await new Promise((resolve) => setTimeout(resolve, 100));
+
+                const sourcePrefix = addressType.checkbox.replace(
+                    'same_address_with_',
+                    ''
+                );
+
+                $(`#${addressType.checkbox}`).prop('checked', true);
+
+                AddressFormInput.handleSameAddressCheckbox(
+                    sourcePrefix,
+                    addressType.prefix,
+                    true
+                );
+            }
+        }
+    }
+
+    /**
      * Loads saved draft data into a form based on the provided configuration.
      *
      * This method retrieves draft data from the server and populates form fields,
@@ -454,39 +496,11 @@ export class FormDraftHandler {
      *                                       table selectors, table row configurations,
      *                                       FilePond selectors, and fields to exclude
      * @param {Function} [customInputDataLoaderFn] - Optional custom function to load data into text inputs
-     *                                              Default implementation uses this.loadTextInputData
      * @param {Function} [customTableDataLoaderFn] - Optional custom function to load data into tables
-     *                                             Default implementation uses this.loadTablesData
      * @param {Function} [customFilepondLoaderFn] - Optional custom function to load data into FilePond instances
-     *                                            Default implementation uses this.loadFilepondData
      * @param {Function|Object<string, Function>} [customDataLoaderFn] - Optional custom function or object of named functions
      *                                                                 to handle loading data into custom form elements
      * @returns {Promise<void>} - A promise that resolves when the draft data has been loaded
-     *
-     * @throws {Error} - If there's an error during the AJAX request or data loading process
-     *
-     * @example
-     * // Basic usage with default loaders
-     * await formDraftHandler.loadDraftData({
-     *   formSelector: '#myForm',
-     *   tableSelectors: ['#table1', '#table2'],
-     *   tableRowConfigs: { table1: { rowConfig }, table2: { rowConfig } },
-     *   filepondSelector: ['#filePond1', '#filePond2'],
-     *   excludedFields: ['#password', '#confirmPassword']
-     * });
-     *
-     * @example
-     *  With custom loaders
-     * await formDraftHandler.loadDraftData(
-     *   formConfig,
-     *   (data, selector, excluded) => { Custom input loader },
-     *   (data, selectors, configs) => { Custom table loader },
-     *   (data, selectors) => { Custom FilePond loader },
-     *   {
-     *     customField1: (data, selector) => { Custom field loader },
-     *     customField2: (data, selector) => { Another custom field loader }
-     *   }
-     * );
      */
     public async loadDraftData(
         formConfig: DraftFormConfig,
@@ -556,6 +570,8 @@ export class FormDraftHandler {
                     loaderFn(draftData, formSelector);
                 }
             );
+
+            await this.handleAddressCheckboxSequence(draftData);
         } catch (error) {
             console.error('Error loading draft:', error);
         }
