@@ -21,7 +21,10 @@
     }
 </style>
 <div id="formWrapper">
-    <nav aria-label="breadcrumb">
+    <nav
+        class="mt-3"
+        aria-label="breadcrumb"
+    >
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a
                     class="revertToSelectDoc"
@@ -484,7 +487,7 @@
                                                 <div
                                                     class="d-flex justify-content-end p-2 addAndRemoveButton_Container">
                                                     <button
-                                                        class="btn btn-primary addNewProductRow"
+                                                        class="btn btn-primary addNewExportProductRow"
                                                         data-toggle="tooltip"
                                                         type="button"
                                                         title="Add a new row"
@@ -493,7 +496,8 @@
                                                         <i class="ri-add-box-fill"></i>
                                                     </button>
                                                     <button
-                                                        class="btn btn-danger removeRowButton mx-2"
+                                                        class="btn btn-danger removeExportProductRow mx-2"
+                                                        data-remove-row-btn
                                                         data-toggle="tooltip"
                                                         type="button"
                                                         title="Delete row"
@@ -541,6 +545,7 @@
                                                                 <div class="input-group">
                                                                     <input
                                                                         class="form-control productionVolume_val"
+                                                                        data-custom-numeric-input
                                                                         type="text"
                                                                         value="{{ $exportProduct['volumeOfProduction']['value'] ?? '' }}"
                                                                         @readonly(!$isEditable)
@@ -625,6 +630,7 @@
                                                                     </span>
                                                                     <input
                                                                         class="form-control grossSales_val"
+                                                                        data-custom-numeric-input
                                                                         type="text"
                                                                         value="{{ $exportProduct['grossSales'] ?? '' }}"
                                                                         @readonly(!$isEditable)
@@ -638,6 +644,7 @@
                                                                     </span>
                                                                     <input
                                                                         class="form-control estimatedCostOfProduction_val"
+                                                                        data-custom-numeric-input
                                                                         type="text"
                                                                         value="{{ $exportProduct['estimatedCostOfProduction'] ?? '' }}"
                                                                         @readonly(!$isEditable)
@@ -651,8 +658,10 @@
                                                                     </span>
                                                                     <input
                                                                         class="form-control netSales_val"
+                                                                        data-custom-numeric-input
                                                                         type="text"
                                                                         value="{{ $exportProduct['netSales'] ?? '' }}"
+                                                                        readonly
                                                                         @readonly(!$isEditable)
                                                                     >
                                                                 </div>
@@ -677,6 +686,7 @@
                                                                 <div class="input-group">
                                                                     <input
                                                                         class="form-control productionVolume_val"
+                                                                        data-custom-numeric-input
                                                                         type="text"
                                                                         @readonly(!$isEditable)
                                                                     >
@@ -733,6 +743,7 @@
                                                                     </span>
                                                                     <input
                                                                         class="form-control grossSales_val"
+                                                                        data-custom-numeric-input
                                                                         type="text"
                                                                         @readonly(!$isEditable)
                                                                     >
@@ -745,6 +756,7 @@
                                                                     </span>
                                                                     <input
                                                                         class="form-control estimatedCostOfProduction_val"
+                                                                        data-custom-numeric-input
                                                                         type="text"
                                                                         @readonly(!$isEditable)
                                                                     >
@@ -757,7 +769,9 @@
                                                                     </span>
                                                                     <input
                                                                         class="form-control netSales_val"
+                                                                        data-custom-numeric-input
                                                                         type="text"
+                                                                        readonly
                                                                         @readonly(!$isEditable)
                                                                     >
                                                                 </div>
@@ -784,7 +798,7 @@
                                                 <div
                                                     class="d-flex justify-content-end p-2 addAndRemoveButton_Container">
                                                     <button
-                                                        class="btn btn-primary addNewProductRow"
+                                                        class="btn btn-primary addNewLocalProductRow"
                                                         data-toggle="tooltip"
                                                         type="button"
                                                         title="Add a new row"
@@ -793,7 +807,8 @@
                                                         <i class="ri-add-box-fill"></i>
                                                     </button>
                                                     <button
-                                                        class="btn btn-danger removeRowButton mx-2"
+                                                        class="btn btn-danger removeLocalProductRow mx-2"
+                                                        data-remove-row-btn
                                                         data-toggle="tooltip"
                                                         type="button"
                                                         title="Delete row"

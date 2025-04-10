@@ -1,7 +1,7 @@
-@props(['hasDate' => false, 'layout' => 'default'])
+@props(['containerSelector', 'hasDate' => false, 'layout' => 'default'])
 <div
     class="col-12 mt-3"
-    id="esignature-section"
+    id="{{ $containerSelector }}"
 >
     <div class="card shadow-sm mb-4">
         <div class="card-header bg-primary text-white">

@@ -27,8 +27,8 @@
         }
     }
 </style>
-<div class="p-3">
-    <h4>Quarterly Report for {{ $quarter }}</h4>
+<div class="m-3">
+    <h1>Quarterly Report for {{ $quarter }}</h1>
 </div>
 <div class="card m-0 m-md-3">
     <div class="card-body">
@@ -39,8 +39,8 @@
                 data-quarter-project="{{ $projectId }}"
                 data-quarter-period="{{ $quarter }}"
                 data-quarter-status="{{ $reportStatus }}"
-                data-get-draft="@secureGetDraft('Quarterly_report_' . $quarter, $reportId)"
-                data-store-draft="@secureStoreDraft('Quarterly_report_' . $quarter, $reportId)"
+                data-get-draft="@secureGetDraft('Quarterly_report_' . $quarter, auth()->id())"
+                data-store-draft="@secureStoreDraft('Quarterly_report_' . $quarter, auth()->id())"
                 action="{{ URL::signedRoute('QuarterlyReport.update', $reportId) }}"
             >
                 <div
@@ -212,6 +212,7 @@
                                                                         class="form-control number_input_only"
                                                                         id="maleInput"
                                                                         name="male_Dir_Regular"
+                                                                        data-custom-numeric-input
                                                                         type="text"
                                                                     >
                                                                 </div>
@@ -221,6 +222,7 @@
                                                                         class="form-control number_input_only"
                                                                         id="femaleInput"
                                                                         name="female_Dir_Regular"
+                                                                        data-custom-numeric-input
                                                                         type="text"
                                                                     >
                                                                 </div>
@@ -230,6 +232,7 @@
                                                                         class="form-control number_input_only"
                                                                         id="workdayInput"
                                                                         name="workday_Dir_Regular"
+                                                                        data-custom-numeric-input
                                                                         type="text"
                                                                     >
                                                                 </div>
@@ -250,6 +253,7 @@
                                                                         class="form-control number_input_only"
                                                                         id="parttimeMaleInput"
                                                                         name="male_Dir_PartT"
+                                                                        data-custom-numeric-input
                                                                         type="text"
                                                                     >
                                                                 </div>
@@ -259,6 +263,7 @@
                                                                         class="form-control number_input_only"
                                                                         id="parttimeFemaleInput"
                                                                         name="female_Dir_PartT"
+                                                                        data-custom-numeric-input
                                                                         type="text"
                                                                     >
                                                                 </div>
@@ -268,6 +273,7 @@
                                                                         class="form-control number_input_only"
                                                                         id="parttimeWorkdayInput"
                                                                         name="workday_Dir_PartT"
+                                                                        data-custom-numeric-input
                                                                         type="text"
                                                                     >
                                                                 </div>
@@ -330,6 +336,7 @@
                                                                         class="form-control number_input_only"
                                                                         id="regularMaleInput"
                                                                         name="male_Indir_Regular"
+                                                                        data-custom-numeric-input
                                                                         type="text"
                                                                     >
                                                                 </div>
@@ -339,6 +346,7 @@
                                                                         class="form-control number_input_only"
                                                                         id="regularFemaleInput"
                                                                         name="female_Indir_Regular"
+                                                                        data-custom-numeric-input
                                                                         type="text"
                                                                     >
                                                                 </div>
@@ -348,6 +356,7 @@
                                                                         class="form-control number_input_only"
                                                                         id="regularWorkdayInput"
                                                                         name="workday_Indir_Regular"
+                                                                        data-custom-numeric-input
                                                                         type="text"
                                                                     >
                                                                 </div>
@@ -368,6 +377,7 @@
                                                                         class="form-control number_input_only"
                                                                         id="parttimeMaleInput"
                                                                         name="male_Indir_PartT"
+                                                                        data-custom-numeric-input
                                                                         type="text"
                                                                     >
 
@@ -378,6 +388,7 @@
                                                                         class="form-control number_input_only"
                                                                         id="parttimeFemaleInput"
                                                                         name="female_Indir_PartT"
+                                                                        data-custom-numeric-input
                                                                         type="text"
                                                                     >
 
@@ -388,6 +399,7 @@
                                                                         class="form-control number_input_only"
                                                                         id="parttimeWorkdayInput"
                                                                         name="workday_Indir_PartT"
+                                                                        data-custom-numeric-input
                                                                         type="text"
                                                                     >
 
@@ -450,7 +462,7 @@
                                                     <div
                                                         class="d-flex justify-content-end p-2 addAndRemoveButton_Container">
                                                         <button
-                                                            class="btn btn-primary addNewProductRow"
+                                                            class="btn btn-primary addNewExportProductRow"
                                                             data-toggle="tooltip"
                                                             type="button"
                                                             title="Add a new row"
@@ -458,8 +470,9 @@
                                                             <i class="ri-add-box-fill"></i>
                                                         </button>
                                                         <button
-                                                            class="btn btn-danger removeRowButton mx-2"
+                                                            class="btn btn-danger removeExportRow mx-2"
                                                             data-toggle="tooltip"
+                                                            data-remove-row-btn
                                                             type="button"
                                                             title="Delete row"
                                                             disabled
@@ -499,6 +512,7 @@
                                                                     <div class="input-group">
                                                                         <input
                                                                             class="form-control productionVolume_val"
+                                                                            data-custom-numeric-input
                                                                             type="text"
                                                                         >
                                                                         <select class="form-select volumeUnit">
@@ -550,6 +564,7 @@
                                                                         </span>
                                                                         <input
                                                                             class="form-control grossSales_val"
+                                                                            data-custom-numeric-input
                                                                             type="text"
                                                                         >
                                                                     </div>
@@ -561,6 +576,7 @@
                                                                         </span>
                                                                         <input
                                                                             class="form-control estimatedCostOfProduction_val"
+                                                                            data-custom-numeric-input
                                                                             type="text"
                                                                         >
                                                                     </div>
@@ -573,6 +589,7 @@
                                                                         <input
                                                                             class="form-control netSales_val"
                                                                             type="text"
+                                                                            readonly
                                                                         >
                                                                     </div>
                                                                 </td>
@@ -596,7 +613,7 @@
                                                     <div
                                                         class="d-flex justify-content-end p-2 addAndRemoveButton_Container">
                                                         <button
-                                                            class="btn btn-primary addNewProductRow"
+                                                            class="btn btn-primary addNewLocalProductRow"
                                                             data-toggle="tooltip"
                                                             type="button"
                                                             title="Add a new row"
@@ -604,7 +621,8 @@
                                                             <i class="ri-add-box-fill"></i>
                                                         </button>
                                                         <button
-                                                            class="btn btn-danger removeRowButton mx-2"
+                                                            class="btn btn-danger removeLocalProductRow mx-2"
+                                                            data-remove-row-btn
                                                             data-toggle="tooltip"
                                                             type="button"
                                                             title="Delete row"
@@ -643,6 +661,7 @@
                                                                     <div class="input-group">
                                                                         <input
                                                                             class="form-control productionVolume_val"
+                                                                            data-custom-numeric-input
                                                                             type="text"
                                                                         >
                                                                         <select class="form-select volumeUnit">
@@ -691,6 +710,7 @@
                                                                         <span class="input-group-text">₱</span>
                                                                         <input
                                                                             class="form-control grossSales_val"
+                                                                            data-custom-numeric-input
                                                                             type="text"
                                                                         >
                                                                     </div>
@@ -700,6 +720,7 @@
                                                                         <span class="input-group-text">₱</span>
                                                                         <input
                                                                             class="form-control estimatedCostOfProduction_val"
+                                                                            data-custom-numeric-input
                                                                             type="text"
                                                                         >
                                                                     </div>
@@ -710,6 +731,7 @@
                                                                         <input
                                                                             class="form-control netSales_val"
                                                                             type="text"
+                                                                            readonly
                                                                         >
                                                                     </div>
                                                                 </td>

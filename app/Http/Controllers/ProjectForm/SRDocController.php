@@ -118,7 +118,7 @@ class SRDocController extends Controller
                 ], 500);
             }
             try {
-                return $generatePDFAction->execute('Status Report', $html, true, [
+                return $generatePDFAction->execute('Status Report', $html, true, '', [
                     'margin_top' => 35,
                     'margin_left' => 0,
                     'margin_right' => 0,

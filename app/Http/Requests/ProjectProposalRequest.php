@@ -32,7 +32,7 @@ class ProjectProposalRequest extends FormRequest
             'specific_objectives' => 'nullable|string',
 
             // Company Profile Fields
-            'name_of_firm' => 'nullable|string|max:255',
+            'firm_name' => 'nullable|string|max:255',
             'address' => 'nullable|string|max:255',
             'contact_person' => 'nullable|string|max:255',
             'contact_no' => 'nullable|string|max:20',
@@ -41,25 +41,25 @@ class ProjectProposalRequest extends FormRequest
 
             // Radio Button Fields
             'type_of_organization' => 'nullable|in:Single Proprietorship,Partnership,Cooperative,Corporation',
-            'profit_status' => 'nullable|in:Profit,Non-Profit',
+            'profit_status' => 'nullable|in:Profit,Non-Profit|prohibited_unless:type_of_organization,Corporation',
             'size_of_organization' => 'nullable|string',
 
             // Workforce Fields
-            'direct_workers_male' => 'nullable|integer|min:0',
-            'direct_workers_female' => 'nullable|integer|min:0',
-            'direct_workers_total' => 'nullable|integer|min:0',
-            'production_male' => 'nullable|integer|min:0',
-            'production_female' => 'nullable|integer|min:0',
-            'production_total' => 'nullable|integer|min:0',
-            'non_production_male' => 'nullable|integer|min:0',
-            'non_production_female' => 'nullable|integer|min:0',
-            'non_production_total' => 'nullable|integer|min:0',
-            'indirect_contract_workers_male' => 'nullable|integer|min:0',
-            'indirect_contract_workers_female' => 'nullable|integer|min:0',
-            'indirect_contract_workers_total' => 'nullable|integer|min:0',
-            'total_male' => 'nullable|integer|min:0',
-            'total_female' => 'nullable|integer|min:0',
-            'total' => 'nullable|integer|min:0',
+            'direct_workers_male' => 'nullable|string|min:0',
+            'direct_workers_female' => 'nullable|string|min:0',
+            'direct_workers_total' => 'nullable|string|min:0',
+            'production_male' => 'nullable|string|min:0',
+            'production_female' => 'nullable|string|min:0',
+            'production_total' => 'nullable|string|min:0',
+            'non_production_male' => 'nullable|string|min:0',
+            'non_production_female' => 'nullable|string|min:0',
+            'non_production_total' => 'nullable|string|min:0',
+            'indirect_contract_workers_male' => 'nullable|string|min:0',
+            'indirect_contract_workers_female' => 'nullable|string|min:0',
+            'indirect_contract_workers_total' => 'nullable|string|min:0',
+            'total_male' => 'nullable|string|min:0',
+            'total_female' => 'nullable|string|min:0',
+            'employee_total' => 'nullable|string|min:0',
 
             // Registration Fields
             'dti_registration_number' => 'nullable|string|max:255',
@@ -113,7 +113,7 @@ class ProjectProposalRequest extends FormRequest
             'market_plans_strategies' => 'nullable|string',
 
             'technicalConstraints' => 'nullable|array',
-            'technicalConstraints.*.technicalConstraints' => 'nullable|string',
+            'technicalConstraints.*.processExistingPracticeProblem' => 'nullable|string',
             'technicalConstraints.*.proposedSTIntervention' => 'nullable|string',
             'technicalConstraints.*.proposedSTInterventionRelatedEquipmentSkillsUpgrading' => 'nullable|string',
             'technicalConstraints.*.impact' => 'nullable|string',

@@ -1,5 +1,5 @@
-<div class="p-3">
-    <h4>User Access</h4>
+<div class="m-3">
+    <h1>User Access</h1>
 </div>
 
 {{-- Update and Delete Modal --}}
@@ -12,16 +12,16 @@
     aria-hidden="true"
     tabindex="-1"
 >
-    <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
-                <h5
+                <h1
                     class="modal-title text-white"
                     id="UpdateAndDeleteResourcesModalLabel"
                 >
                     Update User
-                </h5>
+                </h1>
                 <button
                     class="btn-close"
                     data-bs-dismiss="modal"
@@ -61,12 +61,12 @@
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header bg-primary">
-                <h5
+                <h1
                     class="modal-title text-white"
                     id="AddUserModalLabel"
                 >
                     <i class="ri-user-add-fill ri-lg"></i> Register New User
-                </h5>
+                </h1>
                 <button
                     class="btn-close"
                     data-bs-dismiss="modal"
@@ -259,12 +259,12 @@
     tabindex="-1"
 >
     <div class="offcanvas-header bg-primary">
-        <h5
+        <h1
             class="offcanvas-title text-white"
             id="staticBackdropLabel"
         >
             <i class="ri-user-2-fill ri-lg"></i> User Details
-        </h5>
+        </h1>
         <button
             class="btn-close"
             data-bs-dismiss="offcanvas"

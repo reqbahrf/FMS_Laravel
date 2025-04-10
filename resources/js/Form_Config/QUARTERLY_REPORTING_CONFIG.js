@@ -37,6 +37,7 @@ ${rowData.PackingDetails || ''}</textarea
                 <input
                     class="form-control productionVolume_val"
                     type="text"
+                    data-custom-numeric-input
                     value="${rowData.volumeOfProduction.value || ''}"
                 />
                 <select class="form-select volumeUnit">
@@ -203,6 +204,7 @@ ${rowData.PackingDetails || ''}</textarea
             <div class="input-group">
                 <span class="input-group-text"> ₱ </span>
                 <input
+                data-custom-numeric-input
                     class="form-control grossSales_val"
                     type="text"
                     value="${rowData.grossSales || ''}"
@@ -213,6 +215,7 @@ ${rowData.PackingDetails || ''}</textarea
             <div class="input-group">
                 <span class="input-group-text"> ₱ </span>
                 <input
+                data-custom-numeric-input
                     class="form-control estimatedCostOfProduction_val"
                     type="text"
                     value="${rowData.estimatedCostOfProduction || ''}"
@@ -223,8 +226,10 @@ ${rowData.PackingDetails || ''}</textarea
             <div class="input-group">
                 <span class="input-group-text"> ₱ </span>
                 <input
+                data-custom-numeric-input
                     class="form-control netSales_val"
                     type="text"
+                    readonly
                     value="${rowData.netSales || ''}"
                 />
             </div>

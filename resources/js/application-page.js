@@ -72,14 +72,14 @@ export function initializeForm() {
     // Intent File
     const intentInstance = InitializeFilePond(
         'intentFile',
-        { acceptedFileTypes: ['application/pdf'] },
+        { acceptedFileTypes: ['application/pdf', 'image/png', 'image/jpeg'] },
         'IntentFileID_Data_Handler'
     );
 
     // DTI/SEC/CDA File
     const dtiSecCdaInstance = InitializeFilePond(
         'DTI_SEC_CDA_File',
-        { acceptedFileTypes: ['application/pdf'] },
+        { acceptedFileTypes: ['application/pdf', 'image/png', 'image/jpeg'] },
         'DtiSecCdaFileID_Data_Handler',
         'DtiSecCdaSelector'
     );
@@ -87,14 +87,14 @@ export function initializeForm() {
     // Business Permit File
     const businessPermitInstance = InitializeFilePond(
         'businessPermitFile',
-        { acceptedFileTypes: ['application/pdf'] },
+        { acceptedFileTypes: ['application/pdf', 'image/png', 'image/jpeg'] },
         'BusinessPermitFileID_Data_Handler'
     );
 
     // FDA LTO File
     const fdaLtoInstance = InitializeFilePond(
         'fdaLtoFile',
-        { acceptedFileTypes: ['application/pdf'] },
+        { acceptedFileTypes: ['application/pdf', 'image/png', 'image/jpeg'] },
         'FdaLtoFileID_Data_Handler',
         'fdaLtoSelector'
     );
@@ -102,7 +102,7 @@ export function initializeForm() {
     // Receipt File
     const receiptInstance = InitializeFilePond(
         'receiptFile',
-        { acceptedFileTypes: ['application/pdf'] },
+        { acceptedFileTypes: ['application/pdf', 'image/png', 'image/jpeg'] },
         'ReceiptFileID_Data_Handler'
     );
 
@@ -120,7 +120,7 @@ export function initializeForm() {
     // BIR File
     const birInstance = InitializeFilePond(
         'BIRFile',
-        { acceptedFileTypes: ['application/pdf'] },
+        { acceptedFileTypes: ['application/pdf', 'image/png', 'image/jpeg'] },
         'BIRFileID_Data_Handler'
     );
 
@@ -177,6 +177,9 @@ export function initializeForm() {
         autoAdjustHeight: false,
         transition: {
             animation: 'fade',
+        },
+        keyboard: {
+            keyNavigation: false,
         },
         toolbar: {
             toolbarPosition: 'bottom',

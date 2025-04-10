@@ -3,6 +3,7 @@ import { TableDataExtractor } from './TableDataExtractor';
 import { TableRowConfig, DraftFormConfig } from 'global-form-config';
 import { showToastFeedback } from './feedback-toast';
 import { processError } from './error-handler-util';
+import { AddressFormInput } from './AddressInputHandler';
 interface FilePondDraftData {
     [key: string]:
         | string
@@ -444,7 +445,62 @@ export class FormDraftHandler {
     }
 
     /**
-     * Asynchronously loads draft data for a given type, populating form fields, tables, and filepond.
+     * Handles the loading of "Same Address With" checkboxes in the correct sequence
+     * to ensure that source addresses are fully loaded before copying to target addresses.
+     *
+     * @param {Object} draftData - The draft data containing form values
+     * @returns {Promise<void>} - A promise that resolves when all address checkboxes are properly handled
+     */
+    private async handleAddressCheckboxSequence(draftData: any): Promise<void> {
+        const addressSequence = [
+            { prefix: 'home', checkbox: null },
+            { prefix: 'office', checkbox: 'same_address_with_home' },
+            { prefix: 'factory', checkbox: 'same_address_with_office' },
+        ];
+
+        for (const addressType of addressSequence) {
+            if (!addressType.checkbox || !draftData[addressType.checkbox]) {
+                await AddressFormInput.loadAddressDropdowns(
+                    addressType.prefix,
+                    draftData
+                );
+            }
+
+            if (addressType.checkbox && draftData[addressType.checkbox]) {
+                await new Promise((resolve) => setTimeout(resolve, 100));
+
+                const sourcePrefix = addressType.checkbox.replace(
+                    'same_address_with_',
+                    ''
+                );
+
+                $(`#${addressType.checkbox}`).prop('checked', true);
+
+                AddressFormInput.handleSameAddressCheckbox(
+                    sourcePrefix,
+                    addressType.prefix,
+                    true
+                );
+            }
+        }
+    }
+
+    /**
+     * Loads saved draft data into a form based on the provided configuration.
+     *
+     * This method retrieves draft data from the server and populates form fields,
+     * table data, and FilePond file upload components according to the specified
+     * configuration. It supports custom loading functions for different types of form elements.
+     *
+     * @param {DraftFormConfig} formConfig - Configuration object that defines form selectors,
+     *                                       table selectors, table row configurations,
+     *                                       FilePond selectors, and fields to exclude
+     * @param {Function} [customInputDataLoaderFn] - Optional custom function to load data into text inputs
+     * @param {Function} [customTableDataLoaderFn] - Optional custom function to load data into tables
+     * @param {Function} [customFilepondLoaderFn] - Optional custom function to load data into FilePond instances
+     * @param {Function|Object<string, Function>} [customDataLoaderFn] - Optional custom function or object of named functions
+     *                                                                 to handle loading data into custom form elements
+     * @returns {Promise<void>} - A promise that resolves when the draft data has been loaded
      */
     public async loadDraftData(
         formConfig: DraftFormConfig,
@@ -478,7 +534,6 @@ export class FormDraftHandler {
                 excludedFields,
             }: DraftFormConfig = formConfig;
 
-            // Use helper functions or fall back to generic loaders
             const loaders = {
                 textFields:
                     customInputDataLoaderFn ||
@@ -515,6 +570,8 @@ export class FormDraftHandler {
                     loaderFn(draftData, formSelector);
                 }
             );
+
+            await this.handleAddressCheckboxSequence(draftData);
         } catch (error) {
             console.error('Error loading draft:', error);
         }

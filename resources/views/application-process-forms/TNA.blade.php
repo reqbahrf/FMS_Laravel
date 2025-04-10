@@ -13,12 +13,10 @@
 <style>
     #TNAForm {
         width: 21cm;
-        /* A4 width */
         height: 29.7cm;
-        /* A4 height */
         margin: 0 auto;
         box-sizing: border-box;
-        /* Include padding in width and height */
+        padding: 0.5cm;
     }
 
     #TNAForm table#EnterpriseInformationTable,

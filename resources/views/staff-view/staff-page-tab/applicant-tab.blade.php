@@ -1,5 +1,5 @@
-<div>
-    <h4 class="p-3">Applicant:</h4>
+<div class="m-3">
+    <h1>Applicant:</h1>
 </div>
 <div>
     @include('staff-view.included-layout.tna-rejection-modal')
@@ -373,7 +373,7 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <div class="col-12">
+                                <div class="col-12 mt-3">
                                     <h4 class="text-center">
                                         Requested Fund Amount by the Applicant:
                                     </h4>

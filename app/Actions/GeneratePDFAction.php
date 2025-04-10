@@ -15,10 +15,15 @@ class GeneratePDFAction
         string $documentTitle,
         string $htmlDocument,
         bool $withHeader = false,
+        string $customHeader = '',
         array $customConfig = [],
         string $outputMode = 'I'
     ): StreamedResponse {
         try {
+            // Increase PCRE backtrack limit to handle larger HTML content
+            $originalBacktrackLimit = ini_get('pcre.backtrack_limit');
+            ini_set('pcre.backtrack_limit', '20000000'); // Increased from 10 million
+
             // Default configuration
             $defaultConfig = [
                 'mode' => 'utf-8',
@@ -44,44 +49,74 @@ class GeneratePDFAction
             $mpdf->SetAuthor(config('app.name'));
             $mpdf->SetCreator('Funding Monitoring Sys');
 
-            // Add header if requested
             if ($withHeader) {
-                $headerHtml = view('components.document-header')->render();
-                $mpdf->SetHTMLHeader($headerHtml);
+                if ($customHeader) {
+                    $mpdf->SetHTMLHeader($customHeader);
+                } else {
+                    $headerHtml = view('components.document-header')->render();
+                    $mpdf->SetHTMLHeader($headerHtml);
+                }
             }
 
-            // Write HTML content
-            $mpdf->WriteHTML($htmlDocument);
+            // Try to write the entire HTML content with more robust error handling
+            $chunkSize = 500000; // 500 KB chunks
+            $htmlChunks = self::splitHtmlIntoChunks($htmlDocument, $chunkSize);
+
+            foreach ($htmlChunks as $index => $chunk) {
+                try {
+                    $mpdf->WriteHTML($chunk, $index === 0 ? 0 : 2); // First chunk with mode 0, subsequent with mode 2
+                } catch (MpdfException $e) {
+                    Log::error('PDF Generation Chunk Error', [
+                        'chunk_index' => $index,
+                        'chunk_size' => strlen($chunk),
+                        'error' => $e->getMessage()
+                    ]);
+                    throw $e;
+                }
+            }
 
             // Validate output mode
             $validOutputModes = ['I', 'D', 'F', 'S'];
-            if (!in_array(strtoupper($outputMode), $validOutputModes)) {
-                throw new InvalidArgumentException("Invalid output mode. Must be one of: " . implode(', ', $validOutputModes));
+            if (!in_array($outputMode, $validOutputModes)) {
+                throw new InvalidArgumentException("Invalid output mode: $outputMode");
             }
 
-            // Generate PDF
-            $outputFilename = preg_replace('/[^a-zA-Z0-9_-]/', '_', $documentTitle) . '.pdf';
+            // Generate and return PDF
             return response()->stream(
-                function () use ($mpdf, $outputFilename, $outputMode) {
-                    $mpdf->Output($outputFilename, $outputMode);
+                function () use ($mpdf, $outputMode) {
+                    $mpdf->Output($mpdf->title, $outputMode);
                 },
                 200,
                 [
                     'Content-Type' => 'application/pdf',
-                    'Content-Disposition' => 'inline; filename="' . $outputFilename . '"',
-                    'Cache-Control' => 'no-cache, no-store, must-revalidate',
-                    'Pragma' => 'no-cache',
-                    'Expires' => '0'
+                    'Content-Disposition' => 'inline; filename="' . $mpdf->title . '.pdf"',
                 ]
             );
-        } catch (MpdfException $e) {
-            // Log Mpdf specific errors
-            Log::error('PDF Generation Error (Mpdf): ' . $e->getMessage());
-            throw $e;
         } catch (Exception $e) {
-            // Log other unexpected errors
-            Log::error('PDF Generation Error: ' . $e->getMessage());
+            Log::error('PDF Generation Error', [
+                'document_title' => $documentTitle,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
             throw $e;
+        } finally {
+            // Restore original backtrack limit
+            ini_set('pcre.backtrack_limit', $originalBacktrackLimit);
         }
+    }
+
+    public static function splitHtmlIntoChunks(string $html, int $chunkSize): array
+    {
+        $chunks = [];
+        $offset = 0;
+
+        while ($offset < strlen($html)) {
+            $chunk = substr($html, $offset, $chunkSize);
+            $chunks[] = $chunk;
+            $offset += $chunkSize;
+        }
+
+        return $chunks;
     }
 }

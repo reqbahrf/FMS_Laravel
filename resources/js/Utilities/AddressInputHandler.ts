@@ -1,4 +1,5 @@
 import { API } from './AddressAPI';
+import { showToastFeedback } from './feedback-toast';
 
 interface LocationItem {
     name: string;
@@ -376,9 +377,9 @@ class AddressFormInput {
             $('#same_address_with_home').off(`change.${this.instanceId}`);
             $('#same_address_with_home').on(
                 `change.${this.instanceId}`,
-                function () {
+                async function () {
                     const isChecked = $(this).prop('checked');
-                    AddressFormInput.handleSameAddressCheckbox(
+                    await AddressFormInput.handleSameAddressCheckbox(
                         'home',
                         'office',
                         isChecked
@@ -391,9 +392,9 @@ class AddressFormInput {
             $('#same_address_with_office').off(`change.${this.instanceId}`);
             $('#same_address_with_office').on(
                 `change.${this.instanceId}`,
-                function () {
+                async function () {
                     const isChecked = $(this).prop('checked');
-                    AddressFormInput.handleSameAddressCheckbox(
+                    await AddressFormInput.handleSameAddressCheckbox(
                         'office',
                         'factory',
                         isChecked
@@ -413,16 +414,33 @@ class AddressFormInput {
     }
 
     /**
+     * Checks if an address has all required fields loaded
+     * @param prefix The address prefix (e.g., 'home', 'office', 'factory')
+     * @returns {boolean} True if all required address fields are loaded
+     */
+    static isAddressLoaded(prefix: string): boolean {
+        const regionValue = $(`#${prefix}_region`).val();
+        const provinceValue = $(`#${prefix}_province`).val();
+        const cityValue = $(`#${prefix}_city`).val();
+        const barangayValue = $(`#${prefix}_barangay`).val();
+
+        return Boolean(
+            regionValue && provinceValue && cityValue && barangayValue
+        );
+    }
+
+    /**
      * Handle the "Same Address With" checkbox functionality
      * @param sourcePrefix The source address prefix (e.g., 'home', 'office')
      * @param targetPrefix The target address prefix (e.g., 'office', 'factory')
      * @param isChecked Whether the checkbox is checked
+     * @returns {Promise<void>} A promise that resolves when the address copying is complete
      */
-    static handleSameAddressCheckbox(
+    static async handleSameAddressCheckbox(
         sourcePrefix: string,
         targetPrefix: string,
         isChecked: boolean
-    ): void {
+    ): Promise<void> {
         const fields = [
             'region',
             'province',
@@ -442,22 +460,54 @@ class AddressFormInput {
         );
 
         if (isChecked) {
-            // First handle non-cascading fields
-            allFields.forEach((field) => {
-                if (
-                    !['region', 'province', 'city', 'barangay'].includes(field)
-                ) {
-                    const sourceValue = $(
-                        `#${sourcePrefix}_${field}`
-                    ).val() as string;
-                    const targetElement = $(`#${targetPrefix}_${field}`);
-                    targetElement.val(sourceValue);
-                    targetElement.prop('disabled', true);
-                }
-            });
+            const maxWaitTime = 15000; // 15 seconds
+            const waitForAddressLoad = () => {
+                return new Promise<boolean>((resolve) => {
+                    const startTime = Date.now();
+                    const checkInterval = setInterval(() => {
+                        if (AddressFormInput.isAddressLoaded(sourcePrefix)) {
+                            clearInterval(checkInterval);
+                            resolve(true);
+                        } else if (Date.now() - startTime > maxWaitTime) {
+                            clearInterval(checkInterval);
+                            resolve(false);
+                        }
+                    }, 200);
+                });
+            };
 
-            // Handle cascading fields with proper event handling
-            AddressFormInput.copyAddressHierarchy(sourcePrefix, targetPrefix);
+            const isSourceAddressLoaded = await waitForAddressLoad();
+
+            if (isSourceAddressLoaded) {
+                allFields.forEach((field) => {
+                    if (
+                        !['region', 'province', 'city', 'barangay'].includes(
+                            field
+                        )
+                    ) {
+                        const sourceValue = $(
+                            `#${sourcePrefix}_${field}`
+                        ).val() as string;
+                        const targetElement = $(`#${targetPrefix}_${field}`);
+                        targetElement.val(sourceValue);
+                        targetElement.prop('disabled', true);
+                    }
+                });
+
+                AddressFormInput.copyAddressHierarchy(
+                    sourcePrefix,
+                    targetPrefix
+                );
+            } else {
+                console.error(
+                    `Source address ${sourcePrefix} could not be loaded within the timeout. Cannot copy to ${targetPrefix}.`
+                );
+                $(`#same_address_with_${sourcePrefix}`).prop('checked', false);
+                showToastFeedback(
+                    'error',
+                    `Unable to load draft data for ${sourcePrefix} address. Please try again.`
+                );
+            }
         } else {
             allFields.forEach((field) => {
                 const targetElement = $(`#${targetPrefix}_${field}`);

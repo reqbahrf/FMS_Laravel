@@ -316,9 +316,8 @@ async function initializeAdminPageJs() {
                 const designation = inputs.filter('.designation').val();
                 const businessId = inputs.filter('.business_id').val();
                 const projectId = inputs.filter('.Project_id').val();
-                const businessAddress = inputs
-                    .filter('.business_address')
-                    .val();
+                const officeAddress = inputs.filter('.officeAddress').val();
+                const factoryAddress = inputs.filter('.factoryAddress').val();
                 const typeOfEnterprise = inputs
                     .filter('.type_of_enterprise')
                     .val();
@@ -346,8 +345,11 @@ async function initializeAdminPageJs() {
                 offCanvaReadonlyInputs.filter('.designation').val(designation);
                 offCanvaReadonlyInputs.filter('#b_id').val(businessId);
                 offCanvaReadonlyInputs
-                    .filter('#businessAddress')
-                    .val(businessAddress);
+                    .filter('.officeAddress')
+                    .val(officeAddress);
+                offCanvaReadonlyInputs
+                    .filter('.factoryAddress')
+                    .val(factoryAddress);
                 offCanvaReadonlyInputs
                     .filter('#typeOfEnterprise')
                     .val(typeOfEnterprise);
@@ -394,7 +396,8 @@ async function initializeAdminPageJs() {
                     const businessDetails = {
                         business_id: inputs.filter('.business_id').val(),
                         firmName: row.find('td:nth-child(3)').text().trim(),
-                        address: inputs.filter('.address').val(),
+                        officeAddress: inputs.filter('.office_address').val(),
+                        factoryAddress: inputs.filter('.factory_address').val(),
                         enterprise_type: inputs
                             .filter('.enterprise_type')
                             .val(),
@@ -459,8 +462,11 @@ async function initializeAdminPageJs() {
                         .filter('.firmName')
                         .val(businessDetails.firmName);
                     readonlyInputs
-                        .filter('.businessAddress')
-                        .val(businessDetails.address);
+                        .filter('.officeAddress')
+                        .val(businessDetails.officeAddress);
+                    readonlyInputs
+                        .filter('.factoryAddress')
+                        .val(businessDetails.factoryAddress);
                     readonlyInputs
                         .filter('.typeOfEnterprise')
                         .val(businessDetails.enterprise_type);
@@ -1138,7 +1144,7 @@ async function initializeAdminPageJs() {
                         }
                     );
                     const data = await response.json();
-                    console.log(data);
+                    if (data.length === 0) return;
                     OngoingDataTable.clear();
                     OngoingDataTable.rows.add(
                         data.map((Ongoing) => {
@@ -1194,30 +1200,36 @@ async function initializeAdminPageJs() {
                                         type="hidden"
                                         class="evaluated_by"
                                         value="${
-                                            Ongoing?.evaluated_by_prefix +
-                                            ' ' +
-                                            Ongoing.evaluated_by_f_name +
-                                            ' ' +
-                                            Ongoing?.evaluated_by_mid_name +
-                                            ' ' +
-                                            Ongoing.evaluated_by_l_name +
-                                            ' ' +
-                                            Ongoing?.evaluated_by_suffix
+                                            Ongoing?.evaluated_by_prefix ||
+                                            '' +
+                                                ' ' +
+                                                Ongoing.evaluated_by_f_name +
+                                                ' ' +
+                                                Ongoing?.evaluated_by_mid_name ||
+                                            '' +
+                                                ' ' +
+                                                Ongoing.evaluated_by_l_name +
+                                                ' ' +
+                                                Ongoing?.evaluated_by_suffix ||
+                                            ''
                                         }"
                                     />
                                     <input
                                         type="hidden"
                                         class="handled_by"
                                         value="${
-                                            Ongoing?.handled_by_prefix +
-                                            ' ' +
-                                            Ongoing.handled_by_f_name +
-                                            ' ' +
-                                            Ongoing?.handled_by_mid_name +
-                                            ' ' +
-                                            Ongoing.handled_by_l_name +
-                                            ' ' +
-                                            Ongoing?.handled_by_suffix
+                                            Ongoing?.handled_by_prefix ||
+                                            '' +
+                                                ' ' +
+                                                Ongoing.handled_by_f_name +
+                                                ' ' +
+                                                Ongoing?.handled_by_mid_name ||
+                                            '' +
+                                                ' ' +
+                                                Ongoing.handled_by_l_name +
+                                                ' ' +
+                                                Ongoing?.handled_by_suffix ||
+                                            ''
                                         }"
                                     />`,
                                 /*html*/ `${Ongoing.firm_name}
@@ -1228,19 +1240,34 @@ async function initializeAdminPageJs() {
                                     />
                                     <input
                                         type="hidden"
-                                        class="address"
+                                        class="factory_address"
                                         value="${
-                                            Ongoing.landmark +
+                                            Ongoing.factory_landmark +
                                             ', ' +
-                                            Ongoing.barangay +
+                                            Ongoing.factory_barangay +
                                             ', ' +
-                                            Ongoing.city +
+                                            Ongoing.factory_city +
                                             ', ' +
-                                            Ongoing.province +
+                                            Ongoing.factory_province +
                                             ', ' +
-                                            Ongoing.region
+                                            Ongoing.factory_region
                                         }"
                                     />
+                                    <input
+                                    type="hidden"
+                                    class="office_address"
+                                    value="${
+                                        Ongoing.office_landmark +
+                                        ', ' +
+                                        Ongoing.office_barangay +
+                                        ', ' +
+                                        Ongoing.office_city +
+                                        ', ' +
+                                        Ongoing.office_province +
+                                        ', ' +
+                                        Ongoing.office_region
+                                    }"
+                                />
                                     <input
                                         type="hidden"
                                         class="enterprise_type"
@@ -1554,12 +1581,13 @@ async function initializeAdminPageJs() {
                     }
                 );
                 const data = await response.json();
+                if (data.length === 0) return;
                 applicantDataTable.clear();
                 applicantDataTable.rows
                     .add(
                         data.map((item) => {
                             return [
-                                `${
+                                /*html*/ `${
                                     (item.prefix ? item.prefix : '') +
                                     ' ' +
                                     item.f_name +
@@ -1567,14 +1595,17 @@ async function initializeAdminPageJs() {
                                     (item.mid_name ? item.mid_name : '') +
                                     ' ' +
                                     (item.suffix ? item.suffix : '')
-                                }`,
-                                `${item.designation}`,
+                                }<input
+                                type="hidden"
+                                name="requested_fund_amount"
+                                value="${item.requested_fund_amount}"
+                            />`,
+                                /*html*/ `<span class="designation">${item.designation}</span>`,
                                 /*html*/ `<div>
                                     <strong>Firm Name:</strong>
                                     <span class="firm_name"
                                         >${item.firm_name}</span
                                     ><br />
-                                    <strong>Business Address:</strong>
                                     <input
                                         type="hidden"
                                         name="userID"
@@ -1637,10 +1668,17 @@ async function initializeAdminPageJs() {
                                         name="personnelTotal"
                                         value="${item.total_personnel || 0}"
                                     />
-                                    <span class="b_address text-truncate"
-                                        >${item.landMark}, ${item.barangay},
-                                        ${item.city}, ${item.province},
-                                        ${item.region}</span
+                                    <strong class="ps-2"> Office Address:</strong>
+                                    <span class="office_address text-truncate ps-3"
+                                        >${item.office_landmark || ''}, ${item.office_barangay || ''},
+                                        ${item.office_city || ''}, ${item.office_province || ''},
+                                        ${item.office_region || ''}</span
+                                    ><br />
+                                    <strong class="ps-2">Factory Address:</strong>
+                                    <span class="factory_address text-truncate ps-3"
+                                        >${item.factory_landmark || ''}, ${item.factory_barangay || ''},
+                                        ${item.factory_city || ''}, ${item.factory_province || ''},
+                                        ${item.factory_region || ''}</span
                                     ><br />
                                     <strong>Type of Enterprise:</strong>
                                     <span class="enterprise_type"
@@ -1653,7 +1691,7 @@ async function initializeAdminPageJs() {
                                             <span class="building_value"
                                                 >${formatNumber(
                                                     parseFloat(
-                                                        item.building_value
+                                                        item.building_value || 0
                                                     )
                                                 )}</span
                                             ></span
@@ -1663,7 +1701,8 @@ async function initializeAdminPageJs() {
                                             <span class="equipment_value"
                                                 >${formatNumber(
                                                     parseFloat(
-                                                        item.equipment_value
+                                                        item.equipment_value ||
+                                                            0
                                                     )
                                                 )}</span
                                             ></span
@@ -1675,7 +1714,8 @@ async function initializeAdminPageJs() {
                                             <span class="working_capital"
                                                 >${formatNumber(
                                                     parseFloat(
-                                                        item.working_capital
+                                                        item.working_capital ||
+                                                            0
                                                     )
                                                 )}</span
                                             ></span
@@ -1685,19 +1725,19 @@ async function initializeAdminPageJs() {
                                     <p>
                                         <strong class="p-2">Landline:</strong>
                                         <span class="landline"
-                                            >${item.landline}</span
+                                            >${item.landline || ''}</span
                                         >
                                         <br />
                                         <strong class="p-2"
                                             >Mobile Phone:</strong
                                         >
                                         <span class="mobile_num"
-                                            >${item.mobile_number}</span
+                                            >${item.mobile_number || ''}</span
                                         >
                                         <br />
                                         <strong class="p-2">Email:</strong>
                                         <span class="email_add"
-                                            >${item.email}</span
+                                            >${item.email ?? ''}</span
                                         >
                                     </p>
                                 </div>`,
@@ -1737,12 +1777,19 @@ async function initializeAdminPageJs() {
                     $('#applicantDetails').find('input');
 
                 const cooperatorName = row
-                    .find('td:nth-child(2)')
+                    .find('td:nth-child(1)')
                     .text()
                     .trim();
-                const designation = row.find('td:nth-child(3)').text().trim();
+                const designation = row.find('.designation').text().trim();
                 const businessId = row.find('input[name="businessID"]').val();
-                const businessAddress = row.find('.b_address').text().trim();
+                const officeAddress = row.find('.office_address').text().trim();
+                const requestedFundAmount = row
+                    .find('input[name="requested_fund_amount"]')
+                    .val();
+                const factoryAddress = row
+                    .find('.factory_address')
+                    .text()
+                    .trim();
 
                 const personnelMaleDirectRe = row
                     .find('input[name="personnelMaleDirectRe"]')
@@ -1793,8 +1840,12 @@ async function initializeAdminPageJs() {
                 offCanvaReadonlyInputs.filter('.designation').val(designation);
                 offCanvaReadonlyInputs.filter('.business-id').val(businessId);
                 offCanvaReadonlyInputs
-                    .filter('.business-address')
-                    .val(businessAddress);
+                    .filter('.office-address')
+                    .val(officeAddress.replace(/\s+/g, ' ').trim());
+
+                offCanvaReadonlyInputs
+                    .filter('.factory-address')
+                    .val(factoryAddress.replace(/\s+/g, ' ').trim());
                 offCanvaReadonlyInputs
                     .filter('.type-of-enterprise')
                     .val(typeOfEnterprise);
@@ -1806,6 +1857,10 @@ async function initializeAdminPageJs() {
                 offCanvaReadonlyInputs
                     .filter('.working-capital')
                     .val(workingCapital);
+
+                offCanvaReadonlyInputs
+                    .filter('#requested_fund_amount')
+                    .val(formatNumber(parseFloat(requestedFundAmount)));
 
                 offCanvaReadonlyInputs
                     .filter('.personnel-male-direct-re')

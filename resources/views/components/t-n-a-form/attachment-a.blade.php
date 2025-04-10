@@ -60,11 +60,11 @@
                             <input
                                 name="factory_address"
                                 type="text"
-                                value="{{ $TNAdata['factory_address'] ?? ($TNAdata['factoryLandmark'] ?? '') . ' ' . ($TNAdata['factoryBarangay'] ?? '') . ' ' . ($TNAdata['factoryCity'] ?? '') . ' ' . ($TNAdata['factoryProvince'] ?? '') . ' ' . ($TNAdata['factoryRegion'] ?? '') . ' ' . ($TNAdata['factoryZipCode'] ?? '') }}"
+                                value="{{ $TNAdata['factory_address'] ?? ($TNAdata['factory_landmark'] ?? '') . ' ' . ($TNAdata['factory_barangay'] ?? '') . ' ' . ($TNAdata['factory_city'] ?? '') . ' ' . ($TNAdata['factory_province'] ?? '') . ' ' . ($TNAdata['factory_region'] ?? '') . ' ' . ($TNAdata['factory_zipcode'] ?? '') }}"
                                 placeholder="Production Site"
                             >
                         @else
-                            {{ $TNAdata['factory_address'] ?? ($TNAdata['factoryLandmark'] ?? '') . ' ' . ($TNAdata['factoryBarangay'] ?? '') . ' ' . ($TNAdata['factoryCity'] ?? '') . ' ' . ($TNAdata['factoryProvince'] ?? '') . ' ' . ($TNAdata['factoryRegion'] ?? '') . ' ' . ($TNAdata['factoryZipCode'] ?? '') }}
+                            {{ $TNAdata['factory_address'] ?? ($TNAdata['factory_landmark'] ?? '') . ' ' . ($TNAdata['factory_barangay'] ?? '') . ' ' . ($TNAdata['factory_city'] ?? '') . ' ' . ($TNAdata['factory_province'] ?? '') . ' ' . ($TNAdata['factory_region'] ?? '') . ' ' . ($TNAdata['factory_zipcode'] ?? '') }}
                         @endIf
                     </span></p>
             </td>
@@ -80,13 +80,13 @@
                     >Business Permit No:
                         @if ($isEditable)
                             <input
-                                name="business_permit_No"
+                                name="business_permit_no"
                                 type="text"
-                                value="{{ $TNAdata['business_permit_No'] ?? '' }}"
+                                value="{{ $TNAdata['business_permit_no'] ?? '' }}"
                                 placeholder="Business Permit"
                             >
                         @else
-                            {{ $TNAdata['business_permit_No'] ?? '' }}
+                            {{ $TNAdata['business_permit_no'] ?? '' }}
                         @endIf
                     </span></p>
             </td>
@@ -140,12 +140,12 @@
                     >Year enterprise was established:
                         @if ($isEditable)
                             <input
-                                name="yearEstablished"
+                                name="year_established"
                                 type="text"
-                                value="{{ $TNAdata['yearEstablished'] ?? '' }}"
+                                value="{{ $TNAdata['year_established'] ?? '' }}"
                             >
                         @else
-                            {{ $TNAdata['yearEstablished'] ?? '' }}
+                            {{ $TNAdata['year_established'] ?? '' }}
                         @endIf
                     </span>
                 </p>
@@ -320,11 +320,11 @@
             <td style="">
                 @if ($isEditable)
                     <input
-                        id="type_of_cooperation"
-                        name="type_of_cooperation"
+                        id="type_of_corporation"
+                        name="type_of_corporation"
                         type="radio"
                         value="Profit"
-                        {{ $TNA_data['type_of_cooperation'] ?? (($TNAdata['enterpriseType'] ?? '') == 'Corporation (Profit)' ? 'checked' : '') }}
+                        {{ $TNA_data['type_of_corporation'] ?? (($TNAdata['enterpriseType'] ?? '') == 'Corporation (Profit)' ? 'checked' : '') }}
                     >
                 @else
                     {{ $TNA_data['type_of_cooperation'] ?? (($TNAdata['enterpriseType'] ?? '') == 'Corporation (Profit)' ? '/' : '') }}

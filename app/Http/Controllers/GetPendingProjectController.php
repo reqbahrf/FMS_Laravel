@@ -12,7 +12,7 @@ class GetPendingProjectController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke(ProjectProposaldataHandlerService $service)
+    public function __invoke()
     {
         try {
             if (Cache::has('pendingProjects')) {
@@ -21,6 +21,7 @@ class GetPendingProjectController extends Controller
                 $pendingProjects = DB::table('application_info')
                     ->where('application_info.application_status', 'pending')
                     ->join('business_info', 'application_info.business_id', '=', 'business_info.id')
+                    ->join('business_address_info', 'business_address_info.business_info_id', '=', 'business_info.id')
                     ->join('project_info', 'project_info.business_id', '=', 'business_info.id')
                     ->join('assets', 'assets.id', '=', 'business_info.id')
                     ->join('org_users_info', 'project_info.evaluated_by_id', '=', 'org_users_info.id')
@@ -32,12 +33,18 @@ class GetPendingProjectController extends Controller
                         'business_info.firm_name',
                         'business_info.enterprise_type',
                         'business_info.enterprise_level',
-                        'business_info.zip_code',
-                        'business_info.landMark',
-                        'business_info.barangay',
-                        'business_info.city',
-                        'business_info.province',
-                        'business_info.region',
+                        'business_address_info.office_landmark',
+                        'business_address_info.office_barangay',
+                        'business_address_info.office_city',
+                        'business_address_info.office_province',
+                        'business_address_info.office_region',
+                        'business_address_info.office_zip_code',
+                        'business_address_info.factory_landmark',
+                        'business_address_info.factory_barangay',
+                        'business_address_info.factory_city',
+                        'business_address_info.factory_province',
+                        'business_address_info.factory_region',
+                        'business_address_info.factory_zip_code',
                         'assets.building_value',
                         'assets.equipment_value',
                         'assets.working_capital',

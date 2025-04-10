@@ -409,26 +409,48 @@ async function initilizeCoopPageJs() {
 
         QuarterlyReport: async () => {
             new SmartWizard();
+            const QUARTERLY_REPORT_FORM = $('#quarterlyForm');
 
             customFormatNumericInput(
+                QUARTERLY_REPORT_FORM,
                 '#BuildingAsset, #Equipment, #WorkingCapital'
             );
 
             customFormatNumericInput(
-                '#directLaborCard input, #indirectLaborCard input'
+                QUARTERLY_REPORT_FORM.find('#directLaborCard'),
+                '[data-custom-numeric-input]'
             );
+
             customFormatNumericInput(
-                '.ExportData, .LocalData',
-                'tr td:nth-child(n+3):nth-child(-n+6) input'
+                QUARTERLY_REPORT_FORM.find('#indirectLaborCard'),
+                '[data-custom-numeric-input]'
+            );
+
+            customFormatNumericInput(
+                QUARTERLY_REPORT_FORM,
+                'table .ExportData input[data-custom-numeric-input]'
+            );
+
+            customFormatNumericInput(
+                QUARTERLY_REPORT_FORM,
+                'table .LocalData input[data-custom-numeric-input]'
             );
 
             addNewRowHandler(
-                '.addNewProductRow',
-                'div.productLocal, div.productExport'
+                '.addNewLocalProductRow',
+                QUARTERLY_REPORT_FORM.find('#productLocal')
             );
             removeRowHandler(
-                '.removeRowButton',
-                'div.productLocal, div.productExport'
+                '.removeLocalProductRow',
+                QUARTERLY_REPORT_FORM.find('#productLocal')
+            );
+            addNewRowHandler(
+                '.addNewExportProductRow',
+                QUARTERLY_REPORT_FORM.find('#productExport')
+            );
+            removeRowHandler(
+                '.removeExportRow',
+                QUARTERLY_REPORT_FORM.find('#productExport')
             );
 
             $('.ExportData, .LocalData').on(
@@ -455,6 +477,9 @@ async function initilizeCoopPageJs() {
                 theme: 'dots',
                 transition: {
                     animation: 'slideHorizontal',
+                },
+                keyboard: {
+                    keyNavigation: false,
                 },
                 toolbar: {
                     showNextButton: true, // show/hide a Next button
@@ -599,6 +624,7 @@ async function initilizeCoopPageJs() {
         },
 
         ReportedQuarterlyReport: () => {
+            console.log('This is Initiated');
             const form = $('#ReportedQuarterlyData');
             const reportFormEvent = new ReportedQuarterlyReportEvent(form);
             reportFormEvent.initEditMode();

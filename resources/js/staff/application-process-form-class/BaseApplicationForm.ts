@@ -2,20 +2,16 @@ import {
     showProcessToast,
     showToastFeedback,
     hideProcessToast,
-} from '../Utilities/feedback-toast';
+} from '../../Utilities/feedback-toast';
 import {
     customDateFormatter,
     serializeFormData,
-} from '../Utilities/utilFunctions';
-import { processError } from '../Utilities/error-handler-util';
-import BENCHMARKTableConfig from '../Form_Config/form-table-config/tnaFormBenchMarkTableConfig';
-import PROJECT_PROPOSAL_TABLE_CONFIG from '../Form_Config/form-table-config/projectProposalTableConfig';
-import { TableDataExtractor } from '../Utilities/TableDataExtractor';
-import TNAFormEvent from './application-form-events/TNAFormEvent';
-import ProposalFormEvent from './application-form-events/ProposalFormEvent';
-import RTECFormEvent from './application-form-events/RTECFormEvent';
-
-type Action = 'edit' | 'view';
+} from '../../Utilities/utilFunctions';
+import { processError } from '../../Utilities/error-handler-util';
+import '../../../css/pdf-loading.css';
+import { TableDataExtractor } from '../../Utilities/TableDataExtractor';
+import generatePDF from '../../Utilities/loading-overlay-pdf-generation';
+export type Action = 'edit' | 'view';
 
 /**
  * Abstract base class for application form processing
@@ -208,7 +204,9 @@ abstract class BaseApplicationForm {
         formRequest: { [key: string]: string | string[] },
         url: string
     ): Promise<void> {
-        const processToast = showProcessToast(`Setting ${this.formName} form...`);
+        const processToast = showProcessToast(
+            `Setting ${this.formName} form...`
+        );
         try {
             const response = await $.ajax({
                 type: 'PUT',
@@ -226,11 +224,7 @@ abstract class BaseApplicationForm {
             showToastFeedback('text-bg-success', response.message);
         } catch (error: any) {
             hideProcessToast(processToast);
-            processError(
-                `Error in Setting ${this.formName} form:`,
-                error,
-                true
-            );
+            processError(`Error setting ${this.formName} form: `, error, true);
         } finally {
             this._getFormStatus();
         }
@@ -296,7 +290,8 @@ abstract class BaseApplicationForm {
                 const generateUrl =
                     this.generatePDFBtn?.attr('data-generated-url');
                 if (!generateUrl) throw new Error('Generate URL not found');
-                window.open(generateUrl, '_blank');
+
+                await generatePDF(generateUrl, this.formName);
             });
         } catch (error: any) {
             processError(
@@ -345,155 +340,4 @@ abstract class BaseApplicationForm {
     }
 }
 
-/**
- * TNA Form class that extends the base functionality
- */
-class TNAForm extends BaseApplicationForm {
-    protected formSelector: string = 'form#TNAForm';
-    protected pdfButtonSelector: string = '#exportTNAFormToPDF';
-    protected formName: string = 'TNA';
-    protected routeKeys = {
-        getStatus: APPLICANT_TAB_ROUTE.GET_TNA_FORM_STATUS,
-        getForm: APPLICANT_TAB_ROUTE.GET_TNA_DOCUMENT,
-    };
-    private TNAFormEvent: TNAFormEvent | null = null;
-
-    constructor(TNAModalContainer: JQuery<HTMLElement>) {
-        super(TNAModalContainer, 'table#tnaTable');
-    }
-
-    protected _setupFormByActionMode(actionMode: Action): void {
-        this._updateStatusModalLabel();
-        switch (actionMode) {
-            case 'edit':
-                this._setupFormSubmission(BENCHMARKTableConfig);
-                this._createFormEvent();
-                break;
-            case 'view':
-                this._setupPDFExport();
-                break;
-            default:
-                throw new Error('Invalid action');
-        }
-    }
-
-    protected _createFormEvent(): void {
-        if (this.TNAFormEvent) {
-            this.TNAFormEvent.destroy();
-        }
-        if (this.form) {
-            this.TNAFormEvent = new TNAFormEvent(this.form);
-        }
-    }
-
-    // Public method for backward compatibility
-    public initializeTNAForm(): void {
-        console.log('this is initializeTNAForm');
-        this.initializeForm();
-    }
-}
-
-/**
- * Project Proposal Form class that extends the base functionality
- */
-class ProjectProposalForm extends BaseApplicationForm {
-    protected formSelector: string = 'form#ProjectProposalForm';
-    protected pdfButtonSelector: string = '#exportProjectProposalFormToPDF';
-    protected formName: string = 'Project Proposal';
-    protected routeKeys = {
-        getStatus: APPLICANT_TAB_ROUTE.GET_PROJECT_PROPOSAL_STATUS,
-        getForm: APPLICANT_TAB_ROUTE.GET_PROJECT_PROPOSAL,
-    };
-    private ProjectProposalFormEvent: ProposalFormEvent | null = null;
-
-    constructor(ProjectProposalModalContainer: JQuery<HTMLElement>) {
-        super(ProjectProposalModalContainer, 'table#projectProposalTable');
-    }
-
-    protected _setupFormByActionMode(actionMode: Action): void {
-        this._updateStatusModalLabel();
-        switch (actionMode) {
-            case 'edit':
-                this.form = this.__getFormInstance();
-                this._setupFormSubmission(PROJECT_PROPOSAL_TABLE_CONFIG);
-                this._createFormEvent();
-                break;
-            case 'view':
-                this._setupPDFExport();
-                break;
-            default:
-                throw new Error('Invalid action');
-        }
-    }
-
-    protected _createFormEvent(): void {
-        if (this.ProjectProposalFormEvent) {
-            this.ProjectProposalFormEvent.destroy();
-        }
-        if (this.form) {
-            this.ProjectProposalFormEvent = new ProposalFormEvent(this.form);
-        }
-    }
-
-    // Keep the original method for backward compatibility or specific implementation
-    private __getFormInstance(): JQuery<HTMLFormElement> {
-        return this.modalContainer
-            .find('.modal-body')
-            .find('form#ProjectProposalForm')
-            .first() as JQuery<HTMLFormElement>;
-    }
-
-    // Public method for backward compatibility
-    public initializeProjectProposalForm(): void {
-        this.initializeForm();
-    }
-}
-
-/**
- * RTEC Report Form class that extends the base functionality
- */
-class RTECReportForm extends BaseApplicationForm {
-    protected formSelector: string = 'form#RTECReportForm';
-    protected pdfButtonSelector: string = 'button#exportRTECReportFormToPDF';
-    protected formName: string = 'RTEC Report';
-    protected routeKeys = {
-        getStatus: APPLICANT_TAB_ROUTE.GET_RTEC_REPORT_STATUS,
-        getForm: APPLICANT_TAB_ROUTE.GET_RTEC_REPORT,
-    };
-    private RTECReportFormEvent: RTECFormEvent | null = null;
-
-    constructor(RTECReportModalContainer: JQuery<HTMLElement>) {
-        super(RTECReportModalContainer, 'table#rtecReportTable');
-    }
-
-    protected _setupFormByActionMode(actionMode: Action): void {
-        this._updateStatusModalLabel();
-        switch (actionMode) {
-            case 'edit':
-                this._setupFormSubmission();
-                this._createFormEvent();
-                break;
-            case 'view':
-                this._setupPDFExport();
-                break;
-            default:
-                throw new Error('Invalid action');
-        }
-    }
-
-    protected _createFormEvent(): void {
-        if (this.RTECReportFormEvent) {
-            this.RTECReportFormEvent.destroy();
-        }
-        if (this.form) {
-            this.RTECReportFormEvent = new RTECFormEvent(this.form);
-        }
-    }
-
-    // Public method for backward compatibility
-    public initializeRTECReportForm(): void {
-        this.initializeForm();
-    }
-}
-
-export { TNAForm, ProjectProposalForm, RTECReportForm };
+export { BaseApplicationForm };

@@ -1,32 +1,35 @@
 const PROJECT_PROPOSAL_TABLE_CONFIG = {
     technicalConstraints: {
-        id: 'technicalConstraintTable',
+        id: 'technicalConstraintTableContainer',
         selectors: {
-            processExistingPracticeProblem: '.Process_existing_practice_problem',
+            processExistingPracticeProblem:
+                '.Process_existing_practice_problem',
             proposedSTIntervention: '.Proposed_s_t_intervention',
-            proposedSTInterventionRelatedEquipmentSkillsUpgrading: '.Proposed_s_t_intervention_related_equipment_skills_upgrading',
+            proposedSTInterventionRelatedEquipmentSkillsUpgrading:
+                '.Proposed_s_t_intervention_related_equipment_skills_upgrading',
             impact: '.Impact',
         },
         requiredFields: [
             'processExistingPracticeProblem',
             'proposedSTIntervention',
             'proposedSTInterventionRelatedEquipmentSkillsUpgrading',
-            'impact'
+            'impact',
         ],
     },
     equipment: {
         id: 'equipmentTable',
         selectors: {
-            stInterventionRelatedEquipment: '.S_T_intervention_related_equipment',
+            stInterventionRelatedEquipment:
+                '.S_T_intervention_related_equipment',
             qty: '.Qty',
             unitCost: '.Unit_cost',
-            totalCost: '.Total_cost'
+            totalCost: '.Total_cost',
         },
         requiredFields: [
             'stInterventionRelatedEquipment',
             'qty',
             'unitCost',
-            'totalCost'
+            'totalCost',
         ],
     },
     budget: {
@@ -38,7 +41,7 @@ const PROJECT_PROPOSAL_TABLE_CONFIG = {
             setupCost: '.SETUP',
             lgiaCost: '.LGIA',
             cooperatorCost: '.Cooperator',
-            totalCost: '.Total_cost'
+            totalCost: '.Total_cost',
         },
         requiredFields: [
             'itemOfExpenditure',
@@ -47,7 +50,7 @@ const PROJECT_PROPOSAL_TABLE_CONFIG = {
             'setupCost',
             'lgiaCost',
             'cooperatorCost',
-            'totalCost'
+            'totalCost',
         ],
     },
     riskManagement: {
@@ -55,16 +58,14 @@ const PROJECT_PROPOSAL_TABLE_CONFIG = {
         selectors: {
             objectives: '.Objectives',
             risksAndAssumptions: '.Risks_and_assumptions',
-            riskManagementPlan: '.Risk_management_plan'
+            riskManagementPlan: '.Risk_management_plan',
         },
         requiredFields: [
             'objectives',
             'risksAndAssumptions',
-            'riskManagementPlan'
-        ]
-    }
+            'riskManagementPlan',
+        ],
+    },
+};
 
-}
-
-export default PROJECT_PROPOSAL_TABLE_CONFIG
-
+export default PROJECT_PROPOSAL_TABLE_CONFIG;

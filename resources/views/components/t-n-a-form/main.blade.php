@@ -2,17 +2,17 @@
 @php
     use App\Services\ApplicantFileHandlerService;
     try {
-        $organizationalStructure = ApplicantFileHandlerService::getFileAsBase64(
+        $organizationalStructure = ApplicantFileHandlerService::getRequirementImageAsBase64(
             'Organizational Structure',
             $TNAdata['business_id'],
         );
-        $planLayout = ApplicantFileHandlerService::getFileAsBase64('Plan Layout', $TNAdata['business_id']);
-        $processFlow = ApplicantFileHandlerService::getFileAsBase64('Process Flow', $TNAdata['business_id']);
+        $planLayout = ApplicantFileHandlerService::getRequirementImageAsBase64('Plan Layout', $TNAdata['business_id']);
+        $processFlow = ApplicantFileHandlerService::getRequirementImageAsBase64(
+            'Process Flow',
+            $TNAdata['business_id'],
+        );
     } catch (Exception $e) {
         Log::error('Error retrieving file: ' . $e->getMessage());
-        $organizationalStructure = null;
-        $planLayout = null;
-        $processFlow = null;
     }
 @endphp
 <div id="formWrapper">
@@ -33,6 +33,7 @@
         <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;"><br>&nbsp;</p>
         <table
             id="EnterpriseInformationTable"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -92,10 +93,10 @@
                                         value="{{ $TNAdata['designation'] ?? '' }}"
                                         placeholder="Position in the Enterprise"
                                     >
+                                @else
+                                    {{ $TNAdata['designation'] ?? '' }}
+                                @endIf
                             </span>
-                        @else
-                            {{ $TNAdata['designation'] ?? '' }}
-                            @endIf
                         </p>
                     </td>
                 </tr>
@@ -522,6 +523,74 @@
             style="text-align: justify;background: transparent;line-height: 108%;margin-right: 0.02cm;margin-bottom: 0.28cm;">
             <br>&nbsp;
         </p>
+        <div style="width: 100%;">
+            <table style="width: 40%; margin-left: auto; border-collapse: collapse; text-align: center;">
+                <tr>
+                    <td>
+                        @if ($isEditable)
+                            <input
+                                id="dost_undertake_contact_person"
+                                name="dost_undertake_contact_person"
+                                type="text"
+                                value="{{ $TNAdata['dost_undertake_contact_person'] ?? ($TNAdata['contact_person'] ?? ($TNAdata['prefix'] ?? '') . ' ' . ($TNAdata['f_name'] ?? '') . ' ' . ($TNAdata['middle_name'] ?? '') . ' ' . ($TNAdata['l_name'] ?? '') . ' ' . ($TNAdata['suffix'] ?? '')) }}"
+                                style="width: 100%; text-align: center;"
+                                placeholder=""
+                            >
+                        @else
+                            {{ $TNAdata['dost_undertake_contact_person'] ?? ($TNAdata['contact_person'] ?? ($TNAdata['prefix'] ?? '') . ' ' . ($TNAdata['f_name'] ?? '') . ' ' . ($TNAdata['middle_name'] ?? '') . ' ' . ($TNAdata['l_name'] ?? '') . ' ' . ($TNAdata['suffix'] ?? '')) }}
+                        @endIf
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border-top: 1pt solid black; padding-top: 3pt;">
+                        <strong>Signature over Printed Name</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @if ($isEditable)
+                            <input
+                                id="dost_undertake_position"
+                                name="dost_undertake_position"
+                                type="text"
+                                value="{{ $TNAdata['dost_undertake_position'] ?? ($TNAdata['designation'] ?? '') }}"
+                                style="width: 100%; text-align: center;"
+                                placeholder=""
+                            >
+                        @else
+                            {{ $TNAdata['dost_undertake_position'] ?? ($TNAdata['designation'] ?? '') }}
+                        @endIf
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border-top: 1pt solid black; padding-top: 3pt;">
+                        <strong>Position in the Enterprise</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @if ($isEditable)
+                            <input
+                                id="dost_undertake_date"
+                                name="dost_undertake_date"
+                                type="date"
+                                value="{{ $TNAdata['dost_undertake_date'] ?? '' }}"
+                                style="width: 100%; text-align: center;"
+                                placeholder=""
+                            >
+                        @else
+                            {{ \Carbon\Carbon::parse($TNAdata['dost_undertake_date'] ?? '')->format('F j, Y') }}
+                        @endIf
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border-top: 1pt solid black; padding-top: 3pt;">
+                        <strong>Date</strong>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
         <p
             style="text-align: justify;background: transparent;line-height: 108%;margin-right: 0.02cm;margin-bottom: 0.28cm;">
             <br>&nbsp;
@@ -537,11 +606,10 @@
         />
         <x-t-n-a-form.t-n-a-form-one
             :TNAdata="$TNAdata"
-            :organizationalStructure="$organizationalStructure"
+            :organizationalStructure="$organizationalStructure ?? ''"
             :isEditable="$isEditable"
         />
 
-        <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
         <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
         <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
         <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
@@ -560,112 +628,131 @@
                     >Production&nbsp;</span></p>
             </li>
         </ul>
-        <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
-        <table
-            id="productionContainer"
-            style="width: 100%; table-layout: fixed;"
-            cellpadding="7"
-        >
-            <tbody>
-                <tr>
+        <div id="productionContainer">
+            @if ($isEditable)
+                <div
+                    class="mb-3"
+                    style="text-align: right; "
+                >
+                    <button
+                        class="btn btn-sm btn-success"
+                        id="addProductionRow"
+                        type="button"
+                    ><i class="ri-add-line"></i></button>
+                    <button
+                        class="btn btn-sm btn-danger"
+                        id="removeProductionRow"
+                        data-remove-row-btn
+                        type="button"
+                    ><i class="ri-subtract-line"></i></button>
+                </div>
+            @endif
+            <table
+                id="productionTable"
+                style="width: 100%; table-layout: fixed;"
+                cellpadding="7"
+            >
+                <thead>
                     <th width="25%">Product</th>
                     <th width="25%">Volume of <br>Production/Year</th>
                     <th width="25%">Unit Cost of <br>Production (₱)</th>
                     <th width="25%">Annual Cost of <br>Production (₱)</th>
-                </tr>
-                @forelse ($TNAdata['production'] ?? [] as $production)
-                    <tr>
-                        <td>
-                            @if ($isEditable)
-                                <input
-                                    class="Product"
-                                    type="text"
-                                    value="{{ $production['product'] ?? '' }}"
-                                />
-                            @else
-                                {{ $production['product'] ?? '' }}
-                            @endIf
-                        </td>
-                        <td>
-                            @if ($isEditable)
-                                <input
-                                    class="VolumeProduction"
-                                    type="text"
-                                    value="{{ $production['volumeProduction'] ?? '' }}"
-                                />
-                            @else
-                                {{ $production['volumeProduction'] ?? '' }}
-                            @endIf
-                        </td>
-                        <td>
-                            @if ($isEditable)
-                                <input
-                                    class="UnitCost"
-                                    type="text"
-                                    value="{{ $production['unitCost'] ?? '' }}"
-                                />
-                            @else
-                                {{ $production['unitCost'] ?? '' }}
-                            @endIf
-                        </td>
-                        <td>
-                            @if ($isEditable)
-                                <input
-                                    class="AnnualCost"
-                                    type="text"
-                                    value="{{ $production['annualCost'] ?? '' }}"
-                                />
-                            @else
-                                {{ $production['annualCost'] ?? '' }}
-                            @endIf
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td>
-                            @if ($isEditable)
-                                <input
-                                    class="Product"
-                                    type="text"
-                                    value=""
-                                />
-                            @endIf
-                            <br>
-                        </td>
-                        <td>
-                            @if ($isEditable)
-                                <input
-                                    class="VolumeProduction"
-                                    type="text"
-                                    value=""
-                                />
-                            @endIf
-                            <br>
-                        </td>
-                        <td>
-                            @if ($isEditable)
-                                <input
-                                    class="UnitCost"
-                                    type="text"
-                                    value=""
-                                />
-                            @endIf
-                            <br>
-                        </td>
-                        <td>
-                            @if ($isEditable)
-                                <input
-                                    class="AnnualCost"
-                                    type="text"
-                                    value=""
-                                />
-                            @endIf
-                            <br>
-                        </td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @forelse ($TNAdata['production'] ?? [] as $production)
+                        <tr>
+                            <td>
+                                @if ($isEditable)
+                                    <input
+                                        class="Product"
+                                        type="text"
+                                        value="{{ $production['product'] ?? '' }}"
+                                    />
+                                @else
+                                    {{ $production['product'] ?? '' }}
+                                @endIf
+                            </td>
+                            <td>
+                                @if ($isEditable)
+                                    <input
+                                        class="VolumeProduction"
+                                        type="text"
+                                        value="{{ $production['volumeProduction'] ?? '' }}"
+                                    />
+                                @else
+                                    {{ $production['volumeProduction'] ?? '' }}
+                                @endIf
+                            </td>
+                            <td>
+                                @if ($isEditable)
+                                    <input
+                                        class="UnitCost"
+                                        type="text"
+                                        value="{{ $production['unitCost'] ?? '' }}"
+                                    />
+                                @else
+                                    {{ $production['unitCost'] ?? '' }}
+                                @endIf
+                            </td>
+                            <td>
+                                @if ($isEditable)
+                                    <input
+                                        class="AnnualCost"
+                                        type="text"
+                                        value="{{ $production['annualCost'] ?? '' }}"
+                                    />
+                                @else
+                                    {{ $production['annualCost'] ?? '' }}
+                                @endIf
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td>
+                                @if ($isEditable)
+                                    <input
+                                        class="Product"
+                                        type="text"
+                                        value=""
+                                    />
+                                @endIf
+                                <br>
+                            </td>
+                            <td>
+                                @if ($isEditable)
+                                    <input
+                                        class="VolumeProduction"
+                                        type="text"
+                                        value=""
+                                    />
+                                @endIf
+                                <br>
+                            </td>
+                            <td>
+                                @if ($isEditable)
+                                    <input
+                                        class="UnitCost"
+                                        type="text"
+                                        value=""
+                                    />
+                                @endIf
+                                <br>
+                            </td>
+                            <td>
+                                @if ($isEditable)
+                                    <input
+                                        class="AnnualCost"
+                                        type="text"
+                                        value=""
+                                    />
+                                @endIf
+                                <br>
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
         <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;">
             <br>
         </p>
@@ -676,14 +763,31 @@
                     >Production Equipment</span></p>
             </li>
         </ul>
-        <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
-        <table
-            id="productionEquipmentContainer"
-            style="width: 100%; table-layout: fixed;"
-            cellpadding="7"
-        >
-            <tbody>
-                <tr>
+        <div id="productionEquipmentContainer">
+            @if ($isEditable)
+                <div
+                    class="mb-3"
+                    style="text-align: right;"
+                >
+                    <button
+                        class="btn btn-sm btn-success"
+                        id="addProductionEquipmentRow"
+                        type="button"
+                    ><i class="ri-add-line"></i></button>
+                    <button
+                        class="btn btn-sm btn-danger"
+                        id="removeProductionEquipmentRow"
+                        data-remove-row-btn
+                        type="button"
+                    ><i class="ri-subtract-line"></i></button>
+                </div>
+            @endif
+            <table
+                id="productionEquipmentTable"
+                style="width: 100%; table-layout: fixed;"
+                cellpadding="7"
+            >
+                <thead>
                     <th width="33.33%">
                         Type of Equipment
                     </th>
@@ -693,76 +797,78 @@
                     <th width="33.33%">
                         Capacity
                     </th>
-                </tr>
-                @forelse ($TNAdata['productionEquipment'] ?? [] as $productionEquipment)
-                    <tr>
-                        <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
-                            @if ($isEditable)
-                                <input
-                                    class="TypeOfEquipment"
-                                    type="text"
-                                    value="{{ $productionEquipment['typeOfEquipment'] ?? '' }}"
-                                />
-                            @else
-                                {{ $productionEquipment['typeOfEquipment'] ?? '' }}
-                            @endIf
-                        </td>
-                        <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
-                            @if ($isEditable)
-                                <input
-                                    class="Specification"
-                                    type="text"
-                                    value="{{ $productionEquipment['specification'] ?? '' }}"
-                                />
-                            @else
-                                {{ $productionEquipment['specification'] ?? '' }}
-                            @endIf
-                        </td>
-                        <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
-                            @if ($isEditable)
-                                <input
-                                    class="Capacity"
-                                    type="text"
-                                    value="{{ $productionEquipment['capacity'] ?? '' }}"
-                                />
-                            @else
-                                {{ $productionEquipment['capacity'] ?? '' }}
-                            @endIf
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td>
-                            @if ($isEditable)
-                                <input
-                                    class="TypeOfEquipment"
-                                    type="text"
-                                    value=""
-                                />
-                            @endIf
-                        </td>
-                        <td>
-                            @if ($isEditable)
-                                <input
-                                    class="Specification"
-                                    type="text"
-                                    value=""
-                                />
-                            @endIf
-                        </td>
-                        <td>
-                            @if ($isEditable)
-                                <input
-                                    class="Capacity"
-                                    type="text"
-                                    value=""
-                                />
-                            @endIf
-                        </td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @forelse ($TNAdata['productionEquipment'] ?? [] as $productionEquipment)
+                        <tr>
+                            <td>
+                                @if ($isEditable)
+                                    <input
+                                        class="TypeOfEquipment"
+                                        type="text"
+                                        value="{{ $productionEquipment['typeOfEquipment'] ?? '' }}"
+                                    />
+                                @else
+                                    {{ $productionEquipment['typeOfEquipment'] ?? '' }}
+                                @endIf
+                            </td>
+                            <td>
+                                @if ($isEditable)
+                                    <input
+                                        class="Specification"
+                                        type="text"
+                                        value="{{ $productionEquipment['specification'] ?? '' }}"
+                                    />
+                                @else
+                                    {{ $productionEquipment['specification'] ?? '' }}
+                                @endIf
+                            </td>
+                            <td>
+                                @if ($isEditable)
+                                    <input
+                                        class="Capacity"
+                                        type="text"
+                                        value="{{ $productionEquipment['capacity'] ?? '' }}"
+                                    />
+                                @else
+                                    {{ $productionEquipment['capacity'] ?? '' }}
+                                @endIf
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td>
+                                @if ($isEditable)
+                                    <input
+                                        class="TypeOfEquipment"
+                                        type="text"
+                                        value=""
+                                    />
+                                @endIf
+                            </td>
+                            <td>
+                                @if ($isEditable)
+                                    <input
+                                        class="Specification"
+                                        type="text"
+                                        value=""
+                                    />
+                                @endIf
+                            </td>
+                            <td>
+                                @if ($isEditable)
+                                    <input
+                                        class="Capacity"
+                                        type="text"
+                                        value=""
+                                    />
+                                @endIf
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
         <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
         <ul>
             <li>
@@ -772,10 +878,11 @@
             </li>
         </ul>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
+
                 <tr>
                     <td style="">
                         <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;">
@@ -812,7 +919,7 @@
             </li>
         </ul>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -847,7 +954,7 @@
             </li>
         </ul>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -884,9 +991,27 @@
                         lang="en-US"
                     >Plant Lay-Out</span>
                 </p>
-                @if ($planLayout)
+                @if ($isEditable)
+                    <div class="plan-layout-image-upload">
+                        <label
+                            class="form-label"
+                            for="planLayout"
+                        >Upload Plan Layout</label>
+                        <input
+                            id="planLayout"
+                            name="planLayout"
+                            type="file"
+                        >
+                        <input
+                            id="PlanLayoutFileID_Data_Handler"
+                            name="PlanLayoutFileID_Data_Handler"
+                            type="hidden"
+                        >
+                    </div>
+                @endif
+                @if (isset($planLayout['base64']) && isset($planLayout['mimeType']))
                     <img
-                        src="data:image/png;base64,{{ $planLayout }}"
+                        src="data:{{ $planLayout['mimeType'] }};base64,{{ $planLayout['base64'] }}"
                         alt=""
                         style="width: 16.17cm; height: 16.17cm"
                     >
@@ -912,9 +1037,27 @@
                 <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><span
                         lang="en-US"
                     >Process Flow</span></p>
-                @if ($processFlow)
+                @if ($isEditable)
+                    <div class="process-flow-image-upload">
+                        <label
+                            class="form-label"
+                            for="processFlow"
+                        >Upload Process Flow</label>
+                        <input
+                            id="processFlow"
+                            name="processFlow"
+                            type="file"
+                        >
+                        <input
+                            id="ProcessFlowFileID_Data_Handler"
+                            name="ProcessFlowFileID_Data_Handler"
+                            type="hidden"
+                        >
+                    </div>
+                @endif
+                @if (isset($processFlow['base64']) && isset($processFlow['mimeType']))
                     <img
-                        src="data:image/png;base64,{{ $processFlow }}"
+                        src="data:{{ $processFlow['mimeType'] }};base64,{{ $processFlow['base64'] }}"
                         alt=""
                         style="width: 16.17cm; height: 16.17cm"
                     >
@@ -940,7 +1083,7 @@
             </li>
         </ul>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -972,7 +1115,7 @@
             </li>
         </ul>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -1004,7 +1147,7 @@
             </li>
         </ul>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -1036,7 +1179,7 @@
             </li>
         </ul>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -1077,7 +1220,7 @@
             </li>
         </ul>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -1111,7 +1254,7 @@
             </li>
         </ul>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -1147,7 +1290,7 @@
             </li>
         </ul>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -1179,7 +1322,7 @@
             </li>
         </ul>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -1217,7 +1360,7 @@
                         <dl>
                             <dd>
                                 <table
-                                    style="width: 455px;"
+                                    style="width: 100%; table-layout: fixed;"
                                     cellpadding="7"
                                 >
                                     <tbody>
@@ -1384,7 +1527,7 @@
             </li>
         </ul>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -1415,7 +1558,7 @@
             </li>
         </ul>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -1446,7 +1589,7 @@
             </li>
         </ul>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -1485,7 +1628,7 @@
             </li>
         </ul>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -1514,7 +1657,7 @@
             </li>
         </ul>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -1543,7 +1686,7 @@
             </li>
         </ul>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -1572,7 +1715,7 @@
             </li>
         </ul>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -1603,7 +1746,7 @@
             </li>
         </ul>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -1635,7 +1778,7 @@
             <br>
         </p>
         <table
-            style="width: 587px;"
+            style="width: 100%; table-layout: fixed;"
             cellpadding="7"
         >
             <tbody>
@@ -1663,6 +1806,110 @@
         <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
         <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
         <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
+        <table style="width: 100%; border-collapse: collapse;">
+            <tr>
+                <!-- Prepared by -->
+                <td style="width: 50%; vertical-align: top; padding: 10px;">
+                    <p style="font-weight: bold; margin-bottom: 20px;">Prepared by:</p>
+                    <table style="width: 100%; text-align: center; border-collapse: collapse;">
+                        <tr>
+                            <td>
+                                @if ($isEditable)
+                                    <input
+                                        id="prepared_by"
+                                        name="prepared_by"
+                                        type="text"
+                                        value="{{ $TNAdata['prepared_by'] ?? ($TNAdata['contact_person'] ?? ($TNAdata['prefix'] ?? '') . ' ' . ($TNAdata['f_name'] ?? '') . ' ' . ($TNAdata['middle_name'] ?? '') . ' ' . ($TNAdata['l_name'] ?? '') . ' ' . ($TNAdata['suffix'] ?? '')) }}"
+                                        style="width: 100%; text-align: center;"
+                                        placeholder=""
+                                    >
+                                @else
+                                    {{ $TNAdata['prepared_by'] ?? ($TNAdata['contact_person'] ?? ($TNAdata['prefix'] ?? '') . ' ' . ($TNAdata['f_name'] ?? '') . ' ' . ($TNAdata['middle_name'] ?? '') . ' ' . ($TNAdata['l_name'] ?? '') . ' ' . ($TNAdata['suffix'] ?? '')) }}
+                                @endIf
+                            </td>
+                        </tr>
+                        <tr style="height: 20px;">
+                            <td style="border-top: 1px solid black; padding: 0pt 4pt 4pt 4pt;">
+                                <strong>Printed Name and Signature of Owner/Chair/Representative</strong>
+                            </td>
+                        </tr>
+                        <!-- Date row (aligned) -->
+                        <tr>
+                            <td>
+                                @if ($isEditable)
+                                    <input
+                                        id="prepared_by_date"
+                                        name="prepared_by_date"
+                                        type="date"
+                                        value="{{ $TNAdata['prepared_by_date'] ?? '' }}"
+                                        style="width: 100%; text-align: center;"
+                                        placeholder=""
+                                    >
+                                @else
+                                    {{ $TNAdata['prepared_by_date'] ?? '' ? \Carbon\Carbon::parse($TNAdata['prepared_by_date'])->format('F j, Y') : '' }}
+                                @endIf
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border-top: 1px solid black; padding-top: 3pt;">
+                                <strong>Date</strong>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+
+                <!-- Validated by -->
+                <td style="width: 50%; vertical-align: top; padding: 10px;">
+                    <p style="font-weight: bold; margin-bottom: 20px;">Validated by:</p>
+                    <table style="width: 100%; text-align: center; border-collapse: collapse;">
+                        <tr>
+                            <td>
+                                @if ($isEditable)
+                                    <input
+                                        id="validated_by"
+                                        name="validated_by"
+                                        type="text"
+                                        value="{{ $TNAdata['validated_by'] ?? '' }}"
+                                        style="width: 100%; text-align: center;"
+                                        placeholder=""
+                                    >
+                                @else
+                                    {{ $TNAdata['validated_by'] ?? '' }}
+                                @endIf
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border-top: 1pt solid black; padding: 0pt 15pt 15pt 15pt;">
+                                <strong>Printed Name and Signature of PSTD</strong>
+                            </td>
+                        </tr>
+                        <!-- Date row (aligned) -->
+                        <tr>
+                            <td>
+                                @if ($isEditable)
+                                    <input
+                                        id="validated_by_date"
+                                        name="validated_by_date"
+                                        type="date"
+                                        value="{{ $TNAdata['validated_by_date'] ?? '' }}"
+                                        style="width: 100%; text-align: center;"
+                                        placeholder=""
+                                    >
+                                @else
+                                    {{ $TNAdata['validated_by_date'] ?? '' ? \Carbon\Carbon::parse($TNAdata['validated_by_date'])->format('F j, Y') : '' }}
+                                @endIf
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border-top: 1px solid black; padding-top: 3pt;">
+                                <strong>Date</strong>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
         <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
         <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
         <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>

@@ -1,5 +1,8 @@
-<div class="p-3">
-    <h4>Projects</h4>
+@php
+    use App\Services\NumberFormatterService as NF;
+@endphp
+<div class="m-3">
+    <h1>Projects</h1>
 </div>
 <div class="row gy-3 m-0 m-md-2">
     <div class="card shadow-sm rounded-sm">
@@ -11,18 +14,28 @@
                             <th
                                 class="text-nowrap"
                                 scope="col"
-                                width="30%"
+                                width="20%"
                             >Firm Name</th>
                             <th
                                 class="text-nowrap"
                                 scope="col"
-                                width="50%"
+                                width="30%"
                             >Project Title</th>
                             <th
                                 class="text-nowrap text-center"
                                 scope="col"
-                                width="20%"
+                                width="10%"
                             >Application Status</th>
+                            <th
+                                class="text-nowrap text-center"
+                                scope="col"
+                                width="20%"
+                            >Funded Amount(₱)</th>
+                            <th
+                                class="text-nowrap text-center"
+                                scope="col"
+                                width="20%"
+                            >Progress</th>
                         </tr>
                     </thead>
                     @php
@@ -57,6 +70,25 @@
                                                 <span class="badge {{ $badgeClass }}">
                                                     {{ ucfirst($application->application_status) }}
                                                 </span>
+                                            </td>
+                                            <td class="text-nowrap text-center">
+                                                ₱{{ $application->projectInfo->actual_amount_to_be_refund ? NF::formatNumber($application->projectInfo->actual_amount_to_be_refund) : '-' }}
+                                            </td>
+                                            <td class="text-nowrap text-center">
+                                                ₱{{ $application->projectInfo->refunded_amount ? NF::formatNumber($application->projectInfo->refunded_amount) : '-' }}
+                                                @if ($application->projectInfo->actual_amount_to_be_refund > 0)
+                                                    <span
+                                                        class="badge rounded-pill bg-{{ $application->projectInfo->refunded_amount >= $application->projectInfo->actual_amount_to_be_refund ? 'success' : 'primary' }}"
+                                                    >
+
+                                                        {{ number_format(
+                                                            ($application->projectInfo->refunded_amount / $application->projectInfo->actual_amount_to_be_refund) * 100,
+                                                            2,
+                                                        ) . '%' }}
+                                                    </span>
+                                                @else
+                                                    -
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach

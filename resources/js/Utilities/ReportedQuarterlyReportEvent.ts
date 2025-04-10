@@ -77,22 +77,40 @@ export default class ReportedQuarterlyReportEvent {
         );
 
         customFormatNumericInput(
-            '#directLaborCard, #indirectLaborCard',
-            'input'
+            this.form.find('#directLaborCard'),
+            '[data-custom-numeric-input]'
         );
 
         customFormatNumericInput(
-            this.exportAndLocalTableBody,
-            'tr td:nth-child(n+3):nth-child(-n+6) input'
+            this.form.find('#indirectLaborCard'),
+            '[data-custom-numeric-input]'
+        );
+
+        customFormatNumericInput(
+            this.form,
+            'table .ExportData input[data-custom-numeric-input]'
+        );
+
+        customFormatNumericInput(
+            this.form,
+            'table .LocalData input[data-custom-numeric-input]'
         );
 
         addNewRowHandler(
-            '.addNewProductRow',
-            'div.productLocal, div.productExport'
+            '.addNewLocalProductRow',
+            this.form.find('#productLocal')
         );
         removeRowHandler(
-            '.removeRowButton',
-            'div.productLocal, div.productExport'
+            '.removeLocalProductRow',
+            this.form.find('#productLocal')
+        );
+        addNewRowHandler(
+            '.addNewExportProductRow',
+            this.form.find('#productExport')
+        );
+        removeRowHandler(
+            '.removeExportProductRow',
+            this.form.find('#productExport')
         );
     }
     public initStoreInitialValue(): void {
@@ -215,10 +233,14 @@ export default class ReportedQuarterlyReportEvent {
                     .prop('readonly');
                 if (!isReadonly) {
                     cardBody.find('.revertButton').prop('disabled', false);
-                    cardBody.find('.addNewProductRow').prop('disabled', false);
+                    cardBody
+                        .find('.addNewLocalProductRow, .addNewExportProductRow')
+                        .prop('disabled', false);
                 } else {
                     cardBody.find('.revertButton').prop('disabled', true);
-                    cardBody.find('.addNewProductRow').prop('disabled', true);
+                    cardBody
+                        .find('.addNewLocalProductRow, .addNewExportProductRow')
+                        .prop('disabled', true);
                 }
             }
         );
@@ -240,19 +262,25 @@ export default class ReportedQuarterlyReportEvent {
                                 .find('.productName')
                                 .val(
                                     initialProductData.ExportProduct[index]
-                                        .productName
+                                        .ProductName
                                 );
                             currentRow
                                 .find('.packingDetails')
                                 .val(
                                     initialProductData.ExportProduct[index]
-                                        .packingDetails
+                                        .PackingDetails
                                 );
                             currentRow
                                 .find('.productionVolume_val')
                                 .val(
                                     initialProductData.ExportProduct[index]
-                                        .volumeOfProduction
+                                        .volumeOfProduction.value
+                                );
+                            currentRow
+                                .find('.volumeUnit')
+                                .val(
+                                    initialProductData.ExportProduct[index]
+                                        .volumeOfProduction.unit
                                 );
                             currentRow
                                 .find('.grossSales_val')
@@ -264,7 +292,7 @@ export default class ReportedQuarterlyReportEvent {
                                 .find('.estimatedCostOfProduction_val')
                                 .val(
                                     initialProductData.ExportProduct[index]
-                                        .productionCost
+                                        .estimatedCostOfProduction
                                 );
                             currentRow
                                 .find('.netSales_val')
@@ -294,19 +322,25 @@ export default class ReportedQuarterlyReportEvent {
                                 .find('.productName')
                                 .val(
                                     initialProductData.LocalProduct[index]
-                                        .productName
+                                        .ProductName
                                 );
                             currentRow
                                 .find('.packingDetails')
                                 .val(
                                     initialProductData.LocalProduct[index]
-                                        .packingDetails
+                                        .PackingDetails
                                 );
                             currentRow
                                 .find('.productionVolume_val')
                                 .val(
                                     initialProductData.LocalProduct[index]
-                                        .volumeOfProduction
+                                        .volumeOfProduction.value
+                                );
+                            currentRow
+                                .find('.volumeUnit')
+                                .val(
+                                    initialProductData.LocalProduct[index]
+                                        .volumeOfProduction.unit
                                 );
                             currentRow
                                 .find('.grossSales_val')
@@ -318,7 +352,7 @@ export default class ReportedQuarterlyReportEvent {
                                 .find('.estimatedCostOfProduction_val')
                                 .val(
                                     initialProductData.LocalProduct[index]
-                                        .productionCost
+                                        .estimatedCostOfProduction
                                 );
                             currentRow
                                 .find('.netSales_val')

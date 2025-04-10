@@ -1,8 +1,16 @@
-function addNewRowHandler(ButtonSelector: string, ContainerSelectors: string) {
+function addNewRowHandler(
+    ButtonSelector: string,
+    ContainerSelectorsOrElement: string | JQuery<Element>
+) {
     $(ButtonSelector)
         .off('click')
         .on('click', function () {
-            const container = $(this).closest(ContainerSelectors);
+            let container: JQuery<Element>;
+            if (typeof ContainerSelectorsOrElement === 'string') {
+                container = $(this).closest(ContainerSelectorsOrElement);
+            } else {
+                container = ContainerSelectorsOrElement;
+            }
 
             const table = container.find('table');
             const lastRow = table.find('tbody tr:last-child');
@@ -15,16 +23,20 @@ function addNewRowHandler(ButtonSelector: string, ContainerSelectors: string) {
         });
 }
 
-function removeRowHandler(ButtonSelector: string, ContainerSelectors: string) {
+function removeRowHandler(
+    ButtonSelector: string,
+    ContainerSelectorsOrElement: string | JQuery<Element>
+) {
     $(document)
         .off('click', ButtonSelector)
         .on('click', ButtonSelector, function () {
-            console.log('Remove Row Button Clicked', {
-                ButtonSelector,
-                ContainerSelectors,
-                thisElement: this,
-            });
-            const container = $(this).closest(ContainerSelectors);
+            let container: JQuery<Element>;
+            if (typeof ContainerSelectorsOrElement === 'string') {
+                container = $(this).closest(ContainerSelectorsOrElement);
+            } else {
+                container = ContainerSelectorsOrElement;
+            }
+
             const tbody = container.find('tbody');
             const rows = tbody.find('tr');
 
@@ -33,10 +45,7 @@ function removeRowHandler(ButtonSelector: string, ContainerSelectors: string) {
                 tbody.find('tr:last-child').remove();
                 toggleDeleteRowButton(container, 'tbody tr');
             } else {
-                console.warn(
-                    'Cannot remove the last remaining row in',
-                    ContainerSelectors
-                );
+                console.warn('Cannot remove the last remaining row in');
             }
         });
 }

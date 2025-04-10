@@ -91,8 +91,7 @@
                 >OBJECTIVES:</td>
             </tr>
             <tr>
-                <td colspan="1"></td>
-                <td colspan="8">
+                <td colspan="9">
                     <p style="font-weight: bold;">General Objectives:</p>
                     <x-custom-input.list-text-formatter
                         name="general_objectives"

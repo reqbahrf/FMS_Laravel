@@ -102,25 +102,25 @@ class TNAFormRequest extends FormRequest
             'horticulture_specific_sector' => 'nullable|string|max:255',
             'other_specific_sector' => 'nullable|string|max:255',
 
-            'specificProductOrService' => 'nullable|string|max:255',
-            'reasonsWhyAssistanceIsBeingSought' => 'nullable|string|max:255',
+            'specificProductOrService' => 'nullable|string|max:5000',
+            'reasonsWhyAssistanceIsBeingSought' => 'nullable|string|max:5000',
             'consultationAnswer' => 'nullable|in:yes,no',
-            'fromWhatCompanyAgency' => 'nullable|string|max:255',
-            'pleaseSpecifyTheTypeOfAssistanceSought' => 'nullable|string|max:255',
+            'fromWhatCompanyAgency' => 'nullable|string|max:5000',
+            'pleaseSpecifyTheTypeOfAssistanceSought' => 'nullable|string|max:5000',
             'NoWhyNot' => 'nullable|string|max:255',
-            'enterprisePlanForTheNext5Years' => 'nullable|string|max:255',
-            'nextTenYears' => 'nullable|string|max:255',
-            'currentAgreementAndAlliancesUndertaken' => 'nullable|string|max:255',
+            'enterprisePlanForTheNext5Years' => 'nullable|string|max:5000',
+            'nextTenYears' => 'nullable|string|max:5000',
+            'currentAgreementAndAlliancesUndertaken' => 'nullable|string|max:5000',
 
 
             // Fields from attachment-a.blade.php
-            'business_permit_No' => 'nullable|string|max:100',
+            'business_permit_no' => 'nullable|string|max:100',
             'permit_year_registered' => 'nullable|string|max:10',
             'brief_background' => 'nullable|string',
-            'yearEstablished' => 'nullable|string|max:10',
+            'year_established' => 'nullable|string|max:10',
             'initial_capitalization' => 'nullable|string|regex:/^\d{1,3}(,\d{3})*(\.\d{1,2})?$/',
-            'enterpriseType' => 'nullable|in:Single Proprietorship,Partnership,Corporation,Cooperative,Others',
-            'type_of_cooperation' => 'nullable|string|max:100',
+            'enterpriseType' => 'nullable|in:Single Proprietorship,Partnership,Corporation,Cooperative',
+            'type_of_corporation' => 'nullable|in:Profit,Non-Profit|prohibited_unless:enterpriseType,Corporation',
             'enterpriseRegistrationNo' => 'nullable|string|max:100',
             'yearEnterpriseRegistered' => 'nullable|string|max:10',
             'present_capitalization' => 'nullable|string|regex:/^\d{1,3}(,\d{3})*(\.\d{1,2})?$/',
@@ -152,14 +152,24 @@ class TNAFormRequest extends FormRequest
             'productAndSupply.*.unitCost' => 'nullable|string',
             'productAndSupply.*.volumeUsed' => 'nullable|string',
 
+            //File Upload Fields
+            'planLayout' => 'nullable|string',
+            'PlanLayoutFileID_Data_Handler' => 'nullable|string',
+            'processFlow' => 'nullable|string',
+            'ProcessFlowFileID_Data_Handler' => 'nullable|string',
+            'organizationalStructure' => 'nullable|string',
+            'OrganizationalStructureFileID_Data_Handler' => 'nullable|string',
 
+            //Signature field
+            'dost_undertake_contact_person' => 'nullable|string',
+            'dost_undertake_position' => 'nullable|string',
+            'dost_undertake_date' => 'nullable|string|date',
+
+            'prepared_by' => 'nullable|string',
+            'prepared_by_date' => 'nullable|string|date',
+
+            'validated_by' => 'nullable|string',
+            'validated_by_date' => 'nullable|string|date',
         ];
-    }
-    protected function failedValidation(Validator $validator)
-    {
-        throw new HttpResponseException(response()->json([
-            'message' => 'Validation errors',
-            'errors' => $validator->errors()
-        ], 422));
     }
 }

@@ -56,6 +56,7 @@ class CooperatorViewController extends Controller
                     'coop_users_info.designation',
                     'coop_users_info.landline',
                     'coop_users_info.mobile_number',
+                    'business_info.firm_name',
                     'business_address_info.office_landmark',
                     'business_address_info.office_barangay',
                     'business_address_info.office_city',

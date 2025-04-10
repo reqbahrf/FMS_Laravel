@@ -37,8 +37,15 @@ class BusinessInfo extends Model
         'factory_telephone',
         'factory_fax_no',
         'factory_email',
+        'sectors',
         'Export_Mkt_Outlet',
         'Local_Mkt_Outlet',
+    ];
+
+    protected $casts = [
+        'sectors' => 'array',
+        'Export_Mkt_Outlet' => 'array',
+        'Local_Mkt_Outlet' => 'array',
     ];
 
     public function userInfo(): BelongsTo

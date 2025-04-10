@@ -1,13 +1,16 @@
-
 <!-- HTML -->
-<div>
-    <h4 class="p-3">Dashboard</h4>
+<div class="m-3">
+    <h1>Dashboard</h1>
 </div>
 <div class="container-fluid">
     <div class="row gy-3 gx-2">
         <div class="col-12 col-md-4 d-flex align-items-center">
-            <h5 class="text-muted fw-medium me-2 w-auto">Statistics for Year:</h5>
-            <select name="yearSelector" class="form-select w-50" id="yearSelector">
+            <h2 class="text-muted fw-medium me-2 w-auto">Statistics for Year:</h2>
+            <select
+                class="form-select w-50"
+                id="yearSelector"
+                name="yearSelector"
+            >
                 <option value="">Select Year</option>
             </select>
         </div>
@@ -24,15 +27,24 @@
             </div>
         </div>
         <div class="col-12 d-flex align-items-center">
-            <h5 class="text-muted fw-medium me-2">Locale and Enterprise Level</h5>
-            <select name="filterBy" class="form-select w-25 me-2" id="filterBy">
+            <h2 class="text-muted fw-medium me-2">Locale and Enterprise Level</h2>
+            <select
+                class="form-select w-25 me-2"
+                id="filterBy"
+                name="filterBy"
+            >
                 <option>Select Filter</option>
                 <option>By Region</option>
                 <option>By Province</option>
                 <option>By City</option>
                 <option>By Barangay</option>
             </select>
-            <select name="specificLocation" class="form-select w-25" id="specificLocation" disabled>
+            <select
+                class="form-select w-25"
+                id="specificLocation"
+                name="specificLocation"
+                disabled
+            >
                 <option>Select Location</option>
             </select>
         </div>
@@ -66,7 +78,11 @@
         <div class="col-12 col-md-12">
             <div class="card shadow-sm">
                 <div class="card-body text-end">
-                    <button type="button" class="btn btn-primary" id="generateDashboardReport">Generate Report</button>
+                    <button
+                        class="btn btn-primary"
+                        id="generateDashboardReport"
+                        type="button"
+                    >Generate Report</button>
                 </div>
             </div>
         </div>
