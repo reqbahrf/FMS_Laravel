@@ -2,7 +2,6 @@ import { showToastFeedback } from '../../Utilities/feedback-toast';
 
 export default class ProjectClass {
     protected documentBtnSelectors: JQuery<HTMLElement>;
-    private static breadcrumbEventAttached: boolean = false;
     constructor(protected formContainer: JQuery<HTMLElement>) {
         this.formContainer = formContainer;
         this.documentBtnSelectors = this.formContainer.find(
@@ -38,14 +37,11 @@ export default class ProjectClass {
     }
 
     protected _init(): void {
-        if (!ProjectClass.breadcrumbEventAttached) {
-            this.formContainer
-                .off('click', '.breadcrumb-item:not(.active) a')
-                .on('click', '.breadcrumb-item:not(.active) a', () => {
-                    this._removeForm();
-                    this._toggleDocumentBtnVisibility();
-                });
-            ProjectClass.breadcrumbEventAttached = true;
-        }
+        this.formContainer
+            .off('click', '.breadcrumb-item:not(.active) a')
+            .on('click', '.breadcrumb-item:not(.active) a', () => {
+                this._removeForm();
+                this._toggleDocumentBtnVisibility();
+            });
     }
 }

@@ -492,7 +492,7 @@
                 </nav>
                 <div class="row gy-3">
                     <div class="col-12 text-center mb-4">
-                        <h1 class="display-6">Please Select a Document to Generate</h1>
+                        <h1>Project Documents</h1>
                     </div>
                     <div class="col-12 col-md-4">
                         <div class="card h-100 shadow-sm">
