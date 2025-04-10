@@ -71,6 +71,103 @@
             :projectStatusReportData="$projectStatusReportData"
             :isEditable="$isEditable"
         />
+        <table style="width: 100%; text-align: center; margin-top: 50px;">
+            <tr>
+                <td style="width: 33%; text-align: center; padding: 7.5pt;">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tr>
+                            <td style="text-align: left;">
+                                Prepared by:
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center;">
+                                @if ($isEditable)
+                                    <input
+                                        id="prepared_by"
+                                        name="prepared_by"
+                                        type="text"
+                                        value="{{ $formData['prepared_by'] ?? '' }}"
+                                        style="width: 100%; text-align: center;"
+                                        placeholder="Prepared by"
+                                    >
+                                @else
+                                    {{ $formData['prepared_by'] ?? '' }}
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border-top: 1px solid black; padding-bottom: 5px;">
+                                PSTD
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td style="width: 33%; text-align: center; padding: 7.5pt;">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tr>
+
+                            <td style="text-align: left;">
+                                Reviewed and Endorsed by:
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center;">
+                                @if ($isEditable)
+                                    <input
+                                        id="reviewed_by"
+                                        name="reviewed_by"
+                                        type="text"
+                                        value="{{ $formData['reviewed_by'] ?? '' }}"
+                                        style="width: 100%; text-align: center;"
+                                        placeholder="Reviewed and Endorsed by"
+                                    >
+                                @else
+                                    {{ $formData['reviewed_by'] ?? '' }}
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border-top: 1px solid black; padding-bottom: 5px;">
+                                RPMO Manager
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td style="width: 33%; text-align: center; padding: 7.5pt;">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tr>
+
+                            <td style="text-align: left;">
+                                Noted by:
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center;">
+                                @if ($isEditable)
+                                    <input
+                                        id="noted_by"
+                                        name="noted_by"
+                                        type="text"
+                                        value="{{ $formData['noted_by'] ?? '' }}"
+                                        style="width: 100%; text-align: center;"
+                                        placeholder="Noted by"
+                                    >
+                                @else
+                                    {{ $formData['noted_by'] ?? '' }}
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border-top: 1px solid black; padding-bottom: 5px;">
+                                Regional Director
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+        </table>
     </form>
     @if (!$isExporting)
         <div class="position-sticky bottom-0 pb-5 mt-4 pe-none">
