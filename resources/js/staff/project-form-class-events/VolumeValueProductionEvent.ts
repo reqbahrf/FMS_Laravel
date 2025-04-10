@@ -310,7 +310,7 @@ export default class VolumeValueProductionEvent {
                     <input class="volume_of_production" type="text" value="">
                 </td>
                 <td>
-                    <select class="sales_quarter_specify">
+                    <select class="sales_quarter_specify form-select">
                         <option value="1ˢᵗ Quarter">1ˢᵗ Quarter</option>
                         <option value="2ⁿᵈ Quarter">2ⁿᵈ Quarter</option>
                         <option value="3ʳᵈ Quarter">3ʳᵈ Quarter</option>
@@ -560,7 +560,7 @@ export default class VolumeValueProductionEvent {
                 // Create quarter subtotal row
                 const subtotalRow = $(`
                     <tr class="subtotal-row">
-                        <td style="text-align: left;" colspan="3">${quarter} ${year} Total</td>
+                        <td style="text-align: left;" colspan="3">Total</td>
                         <td style="font-weight: bold;">${formatNumber(total)}</td>
                     </tr>
                 `);
@@ -573,12 +573,12 @@ export default class VolumeValueProductionEvent {
             grandTotal += yearTotals[year];
 
             // Create year total row
-            const yearTotalRow = $(`
-                <tr class="year-total-row">
-                    <td style="text-align: left;" colspan="3">${year} Annual Total</td>
-                    <td style="font-weight: bold;">${formatNumber(yearTotals[year])}</td>
-                </tr>
-            `);
+            // const yearTotalRow = $(`
+            //     <tr class="year-total-row">
+            //         <td style="text-align: left;" colspan="3">${year} Annual Total</td>
+            //         <td style="font-weight: bold;">${formatNumber(yearTotals[year])}</td>
+            //     </tr>
+            // `);
 
             // Find the last subtotal row for this year
             const lastQuarter = sortedQuarters[sortedQuarters.length - 1];
@@ -587,21 +587,21 @@ export default class VolumeValueProductionEvent {
             const lastSubtotalRowOfYear = lastRowOfYear.next('tr.subtotal-row');
 
             // Insert year total after the last subtotal row of the year
-            lastSubtotalRowOfYear.after(yearTotalRow);
+            // lastSubtotalRowOfYear.after(yearTotalRow);
         }
 
         // Create grand total row if there are multiple years
-        if (Object.keys(yearTotals).length > 1) {
-            const grandTotalRow = $(`
-                <tr class="year-total-row" style="background-color: #d0d0d0;">
-                    <td style="text-align: left;" colspan="3">Grand Total</td>
-                    <td style="font-weight: bold;">${formatNumber(grandTotal)}</td>
-                </tr>
-            `);
+        // if (Object.keys(yearTotals).length > 1) {
+        //     const grandTotalRow = $(`
+        //         <tr class="year-total-row" style="background-color: #d0d0d0;">
+        //             <td style="text-align: left;" colspan="3">Grand Total</td>
+        //             <td style="font-weight: bold;">${formatNumber(grandTotal)}</td>
+        //         </tr>
+        //     `);
 
-            // Append grand total row to the end
-            tbody.append(grandTotalRow);
-        }
+        //     // Append grand total row to the end
+        //     tbody.append(grandTotalRow);
+        // }
     }
 
     /**

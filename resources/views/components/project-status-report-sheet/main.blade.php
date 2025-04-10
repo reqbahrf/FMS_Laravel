@@ -81,7 +81,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td style="text-align: center;">
+                            <td style="text-align: center; padding-top: 7pt;">
                                 @if ($isEditable)
                                     <input
                                         id="prepared_by"
@@ -112,7 +112,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td style="text-align: center;">
+                            <td style="text-align: center;  padding-top: 7pt;">
                                 @if ($isEditable)
                                     <input
                                         id="reviewed_by"
@@ -143,7 +143,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td style="text-align: center;">
+                            <td style="text-align: center;  padding-top: 7pt;">
                                 @if ($isEditable)
                                     <input
                                         id="noted_by"
