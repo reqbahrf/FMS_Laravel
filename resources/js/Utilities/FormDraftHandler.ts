@@ -444,7 +444,49 @@ export class FormDraftHandler {
     }
 
     /**
-     * Asynchronously loads draft data for a given type, populating form fields, tables, and filepond.
+     * Loads saved draft data into a form based on the provided configuration.
+     *
+     * This method retrieves draft data from the server and populates form fields,
+     * table data, and FilePond file upload components according to the specified
+     * configuration. It supports custom loading functions for different types of form elements.
+     *
+     * @param {DraftFormConfig} formConfig - Configuration object that defines form selectors,
+     *                                       table selectors, table row configurations,
+     *                                       FilePond selectors, and fields to exclude
+     * @param {Function} [customInputDataLoaderFn] - Optional custom function to load data into text inputs
+     *                                              Default implementation uses this.loadTextInputData
+     * @param {Function} [customTableDataLoaderFn] - Optional custom function to load data into tables
+     *                                             Default implementation uses this.loadTablesData
+     * @param {Function} [customFilepondLoaderFn] - Optional custom function to load data into FilePond instances
+     *                                            Default implementation uses this.loadFilepondData
+     * @param {Function|Object<string, Function>} [customDataLoaderFn] - Optional custom function or object of named functions
+     *                                                                 to handle loading data into custom form elements
+     * @returns {Promise<void>} - A promise that resolves when the draft data has been loaded
+     *
+     * @throws {Error} - If there's an error during the AJAX request or data loading process
+     *
+     * @example
+     * // Basic usage with default loaders
+     * await formDraftHandler.loadDraftData({
+     *   formSelector: '#myForm',
+     *   tableSelectors: ['#table1', '#table2'],
+     *   tableRowConfigs: { table1: { rowConfig }, table2: { rowConfig } },
+     *   filepondSelector: ['#filePond1', '#filePond2'],
+     *   excludedFields: ['#password', '#confirmPassword']
+     * });
+     *
+     * @example
+     *  With custom loaders
+     * await formDraftHandler.loadDraftData(
+     *   formConfig,
+     *   (data, selector, excluded) => { Custom input loader },
+     *   (data, selectors, configs) => { Custom table loader },
+     *   (data, selectors) => { Custom FilePond loader },
+     *   {
+     *     customField1: (data, selector) => { Custom field loader },
+     *     customField2: (data, selector) => { Another custom field loader }
+     *   }
+     * );
      */
     public async loadDraftData(
         formConfig: DraftFormConfig,
@@ -478,7 +520,6 @@ export class FormDraftHandler {
                 excludedFields,
             }: DraftFormConfig = formConfig;
 
-            // Use helper functions or fall back to generic loaders
             const loaders = {
                 textFields:
                     customInputDataLoaderFn ||
