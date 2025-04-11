@@ -37,6 +37,7 @@ class ProjectInfo extends Model
     protected $casts = [
         'Project_id' => 'string',
         'fee_applied' => 'float',
+        'fund_released_date' => 'date',
         'actual_amount_to_be_refund' => 'float',
         'refunded_amount' => 'float'
     ];

@@ -15,7 +15,6 @@ class ProjectFormService
     public function __construct(private GetPreviousQuarterAction $getPreviousQuarterService)
     {
         $this->getPreviousQuarterService = $getPreviousQuarterService;
-
     }
     public function getProjectInfomationSheetData(string $projectId): object
     {
@@ -46,7 +45,7 @@ class ProjectFormService
                 ->join('coop_users_info', 'coop_users_info.id', '=', 'business_info.user_info_id')
                 ->join('users', 'users.user_name', '=', 'coop_users_info.user_name')
                 ->where('project_info.Project_id', $projectId)
-                ->firstOrFail();
+                ->first();
         } catch (Exception $e) {
             Log::error('Error in getProjectInfomationSheetData: ' . $e->getMessage(), [
                 'projectId' => $projectId
@@ -102,5 +101,4 @@ class ProjectFormService
             throw new Exception('Failed to retrieve project data sheet data: ' . $e->getMessage());
         }
     }
-
 }

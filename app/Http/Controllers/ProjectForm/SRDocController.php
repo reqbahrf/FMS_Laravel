@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use App\Actions\GeneratePDFAction;
 use App\Http\Controllers\Controller;
 use App\Actions\GenerateEsignElement;
+use App\Actions\GetProjectInfoAction;
 use App\Http\Requests\GenerateSRRequest;
 use App\Services\StatusReportDataHandlerService;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -19,7 +20,8 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 class SRDocController extends Controller
 {
     public function __construct(
-        private StatusReportDataHandlerService $statusReportDataHandlerService
+        private StatusReportDataHandlerService $statusReportDataHandlerService,
+        private GetProjectInfoAction $getProjectInfoAction
     ) {}
     public function createSRData(Request $request): JsonResponse
     {
@@ -77,6 +79,7 @@ class SRDocController extends Controller
                     $businessId,
                     $applicationId
                 );
+            $projectInfo = $this->getProjectInfoAction->execute($projectId);
             switch ($action) {
                 case 'view':
                     $isEditable = false;
@@ -87,7 +90,7 @@ class SRDocController extends Controller
                 default:
                     throw new Exception('Invalid action');
             }
-            return view('components.project-status-report-sheet.main', compact('projectStatusReportData', 'isEditable'));
+            return view('components.project-status-report-sheet.main', compact('projectStatusReportData', 'isEditable', 'projectInfo'));
         } catch (Exception $e) {
             return response()->json(['message' => 'Error getting project status report form ' . $e->getMessage()], 500);
         }

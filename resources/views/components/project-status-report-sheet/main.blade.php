@@ -1,4 +1,4 @@
-@props(['projectStatusReportData', 'isEditable' => false, 'isExporting' => false])
+@props(['projectStatusReportData', 'isEditable' => false, 'isExporting' => false, 'projectInfo'])
 <div id="formWrapper">
     @if (!$isExporting)
         <nav
@@ -29,6 +29,7 @@
         @endif
         <x-project-status-report-sheet.project-info
             :projectStatusReportData="$projectStatusReportData"
+            :projectInfo="$projectInfo"
             :isEditable="$isEditable"
         />
         <x-project-status-report-sheet.expected-and-actual
