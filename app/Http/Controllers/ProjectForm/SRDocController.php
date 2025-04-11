@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Actions\GeneratePDFAction;
 use App\Http\Controllers\Controller;
-use App\Actions\GenerateEsignElement;
 use App\Actions\GetProjectInfoAction;
 use App\Http\Requests\GenerateSRRequest;
 use App\Services\StatusReportDataHandlerService;

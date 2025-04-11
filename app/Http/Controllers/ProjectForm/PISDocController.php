@@ -66,6 +66,7 @@ class PISDocController extends Controller
             $applicationId = $request->applicationId;
             $businessId = $request->businessId;
             $forYear = $request->forYear;
+            $projectInfo = $this->projectInfoSheetDataHandlerService->getProjectInfoData($projectId);
             $projectInfoSheetData = $this->projectInfoSheetDataHandlerService
                 ->getProjectInfoSheetData(
                     $projectId,
@@ -83,7 +84,7 @@ class PISDocController extends Controller
                 default:
                     throw new Exception('Invalid action');
             }
-            return view('components.project-info-sheet.main', compact('projectInfoSheetData', 'isEditable'));
+            return view('components.project-info-sheet.main', compact('projectInfo', 'projectInfoSheetData', 'isEditable'));
         } catch (Exception $e) {
             return response()->json(['message' => 'Error retrieving Project Information Sheet form' . $e->getMessage()], 500);
         }
