@@ -29,9 +29,9 @@ class ScheduleController extends Controller
             $schedule = ApplicationInfo::updateOrCreate(
                 ['id' => $validated['application_id']],
                 [
-                 'business_id' => $validated['business_id'],
-                 'Evaluation_date' =>  $validated['evaluation_date'],
-                 'application_status' => 'evaluation'
+                    'business_id' => $validated['business_id'],
+                    'Evaluation_date' =>  $validated['evaluation_date'],
+                    'application_status' => 'evaluation'
                 ]
             );
 
@@ -62,9 +62,9 @@ class ScheduleController extends Controller
                     'message' => 'Evaluation ' . $status . ' set successfully',
                 ]);
         } catch (Exception $e) {
-           return response()->json([
-               'message' => $e->getMessage()
-           ],500);
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 500);
         }
     }
 
@@ -78,15 +78,14 @@ class ScheduleController extends Controller
 
         try {
 
-            $scheduled_date = ApplicationInfo::
-                where('id', $validated['application_id'])
+            $scheduled_date = ApplicationInfo::where('id', $validated['application_id'])
                 ->where('business_id', $validated['business_id'])
                 ->select('Evaluation_date')
                 ->first();
 
             if ($scheduled_date->Evaluation_date !== null) {
 
-                $evaluation_date = Carbon::parse($scheduled_date->Evaluation_date)->format('Y-m-d h:i A');
+                $evaluation_date = Carbon::parse($scheduled_date->Evaluation_date)->format('F j, Y h:i A');
 
                 return response()->json([
                     'Scheduled_date' => $evaluation_date

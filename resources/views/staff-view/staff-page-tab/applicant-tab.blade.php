@@ -431,10 +431,10 @@
     <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
             <div class="modal-header bg-primary">
-                <h5
+                <h1
                     class="modal-title text-white"
                     id="exampleModalLabel"
-                >Review Requirement</h5>
+                >Review Requirement</h1>
                 <button
                     class="btn-close"
                     data-bs-dismiss="modal"

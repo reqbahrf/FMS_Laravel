@@ -3441,10 +3441,10 @@ async function initializeStaffPageJs() {
                     reviewFileModalInput.filter('#file_url').val(fileUrl);
                     reviewFileModalInput
                         .filter('#fileUploaded')
-                        .val(uploadedDate);
+                        .val(customDateFormatter(uploadedDate));
                     reviewFileModalInput
-                        .filter('#fileUploadedBy')
-                        .val(updatedDate);
+                        .filter('#fileUpdated')
+                        .val(customDateFormatter(updatedDate));
                     reviewFileModalInput
                         .filter('#fileUploadedBy')
                         .val(uploader);
