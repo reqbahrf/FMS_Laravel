@@ -252,10 +252,9 @@
         @if (in_array(Session::get('application_status'), ['approved', 'ongoing', 'completed']))
             @include('cooperator-view.coop-project-status-view.approved-project-page')
         @elseif(in_array(Session::get('application_status'), ['new', 'evaluation', 'pending']))
-            @include('cooperator-view.coop-project-status-view.pending-project-page')
+            @include('cooperator-view.coop-project-status-view.pending-applicant-page')
         @endif
     @endif
 </body>
 
 </html>
-

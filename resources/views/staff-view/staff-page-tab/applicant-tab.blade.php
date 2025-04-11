@@ -528,7 +528,7 @@
                                             name="remark_comments"
                                             cols="30"
                                             rows="3"
-                                            placeholder="Enter your remark here..."
+                                            placeholder="Enter your remarks here..."
                                         ></textarea>
                                     </div>
                                     <div class="d-flex justify-content-end gap-2">

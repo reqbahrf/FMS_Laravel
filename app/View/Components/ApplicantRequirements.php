@@ -2,10 +2,11 @@
 
 namespace App\View\Components;
 
-use App\Models\Requirement;
 use Closure;
-use Illuminate\Contracts\View\View;
+use App\Models\Requirement;
 use Illuminate\View\Component;
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\URL;
 
 class ApplicantRequirements extends Component
 {
@@ -28,7 +29,10 @@ class ApplicantRequirements extends Component
             'remark_comments',
             'created_at',
             'updated_at'
-        ])->get();
+        ])->get()->map(function ($file) {
+            $file->accessLink = URL::signedRoute('Requirements.show', ['id' => $file->id]);
+            return $file;
+        });
     }
 
     /**
