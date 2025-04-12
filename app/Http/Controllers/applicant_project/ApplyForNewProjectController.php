@@ -19,6 +19,7 @@ class ApplyForNewProjectController extends Controller
         $ownerId = $request->user()->id;
         $draft_type = self::DRAFT_TYPE . $ownerId;
         $personalInfo = $this->getPersonalRecordService->getCooperatorPersonalInfo($ownerId);
-        return view('registerpage.application', compact('ownerId', 'draft_type', 'personalInfo'));
+        $coopUserInfo = $personalInfo->coopUserInfo;
+        return view('registerpage.application', compact('ownerId', 'draft_type', 'personalInfo', 'coopUserInfo'));
     }
 }

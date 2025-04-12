@@ -444,7 +444,7 @@ class RegistrationService
         $designation = $validatedInputs['designation'];
         $country_mobile_code = $validatedInputs['country_code'];
         $mobile_number = $validatedInputs['mobile_no'];
-        $full_mobile_number = $country_mobile_code . $mobile_number;
+        $full_mobile_number = $country_mobile_code . ' ' . $mobile_number;
         $landline = $validatedInputs['landline'];
 
         return CoopUserInfo::updateOrCreate([

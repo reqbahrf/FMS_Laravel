@@ -1,3 +1,4 @@
+@props(['mobileNumber' => null])
 <div class="col-12 col-md-6">
     <label for="Mobile_no">Mobile Number: <span class="requiredFields">*</span></label>
     <div class="input-group">
@@ -213,10 +214,9 @@
             id="mobile_no"
             name="mobile_no"
             type="tel"
-            value="{{ old('mobile_no') }}"
-            title="Please enter a valid mobile number in the format XXX-XXX-XXXX"
-            placeholder="965-453-5432"
-            pattern="\d{3}-\d{3}-\d{4}"
+            value="{{ $mobileNumber ? preg_replace('/^\+\d+\s*/', '', $mobileNumber) : '' }}"
+            title="Please enter a valid mobile number (include country code for international numbers)"
+            placeholder="965 453 5432"
             required
         >
     </div>

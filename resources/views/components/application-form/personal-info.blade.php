@@ -1,5 +1,5 @@
 <!-- Where Personal Info Displayed -->
-@props(['withRequestRefundInput' => true, 'personalInfo' => null])
+@props(['withRequestRefundInput' => true, 'personalInfo' => null, 'coopUserInfo' => null])
 <div class="row mb-3 gy-3">
     <h5>Contact Person:</h5>
     <x-custom-input.prefix-input />
@@ -13,7 +13,7 @@
             id="f_name"
             name="f_name"
             type="text"
-            value="{{ $personalInfo->f_name ?? '' }}"
+            value="{{ $personalInfo->f_name ?? ($coopUserInfo->f_name ?? '') }}"
             placeholder="John"
             required
         >
@@ -31,7 +31,7 @@
             id="mid_name"
             name="mid_name"
             type="text"
-            value="{{ old('mid_name') }}"
+            value="{{ $coopUserInfo->mid_name ?? '' }}"
             placeholder="Doe"
         >
     </div>
@@ -45,7 +45,7 @@
             id="l_name"
             name="l_name"
             type="text"
-            value="{{ $personalInfo->l_name ?? '' }}"
+            value="{{ $personalInfo->l_name ?? ($coopUserInfo->l_name ?? '') }}"
             placeholder="Doe"
             required
         >
@@ -68,8 +68,14 @@
                     required
                 >
                     <option value="">Select...</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
+                    <option
+                        value="Male"
+                        {{ $coopUserInfo->sex ?? '' === 'Male' ? 'selected' : '' }}
+                    >Male</option>
+                    <option
+                        value="Female"
+                        {{ $coopUserInfo->sex ?? '' === 'Female' ? 'selected' : '' }}
+                    >Female</option>
                 </select>
                 <div class="invalid-feedback">
                     Please select your sex.
@@ -92,7 +98,7 @@
                     data-bs-toggle="tooltip"
                     data-bs-placement="right"
                     type="text"
-                    value="{{ old('designation') }}"
+                    value="{{ $coopUserInfo->designation ?? '' }}"
                     title="Example: Manager, Owner, CEO, etc."
                     placeholder="Designation"
                     required
@@ -118,7 +124,7 @@
                     id="b_date"
                     name="b_date"
                     type="date"
-                    value="{{ old('b_date') }}"
+                    value="{{ \Carbon\Carbon::parse($coopUserInfo->birth_date)->format('Y-m-d') ?? '' }}"
                     placeholder="DD/MM/YYYY"
                     required
                 >
@@ -133,7 +139,7 @@
     <div class="col-12 ">
         <h5>Contact Info:</h5>
         <div class="row">
-            <x-custom-input.mobile-num-input />
+            <x-custom-input.mobile-num-input :mobileNumber="$coopUserInfo->mobile_number ?? ''" />
             <div class="col-12 col-md-6">
                 <label
                     class="form-label"
@@ -144,7 +150,7 @@
                     id="landline"
                     name="landline"
                     type="tel"
-                    value="{{ old('landline') }}"
+                    value="{{ $coopUserInfo->landline ?? '' }}"
                     placeholder="(XX) YYY ZZZZ"
                 >
                 <div class="invalid-feedback">

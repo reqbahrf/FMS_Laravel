@@ -1,4 +1,4 @@
-@props(['ownerId', 'draft_type', 'personalInfo' => []])
+@props(['ownerId', 'draft_type', 'personalInfo' => [], 'coopUserInfo' => []])
 <div class="container mt-5 shadow">
     <div id="smartwizard">
         <ul class="nav nav-progress">
@@ -62,7 +62,10 @@
                     aria-labelledby="step-1"
                     style="position: static; left: 0px; display: block;"
                 >
-                    <x-application-form.personal-info :$personalInfo />
+                    <x-application-form.personal-info
+                        :$personalInfo
+                        :$coopUserInfo
+                    />
                 </div>
                 <div
                     class="tab-pane py-5"
