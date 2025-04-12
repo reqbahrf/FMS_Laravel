@@ -93,10 +93,8 @@ class StaffViewController extends Controller
     public function getApprovedProjects()
     {
         try {
-            if (Cache::has('approved_projects')) {
-                $approvedProjects = Cache::get('approved_projects');
-            } else {
-                $approvedProjects = DB::table('application_info')
+            $approvedProjects = Cache::remember('approved_projects', 1800, function () {
+                return DB::table('application_info')
                     ->join('business_info', 'business_info.id', '=', 'application_info.business_id')
                     ->join('business_address_info', 'business_address_info.business_info_id', '=', 'business_info.id')
                     ->join('coop_users_info', 'coop_users_info.id', '=', 'business_info.user_info_id')
@@ -160,8 +158,7 @@ class StaffViewController extends Controller
                         'application_info.application_status'
                     )
                     ->get();
-                Cache::put('approved_projects', $approvedProjects, 1800);
-            }
+            });
 
             return response()->json($approvedProjects);
         } catch (Exception $e) {

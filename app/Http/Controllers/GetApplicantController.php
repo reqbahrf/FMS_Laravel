@@ -15,10 +15,8 @@ class GetApplicantController extends Controller
     public function __invoke(Request $request)
     {
         try {
-            if (Cache::has('applicants')) {
-                $applicants = Cache::get('applicants');
-            } else {
-                $applicants = DB::table('application_info')
+            $applicants = Cache::remember('applicants', 1800, function () {
+                return DB::table('application_info')
                     ->join('business_info', 'business_info.id', '=', 'application_info.business_id')
                     ->join('business_address_info', 'business_address_info.business_info_id', '=', 'business_info.id')
                     ->join('coop_users_info', 'coop_users_info.id', '=', 'business_info.user_info_id')
@@ -81,10 +79,9 @@ class GetApplicantController extends Controller
                                 COALESCE(male_indirect_re, 0) + COALESCE(female_indirect_re, 0) +
                                 COALESCE(male_indirect_part, 0) + COALESCE(female_indirect_part, 0)) as total_personnel')
                     )
-                    ->distinct()
                     ->get();
-                Cache::put('applicants', $applicants, 1800);
-            }
+            });
+
             return response()->json($applicants, 200);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);

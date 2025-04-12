@@ -743,17 +743,15 @@ async function initializeStaffPageJs() {
                                     />`,
                                 /*html*/ `<p class="owner_name">
                                         ${
-                                            (project.prefix
-                                                ? project.prefix
-                                                : '') +
+                                            (project.prefix || '') +
                                             ' ' +
                                             project.f_name +
                                             ' ' +
+                                            project.mid_name +
+                                            ' ' +
                                             project.l_name +
                                             ' ' +
-                                            (project.suffix
-                                                ? project.suffix
-                                                : ' ')
+                                            (project.suffix || ' ')
                                         }
                                     </p>
                                     <input
@@ -2406,7 +2404,7 @@ async function initializeStaffPageJs() {
                         data.map((Approved) => {
                             return [
                                 `${Approved.Project_id}`,
-                                /*html*/ `${Approved.f_name} ${Approved.l_name}
+                                /*html*/ `${Approved.prefix || ''} ${Approved.f_name} ${Approved.mid_name || ''} ${Approved.l_name} ${Approved.suffix || ''}
                                     <input
                                         type="hidden"
                                         class="designation"
@@ -2461,7 +2459,7 @@ async function initializeStaffPageJs() {
                                     <input
                                         type="hidden"
                                         class="business_address"
-                                        value="${Approved.landmark} ${Approved.barangay}, ${Approved.city}, ${Approved.province}, ${Approved.region}"
+                                        value="${Approved.office_landmark} ${Approved.office_barangay}, ${Approved.office_city}, ${Approved.office_province}, ${Approved.office_region}, ${Approved.office_zip_code}"
                                     />`,
                                 /*html*/ `${Approved.project_title}
                                     <input
@@ -2663,15 +2661,17 @@ async function initializeStaffPageJs() {
                                         type="hidden"
                                         class="address"
                                         value="${
-                                            Ongoing.landmark +
+                                            Ongoing.office_landmark +
                                             ', ' +
-                                            Ongoing.barangay +
+                                            Ongoing.office_barangay +
                                             ', ' +
-                                            Ongoing.city +
+                                            Ongoing.office_city +
                                             ', ' +
-                                            Ongoing.province +
+                                            Ongoing.office_province +
                                             ', ' +
-                                            Ongoing.region
+                                            Ongoing.office_region +
+                                            ', ' +
+                                            Ongoing.office_zip_code
                                         }"
                                     />
                                     <input
@@ -2699,7 +2699,7 @@ async function initializeStaffPageJs() {
                                         class="working_capital_assets"
                                         value="${Ongoing.working_capital}"
                                     />`,
-                                /*html*/ `${Ongoing.f_name + ' ' + Ongoing.l_name}
+                                /*html*/ `${Ongoing.prefix || ''} ${Ongoing.f_name} ${Ongoing.mid_name || ''} ${Ongoing.l_name} ${Ongoing.suffix || ''}
                                     <input
                                         type="hidden"
                                         class="designation"
@@ -2864,15 +2864,17 @@ async function initializeStaffPageJs() {
                                         type="hidden"
                                         class="address"
                                         value="${
-                                            completed.landmark +
+                                            completed.office_landmark +
                                             ', ' +
-                                            completed.barangay +
+                                            completed.office_barangay +
                                             ', ' +
-                                            completed.city +
+                                            completed.office_city +
                                             ', ' +
-                                            completed.province +
+                                            completed.office_province +
                                             ', ' +
-                                            completed.region
+                                            completed.office_region +
+                                            ', ' +
+                                            completed.office_zip_code
                                         }"
                                     />
                                     <input
@@ -2901,7 +2903,15 @@ async function initializeStaffPageJs() {
                                         value="${completed.working_capital}"
                                     />`,
                                 /*html*/ `${
-                                    completed.f_name + ' ' + completed.l_name
+                                    (completed.prefix || '') +
+                                    ' ' +
+                                    (completed.f_name || '') +
+                                    ' ' +
+                                    (completed.mid_name || '') +
+                                    ' ' +
+                                    (completed.l_name || '') +
+                                    ' ' +
+                                    (completed.suffix || '')
                                 }
                                     <input
                                         type="hidden"
