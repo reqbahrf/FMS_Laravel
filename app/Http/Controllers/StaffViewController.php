@@ -98,6 +98,7 @@ class StaffViewController extends Controller
             } else {
                 $approvedProjects = DB::table('application_info')
                     ->join('business_info', 'business_info.id', '=', 'application_info.business_id')
+                    ->join('business_address_info', 'business_address_info.business_info_id', '=', 'business_info.id')
                     ->join('coop_users_info', 'coop_users_info.id', '=', 'business_info.user_info_id')
                     ->join('users', 'users.user_name', '=', 'coop_users_info.user_name')
                     ->join('assets', 'assets.id', '=', 'business_info.id')
@@ -122,13 +123,20 @@ class StaffViewController extends Controller
                         'coop_users_info.landline',
                         'business_info.id as business_id',
                         'business_info.firm_name',
-                        'business_info.landmark',
-                        'business_info.barangay',
-                        'business_info.city',
-                        'business_info.province',
-                        'business_info.region',
                         'business_info.enterprise_type',
                         'business_info.enterprise_level',
+                        'business_address_info.office_landmark',
+                        'business_address_info.office_barangay',
+                        'business_address_info.office_city',
+                        'business_address_info.office_province',
+                        'business_address_info.office_region',
+                        'business_address_info.office_zip_code',
+                        'business_address_info.factory_landmark',
+                        'business_address_info.factory_barangay',
+                        'business_address_info.factory_city',
+                        'business_address_info.factory_province',
+                        'business_address_info.factory_region',
+                        'business_address_info.factory_zip_code',
                         'assets.building_value',
                         'assets.equipment_value',
                         'assets.working_capital',
