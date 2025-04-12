@@ -5,7 +5,7 @@
     <div class="col-12 col-md-12">
         <div class="card shadow-sm rounded-sm ">
             <div class="card-header bg-primary">
-                <h6 class="text-white mb-0">Project Information</h6>
+                <h2 class="text-white mb-0">Project Information</h2>
             </div>
             <div class="card-body">
                 <div class="row gy-4">
@@ -107,9 +107,9 @@
     <div class="col-12 col-md-4">
         <div class="card shadow-sm rounded-sm">
             <div class=" card-header bg-primary">
-                <h6 class="text-white mb-0">
+                <h2 class="text-white mb-0">
                     Refund Progress
-                </h6>
+                </h2>
             </div>
             <div class="card-body">
                 <div class="container">
@@ -139,7 +139,7 @@
             id="upcomingPaymentContainer"
         >
             <div class="card-header bg-primary">
-                <h6 class="text-white mb-0">Payment</h6>
+                <h2 class="text-white mb-0">Payment</h2>
             </div>
             <div class="card-body">
 
