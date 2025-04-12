@@ -14,7 +14,7 @@ class UpdateProjectStateController extends Controller
     public function updateProjectState(Request $request, ProjectStateService $projectStateService)
     {
         $validated = $request->validate([
-            'action' => 'required|string|in:MarkOngoing,MarkCompleted',
+            'action' => 'required|string|in:Ongoing,Completed',
             'business_id' => 'required|integer',
             'project_id' => 'required|string|max:15',
         ]);
@@ -22,11 +22,11 @@ class UpdateProjectStateController extends Controller
         $business_id = $validated['business_id'];
         try {
             switch ($validated['action']) {
-                case 'MarkOngoing':
-                   $result = $projectStateService->markProjectAsOngoing($project_id, $business_id);
+                case 'Ongoing':
+                    $result = $projectStateService->markProjectAsOngoing($project_id, $business_id);
                     break;
-                case 'MarkCompleted':
-                   $result = $projectStateService->markProjectAsCompleted($project_id, $business_id);
+                case 'Completed':
+                    $result = $projectStateService->markProjectAsCompleted($project_id, $business_id);
                     break;
             }
 

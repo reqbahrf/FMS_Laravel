@@ -1518,7 +1518,7 @@ async function initializeStaffPageJs() {
                         response?.message || response?.responseJSON?.message
                     );
                 } catch (error) {
-                    processError('Failed to update project state', error);
+                    processError('Failed to update project state', error, true);
                 } finally {
                     hideProcessToast(processToast);
                     await getHandleProject();
