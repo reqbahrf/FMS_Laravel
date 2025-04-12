@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\GeneratePDFAction;
 use App\Services\AdminDashboardService;
 use Exception;
 use Mpdf\Mpdf;
@@ -10,12 +11,10 @@ use Illuminate\Support\Facades\Log;
 
 class AdminReportController extends Controller
 {
-    protected $adminViewController;
-
-    public function __construct(AdminViewController $adminViewController)
-    {
-        $this->adminViewController = $adminViewController;
-    }
+    public function __construct(
+        private AdminViewController $adminViewController,
+        private GeneratePDFAction $generatePDFAction
+    ) {}
 
     public function generatePDFReport(AdminDashboardService $adminDashboard, $yearToLoad)
     {
@@ -25,38 +24,15 @@ class AdminReportController extends Controller
 
             // Process the data
             $report = $this->processReportData($chartData);
-            $docHeader = view('staff-view.outputs.DocHeader')->render();
 
-            // Generate PDF with output to browser
-            $mpdf = new Mpdf([
-                'mode' => 'utf-8',
-                'format' => 'A4',
-                'orientation' => 'P',
-                'margin_left' => 10,
-                'margin_right' => 10,
-                'margin_top' => 40,
-                'margin_bottom' => 10,
-                'margin_header' => 10,
-                'margin_footer' => 10,
-                'default_font_size' => 9,
-                'default_font' => 'arial'
-            ]);
-
-            // Set document information
-            $mpdf->SetHTMLHeader($docHeader);
-            $mpdf->SetCreator('FMS System');
-            $mpdf->SetAuthor('Admin');
-            $mpdf->SetTitle('Dashboard Report ' . date('Y-m-d'));
-
-            // Generate HTML content
-            $html = $this->generateReportHTML($report, $yearToLoad);
-
-            // Write HTML to PDF
-            $mpdf->WriteHTML($html);
-
-            // Stream PDF directly to output
-            $mpdf->Output('dashboard-report-' . date('Y-m-d') . '.pdf', 'I');
-            return; // Prevent any further output
+            // Generate PDF
+            return $this->generatePDFAction->execute(
+                'Dashboard Report ' . date('Y-m-d'),
+                $this->generateReportHTML($report, $yearToLoad),
+                true,
+                '',
+                ['margin_left' => 10, 'margin_right' => 10, 'margin_top' => 40, 'margin_bottom' => 10]
+            );
         } catch (Exception $e) {
             Log::error('Error generating PDF report: ' . $e->getMessage());
             return response()->json([
@@ -113,7 +89,13 @@ class AdminReportController extends Controller
                 throw new Exception('Failed to decode location data');
             }
 
-            $report['location_statistics'] = [];
+            $report['location_statistics'] = [
+                'by_barangay' => [],
+                'by_city' => [],
+                'by_province' => [],
+                'by_region' => []
+            ];
+
             foreach ($localData as $region => $regionData) {
                 foreach ($regionData['byProvince'] as $province => $provinceData) {
                     foreach ($provinceData['byCity'] as $city => $cityData) {
@@ -123,18 +105,38 @@ class AdminReportController extends Controller
                             $totalEnterprises = array_sum($enterprises);
 
                             if ($totalEnterprises > 0) {
-                                $report['location_statistics'][] = [
-                                    'location' => implode(', ', array_filter([$barangay, $city, $province, $region])),
+                                // Full location string
+                                $fullLocation = implode(', ', array_filter([$barangay, $city, $province, $region]));
+
+                                // Barangay-level
+                                $report['location_statistics']['by_barangay'][] = [
+                                    'location' => $fullLocation,
                                     'micro_enterprises' => $enterprises[0],
                                     'small_enterprises' => $enterprises[1],
                                     'medium_enterprises' => $enterprises[2],
                                     'total_enterprises' => $totalEnterprises
                                 ];
+
+                                // Group by City
+                                $report['location_statistics']['by_city'][$city]['micro'] = ($report['location_statistics']['by_city'][$city]['micro'] ?? 0) + $enterprises[0];
+                                $report['location_statistics']['by_city'][$city]['small'] = ($report['location_statistics']['by_city'][$city]['small'] ?? 0) + $enterprises[1];
+                                $report['location_statistics']['by_city'][$city]['medium'] = ($report['location_statistics']['by_city'][$city]['medium'] ?? 0) + $enterprises[2];
+
+                                // Group by Province
+                                $report['location_statistics']['by_province'][$province]['micro'] = ($report['location_statistics']['by_province'][$province]['micro'] ?? 0) + $enterprises[0];
+                                $report['location_statistics']['by_province'][$province]['small'] = ($report['location_statistics']['by_province'][$province]['small'] ?? 0) + $enterprises[1];
+                                $report['location_statistics']['by_province'][$province]['medium'] = ($report['location_statistics']['by_province'][$province]['medium'] ?? 0) + $enterprises[2];
+
+                                // Group by Region
+                                $report['location_statistics']['by_region'][$region]['micro'] = ($report['location_statistics']['by_region'][$region]['micro'] ?? 0) + $enterprises[0];
+                                $report['location_statistics']['by_region'][$region]['small'] = ($report['location_statistics']['by_region'][$region]['small'] ?? 0) + $enterprises[1];
+                                $report['location_statistics']['by_region'][$region]['medium'] = ($report['location_statistics']['by_region'][$region]['medium'] ?? 0) + $enterprises[2];
                             }
                         }
                     }
                 }
             }
+
 
             // Process Staff Data
             foreach ($chartData['staffhandledProjects'] as $staff) {
@@ -172,7 +174,7 @@ class AdminReportController extends Controller
         <style>
             body { font-family: arial, sans-serif; }
             .header { text-align: center; margin-bottom: 15pt; }
-            .section { margin-bottom: 22.5pt; }
+            .section { margin-bottom: 22.5pt; page-break-inside: avoid; }
             .section-title { font-size: 13.5pt; font-weight: bold; margin-bottom: 7.5pt; }
             .section table { width: 100%; border-collapse: collapse; margin-bottom: 15pt; }
             .section table th,
@@ -183,12 +185,12 @@ class AdminReportController extends Controller
         <div class="header">
             <h1>Dashboard Report</h1>
             <p>For the Year: ' . htmlspecialchars($yearToLoad) . '</p>
-            <p>Generated on: ' . date('Y-m-d g:i:s A') . '</p>
+            <p>Generated on: ' . date('F j, Y g:i:s A') . '</p>
         </div>';
 
         // Summary Section
         $html .= '
-        <div class="section">
+        <div class="section" style="page-break-inside: avoid;">
             <div class="section-title">Summary</div>
             <table>
                 <tr>
@@ -234,29 +236,48 @@ class AdminReportController extends Controller
         $html .= '</table></div>';
 
         // Location Statistics
+        // City Table
         $html .= '
-        <div class="section">
-            <div class="section-title">Location Statistics</div>
-            <table>
-                <tr>
-                    <th>Location</th>
-                    <th>Micro Enterprises</th>
-                    <th>Small Enterprises</th>
-                    <th>Medium Enterprises</th>
-                    <th>Total Enterprises</th>
-                </tr>';
-
-        foreach ($report['location_statistics'] as $location) {
-            $html .= '
-                <tr>
-                    <td>' . $location['location'] . '</td>
-                    <td>' . $location['micro_enterprises'] . '</td>
-                    <td>' . $location['small_enterprises'] . '</td>
-                    <td>' . $location['medium_enterprises'] . '</td>
-                    <td>' . $location['total_enterprises'] . '</td>
-                </tr>';
+<div class="section">
+    <div class="section-title">Location Statistics by City</div>
+    <table>
+        <tr>
+            <th>City</th><th>Micro</th><th>Small</th><th>Medium</th><th>Total</th>
+        </tr>';
+        foreach ($report['location_statistics']['by_city'] as $city => $data) {
+            $total = $data['micro'] + $data['small'] + $data['medium'];
+            $html .= "<tr><td>{$city}</td><td>{$data['micro']}</td><td>{$data['small']}</td><td>{$data['medium']}</td><td>{$total}</td></tr>";
         }
         $html .= '</table></div>';
+
+        // Province Table
+        $html .= '
+<div class="section" >
+    <div class="section-title">Location Statistics by Province</div>
+    <table>
+        <tr>
+            <th>Province</th><th>Micro</th><th>Small</th><th>Medium</th><th>Total</th>
+        </tr>';
+        foreach ($report['location_statistics']['by_province'] as $province => $data) {
+            $total = $data['micro'] + $data['small'] + $data['medium'];
+            $html .= "<tr><td>{$province}</td><td>{$data['micro']}</td><td>{$data['small']}</td><td>{$data['medium']}</td><td>{$total}</td></tr>";
+        }
+        $html .= '</table></div>';
+
+        // Region Table
+        $html .= '
+<div class="section" >
+    <div class="section-title">Location Statistics by Region</div>
+    <table>
+        <tr>
+            <th>Region</th><th>Micro</th><th>Small</th><th>Medium</th><th>Total</th>
+        </tr>';
+        foreach ($report['location_statistics']['by_region'] as $region => $data) {
+            $total = $data['micro'] + $data['small'] + $data['medium'];
+            $html .= "<tr><td>{$region}</td><td>{$data['micro']}</td><td>{$data['small']}</td><td>{$data['medium']}</td><td>{$total}</td></tr>";
+        }
+        $html .= '</table>
+    </div>';
 
         // Staff Performance
         $html .= '

@@ -4,6 +4,8 @@ import {
     showToastFeedback,
 } from '../Utilities/feedback-toast';
 import createConfirmationModal from '../Utilities/confirmation-modal';
+import { processError } from '../Utilities/error-handler-util';
+import generatePDF from '../Utilities/loading-overlay-pdf-generation';
 
 interface LocalDataStructure {
     [region: string]: {
@@ -860,61 +862,17 @@ export default class AdminDashboard {
             });
             if (!isConfirmed) return;
             const processToast = showProcessToast('Generating Report...');
+            const url = DASHBOARD_TAB_ROUTE.GENERATE_DASHBOARD_REPORT.replace(
+                ':yearToLoad',
+                selectedYear
+            );
             try {
-                const response = await $.ajax({
-                    type: 'GET',
-                    url: DASHBOARD_TAB_ROUTE.GENERATE_DASHBOARD_REPORT.replace(
-                        ':yearToLoad',
-                        selectedYear
-                    ),
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                            'content'
-                        ),
-                    },
-                    xhrFields: {
-                        responseType: 'blob',
-                    },
-                });
-
-                // Check if response is JSON (error message)
-                const contentType = response.type;
-                if (contentType === 'application/json') {
-                    // Read the blob as text to get error message
-                    const reader = new FileReader();
-                    reader.onload = function () {
-                        const errorData = JSON.parse(this.result as string);
-                        hideProcessToast(processToast);
-                        showToastFeedback(
-                            'text-bg-danger',
-                            errorData.message || 'Failed to generate PDF'
-                        );
-                    };
-                    reader.readAsText(response);
-                    return;
-                }
-
-                // If we get here, it's a PDF response
-                const blob = new Blob([response], {
-                    type: 'application/pdf',
-                });
-                const url = window.URL.createObjectURL(blob);
-
-                // Open PDF in new window
-                window.open(url, '_blank');
-
-                // Show success message
+                await generatePDF(url, 'Dashboard Report');
+            } catch (e: any) {
+                processError('Error generating PDF report', e, true);
+            } finally {
                 hideProcessToast(processToast);
-                showToastFeedback(
-                    'text-bg-success',
-                    'PDF generated successfully'
-                );
-
-                // Clean up the blob URL after a delay to ensure the PDF loads
-                setTimeout(() => {
-                    window.URL.revokeObjectURL(url);
-                }, 1000);
-            } catch (e) {}
+            }
         });
     }
 }
