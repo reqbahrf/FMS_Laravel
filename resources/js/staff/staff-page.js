@@ -923,7 +923,8 @@ async function initializeStaffPageJs() {
                     closeModal('#paymentModal');
                 } catch (error) {
                     processError(
-                        'Failed to save payment record: ' + error,
+                        'Failed to save payment record: ',
+                        error,
                         true
                     );
                 }
@@ -957,9 +958,9 @@ async function initializeStaffPageJs() {
                 }
             });
 
-            // paymentModal.on('hide.bs.modal', function () {
-            //     paymentModal.find('#paymentForm')[0].reset();
-            // });
+            paymentModal.on('hide.bs.modal', function () {
+                paymentModal.find('#paymentForm')[0].reset();
+            });
 
             const ProjectLedgerInput = $('#projectLedgerLink');
             const ProjectLedgerSubmitBtn = $('#saveProjectLedgerLink');
