@@ -669,6 +669,7 @@ async function initializeStaffPageJs() {
                         }
                     );
                     const data = await response.json();
+                    if (data.length === 0) return;
                     HandledProjectDataTable.clear();
                     HandledProjectDataTable.rows.add(
                         data.map((project) => {
@@ -2395,6 +2396,7 @@ async function initializeStaffPageJs() {
                         }
                     );
                     const data = await response.json();
+                    if (data.length === 0) return;
                     ApprovedDataTable.clear();
                     ApprovedDataTable.rows.add(
                         data.map((Approved) => {
@@ -2552,7 +2554,7 @@ async function initializeStaffPageJs() {
                         }
                     );
                     const data = await response.json();
-
+                    if (data.length === 0) return;
                     OngoingDataTable.clear();
                     OngoingDataTable.rows.add(
                         data.map((Ongoing) => {
@@ -2756,6 +2758,7 @@ async function initializeStaffPageJs() {
                         }
                     );
                     const data = await response.json();
+                    if (data.length === 0) return;
                     CompletedDataTable.clear();
                     CompletedDataTable.rows.add(
                         data.map((completed) => {
