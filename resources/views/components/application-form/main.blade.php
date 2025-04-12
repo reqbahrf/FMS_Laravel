@@ -7,8 +7,8 @@
                     class="nav-link default active"
                     href="#step-1"
                 >
-                    <div class="num">1</div>
-                    Personal Info
+                    <span class="num">1</span>
+                    <span class="fw-bold fs-5">Personal Info</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -17,7 +17,7 @@
                     href="#step-2"
                 >
                     <span class="num">2</span>
-                    Business Info
+                    <span class="fw-bold fs-5">Business Info</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -26,7 +26,7 @@
                     href="#step-3"
                 >
                     <span class="num">3</span>
-                    Requirements
+                    <span class="fw-bold fs-5">Requirements</span>
                 </a>
             </li>
         </ul>

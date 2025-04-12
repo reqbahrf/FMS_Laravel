@@ -77,147 +77,164 @@
             value="{{ old('website') }}"
             placeholder="https://example.com"
         >
+        <div class="form-text">
+            your facebook page or website you use for business operations
+        </div>
         <div class="invalid-feedback">
             Please enter a valid website.
         </div>
     </div>
-    <div class="col-12 col-md-4">
-        <label
-            class="form-label"
-            for="year_established"
-        >Year Enterprise Was Established: <span class="requiredFields">
-                *</span></label>
-        <input
-            class="form-control"
-            id="year_established"
-            name="year_established"
-            type="text"
-            value=""
-            placeholder="YYYY"
-            pattern="^(19[0-9]{2}|20[0-9]{2})$"
-            maxlength="4"
-            min="1900"
-            max="{{ date('Y') }}"
-            inputmode="numeric"
-            required
-        >
-        <div class="invalid-feedback">
-            Please enter the year enterprise was established.
-        </div>
-    </div>
-    <div class="col-12 col-md-4">
-        <label
-            class="form-label"
-            for="permit_year_registered"
-        >Year Permit Registered: <span class="requiredFields">
-                *</span></label>
-        <input
-            class="form-control"
-            id="permit_year_registered"
-            name="permit_year_registered"
-            type="text"
-            value=""
-            placeholder="YYYY"
-            pattern="^(19[0-9]{2}|20[0-9]{2})$"
-            maxlength="4"
-            min="1900"
-            max="{{ date('Y') }}"
-            inputmode="numeric"
-            required
-        >
-        <div class="invalid-feedback">
-            Please enter the year registered.
-        </div>
-    </div>
-    <div class="col-12 col-md-4">
-        <label
-            class="form-label"
-            for="year_enterprise_registered"
-        >Year Enterprise Registered: <span class="requiredFields">
-                *</span></label>
-        <input
-            class="form-control"
-            id="year_enterprise_registered"
-            name="year_enterprise_registered"
-            type="text"
-            value=""
-            placeholder="YYYY"
-            pattern="^(19[0-9]{2}|20[0-9]{2})$"
-            maxlength="4"
-            min="1900"
-            max="{{ date('Y') }}"
-            inputmode="numeric"
-            required
-        >
-        <div class="invalid-feedback">
-            Please enter the year enterprise registered.
-        </div>
-    </div>
-
-    <div class="col-12 col-md-6">
-        <label
-            class="form-label"
-            for="business_permit_no"
-        >Business Permit No.: <span class="requiredFields">
-                *</span></label>
-        <div class="input-group">
-            <select
-                class="form-select"
-                id="permit_type"
-                name="permit_type"
-                style="max-width: 180px;"
-                required
-            >
-                <option value="">Select Permit Type</option>
-                <option value="DTI">Department of Trade and Industry (DTI)</option>
-                <option value="SEC">Securities and Exchange Commission (SEC)</option>
-                <option value="CDA">Cooperative Development Authority (CDA)</option>
-            </select>
+    <div class="col-12">
+        <div class="col-md-4">
+            <label
+                class="form-label"
+                for="year_established"
+            >Year Enterprise Was Established: <span class="requiredFields">
+                    *</span></label>
             <input
                 class="form-control"
-                id="business_permit_no"
-                name="business_permit_no"
+                id="year_established"
+                name="year_established"
                 type="text"
-                placeholder="Enter Business Permit No."
+                value=""
+                placeholder="YYYY"
+                maxlength="4"
+                min="1900"
+                max="{{ date('Y') }}"
+                inputmode="numeric"
                 required
             >
-        </div>
-        <div class="invalid-feedback">
-            Please enter the business permit no.
+            <div class="invalid-feedback">
+                Please enter the year enterprise was established.
+            </div>
         </div>
     </div>
-
-    <div class="col-12 col-md-6">
-        <label
-            class="form-label"
-            for="enterprise_registration_no"
-        >Enterprise Registration No.: <span class="requiredFields">
-                *</span></label>
-        <div class="input-group">
-            <select
-                class="form-select"
-                id="enterprise_registration_type"
-                name="enterprise_registration_type"
-                style="max-width: 180px;"
-                required
-            >
-                <option value="">Select Registration Type</option>
-                <option value="DTI">Department of Trade and Industry (DTI)</option>
-                <option value="SEC">Securities and Exchange Commission (SEC)</option>
-                <option value="CDA">Cooperative Development Authority (CDA)</option>
-            </select>
+    <div class="row col-12">
+        <div class=" col-md-6">
+            <label
+                class="form-label"
+                for="business_permit_no"
+            >Business Permit No.: <span class="requiredFields">
+                    *</span></label>
+            <div class="input-group">
+                <select
+                    class="form-select"
+                    id="permit_type"
+                    name="permit_type"
+                    style="max-width: 180px;"
+                    required
+                >
+                    <option value="">Select Permit Type</option>
+                    <option value="DTI">Department of Trade and Industry (DTI)</option>
+                    <option value="SEC">Securities and Exchange Commission (SEC)</option>
+                    <option value="CDA">Cooperative Development Authority (CDA)</option>
+                </select>
+                <input
+                    class="form-control"
+                    id="business_permit_no"
+                    name="business_permit_no"
+                    type="text"
+                    placeholder="Enter Business Permit No."
+                    required
+                >
+            </div>
+            <div class="invalid-feedback">
+                Please enter the business permit no.
+            </div>
+        </div>
+        <div class=" col-md-3">
+            <label
+                class="form-label"
+                for="permit_year_registered"
+            >Year Permit Registered: <span class="requiredFields">
+                    *</span></label>
             <input
                 class="form-control"
-                id="enterprise_registration_no"
-                name="enterprise_registration_no"
+                id="permit_year_registered"
+                name="permit_year_registered"
                 type="text"
-                value="{{ old('enterprise_registration_no') }}"
-                placeholder="Enter Enterprise Registration No."
+                value=""
+                placeholder="YYYY"
+                pattern="^(19[0-9]{2}|20[0-9]{2})$"
+                maxlength="4"
+                min="1900"
+                max="{{ date('Y') }}"
+                inputmode="numeric"
                 required
             >
+            <div class="invalid-feedback">
+                Please enter the year registered.
+            </div>
         </div>
-        <div class="invalid-feedback">
-            Please enter the enterprise registration no.
+        <div class="col-12">
+            <div class="form-text">
+                select the permit type from the dropdown and enter the business permit no.
+            </div>
+        </div>
+    </div>
+    <div class="row col-12">
+        <div class="col-md-6">
+            <label
+                class="form-label"
+                for="enterprise_registration_no"
+            >Enterprise Registration No.: <span class="requiredFields">
+                    *</span></label>
+            <div class="input-group">
+                <select
+                    class="form-select"
+                    id="enterprise_registration_type"
+                    name="enterprise_registration_type"
+                    style="max-width: 180px;"
+                    required
+                >
+                    <option value="">Select Registration Type</option>
+                    <option value="DTI">Department of Trade and Industry (DTI)</option>
+                    <option value="SEC">Securities and Exchange Commission (SEC)</option>
+                    <option value="CDA">Cooperative Development Authority (CDA)</option>
+                </select>
+                <input
+                    class="form-control"
+                    id="enterprise_registration_no"
+                    name="enterprise_registration_no"
+                    type="text"
+                    value="{{ old('enterprise_registration_no') }}"
+                    placeholder="Enter Enterprise Registration No."
+                    required
+                >
+            </div>
+            <div class="invalid-feedback">
+                Please enter the enterprise registration no.
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <label
+                class="form-label"
+                for="year_enterprise_registered"
+            >Year Enterprise Registered: <span class="requiredFields">
+                    *</span></label>
+            <input
+                class="form-control"
+                id="year_enterprise_registered"
+                name="year_enterprise_registered"
+                type="text"
+                value=""
+                placeholder="YYYY"
+                pattern="^(19[0-9]{2}|20[0-9]{2})$"
+                maxlength="4"
+                min="1900"
+                max="{{ date('Y') }}"
+                inputmode="numeric"
+                required
+            >
+            <div class="invalid-feedback">
+                Please enter the year enterprise registered.
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-text">
+                select the registration type from the dropdown and enter the enterprise registration no.
+            </div>
         </div>
     </div>
 
@@ -234,10 +251,13 @@
                 id="initial_capitalization"
                 name="initial_capitalization"
                 type="text"
-                value="{{ old('initialCapitalization') }}"
+                value=""
                 placeholder="900,000.00"
                 required
             >
+            <div class="form-text">
+                enter the initial capitalization of the enterprise.
+            </div>
         </div>
         <div class="invalid-feedback">
             Please enter the initial capitalization.
@@ -259,6 +279,9 @@
                 placeholder="900,000.00"
                 required
             >
+            <div class="form-text">
+                enter the present capitalization of the enterprise.
+            </div>
         </div>
         <div class="invalid-feedback">
             Please enter the present capitalization.
@@ -288,7 +311,7 @@
                     <label
                         class="form-label"
                         for="buildings"
-                    >Buildings: <span class="requiredFields">
+                    >Building: <span class="requiredFields">
                             *</span></label>
                     <div class="input-group">
                         <span class="input-group-text">
@@ -304,15 +327,18 @@
                             required
                         >
                     </div>
+                    <div class="form-text">
+                        Please enter the current asset value of building.
+                    </div>
                     <div class="invalid-feedback">
-                        Please enter the value of buildings.
+                        You must enter the value of building.
                     </div>
                 </div>
                 <div class="col-12 col-md-4">
                     <label
                         class="form-label"
                         for="equipments"
-                    >Equipments: <span class="requiredFields">
+                    >Equipment: <span class="requiredFields">
                             *</span></label>
                     <div class="input-group">
                         <span class="input-group-text">
@@ -328,8 +354,11 @@
                             required
                         >
                     </div>
+                    <div class="form-text">
+                        Please enter the current asset value of equipment.
+                    </div>
                     <div class="invalid-feedback">
-                        Please enter the value of equipments.
+                        You must enter the value of equipments.
                     </div>
                 </div>
                 <div class="col-12 col-md-4">
@@ -352,8 +381,11 @@
                             required
                         >
                     </div>
-                    <div class="invalid-feedback">
+                    <div class="form-text">
                         Please enter the value of working capital.
+                    </div>
+                    <div class="invalid-feedback">
+                        You must enter the value of working capital.
                     </div>
                 </div>
             </div>
@@ -383,6 +415,11 @@
             <div class="form-group">
                 <label class="form-label">Sector:</label>
                 <div class="row">
+                    <div class="col-12">
+                        <div class="form-text">
+                            Please select the sector of business and specify the specific sector if needed.
+                        </div>
+                    </div>
                     <div class="col-md-6">
                         <div class="form-check mt-3">
                             <input
@@ -563,6 +600,7 @@
                 </div>
             </div>
             @if ($withAdditionalBusinessActivityInfo)
+                <hr>
                 <div class="row g-3">
                     <div class="col-12">
                         <label
@@ -666,7 +704,6 @@
                                     id="organizationalStructure"
                                     name="organizationalStructure"
                                     type="file"
-                                    {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}
                                 >
                                 <div class="invalid-feedback">
                                     Please upload the Organization Structure.
@@ -694,6 +731,9 @@
                             name="enterprisePlanForTheNext5Years"
                             rows="3"
                         ></textarea>
+                        <div class="form-text">
+                            Please Discuss the enterprise plan for the next 5 years.
+                        </div>
                     </div>
                     <div class="col-12">
                         <label
@@ -708,6 +748,9 @@
                             name="nextTenYears"
                             rows="3"
                         ></textarea>
+                        <div class="form-text">
+                            Please Discuss the enterprise plan for the next 10 years.
+                        </div>
                     </div>
                     <div class="col-12">
                         <label
@@ -722,6 +765,9 @@
                             name="currentAgreementAndAlliancesUndertaken"
                             rows="3"
                         ></textarea>
+                        <div class="form-text">
+                            Please provide details of any current agreements or alliances undertaken.
+                        </div>
                     </div>
                 </div>
             @endif
@@ -735,7 +781,7 @@
             </div>
             <div class="card-body">
                 <hr>
-                <h6 class="my-4">*Product and Supply Chain</h6>
+                <span class="my-4 fw-bold">*Product and Supply Chain</span>
                 <hr>
                 <div id="productAndSupplyChainContainer">
                     <div class="mt-2">
@@ -804,7 +850,7 @@
                     </div>
                 </div>
                 <hr>
-                <h6 class="my-4">*Production</h6>
+                <span class="my-4 fw-bold">*Production</span>
                 <hr>
                 <div id="productionContainer">
 
@@ -874,7 +920,7 @@
                     </div>
                 </div>
                 <hr>
-                <h6 class="my-4">*Production Equipment</h6>
+                <span class="my-4 fw-bold">*Production Equipment</span>
                 <hr>
                 <div id="productionEquipmentContainer">
                     <div class="mt-2">
@@ -947,6 +993,9 @@
                             name="ProductionProblemAndConcern"
                             rows="3"
                         ></textarea>
+                        <div class="form-text">
+                            Please describe the production problem and concern.
+                        </div>
                     </div>
                     <div class="col-12">
                         <label
@@ -959,6 +1008,9 @@
                             name="ProductionWasteManageSystem"
                             rows="3"
                         ></textarea>
+                        <div class="form-text">
+                            Please describe the production waste management system.
+                        </div>
                     </div>
                     <div class="col-12">
                         <label
@@ -971,6 +1023,9 @@
                             name="ProductionPlan"
                             rows="3"
                         ></textarea>
+                        <div class="form-text">
+                            Please describe the production plan.
+                        </div>
                     </div>
                     @if ($withFileInput)
                         <div class="col-12">
@@ -995,6 +1050,9 @@
                                     name="PlanLayoutFileID_Data_Handler"
                                     type="hidden"
                                 >
+                                <div class="form-text">
+                                    Upload a diagram of the equipment layout in the production area.
+                                </div>
                             </div>
                             <div class="mb-3">
                                 <label
@@ -1005,7 +1063,6 @@
                                     id="processFlow"
                                     name="processFlow"
                                     type="file"
-                                    {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}
                                 >
                                 <div class="invalid-feedback">
                                     Please upload the Process Flow.
@@ -1017,6 +1074,9 @@
                                     name="ProcessFlowFileID_Data_Handler"
                                     type="hidden"
                                 >
+                                <div class="form-text">
+                                    Upload a diagram of organizational operations.
+                                </div>
                             </div>
                         </div>
                     @endif
@@ -1031,6 +1091,12 @@
                             name="InventorySystem"
                             rows="3"
                         ></textarea>
+                        <div class="form-text">
+                            Describe your current inventory management approach. including details such as: <br>
+                            - Software or tools used<br>
+                            - Tracking methods (e.g., barcode, RFID, manual)<br>
+                            - Inventory tracking frequency<br>
+                        </div>
                     </div>
                     <div class="col-12">
                         <label
@@ -1043,6 +1109,12 @@
                             name="MaintenanceProgram"
                             rows="3"
                         ></textarea>
+                        <div class="form-text">
+                            Describe your current maintenance program. including details such as: <br>
+                            - Maintenance frequency<br>
+                            - Maintenance tasks<br>
+                            - Maintenance tools or equipment<br>
+                        </div>
                     </div>
                     <div class="col-12">
                         <label
@@ -1055,6 +1127,11 @@
                             name="cGMPHACCPActivities"
                             rows="3"
                         ></textarea>
+                        <div class="form-text">
+                            Describe activities related to Good Manufacturing Practices and Hazard Analysis Critical
+                            Control Points for food safety and quality. <br>
+
+                        </div>
                     </div>
                     <div class="col-12">
                         <label
@@ -1067,10 +1144,16 @@
                             name="SuppliesPurchasingSystem"
                             rows="3"
                         ></textarea>
+                        <div class="form-text">
+                            Describe your current supplies/purchasing system. including details such as: <br>
+                            - Supplies/purchasing frequency<br>
+                            - Supplies/purchasing tasks<br>
+                            - Supplies/purchasing tools or equipment<br>
+                        </div>
                     </div>
                 </div>
                 <hr>
-                <h6 class="my-4">*Marketing</h6>
+                <span class="my-4 fw-bold">*Marketing</span>
                 <hr>
                 <div class="row gy-3">
                     <div class="col-12">
@@ -1084,6 +1167,12 @@
                             name="MarketingPlan"
                             rows="3"
                         ></textarea>
+                        <div class="form-text">
+                            Describe your current marketing plan. including details such as: <br>
+                            - Marketing strategies<br>
+                            - Marketing objectives<br>
+                            - Marketing target audience<br>
+                        </div>
                     </div>
                     <div class="col-12">
                         <label
@@ -1096,6 +1185,12 @@
                             name="MarketOutletsAndNumber"
                             rows="3"
                         ></textarea>
+                        <div class="form-text">
+                            Describe your current market outlets and number. including details such as: <br>
+                            - Market outlets<br>
+                            - Market number<br>
+                            - Market location<br>
+                        </div>
                     </div>
                     <div class="col-12">
                         <label
@@ -1108,6 +1203,12 @@
                             name="PromotionalStrategies"
                             rows="3"
                         ></textarea>
+                        <div class="form-text">
+                            Describe your current promotional strategies. including details such as: <br>
+                            - Promotional frequency<br>
+                            - Promotional tasks<br>
+                            - Promotional tools or equipment<br>
+                        </div>
                     </div>
                     <div class="col-12">
                         <label
@@ -1120,8 +1221,14 @@
                             name="MarketCompetitors"
                             rows="3"
                         ></textarea>
+                        <div class="form-text">
+                            Describe your current market competitors. including details such as: <br>
+                            - Competitor products<br>
+                            - Competitor pricing<br>
+                            - Competitor marketing strategies<br>
+                        </div>
                     </div>
-                    <h6>-Packaging</h6>
+                    <span class="my-4 fw-bold">-Packaging</span>
                     <div class="row g-3">
                         <div class="col-12">
                             <div class="form-group">
@@ -1145,6 +1252,12 @@
                                     name="nutritionEvaluationDetails"
                                     type="text"
                                 >
+                                <div class="form-text">
+                                    Detail methods used to evaluate nutritional content. including details such as: <br>
+                                    - Nutritional analysis<br>
+                                    - Nutritional testing<br>
+                                    - Nutritional evaluation<br>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <div class="form-check mb-2">
@@ -1167,202 +1280,240 @@
                                     name="barCodeDetails"
                                     type="text"
                                 >
-                            </div>
-
-                            <div class="form-group">
-                                <div class="form-check mb-2">
-                                    <input
-                                        class="form-check-input"
-                                        id="productLabel"
-                                        name="productLabel"
-                                        type="checkbox"
-                                    >
-                                    <label
-                                        class="form-check-label"
-                                        for="productLabel"
-                                    >
-                                        Product Label
-                                    </label>
+                                <div class="form-text">
+                                    Provide information on barcode usage for product identification and inventory.<br>
                                 </div>
-                                <input
-                                    class="form-control mt-2 ms-2"
-                                    id="productLabelDetails"
-                                    name="productLabelDetails"
-                                    type="text"
-                                >
-                            </div>
 
-                            <div class="form-group">
-                                <div class="form-check mb-2">
+                                <div class="form-group">
+                                    <div class="form-check mb-2">
+                                        <input
+                                            class="form-check-input"
+                                            id="productLabel"
+                                            name="productLabel"
+                                            type="checkbox"
+                                        >
+                                        <label
+                                            class="form-check-label"
+                                            for="productLabel"
+                                        >
+                                            Product Label
+                                        </label>
+                                    </div>
                                     <input
-                                        class="form-check-input"
-                                        id="expiryDate"
-                                        name="expiryDate"
-                                        type="checkbox"
+                                        class="form-control mt-2 ms-2"
+                                        id="productLabelDetails"
+                                        name="productLabelDetails"
+                                        type="text"
                                     >
-                                    <label
-                                        class="form-check-label"
-                                        for="expiryDate"
-                                    >
-                                        Expiry Date
-                                    </label>
+                                    <div class="form-text">
+                                        Explain product label content and design for regulatory compliance and consumer
+                                        communication.<br>
+                                    </div>
                                 </div>
-                                <input
-                                    class="form-control mt-2 ms-2"
-                                    id="expiryDateDetails"
-                                    name="expiryDateDetails"
-                                    type="text"
-                                >
+
+                                <div class="form-group">
+                                    <div class="form-check mb-2">
+                                        <input
+                                            class="form-check-input"
+                                            id="expiryDate"
+                                            name="expiryDate"
+                                            type="checkbox"
+                                        >
+                                        <label
+                                            class="form-check-label"
+                                            for="expiryDate"
+                                        >
+                                            Expiry Date
+                                        </label>
+                                    </div>
+                                    <input
+                                        class="form-control mt-2 ms-2"
+                                        id="expiryDateDetails"
+                                        name="expiryDateDetails"
+                                        type="text"
+                                    >
+                                    <div class="form-text">
+                                        Describe the process for determining and labeling product expiry dates.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <hr>
+                    <span class="my-4 fw-bold">Finance</span>
+                    <hr>
+                    <div class="row gy-3">
+                        <div class="col-12">
+                            <label
+                                class="form-label"
+                                for="CashFlowAndRelatedDocuments"
+                            >
+                                Cash Flow or other related documents:
+                            </label>
+                            <textarea
+                                class="form-control"
+                                id="CashFlowAndRelatedDocuments"
+                                name="CashFlowAndRelatedDocuments"
+                                rows="3"
+                            ></textarea>
+                            <div class="form-text">
+                                Provide information on cash flow or other related documents for financial management.
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label
+                                class="form-label"
+                                for="SourceOfCapitalCredit"
+                            >
+                                Source(s) of capital/credit:
+                            </label>
+                            <textarea
+                                class="form-control"
+                                id="SourceOfCapitalCredit"
+                                name="SourceOfCapitalCredit"
+                                rows="3"
+                            ></textarea>
+                            <div class="form-text">
+                                Specify the sources of funding, including investors, loans, etc.
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label
+                                class="form-label"
+                                for="AccountingSystem"
+                            >
+                                Accounting System:
+                            </label>
+                            <textarea
+                                class="form-control"
+                                id="AccountingSystem"
+                                name="AccountingSystem"
+                                rows="3"
+                            ></textarea>
+                            <div class="form-text">
+                                Describe the accounting system for tracking financial transactions and ensuring
+                                compliance.
+                            </div>
+                        </div>
+
+                    </div>
+                    <hr>
+                    <span class="my-4 fw-bold">Human Resources</span>
+                    <hr>
+                    <div class="row gy-3">
+                        <div class="col-12">
+                            <label
+                                class="form-label"
+                                for="HiringAndCriteria"
+                            >
+                                Hiring and Criteria:
+                            </label>
+                            <textarea
+                                class="form-control"
+                                id="HiringAndCriteria"
+                                name="HiringAndCriteria"
+                                rows="3"
+                            ></textarea>
+                            <div class="form-text">
+                                Describe the process for hiring employees and the criteria used for selection.
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label
+                                class="form-label"
+                                for="IncentivesToEmployees"
+                            >
+                                Incentives to Employees:
+                            </label>
+                            <textarea
+                                class="form-control"
+                                id="IncentivesToEmployees"
+                                name="IncentivesToEmployees"
+                                rows="3"
+                            ></textarea>
+                            <div class="form-text">
+                                Describe the incentives provided to employees.
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label
+                                class="form-label"
+                                for="TrainingAndDevelopment"
+                            >
+                                Training and Development:
+                            </label>
+                            <textarea
+                                class="form-control"
+                                id="TrainingAndDevelopment"
+                                name="TrainingAndDevelopment"
+                                rows="3"
+                            ></textarea>
+                            <div class="form-text">
+                                Describe the training and development programs provided to employees.
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label
+                                class="form-label"
+                                for="SafetyMeasuresPracticed"
+                            >
+                                Safety Measures Practiced:
+                            </label>
+                            <textarea
+                                class="form-control"
+                                id="SafetyMeasuresPracticed"
+                                name="SafetyMeasuresPracticed"
+                                rows="3"
+                            ></textarea>
+                            <div class="form-text">
+                                Describe the safety measures practiced in the workplace.
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label
+                                class="form-label"
+                                for="OtherEmployeeWelfare"
+                            >
+                                Other Employee Welfare:
+                            </label>
+                            <textarea
+                                class="form-control"
+                                id="OtherEmployeeWelfare"
+                                name="OtherEmployeeWelfare"
+                                rows="3"
+                            ></textarea>
+                            <div class="form-text">
+                                Describe any other employee welfare programs provided. additional employee support
+                                programs beyond standard compensation and incentives.
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <h6 class="my-4">Other Concerns</h6>
+                    <hr>
+                    <div class="row gy-3">
+                        <div class="col-12">
+                            <label
+                                class="form-label"
+                                for="OtherConcerns"
+                            >
+                                Other Concerns:
+                            </label>
+                            <textarea
+                                class="form-control"
+                                id="OtherConcerns"
+                                name="OtherConcerns"
+                                rows="3"
+                            ></textarea>
+                            <div class="form-text">
+                                Describe any other concerns or issues that need to be addressed.
                             </div>
                         </div>
                     </div>
 
                 </div>
-                <hr>
-                <h6 class="my-4">Finance</h6>
-                <hr>
-                <div class="row gy-3">
-                    <div class="col-12">
-                        <label
-                            class="form-label"
-                            for="CashFlowAndRelatedDocuments"
-                        >
-                            Cash Flow or other related documents:
-                        </label>
-                        <textarea
-                            class="form-control"
-                            id="CashFlowAndRelatedDocuments"
-                            name="CashFlowAndRelatedDocuments"
-                            rows="3"
-                        ></textarea>
-                    </div>
-                    <div class="col-12">
-                        <label
-                            class="form-label"
-                            for="SourceOfCapitalCredit"
-                        >
-                            Source(s) of capital/credit:
-                        </label>
-                        <textarea
-                            class="form-control"
-                            id="SourceOfCapitalCredit"
-                            name="SourceOfCapitalCredit"
-                            rows="3"
-                        ></textarea>
-                    </div>
-                    <div class="col-12">
-                        <label
-                            class="form-label"
-                            for="AccountingSystem"
-                        >
-                            Accounting System:
-                        </label>
-                        <textarea
-                            class="form-control"
-                            id="AccountingSystem"
-                            name="AccountingSystem"
-                            rows="3"
-                        ></textarea>
-                    </div>
-
-                </div>
-                <hr>
-                <h6 class="my-4">Human Resources</h6>
-                <hr>
-                <div class="row gy-3">
-                    <div class="col-12">
-                        <label
-                            class="form-label"
-                            for="HiringAndCriteria"
-                        >
-                            Hiring and Criteria:
-                        </label>
-                        <textarea
-                            class="form-control"
-                            id="HiringAndCriteria"
-                            name="HiringAndCriteria"
-                            rows="3"
-                        ></textarea>
-                    </div>
-                    <div class="col-12">
-                        <label
-                            class="form-label"
-                            for="IncentivesToEmployees"
-                        >
-                            Incentives to Employees:
-                        </label>
-                        <textarea
-                            class="form-control"
-                            id="IncentivesToEmployees"
-                            name="IncentivesToEmployees"
-                            rows="3"
-                        ></textarea>
-                    </div>
-                    <div class="col-12">
-                        <label
-                            class="form-label"
-                            for="TrainingAndDevelopment"
-                        >
-                            Training and Development:
-                        </label>
-                        <textarea
-                            class="form-control"
-                            id="TrainingAndDevelopment"
-                            name="TrainingAndDevelopment"
-                            rows="3"
-                        ></textarea>
-                    </div>
-                    <div class="col-12">
-                        <label
-                            class="form-label"
-                            for="SafetyMeasuresPracticed"
-                        >
-                            Safety Measures Practiced:
-                        </label>
-                        <textarea
-                            class="form-control"
-                            id="SafetyMeasuresPracticed"
-                            name="SafetyMeasuresPracticed"
-                            rows="3"
-                        ></textarea>
-                    </div>
-                    <div class="col-12">
-                        <label
-                            class="form-label"
-                            for="OtherEmployeeWelfare"
-                        >
-                            Other Employee Welfare:
-                        </label>
-                        <textarea
-                            class="form-control"
-                            id="OtherEmployeeWelfare"
-                            name="OtherEmployeeWelfare"
-                            rows="3"
-                        ></textarea>
-                    </div>
-                </div>
-                <hr>
-                <h6 class="my-4">Other Concerns</h6>
-                <hr>
-                <div class="row gy-3">
-                    <div class="col-12">
-                        <label
-                            class="form-label"
-                            for="OtherConcerns"
-                        >
-                            Other Concerns:
-                        </label>
-                        <textarea
-                            class="form-control"
-                            id="OtherConcerns"
-                            name="OtherConcerns"
-                            rows="3"
-                        ></textarea>
-                    </div>
-                </div>
-
             </div>
-        </div>
     @endIf
     <div
         class="row p-0 mt-0 g-3"
@@ -1610,7 +1761,7 @@
                         class="col-12 mb-4"
                         id="localMarketContainer"
                     >
-                        <h5>Local Market Products</h5>
+                        <span class="fw-bold">Local Market Products</span>
                         <div class="mt-2">
                             <div class="d-flex justify-content-end p-2 addAndRemoveButton_Container">
                                 <button
@@ -1634,15 +1785,27 @@
                         </div>
                         <div class="table-responsive">
                             <table
-                                class="table table-bordered"
+                                class="table table-bordered w-100"
                                 id="localMarketTable"
                             >
                                 <thead>
                                     <tr>
-                                        <th>Enterprise Location</th>
-                                        <th>Sell Product</th>
-                                        <th>Volume</th>
-                                        <th>Unit</th>
+                                        <th
+                                            class="w-25"
+                                            scope="col"
+                                        >Enterprise Location</th>
+                                        <th
+                                            class="w-25"
+                                            scope="col"
+                                        >Sell Product</th>
+                                        <th
+                                            class="w-25"
+                                            scope="col"
+                                        >Volume</th>
+                                        <th
+                                            class="w-25"
+                                            scope="col"
+                                        >Unit</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -1682,7 +1845,7 @@
                         class="col-12"
                         id="exportMarketContainer"
                     >
-                        <h5>Export Market Products</h5>
+                        <span class="fw-bold">Export Market Products</span>
                         <div class="mt-2">
                             <div class="d-flex justify-content-end p-2 addAndRemoveButton_Container">
                                 <button
@@ -1711,10 +1874,22 @@
                             >
                                 <thead>
                                     <tr>
-                                        <th>Enterprise Location</th>
-                                        <th>Sell Product</th>
-                                        <th>Volume</th>
-                                        <th>Unit</th>
+                                        <th
+                                            class="w-25"
+                                            scope="col"
+                                        >Enterprise Location</th>
+                                        <th
+                                            class="w-25"
+                                            scope="col"
+                                        >Sell Product</th>
+                                        <th
+                                            class="w-25"
+                                            scope="col"
+                                        >Volume</th>
+                                        <th
+                                            class="w-25"
+                                            scope="col"
+                                        >Unit</th>
                                     </tr>
                                 </thead>
                                 <tbody>

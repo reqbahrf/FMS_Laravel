@@ -101,6 +101,9 @@
                     placeholder="Street Name, or Purok, Building No."
                     @required($isRequired)
                 >
+                <div class="form-text">
+                    enter the landmark of the {{ $prefix }}. example: "123 Main Street" or "Purok 1".
+                </div>
                 <div class="invalid-feedback">
                     Please enter the landmark.
                 </div>
@@ -137,6 +140,12 @@
                         value="{{ old("{$prefix}_telNo") }}"
                         placeholder="1234567"
                     >
+                    <div class="form-text">
+                        enter the telephone number of the {{ $prefix }}.
+                    </div>
+                    <div class="invalid-feedback">
+                        Please enter the telephone number.
+                    </div>
                 </div>
                 <div class="col-12 col-md-4">
                     <label
@@ -151,6 +160,9 @@
                         value="{{ old("{$prefix}_faxNo") }}"
                         placeholder="1234567"
                     >
+                    <div class="form-text">
+                        enter the fax number of the {{ $prefix }}.
+                    </div>
                 </div>
                 <div class="col-12 col-md-4">
                     <label
@@ -165,6 +177,9 @@
                         value="{{ old("{$prefix}_emailAddress") }}"
                         placeholder="example@domain.com"
                     >
+                    <div class="form-text">
+                        enter the email address of the {{ $prefix }}.
+                    </div>
                 </div>
             @endif
 
