@@ -408,7 +408,7 @@
             <table
                 class="table table-hover"
                 id="applicant"
-                style="width:100%"
+                style="width:100%;"
             >
                 <tbody
                     class="table-group-divider"

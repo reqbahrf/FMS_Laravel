@@ -213,7 +213,7 @@ async function initializeStaffPageJs() {
             // initialize datatable
             const HandledProjectDataTable = $('#handledProject').DataTable({
                 autoWidth: false,
-                responsive: true,
+                fixedColumns: true,
                 columns: [
                     {
                         title: 'Project Title',
@@ -275,7 +275,7 @@ async function initializeStaffPageJs() {
             });
             const ProjectFileLinkDataTable = $('#linkTable').DataTable({
                 autoWidth: false,
-                responsive: true,
+                fixedColumns: true,
                 columns: [
                     {
                         title: 'File Name',
@@ -313,11 +313,10 @@ async function initializeStaffPageJs() {
             //Data table custom sorter for quarter
 
             const PaymentHistoryTable = $('#paymentHistoryTable');
-            //TODO: add quarterly column on this table
+
             const PaymentHistoryDataTable = PaymentHistoryTable.DataTable({
                 fixedColumns: true,
                 autoWidth: false,
-                responsive: true,
                 columns: [
                     {
                         title: 'Reference #',

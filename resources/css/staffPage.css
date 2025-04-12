@@ -500,6 +500,14 @@ div .cards {
     overflow: auto;
 }
 
+#paymentHistoryTable_wrapper > div:nth-child(2) {
+    overflow: auto;
+}
+
+#linkTable_wrapper > div:nth-child(2) {
+    overflow: auto;
+}
+
 .cards {
     transition: transform 0.3s ease-in-out;
 }

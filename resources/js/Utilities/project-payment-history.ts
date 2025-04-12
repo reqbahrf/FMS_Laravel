@@ -42,12 +42,14 @@ const getProjectPaymentHistory = async (
                 ? customDateFormatter(payment.date_completed)
                 : 'N/A';
             const actionButtons = isUpdatable
-                ? /*html*/ `<button class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                    data-bs-target="#paymentModal"
-                    data-action="Update"><i class="ri-file-edit-fill"></i></button>
-                <button class="btn btn-danger btn-sm delete--payment--Btn"
-                    data-delete-record-type="projectPayment">
-                    <i class="ri-delete-bin-2-fill"></i></button>`
+                ? /*html*/ `<div class="btn-group" role="group" aria-label="Payment action">
+                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                        data-bs-target="#paymentModal"
+                        data-action="Update"><i class="ri-file-edit-fill"></i></button>
+                    <button class="btn btn-danger btn-sm delete--payment--Btn"
+                        data-delete-record-type="projectPayment">
+                        <i class="ri-delete-bin-2-fill"></i></button>
+                </div>`
                 : '';
 
             return [
