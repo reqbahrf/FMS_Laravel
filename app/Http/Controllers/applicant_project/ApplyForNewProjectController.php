@@ -14,21 +14,12 @@ class ApplyForNewProjectController extends Controller
     ) {}
 
     public const DRAFT_TYPE = 'Application_';
-    public function forNewBusiness(Request $request)
+    public function forNewProject(Request $request)
     {
         $ownerId = $request->user()->id;
         $draft_type = self::DRAFT_TYPE . $ownerId;
         $personalInfo = $this->getPersonalRecordService->getCooperatorPersonalInfo($ownerId);
         $coopUserInfo = $personalInfo->coopUserInfo;
         return view('registerpage.application', compact('ownerId', 'draft_type', 'personalInfo', 'coopUserInfo'));
-    }
-    public function forCurrentBusiness(Request $request)
-    {
-        $ownerId = $request->user()->id;
-        $draft_type = self::DRAFT_TYPE . $ownerId;
-        $personalInfo = $this->getPersonalRecordService->getCooperatorPersonalInfo($ownerId);
-        $businessInfo = $personalInfo->businessInfo;
-        $coopUserInfo = $personalInfo->coopUserInfo;
-        return view('registerpage.application', compact('ownerId', 'draft_type', 'personalInfo', 'businessInfo', 'coopUserInfo'));
     }
 }
