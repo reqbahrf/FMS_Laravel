@@ -14,4 +14,9 @@ class GetPersonalRecordService
     {
         return User::where('id', $userid)->with('coopUserInfo.businessInfo.addressInfo', 'addressInfo')->first();
     }
+
+    public function getBusinessInfo($businessId)
+    {
+        return BusinessInfo::find($businessId);
+    }
 }
