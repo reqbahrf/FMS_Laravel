@@ -201,7 +201,7 @@
     <x-application-form.main
         :$draft_type
         :$ownerId
-        :$personalInfo
+        :personalInfo="$personalInfo ?? []"
     />
     <x-toast-alert />
     <x-footer />

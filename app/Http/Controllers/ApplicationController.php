@@ -19,7 +19,7 @@ class ApplicationController extends Controller
         $personalInfo = User::find($ownerId)->coopUserInfo;
         $draft_type = $this->registrationService->isApplicantHasAssistDraft($ownerId)
             ? $this->registrationService->getDraftType($ownerId)
-            : 'Applicant_' . $ownerId;
+            : 'Application_' . $ownerId;
 
         return view('registerpage.application', compact('ownerId', 'draft_type', 'personalInfo'));
     }

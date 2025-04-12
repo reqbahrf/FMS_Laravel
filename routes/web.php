@@ -47,6 +47,7 @@ use App\Http\Controllers\StaffProjectRequirementController;
 use App\Http\Controllers\ApplicationProcessForm\TNADocController;
 use App\Http\Controllers\applicant_project\CreateProjectController;
 use App\Http\Controllers\applicant_project\CreateApplicantController;
+use App\Http\Controllers\applicant_project\ApplyForNewProjectController;
 use App\Http\Controllers\ApplicationProcessForm\RTECReportDocController;
 use App\Http\Controllers\ApplicationProcessForm\SubmissionToAdminController;
 use App\Http\Controllers\ApplicationProcessForm\GetProjectFormListController;
@@ -76,6 +77,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::post('/application/submit/{id}', 'store')
             ->name('applicationFormSubmit')
+            ->middleware('signed');
+    });
+
+    Route::controller(ApplyForNewProjectController::class)->group(function () {
+        Route::get('/apply-for-new-project/{user_id}', 'index')
+            ->name('apply.for.new.project')
+            ->middleware('signed');
+
+        Route::post('/apply-for-new-project/{user_id}', 'store')
+            ->name('apply.for.new.project.store')
             ->middleware('signed');
     });
 

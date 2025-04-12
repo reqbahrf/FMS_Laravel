@@ -124,7 +124,7 @@
             <div class="d-flex justify-content-end">
                 <a
                     class="btn btn-primary btn-sm {{ !$allProjectsCompleted ? 'disabled' : '' }}"
-                    href="{{ !$allProjectsCompleted ? '#' : route('application.form') }}"
+                    href="{{ !$allProjectsCompleted ? '#' : URL::signedRoute('apply.for.new.project', auth()->user()->id) }}"
                     @if (!$allProjectsCompleted) aria-disabled="true"
                         tabindex="-1"
                     @else

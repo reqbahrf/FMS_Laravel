@@ -1,4 +1,4 @@
-@props(['ownerId', 'draft_type', 'personalInfo'])
+@props(['ownerId', 'draft_type', 'personalInfo' => []])
 <div class="container mt-5 shadow">
     <div id="smartwizard">
         <ul class="nav nav-progress">

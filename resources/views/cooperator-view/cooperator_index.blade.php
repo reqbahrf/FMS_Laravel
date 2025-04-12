@@ -223,13 +223,13 @@
                         selectedBusiness.application_info.forEach(application => {
                             const badgeClass =
                                 application.application_status === 'approved' ?
-                                'success' :
+                                'info' :
                                 application.application_status === 'rejected' ?
                                 'danger' :
                                 application.application_status === 'ongoing' ?
                                 'primary' :
                                 application.application_status === 'completed' ?
-                                'info' :
+                                'success' :
                                 'warning';
 
                             // Append each application as a new LI in the dropdown menu
