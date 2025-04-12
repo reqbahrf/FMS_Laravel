@@ -473,6 +473,7 @@ class RegistrationService
     private function storeBusinessInfo(array $validatedInputs, int $personalInfoId): array
     {
         $firm_name = $validatedInputs['firm_name'];
+        $enterprise_background = $validatedInputs['brief_background'];
         $enterprise_type = $validatedInputs['enterpriseType'];
         $enterprise_level = $validatedInputs['enterprise_level'];
         $year_established = $validatedInputs['year_established'];
@@ -512,6 +513,7 @@ class RegistrationService
             'enterprise_level' => $enterprise_level,
             'year_established' => $year_established,
             'permit_type' => $permit_type,
+            'enterprise_background' => $enterprise_background,
             'business_permit_no' => $business_permit_no,
             'permit_year_registered' => $permit_year_registered,
             'registration_type' => $registration_type,

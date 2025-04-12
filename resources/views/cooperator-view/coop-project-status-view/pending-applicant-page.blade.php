@@ -9,6 +9,10 @@
         }
     }
 
+    main {
+        padding-top: 70px;
+    }
+
     #arrow {
         animation: rotate 60s linear infinite;
         /* Increased from 60s to 120s */
@@ -239,7 +243,7 @@
         </div>
     </div>
     <main class="overflow-y-auto vh-100 backgroundColor">
-        <div class="d-flex flex-column justify-content-center align-items-center m-0 h-100">
+        <div class="d-flex flex-column justify-content-center align-items-center m-0">
             @if ($notifications->isEmpty())
                 <div class="waiting-clock">
                     <div
@@ -312,16 +316,19 @@
                     </div>
                 @endif
             @endif
-            <div class="my-3">
-                Requested Amount:
-                <strong>₱{{ number_format($businessInfos[0]->applicationInfo[0]->requested_fund_amount, 2) }}</strong>
-            </div>
-
             @php
-                $businessId = Auth::user()->coopUserInfo->businessInfo()->first()->id;
+                $businessId = Session::get('business_id');
+                $applicationId = Session::get('application_id');
+                $match = $businessInfos->firstWhere('id', (int) $businessId);
+                $requestedFundAmount = $match->applicationInfo->firstWhere('id', (int) $applicationId)
+                    ->requested_fund_amount;
             @endphp
-            <x-applicant-requirements :business-id="$businessId" />
         </div>
+        <div class="my-5 fw-semibold fs-6 text-center">
+            Requested Amount:
+            <strong>₱{{ number_format($requestedFundAmount, 2) }}</strong>
+        </div>
+        <x-applicant-requirements :business-id="$businessId" />
     </main>
 </div>
 <x-toast-ssr-notification />
