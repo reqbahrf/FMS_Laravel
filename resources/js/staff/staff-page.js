@@ -144,12 +144,19 @@ activityLog.initPersonalActivityLog();
 async function initializeStaffPageJs() {
     const functions = {
         Dashboard: async () => {
+            //Initialize class instances
             let classInstance = {
                 paymentHandler: null,
                 pisClass: null,
                 pdsClass: null,
                 psrClass: null,
                 projectFileClass: null,
+            };
+
+            //Initialize view project info
+            let viewProjectInfo = {
+                project_id: null,
+                business_id: null,
             };
 
             const yearToLoadSelector = $('#yearSelector');
@@ -1042,11 +1049,6 @@ async function initializeStaffPageJs() {
                 }
             };
 
-            let pisClass;
-            let pdsClass;
-            let psrClass;
-            let projectFileClass;
-
             $('#handledProjectTableBody').on(
                 'click',
                 '.handleProjectbtn',
@@ -1194,6 +1196,10 @@ async function initializeStaffPageJs() {
                             classInstance.pdsClass.destroy();
                         }
 
+                        viewProjectInfo.project_id = project_id;
+                        viewProjectInfo.business_id = business_id;
+
+                        console.log(viewProjectInfo);
                         classInstance.pisClass = new ProjectInfoSheet(
                             formContainer,
                             project_id,
@@ -1480,11 +1486,8 @@ async function initializeStaffPageJs() {
 
             const projectStateBtn = $('.updateProjectState');
 
-            //Cooperator Payment Progress
             projectStateBtn.on('click', async function () {
                 const action = $(this).data('project-state');
-                const projectID = $('#ProjectID').val();
-                const businessID = $('#hiddenbusiness_id').val();
                 const isConfirmed = await createConfirmationModal({
                     title: 'Confirm Project State Update',
                     message: `Are you sure you want to update the project state to ${action}?`,
@@ -1506,8 +1509,8 @@ async function initializeStaffPageJs() {
                         },
                         data: {
                             action: action,
-                            project_id: projectID,
-                            business_id: businessID,
+                            project_id: viewProjectInfo.project_id,
+                            business_id: viewProjectInfo.business_id,
                         },
                     });
                     showToastFeedback(
@@ -1592,9 +1595,10 @@ async function initializeStaffPageJs() {
                 const processToast = showProcessToast(
                     'Creating Quarterly Report...'
                 );
-                const project_id = $('#ProjectID').val();
                 const formData =
-                    $(this).serialize() + '&project_id=' + project_id;
+                    $(this).serialize() +
+                    '&project_id=' +
+                    viewProjectInfo.project_id;
                 $.ajax({
                     type: 'POST',
                     url: DASHBOARD_TAB_ROUTE.STORE_NEW_QUARTERLY_REPORT,
@@ -1605,7 +1609,7 @@ async function initializeStaffPageJs() {
                         ),
                     },
                     success: function (response) {
-                        getQuarterlyReports(project_id);
+                        getQuarterlyReports(viewProjectInfo.project_id);
                         hideProcessToast(processToast);
                         showToastFeedback('text-bg-success', response.message);
                     },
