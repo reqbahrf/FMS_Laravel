@@ -29,15 +29,6 @@
                     Requirements
                 </a>
             </li>
-            <li class="nav-item">
-                <a
-                    class="nav-link default"
-                    href="#step-4"
-                >
-                    <span class="num">4</span>
-                    Confirm Details
-                </a>
-            </li>
         </ul>
         {{-- Form will be here --}}
         <x-application-form.form
@@ -86,13 +77,12 @@
                     <x-application-form.file-requirements />
                 </div>
                 <div
-                    class="tab-pane py-5"
-                    id="step-4"
-                    role="tabpanel"
-                    aria-labelledby="step-4"
-                    style="position: static; left: 0px; display: none;"
+                    class="alert alert-warning m-0"
+                    role="alert"
                 >
-                    <x-application-form.review-details />
+                    <i class="ri-information-2-fill ri-lg"></i>
+                    <span class="fw-bold fs-6">Please review your Information before proceeding to the next steps and
+                        submitting the form</span>
                 </div>
             </div>
         </x-application-form.form>
