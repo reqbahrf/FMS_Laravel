@@ -121,15 +121,28 @@
                     </tbody>
                 </table>
             </div>
-            <div class="d-flex justify-content-end">
-                <a
-                    class="btn btn-primary btn-sm {{ !$allProjectsCompleted ? 'disabled' : '' }}"
-                    href="{{ !$allProjectsCompleted ? '#' : URL::signedRoute('apply.for.new.project', [auth()->user()->id, Session::get('business_id')]) }}"
-                    @if (!$allProjectsCompleted) aria-disabled="true"
-                        tabindex="-1"
-                    @else
-                        target="_blank" @endif
-                >Apply New Project</a>
+            <div class="d-flex justify-content-end align-items-center gap-2">
+                <span class="me-2">Application For:</span>
+                <div
+                    class="btn-group"
+                    role="group"
+                    aria-label="Application Options"
+                >
+                    <a
+                        class="btn btn-primary btn-sm {{ !$allProjectsCompleted ? 'disabled' : '' }}"
+                        href="{{ !$allProjectsCompleted ? '#' : URL::signedRoute('apply.for.new.business', auth()->user()->id) }}"
+                        @if (!$allProjectsCompleted) aria-disabled="true" tabindex="-1" @else target="_blank" @endif
+                    >
+                        New Business
+                    </a>
+                    <a
+                        class="btn btn-primary btn-sm {{ !$allProjectsCompleted ? 'disabled' : '' }}"
+                        href="{{ !$allProjectsCompleted ? '#' : URL::signedRoute('apply.for.current.business', [auth()->user()->id, Session::get('business_id')]) }}"
+                        @if (!$allProjectsCompleted) aria-disabled="true" tabindex="-1" @else target="_blank" @endif
+                    >
+                        Current Business
+                    </a>
+                </div>
             </div>
         </div>
     </div>

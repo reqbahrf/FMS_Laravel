@@ -81,12 +81,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::controller(ApplyForNewProjectController::class)->group(function () {
-        Route::get('/apply-for-new-project/{user_id}/{business_id}', 'index')
-            ->name('apply.for.new.project')
+        Route::get('/apply-for-new-business/{user_id}', 'forNewBusiness')
+            ->name('apply.for.new.business')
             ->middleware('signed');
 
-        Route::post('/apply-for-new-project/{user_id}/{business_id}', 'store')
-            ->name('apply.for.new.project.store')
+        Route::get('/apply-for-current-business/{user_id}/{business_id}', 'forCurrentBusiness')
+            ->name('apply.for.current.business')
             ->middleware('signed');
     });
 
