@@ -109,6 +109,7 @@ class ProjectProposalRequest extends FormRequest
             'market_situation_product_demand_and_supply' => 'nullable|string',
             'product_specifications_and_product_price' => 'nullable|string',
             'distribution_channel_local_export' => 'nullable|string',
+            'competitors' => 'nullable|string',
             'existing_problems_if_any' => 'nullable|string',
             'market_plans_strategies' => 'nullable|string',
 

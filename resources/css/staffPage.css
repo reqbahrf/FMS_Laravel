@@ -980,6 +980,7 @@ Form Styles
 
 .section--sub--title {
     font-weight: bold;
+    padding-left: 10pt;
 }
 
 .no-border,
