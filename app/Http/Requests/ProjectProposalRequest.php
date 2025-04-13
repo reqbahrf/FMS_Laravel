@@ -112,6 +112,9 @@ class ProjectProposalRequest extends FormRequest
             'competitors' => 'nullable|string',
             'existing_problems_if_any' => 'nullable|string',
             'market_plans_strategies' => 'nullable|string',
+            'process_flow_of_production' => 'nullable|string',
+            'material_balance' => 'nullable|string',
+            'existing_production_equipment' => 'nullable|string',
 
             'technicalConstraints' => 'nullable|array',
             'technicalConstraints.*.processExistingPracticeProblem' => 'nullable|string',
@@ -128,12 +131,25 @@ class ProjectProposalRequest extends FormRequest
             'list_of_equipment_fabricators' => 'nullable',
             'schedule_of_activities_for_proposed_project' => 'nullable',
 
+            'percentage_increase_in_productivity' => 'nullable|string',
+            'improved_quality_of_products' => 'nullable|string',
+            'contribution_to_production_line_process' => 'nullable|string',
+            'percentage_decrease_in_rejects' => 'nullable|string',
+            'additional_clients' => 'nullable|string',
+            'others_please_specify' => 'nullable|string',
+
             //Additional field will go here for expected output and impact
 
 
             'volume_of_waste_generated_monthly' => 'nullable',
             'kinds_of_wastes' => 'nullable',
             'methods_of_disposal' => 'nullable',
+
+            'financial_ratio_and_analysis' => 'nullable|string',
+            'partial_budget_analysis' => 'nullable|string',
+            'net_profit_margin_ratio' => 'nullable|string',
+            'liquidity_ratio' => 'nullable|string',
+            'roi' => 'nullable|string',
 
             //Additional field will go here for A. Financial Capacity
 
