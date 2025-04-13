@@ -34,6 +34,7 @@ use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\GetOngoingProjectController;
 use App\Http\Controllers\GetPendingProjectController;
 use App\Http\Controllers\ProjectForm\SRDocController;
+use App\Http\Controllers\GetApprovedProjectController;
 use App\Http\Controllers\GetProjectProposalController;
 use App\Http\Controllers\ProjectForm\PDSDocController;
 use App\Http\Controllers\ProjectForm\PISDocController;
@@ -47,6 +48,7 @@ use App\Http\Controllers\StaffProjectRequirementController;
 use App\Http\Controllers\ApplicationProcessForm\TNADocController;
 use App\Http\Controllers\applicant_project\CreateProjectController;
 use App\Http\Controllers\applicant_project\CreateApplicantController;
+use App\Http\Controllers\applicant_project\ApplyForNewProjectController;
 use App\Http\Controllers\ApplicationProcessForm\RTECReportDocController;
 use App\Http\Controllers\ApplicationProcessForm\SubmissionToAdminController;
 use App\Http\Controllers\ApplicationProcessForm\GetProjectFormListController;
@@ -76,6 +78,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::post('/application/submit/{id}', 'store')
             ->name('applicationFormSubmit')
+            ->middleware('signed');
+    });
+
+    Route::controller(ApplyForNewProjectController::class)->group(function () {
+        Route::get('/apply-for-new-project/{user_id}', 'forNewProject')
+            ->name('apply.for.new.project')
             ->middleware('signed');
     });
 
@@ -218,9 +226,6 @@ Route::middleware([CheckStaffUser::class, 'verified', 'check.password.change'])-
 
         Route::get('/Staff/Project', 'LoadProjectsTab')
             ->name('staff.Project');
-
-        Route::get('/Staff/Project/getApproved-Project', 'getApprovedProjects')
-            ->name('staff.Project.ApprovedProjectProposal');
 
         Route::get('/Staff/Applicant', 'LoadApplicantTab')
             ->name('staff.Applicant');
@@ -444,15 +449,18 @@ Route::middleware([CheckAdminUser::class, 'verified', 'check.password.change'])-
 //OrgUserAccess
 Route::middleware(['OrgUser', 'check.password.change'])->group(function () {
     Route::resource('/Project/PaymentRecord', PaymentRecordController::class);
-    Route::get('/Project/Completed-Project', GetCompletedProjectController::class)
-        ->name('getCompletedProject');
 
     Route::get('/Applicant/get/Applicants', GetApplicantController::class)
         ->name('Applicant.getApplicants');
 
-    Route::get('/Project/get/OngoingProjects', GetOngoingProjectController::class)
-        ->name('Project.getOngoingProjects');
+    Route::get('/Applicant/get/Approved-Project', GetApprovedProjectController::class)
+        ->name('getApprovedProject');
 
+    Route::get('/Project/get/OngoingProjects', GetOngoingProjectController::class)
+        ->name('getOngoingProjects');
+
+    Route::get('/Project/Completed-Project', GetCompletedProjectController::class)
+        ->name('getCompletedProject');
 
     Route::controller(TNADocController::class)->group(function () {
         Route::get('/Applicant/get/tna-status/{business_id}/{application_id}', 'getTNAFormStatus')

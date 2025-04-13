@@ -102,7 +102,7 @@
                                 </td>
                                 <td>
                                     @if ($isEditable)
-                                        <select class="sales_quarter_specify">
+                                        <select class="sales_quarter_specify form-select">
                                             <option
                                                 value="1ˢᵗ Quarter"
                                                 {{ ($item['salesQuarter']['quarter'] ?? '') == '1ˢᵗ Quarter' ? 'selected' : '' }}
@@ -147,7 +147,8 @@
                                 style="text-align: left;"
                                 colspan="3"
                             >
-                                {{ $quarter }} {{ $year }} Total
+                                {{-- {{ $quarter }} {{ $year }} Total --}}
+                                Total
                             </td>
                             <td style="font-weight: bold;">
                                 {{ NF::formatNumber($calculateQuarterTotal($quarterItems)) }}
@@ -155,7 +156,7 @@
                         </tr>
                     @endforeach
 
-                    <!-- Year Total Row -->
+                    {{-- <!-- Year Total Row -->
                     <tr class="year-total-row">
                         <td
                             style="text-align: left;"
@@ -166,11 +167,11 @@
                         <td style="font-weight: bold;">
                             {{ NF::formatNumber($yearTotals[$year] ?? 0) }}
                         </td>
-                    </tr>
+                    </tr> --}}
                 @endforeach
 
                 <!-- Grand Total (only if there are multiple years) -->
-                @if (count($groupedData) > 1)
+                {{-- @if (count($groupedData) > 1)
                     <tr class="grand-total-row">
                         <td
                             style="text-align: left;"
@@ -182,7 +183,7 @@
                             {{ NF::formatNumber($totalGrossSales) }}
                         </td>
                     </tr>
-                @endif
+                @endif --}}
             @else
                 <tr>
                     <td>

@@ -144,12 +144,19 @@ activityLog.initPersonalActivityLog();
 async function initializeStaffPageJs() {
     const functions = {
         Dashboard: async () => {
+            //Initialize class instances
             let classInstance = {
                 paymentHandler: null,
                 pisClass: null,
                 pdsClass: null,
                 psrClass: null,
                 projectFileClass: null,
+            };
+
+            //Initialize view project info
+            let viewProjectInfo = {
+                project_id: null,
+                business_id: null,
             };
 
             const yearToLoadSelector = $('#yearSelector');
@@ -206,7 +213,7 @@ async function initializeStaffPageJs() {
             // initialize datatable
             const HandledProjectDataTable = $('#handledProject').DataTable({
                 autoWidth: false,
-                responsive: true,
+                fixedColumns: true,
                 columns: [
                     {
                         title: 'Project Title',
@@ -268,7 +275,7 @@ async function initializeStaffPageJs() {
             });
             const ProjectFileLinkDataTable = $('#linkTable').DataTable({
                 autoWidth: false,
-                responsive: true,
+                fixedColumns: true,
                 columns: [
                     {
                         title: 'File Name',
@@ -306,11 +313,10 @@ async function initializeStaffPageJs() {
             //Data table custom sorter for quarter
 
             const PaymentHistoryTable = $('#paymentHistoryTable');
-            //TODO: add quarterly column on this table
+
             const PaymentHistoryDataTable = PaymentHistoryTable.DataTable({
                 fixedColumns: true,
                 autoWidth: false,
-                responsive: true,
                 columns: [
                     {
                         title: 'Reference #',
@@ -669,6 +675,7 @@ async function initializeStaffPageJs() {
                         }
                     );
                     const data = await response.json();
+                    if (data.length === 0) return;
                     HandledProjectDataTable.clear();
                     HandledProjectDataTable.rows.add(
                         data.map((project) => {
@@ -736,17 +743,15 @@ async function initializeStaffPageJs() {
                                     />`,
                                 /*html*/ `<p class="owner_name">
                                         ${
-                                            (project.prefix
-                                                ? project.prefix
-                                                : '') +
+                                            (project.prefix || '') +
                                             ' ' +
                                             project.f_name +
                                             ' ' +
+                                            project.mid_name +
+                                            ' ' +
                                             project.l_name +
                                             ' ' +
-                                            (project.suffix
-                                                ? project.suffix
-                                                : ' ')
+                                            (project.suffix || ' ')
                                         }
                                     </p>
                                     <input
@@ -922,7 +927,8 @@ async function initializeStaffPageJs() {
                     closeModal('#paymentModal');
                 } catch (error) {
                     processError(
-                        'Failed to save payment record: ' + error,
+                        'Failed to save payment record: ',
+                        error,
                         true
                     );
                 }
@@ -956,9 +962,9 @@ async function initializeStaffPageJs() {
                 }
             });
 
-            // paymentModal.on('hide.bs.modal', function () {
-            //     paymentModal.find('#paymentForm')[0].reset();
-            // });
+            paymentModal.on('hide.bs.modal', function () {
+                paymentModal.find('#paymentForm')[0].reset();
+            });
 
             const ProjectLedgerInput = $('#projectLedgerLink');
             const ProjectLedgerSubmitBtn = $('#saveProjectLedgerLink');
@@ -1039,11 +1045,6 @@ async function initializeStaffPageJs() {
                     throw new Error('Error fetching project ledger: ' + error);
                 }
             };
-
-            let pisClass;
-            let pdsClass;
-            let psrClass;
-            let projectFileClass;
 
             $('#handledProjectTableBody').on(
                 'click',
@@ -1192,6 +1193,10 @@ async function initializeStaffPageJs() {
                             classInstance.pdsClass.destroy();
                         }
 
+                        viewProjectInfo.project_id = project_id;
+                        viewProjectInfo.business_id = business_id;
+
+                        console.log(viewProjectInfo);
                         classInstance.pisClass = new ProjectInfoSheet(
                             formContainer,
                             project_id,
@@ -1478,11 +1483,8 @@ async function initializeStaffPageJs() {
 
             const projectStateBtn = $('.updateProjectState');
 
-            //Cooperator Payment Progress
             projectStateBtn.on('click', async function () {
                 const action = $(this).data('project-state');
-                const projectID = $('#ProjectID').val();
-                const businessID = $('#hiddenbusiness_id').val();
                 const isConfirmed = await createConfirmationModal({
                     title: 'Confirm Project State Update',
                     message: `Are you sure you want to update the project state to ${action}?`,
@@ -1504,8 +1506,8 @@ async function initializeStaffPageJs() {
                         },
                         data: {
                             action: action,
-                            project_id: projectID,
-                            business_id: businessID,
+                            project_id: viewProjectInfo.project_id,
+                            business_id: viewProjectInfo.business_id,
                         },
                     });
                     showToastFeedback(
@@ -1513,7 +1515,7 @@ async function initializeStaffPageJs() {
                         response?.message || response?.responseJSON?.message
                     );
                 } catch (error) {
-                    processError('Failed to update project state', error);
+                    processError('Failed to update project state', error, true);
                 } finally {
                     hideProcessToast(processToast);
                     await getHandleProject();
@@ -1590,9 +1592,10 @@ async function initializeStaffPageJs() {
                 const processToast = showProcessToast(
                     'Creating Quarterly Report...'
                 );
-                const project_id = $('#ProjectID').val();
                 const formData =
-                    $(this).serialize() + '&project_id=' + project_id;
+                    $(this).serialize() +
+                    '&project_id=' +
+                    viewProjectInfo.project_id;
                 $.ajax({
                     type: 'POST',
                     url: DASHBOARD_TAB_ROUTE.STORE_NEW_QUARTERLY_REPORT,
@@ -1603,7 +1606,7 @@ async function initializeStaffPageJs() {
                         ),
                     },
                     success: function (response) {
-                        getQuarterlyReports(project_id);
+                        getQuarterlyReports(viewProjectInfo.project_id);
                         hideProcessToast(processToast);
                         showToastFeedback('text-bg-success', response.message);
                     },
@@ -2395,12 +2398,13 @@ async function initializeStaffPageJs() {
                         }
                     );
                     const data = await response.json();
+                    if (data.length === 0) return;
                     ApprovedDataTable.clear();
                     ApprovedDataTable.rows.add(
                         data.map((Approved) => {
                             return [
                                 `${Approved.Project_id}`,
-                                /*html*/ `${Approved.f_name} ${Approved.l_name}
+                                /*html*/ `${Approved.prefix || ''} ${Approved.f_name} ${Approved.mid_name || ''} ${Approved.l_name} ${Approved.suffix || ''}
                                     <input
                                         type="hidden"
                                         class="designation"
@@ -2455,7 +2459,7 @@ async function initializeStaffPageJs() {
                                     <input
                                         type="hidden"
                                         class="business_address"
-                                        value="${Approved.landmark} ${Approved.barangay}, ${Approved.city}, ${Approved.province}, ${Approved.region}"
+                                        value="${Approved.office_landmark} ${Approved.office_barangay}, ${Approved.office_city}, ${Approved.office_province}, ${Approved.office_region}, ${Approved.office_zip_code}"
                                     />`,
                                 /*html*/ `${Approved.project_title}
                                     <input
@@ -2552,7 +2556,7 @@ async function initializeStaffPageJs() {
                         }
                     );
                     const data = await response.json();
-
+                    if (data.length === 0) return;
                     OngoingDataTable.clear();
                     OngoingDataTable.rows.add(
                         data.map((Ongoing) => {
@@ -2657,15 +2661,17 @@ async function initializeStaffPageJs() {
                                         type="hidden"
                                         class="address"
                                         value="${
-                                            Ongoing.landmark +
+                                            Ongoing.office_landmark +
                                             ', ' +
-                                            Ongoing.barangay +
+                                            Ongoing.office_barangay +
                                             ', ' +
-                                            Ongoing.city +
+                                            Ongoing.office_city +
                                             ', ' +
-                                            Ongoing.province +
+                                            Ongoing.office_province +
                                             ', ' +
-                                            Ongoing.region
+                                            Ongoing.office_region +
+                                            ', ' +
+                                            Ongoing.office_zip_code
                                         }"
                                     />
                                     <input
@@ -2693,7 +2699,7 @@ async function initializeStaffPageJs() {
                                         class="working_capital_assets"
                                         value="${Ongoing.working_capital}"
                                     />`,
-                                /*html*/ `${Ongoing.f_name + ' ' + Ongoing.l_name}
+                                /*html*/ `${Ongoing.prefix || ''} ${Ongoing.f_name} ${Ongoing.mid_name || ''} ${Ongoing.l_name} ${Ongoing.suffix || ''}
                                     <input
                                         type="hidden"
                                         class="designation"
@@ -2756,6 +2762,7 @@ async function initializeStaffPageJs() {
                         }
                     );
                     const data = await response.json();
+                    if (data.length === 0) return;
                     CompletedDataTable.clear();
                     CompletedDataTable.rows.add(
                         data.map((completed) => {
@@ -2857,15 +2864,17 @@ async function initializeStaffPageJs() {
                                         type="hidden"
                                         class="address"
                                         value="${
-                                            completed.landmark +
+                                            completed.office_landmark +
                                             ', ' +
-                                            completed.barangay +
+                                            completed.office_barangay +
                                             ', ' +
-                                            completed.city +
+                                            completed.office_city +
                                             ', ' +
-                                            completed.province +
+                                            completed.office_province +
                                             ', ' +
-                                            completed.region
+                                            completed.office_region +
+                                            ', ' +
+                                            completed.office_zip_code
                                         }"
                                     />
                                     <input
@@ -2894,7 +2903,15 @@ async function initializeStaffPageJs() {
                                         value="${completed.working_capital}"
                                     />`,
                                 /*html*/ `${
-                                    completed.f_name + ' ' + completed.l_name
+                                    (completed.prefix || '') +
+                                    ' ' +
+                                    (completed.f_name || '') +
+                                    ' ' +
+                                    (completed.mid_name || '') +
+                                    ' ' +
+                                    (completed.l_name || '') +
+                                    ' ' +
+                                    (completed.suffix || '')
                                 }
                                     <input
                                         type="hidden"
@@ -3441,10 +3458,10 @@ async function initializeStaffPageJs() {
                     reviewFileModalInput.filter('#file_url').val(fileUrl);
                     reviewFileModalInput
                         .filter('#fileUploaded')
-                        .val(uploadedDate);
+                        .val(customDateFormatter(uploadedDate));
                     reviewFileModalInput
-                        .filter('#fileUploadedBy')
-                        .val(updatedDate);
+                        .filter('#fileUpdated')
+                        .val(customDateFormatter(updatedDate));
                     reviewFileModalInput
                         .filter('#fileUploadedBy')
                         .val(uploader);

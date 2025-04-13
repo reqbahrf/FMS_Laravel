@@ -31,6 +31,7 @@ export default defineConfig({
                 'resources/js/cooperator/coop-page.js',
                 'resources/js/staff/staff-page.js',
                 'resources/js/admin/admin-page.js',
+                'resources/js/pending-applicant-page.js',
             ],
             refresh: true,
         }),

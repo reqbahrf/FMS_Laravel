@@ -23,6 +23,7 @@ class BusinessInfo extends Model
     protected $fillable = [
         'user_info_id',
         'firm_name',
+        'enterprise_background',
         'enterprise_type',
         'enterprise_level',
         'permit_type',

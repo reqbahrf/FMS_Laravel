@@ -235,11 +235,12 @@ class PaymentProcessingService
                 // Add this date to our processed dates
                 $processedDates[] = $dueDateStr;
 
+                $referenceNumber = 'Temp-' . substr(Str::uuid(), 0, 15);
                 $paymentStatus = $isRefunded ? 'Paid' : 'Pending';
 
                 PaymentRecord::create([
                     'Project_id' => $projectId,
-                    'reference_number' => Str::random(10),
+                    'reference_number' => $referenceNumber,
                     'amount' => $monthAmount,
                     'payment_status' => $paymentStatus,
                     'payment_method' => 'N/A',

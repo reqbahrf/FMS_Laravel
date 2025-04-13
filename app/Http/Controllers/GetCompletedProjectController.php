@@ -14,10 +14,8 @@ class GetCompletedProjectController extends Controller
     public function __invoke()
     {
         try {
-            if (Cache::has('completed_projects')) {
-                $completedProjects = Cache::get('completed_projects');
-            } else {
-                $completedProjects = DB::table('application_info')
+            $completedProjects = Cache::remember('completed_projects', 1800, function () {
+                return DB::table('application_info')
                     ->join('business_info', 'business_info.id', '=', 'application_info.business_id')
                     ->join('business_address_info', 'business_address_info.business_info_id', '=', 'business_info.id')
                     ->join('coop_users_info', 'coop_users_info.id', '=', 'business_info.user_info_id')
@@ -38,8 +36,11 @@ class GetCompletedProjectController extends Controller
                         'users.user_name',
                         'users.email',
                         'users.role',
+                        'coop_users_info.prefix',
                         'coop_users_info.f_name',
+                        'coop_users_info.mid_name',
                         'coop_users_info.l_name',
+                        'coop_users_info.suffix',
                         'coop_users_info.designation',
                         'coop_users_info.mobile_number',
                         'coop_users_info.landline',
@@ -82,9 +83,8 @@ class GetCompletedProjectController extends Controller
                         'application_info.created_at as date_applied',
                         'application_info.application_status'
                     )->get();
+            });
 
-                Cache::put('completed_projects',  $completedProjects, 1800);
-            }
             return response()->json($completedProjects);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);

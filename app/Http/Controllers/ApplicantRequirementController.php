@@ -201,7 +201,6 @@ class ApplicantRequirementController extends Controller
 
     protected function generateSecureFileUrl(int $fileId): string
     {
-        // Use only the file ID in the URL, not the actual file path
         return URL::signedRoute('Requirements.show', [
             'id' => $fileId,
         ]);

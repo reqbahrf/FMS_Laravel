@@ -1295,44 +1295,73 @@
                     </tr> --}}
                 </tbody>
             </table>
-            <table style="border-collapse: collapse; font-family: sans-serif; font-size: 10pt; width: 375pt;">
+            <table
+                style="border-collapse: collapse; width: 100%; font-family: sans-serif; font-size: 10pt; margin-top: 7pt;"
+            >
                 <tbody>
+                    <!-- Cooperator Section -->
                     <tr>
-                        <td style="width: 112.5pt; vertical-align: top; padding-right: 7.5pt; font-size: 10pt;">
-                            Accomplished by</td>
-                        <td style="vertical-align: top; font-size: 10pt;">:</td>
-                        <td style="width: 262.5pt; padding-bottom: 7.5pt;">
-                            <div style="border-bottom: 1pt solid black; padding-bottom: 3.75pt; font-size: 10pt;">Name
-                                and Signature of Cooperator</div>
+                        <td style="width: 20%;">Accomplished by</td>
+                        <td style="width: 2%;">:</td>
+                        <td style="width: 78%;">
+                            <div>Name and
+                                Signature of Cooperator</div>
                         </td>
                     </tr>
                     <tr>
-                        <td style="padding-top: 3.75pt; vertical-align: top; padding-right: 7.5pt; font-size: 10pt;">
-                            Date</td>
-                        <td style="padding-top: 3.75pt; vertical-align: top; font-size: 10pt;">:</td>
-                        <td style="padding-top: 3.75pt;">
-                            <div style="border-bottom: 1pt solid black; padding-bottom: 3.75pt;"></div>
+                        <td colspan="2"></td>
+                        <td style="border-top: 1pt solid black; padding-bottom: 3pt; width: 50%;">
                         </td>
                     </tr>
                     <tr>
-                        <td style="padding-top: 15pt; vertical-align: top; padding-right: 7.5pt; font-size: 10pt;">
-                            Reviewed and Submitted by</td>
-                        <td style="padding-top: 15pt; vertical-align: top; font-size: 10pt;">:</td>
-                        <td style="padding-top: 15pt; padding-bottom: 7.5pt;">
-                            <div style="border-bottom: 1pt solid black; padding-bottom: 3.75pt; font-size: 10pt;">Name
-                                and Signature of PSTD</div>
+                        <td style="padding-top: 7pt; width: 20%;">Date</td>
+                        <td style="padding-top: 7pt; width: 2%;">:</td>
+                        <td style="padding-top: 7pt; width: 78%;">
+                            Date
                         </td>
                     </tr>
                     <tr>
-                        <td style="padding-top: 3.75pt; vertical-align: top; padding-right: 7.5pt; font-size: 10pt;">
-                            Date</td>
-                        <td style="padding-top: 3.75pt; vertical-align: top; font-size: 10pt;">:</td>
-                        <td style="padding-top: 3.75pt;">
-                            <div style="border-bottom: 1pt solid black; padding-bottom: 3.75pt;"></div>
+                        <td colspan="2"></td>
+                        <td style="border-top: 1pt solid black; padding-bottom: 3pt; width: 50%;">
+                        </td>
+                    </tr>
+
+                    <!-- Spacer -->
+                    <tr>
+                        <td
+                            style="height: 50px;"
+                            colspan="3"
+                        ></td>
+                    </tr>
+
+                    <!-- PSTD Section -->
+                    <tr>
+                        <td
+                            style="text-align: right;"
+                            colspan="3"
+                        >
+                            <table
+                                style="border-collapse: collapse; font-family: sans-serif; font-size: 10pt; width: 70%; float: right;"
+                            >
+                                <tr>
+                                    <td style="width: 40%; text-align: right;">Reviewed and Submitted by</td>
+                                    <td style="width: 5%; text-align: center;">:</td>
+                                    <td style="width: 55%; border-bottom: 1pt solid black; padding-bottom: 3pt;">
+                                        Name and Signature of PSTD
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top: 7pt; text-align: right;">Date</td>
+                                    <td style="padding-top: 7pt; text-align: center;">:</td>
+                                    <td style="padding-top: 7pt; border-bottom: 1pt solid black; padding-bottom: 3pt;">
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
                 </tbody>
             </table>
+
         </div>
     </form>
     @if (!$isExporting)

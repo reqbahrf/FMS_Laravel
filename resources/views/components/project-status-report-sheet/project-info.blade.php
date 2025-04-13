@@ -1,4 +1,4 @@
-@props(['projectStatusReportData', 'isEditable' => false])
+@props(['projectStatusReportData', 'projectInfo', 'isEditable' => false])
 <style>
     #projectInfo table {
         border-collapse: collapse;
@@ -50,7 +50,8 @@
                 <x-custom-input.input
                     name="project_title"
                     type="text"
-                    :value="$projectStatusReportData['project_title'] ?? ''"
+                    readonly
+                    :value="$projectInfo->project_title ?? ''"
                     :isEditable="$isEditable"
                 />
             </td>
@@ -74,7 +75,8 @@
                 <x-custom-input.input
                     name="project_duration"
                     type="text"
-                    :value="$projectStatusReportData['project_duration'] ?? ''"
+                    readonly
+                    :value="($projectInfo->project_duration ?? '') . ' years'"
                     :isEditable="$isEditable"
                 />
             </td>
@@ -86,7 +88,7 @@
                 <x-custom-input.input
                     name="amount_of_setup_assistance"
                     type="text"
-                    :value="$projectStatusReportData['amount_of_setup_assistance'] ?? ''"
+                    :value="'₱' . (number_format($projectInfo->actual_amount_to_be_refund, 2) ?? '')"
                     :isEditable="$isEditable"
                 />
             </td>
@@ -98,7 +100,10 @@
                 <x-custom-input.input
                     name="date_funds_released"
                     type="text"
-                    :value="$projectStatusReportData['date_funds_released'] ?? ''"
+                    readonly
+                    :value="$projectInfo->fund_released_date
+                        ? \Carbon\Carbon::parse($projectInfo->fund_released_date)->format('F j, Y')
+                        : ''"
                     :isEditable="$isEditable"
                 />
             </td>

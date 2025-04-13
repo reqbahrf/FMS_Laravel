@@ -408,7 +408,7 @@
             <table
                 class="table table-hover"
                 id="applicant"
-                style="width:100%"
+                style="width:100%;"
             >
                 <tbody
                     class="table-group-divider"
@@ -431,10 +431,10 @@
     <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
             <div class="modal-header bg-primary">
-                <h5
+                <h1
                     class="modal-title text-white"
                     id="exampleModalLabel"
-                >Review Requirement</h5>
+                >Review Requirement</h1>
                 <button
                     class="btn-close"
                     data-bs-dismiss="modal"
@@ -528,7 +528,7 @@
                                             name="remark_comments"
                                             cols="30"
                                             rows="3"
-                                            placeholder="Enter your remark here..."
+                                            placeholder="Enter your remarks here..."
                                         ></textarea>
                                     </div>
                                     <div class="d-flex justify-content-end gap-2">

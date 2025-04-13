@@ -1,4 +1,4 @@
-@props(['projectInfoSheetData', 'isEditable', 'isExporting' => false])
+@props(['projectInfo', 'projectInfoSheetData', 'isEditable', 'isExporting' => false])
 <div id="formWrapper">
     @if (!$isExporting)
         <nav
@@ -77,8 +77,9 @@
                                 <x-custom-input.input
                                     name="projectTitle"
                                     type="text"
+                                    readonly
                                     :isEditable="$isEditable"
-                                    :value="$projectInfoSheetData['projectTitle'] ?? ''"
+                                    :value="$projectInfo->project_title ?? ''"
                                 />
                             </strong>
                         </td>
@@ -92,8 +93,9 @@
                             <x-custom-input.input
                                 name="firmName"
                                 type="text"
+                                readonly
                                 :isEditable="$isEditable"
-                                :value="$projectInfoSheetData['firmName'] ?? ''"
+                                :value="$projectInfo->firm_name ?? ''"
                             />
                         </td>
                         <td class="tg-7zrl row--description">Indicate the name of the company if available (usually if
@@ -116,24 +118,38 @@
                             <x-custom-input.input
                                 name="name"
                                 type="text"
+                                readonly
                                 :isEditable="$isEditable"
-                                :value="$projectInfoSheetData['name'] ?? ''"
+                                :value="$projectInfo->prefix .
+                                    ' ' .
+                                    $projectInfo->f_name .
+                                    ' ' .
+                                    $projectInfo->mid_name .
+                                    ' ' .
+                                    $projectInfo->l_name .
+                                    ' ' .
+                                    $projectInfo->suffix ??
+                                    ''"
                             />
                         </td>
                         <td class="tg-7zrl">sex:
                             <x-custom-input.input
                                 name="sex"
                                 type="text"
+                                readonly
                                 :isEditable="$isEditable"
-                                :value="$projectInfoSheetData['sex'] ?? ''"
+                                :value="$projectInfo->sex ?? ''"
                             />
                         </td>
                         <td class="tg-7zrl">Age:
                             <x-custom-input.input
                                 name="age"
                                 type="text"
+                                readonly
                                 :isEditable="$isEditable"
-                                :value="$projectInfoSheetData['age'] ?? ''"
+                                :value="$projectInfo->birth_date
+                                    ? \Carbon\Carbon::parse($projectInfo->birth_date)->age
+                                    : ''"
                             />
                         </td>
                         <td class="tg-7zrl row--description">Indicate the owner and the contact person of the company;
@@ -160,7 +176,8 @@
                                 name="typeOfOrganization"
                                 type="text"
                                 :isEditable="$isEditable"
-                                :value="$projectInfoSheetData['typeOfOrganization'] ?? ''"
+                                :value="$projectInfoSheetData['typeOfOrganization'] ??
+                                    ($projectInfo->enterprise_type ?? '')"
                             />
                         </td>
                     </tr>
@@ -183,7 +200,18 @@
                                 name="businessAddress"
                                 type="text"
                                 :isEditable="$isEditable"
-                                :value="$projectInfoSheetData['businessAddress'] ?? ''"
+                                :value="$projectInfoSheetData['businessAddress'] ??
+                                    ($projectInfo->office_landmark ?? '') .
+                                        ', ' .
+                                        ($projectInfo->office_barangay ?? '') .
+                                        ', ' .
+                                        ($projectInfo->office_city ?? '') .
+                                        ', ' .
+                                        ($projectInfo->office_province ?? '') .
+                                        ', ' .
+                                        ($projectInfo->office_region ?? '') .
+                                        ', ' .
+                                        ($projectInfo->office_zip_code ?? '')"
                             /></td>
                     </tr>
                     <tr>
@@ -256,6 +284,7 @@
                         <td
                             class="tg-8d8j"
                             colspan="1"
+                            rowspan="5"
                         ></td>
                     </tr>
                     <tr>
@@ -294,7 +323,7 @@
                     </tr>
                     <tr>
                         <td class="tg-7zrl"> </td>
-                        <td class="tg-7zrl">Equiment </td>
+                        <td class="tg-7zrl">Equipment </td>
                         <td
                             class="tg-8d8j"
                             colspan="3"

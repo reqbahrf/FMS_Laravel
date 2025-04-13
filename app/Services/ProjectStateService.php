@@ -4,7 +4,9 @@ namespace App\Services;
 
 use Exception;
 use App\Events\ProjectEvent;
+use App\Models\PaymentRecord;
 use App\Models\ApplicationInfo;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -46,13 +48,20 @@ class ProjectStateService
                 throw new Exception('Refund amount must be complete to proceed with this action');
             }
 
+            DB::beginTransaction();
+            PaymentRecord::where('Project_id', $project_id)
+                ->where('payment_status', '!=', 'Paid')
+                ->delete();
+
             $applicationInfo->application_status = 'completed';
             $applicationInfo->save();
             $this->refreshCache();
-            event(new ProjectEvent(null, null, null, null, 'NEW_COMPLETED'));
 
+            DB::commit();
+            event(new ProjectEvent(null, null, null, null, 'NEW_COMPLETED'));
             return response()->json(['message' => 'Marked as completed successfully'], 200);
         } catch (Exception $e) {
+            DB::rollBack();
             Log::error('Error marking project as completed: ' . $e->getMessage());
             return response()->json(['message' => $e->getMessage()], 500);
         }
@@ -62,8 +71,8 @@ class ProjectStateService
     {
         return $this->applicationInfoModel
             ->where('business_id', $business_id)
-            ->whereHas('BusinessInfo.projectInfo', function ($query) use ($project_id) {
-                $query->where('project_id', $project_id);
+            ->whereHas('businessInfo.projectInfo', function ($query) use ($project_id) {
+                $query->where('Project_id', $project_id);
             })->firstOrFail();
     }
 

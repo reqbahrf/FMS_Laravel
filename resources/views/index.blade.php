@@ -31,7 +31,8 @@
     <section
         class="d-flex flex-column justify-content-center align-items-center"
         id="hero"
-        style="background-image: url({{ asset('images/hero.webp') }});"
+        style="background-image: url({{ asset('images/hero.webp') }}); background-size: cover; background-position: center; background-repeat: no-repeat;
+        background-attachment: fixed;"
     >
         <div
             class="container text-center text-md-left"

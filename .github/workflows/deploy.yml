@@ -68,10 +68,10 @@ jobs:
             php artisan migrate --force
             # dev testing artisan command
             # Force refresh database and run seeders
-            php artisan migrate:fresh --force
-            php artisan db:seed --class=UserAdminTest --force
-            php artisan db:seed --class=UserTest --force
-            php artisan db:seed --class=ProjectSettingTableSeeder --force
+            # php artisan migrate:fresh --force
+            # php artisan db:seed --class=UserAdminTest --force
+            # php artisan db:seed --class=UserTest --force
+            # php artisan db:seed --class=ProjectSettingTableSeeder --force
             # php artisan db:seed --force
 
             php artisan optimize:clear

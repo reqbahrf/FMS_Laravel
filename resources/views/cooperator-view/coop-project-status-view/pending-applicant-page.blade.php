@@ -9,6 +9,10 @@
         }
     }
 
+    main {
+        padding-top: 70px;
+    }
+
     #arrow {
         animation: rotate 60s linear infinite;
         /* Increased from 60s to 120s */
@@ -239,7 +243,7 @@
         </div>
     </div>
     <main class="overflow-y-auto vh-100 backgroundColor">
-        <div class="d-flex flex-column justify-content-center align-items-center m-0 h-100">
+        <div class="d-flex flex-column justify-content-center align-items-center m-0">
             @if ($notifications->isEmpty())
                 <div class="waiting-clock">
                     <div
@@ -312,103 +316,23 @@
                     </div>
                 @endif
             @endif
-            <div class="my-3">
-                Requested Amount:
-                <strong>₱{{ number_format($businessInfos[0]->applicationInfo[0]->requested_fund_amount, 2) }}</strong>
-            </div>
-
             @php
-                $businessId = Auth::user()->coopUserInfo->businessInfo()->first()->id;
+                $businessId = Session::get('business_id');
+                $applicationId = Session::get('application_id');
+                $match = $businessInfos->firstWhere('id', (int) $businessId);
+                $requestedFundAmount = $match->applicationInfo->firstWhere('id', (int) $applicationId)
+                    ->requested_fund_amount;
             @endphp
-            <x-applicant-requirements :business-id="$businessId" />
         </div>
+        <div class="my-5 fw-semibold fs-6 text-center">
+            Requested Amount:
+            <strong>₱{{ number_format($requestedFundAmount, 2) }}</strong>
+        </div>
+        <x-applicant-requirements :business-id="$businessId" />
     </main>
 </div>
 <x-toast-ssr-notification />
-<script type="module">
+<script>
     const UPDATEFILE = '{{ route('Applicant-Requirements.update', ['Applicant_Requirement' => ':id']) }}'
-
-    function showToastFeedback(status, message) {
-        const toast = $('#ActionFeedbackToast');
-        const toastInstance = new bootstrap.Toast(toast);
-
-        toast
-            .find('.toast-header')
-            .removeClass([
-                'text-bg-danger',
-                'text-bg-success',
-                'text-bg-warning',
-                'text-bg-info',
-                'text-bg-primary',
-                'text-bg-light',
-                'text-bg-dark',
-            ]);
-
-        toast.find('.toast-body').text('');
-        toast.find('.toast-header').addClass(status);
-        toast.find('.toast-body').text(message);
-
-        toastInstance.show();
-    }
-    const newFileUpload = document.querySelector('#updateFile');
-    console.log(newFileUpload)
-    const pondInstance = FilePond.create(newFileUpload, {
-        allowMultiple: false,
-        allowFileTypeValidation: true,
-        allowFileSizeValidation: true,
-        maxFileSize: '10MB',
-        instantUpload: false,
-    });
-
-    const updateForm = $('#updateFileForm');
-    const updateFileModal = new bootstrap.Modal($('#updateFileModal'));
-    const confirmationModal = new bootstrap.Modal($('#confirmationModal'));
-
-    $('#requirementsTableBody').on('click', '[data-bs-target="#updateFileModal"]', function() {
-        const fileType = $(this).closest('tr').find('td:nth-child(2)').text();
-        const FileId = $(this).data('id');
-        const FileLink = $(this).data('file-link');
-
-        updateForm.find('#file_id').val(FileId);
-        updateForm.find('#file_link').val(FileLink);
-
-        pondInstance.setOptions({
-            acceptedFileTypes: [fileType === 'pdf' ? 'application/pdf' : 'image/*'],
-        })
-    })
-    $('#updateFileSubmit').click(function() {
-        updateFileModal.hide();
-        confirmationModal.show();
-    });
-
-    updateForm.on('submit', function(e) {
-        e.preventDefault();
-        confirmationModal.hide();
-
-        const formData = new FormData(this);
-        const file = pondInstance.getFiles()[0].file;
-        formData.append('file', file);
-        formData.append('_method', 'PUT');
-
-        $.ajax({
-            url: UPDATEFILE.replace(':id', updateForm.find('#file_id').val()),
-            type: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-            },
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(response) {
-                showToastFeedback('text-bg-success', response.success);
-            },
-            error: function(xhr, status, error) {
-                showToastFeedback('text-bg-danger', error);
-            }
-        });
-    });
-
-    $('#confirmUpdate').click(function() {
-        updateForm.submit();
-    });
 </script>
+@vite('resources/js/pending-applicant-page.js')

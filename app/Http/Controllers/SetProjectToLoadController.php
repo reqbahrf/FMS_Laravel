@@ -18,8 +18,8 @@ class SetProjectToLoadController extends Controller
     public function __invoke(Request $request)
     {
         $validated = $request->validate([
-            'business_id' => 'required|integer',
-            'application_id' => 'required|integer',
+            'business_id' => 'required|integer|exists:business_info,id',
+            'application_id' => 'required|integer|exists:application_info,id',
         ]);
 
         $businessInfo = BusinessInfo::where('id', $validated['business_id'])
@@ -38,11 +38,11 @@ class SetProjectToLoadController extends Controller
 
         Session::put('application_id', $validated['application_id']);
         Session::put('application_status', $applicationStatus);
+        Session::put('business_id', $validated['business_id']);
 
         if (in_array($applicationStatus, ['approved', 'ongoing', 'completed'])) {
             $projectInfo = $businessInfo->applicationInfo->find($validated['application_id'])->projectInfo;
             Session::put('project_id', $projectInfo->Project_id ?? null);
-            Session::put('business_id', $projectInfo->business_id ?? null);
         }
 
         return redirect()->back()->withSuccess('Project set to load successfully');

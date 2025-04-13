@@ -521,12 +521,9 @@
         <div class="d-flex justify-content-end p-3 projectDetailsTabMenu">
             <button
                 class="btn btn-primary updateProjectState"
-                data-project-state="MarkOngoing"
+                data-project-state="Ongoing"
             >Mark as
                 Ongoing</button>
-        </div>
-        <div class="d-flex justify-content-end p-3 d-none AttachlinkTabMenu">
-            <button class="btn btn-primary SaveLinkProjectBtn">Save</button>
         </div>
     </div>
     <div class="ongoingProjectContent">
@@ -534,11 +531,8 @@
             <button
                 class="btn btn-primary updateProjectState"
                 id="MarkCompletedProjectBtn"
-                data-project-state="MarkCompleted"
+                data-project-state="Completed"
             >Mark as Completed</button>
-        </div>
-        <div class="d-flex justify-content-end d-none p-3 AttachlinkTabMenu">
-            <button class="btn btn-primary SaveLinkProjectBtn">Save</button>
         </div>
     </div>
 </div>

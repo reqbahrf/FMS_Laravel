@@ -87,23 +87,26 @@ export default class FileCoopRequirementHandler {
                             ? `<span class="badge badge-pill bg-secondary ml-2">External</span>&nbsp;${item.file_link} `
                             : `<span class="badge badge-pill bg-primary ml-2">Internal</span>&nbsp;Internal Saved File `,
                         customDateFormatter(item.created_at),
-                        /*html*/ `${viewButton}
-                            <button
-                                class="btn btn-primary btn-sm updateLinkRecord"
-                                data-is-external="${item.is_external}"
-                                data-bs-toggle="modal"
-                                data-bs-target="#projectLinkUpdateModal"
-                            >
-                                <i class="ri-pencil-fill"></i>
-                            </button>
-                            <button
-                                class="btn btn-danger btn-sm deleteRecord"
-                                data-bs-toggle="modal"
-                                data-bs-target="#deleteRecordModal"
-                                data-delete-record-type="projectLink"
-                            >
-                                <i class="ri-delete-bin-6-fill"></i>
-                            </button>`,
+                        /*html*/ `
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                            ${viewButton}
+                                <button
+                                    class="btn btn-primary btn-sm updateLinkRecord"
+                                    data-is-external="${item.is_external}"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#projectLinkUpdateModal"
+                                >
+                                    <i class="ri-pencil-fill"></i>
+                                </button>
+                                <button
+                                    class="btn btn-danger btn-sm deleteRecord"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#deleteRecordModal"
+                                    data-delete-record-type="projectLink"
+                                >
+                                    <i class="ri-delete-bin-6-fill"></i>
+                                </button>
+                            </div>`,
                     ];
                 })
             );
@@ -365,11 +368,8 @@ export default class FileCoopRequirementHandler {
             .find('button#UpdateProjectLink')
             .on('click', async function () {
                 const projectID = $('#ProjectID').val() as string;
-                const updatedProjectLinks =
-                    $('#projectLinkForm').serialize();
-                const file_id = $(
-                    'input#HiddenFileIDToUpdate'
-                ).val() as string;
+                const updatedProjectLinks = $('#projectLinkForm').serialize();
+                const file_id = $('input#HiddenFileIDToUpdate').val() as string;
 
                 const isConfirmed = await createConfirmationModal({
                     title: 'Update Requirements',
@@ -387,7 +387,6 @@ export default class FileCoopRequirementHandler {
 
                 const processToast = showProcessToast('Updating...');
                 try {
-
                     const response = await $.ajax({
                         type: 'PUT',
                         url: DASHBOARD_TAB_ROUTE.UPDATE_PROJECT_LINKS.replace(

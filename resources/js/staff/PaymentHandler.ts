@@ -67,10 +67,8 @@ export default class PaymentHandler {
             .find('td:nth-child(7)')
             .text()
             .trim() as string;
-        const selected_note = selectedRow
-            .find('input.hidden-payment-note')
-            .val() as string;
-        console.log(selected_payment_due_date);
+        const selected_note =
+            selectedRow.find('input.hidden-payment-note').val() || '';
 
         paymentForm.find('#reference_number').val(selected_reference_id);
         paymentForm.find('#payment_amount').val(selected_amount);
@@ -86,7 +84,9 @@ export default class PaymentHandler {
                     ? ''
                     : dateToISO(selected_completed_date)
             );
-        paymentForm.find('#payment_note').val(selected_note || '');
+        paymentForm
+            .find('#payment_note')
+            .val(selected_note === 'null' ? '' : selected_note);
     }
     async storePaymentRecords(): Promise<void> {
         const processToast = showProcessToast('Storing Payment Record...');

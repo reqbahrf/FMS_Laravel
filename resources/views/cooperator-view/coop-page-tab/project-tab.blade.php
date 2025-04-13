@@ -72,11 +72,11 @@
                                                 </span>
                                             </td>
                                             <td class="text-nowrap text-center">
-                                                ₱{{ $application->projectInfo->actual_amount_to_be_refund ? NF::formatNumber($application->projectInfo->actual_amount_to_be_refund) : '-' }}
+                                                ₱{{ $application->projectInfo?->actual_amount_to_be_refund ? NF::formatNumber($application->projectInfo?->actual_amount_to_be_refund) : '-' }}
                                             </td>
                                             <td class="text-nowrap text-center">
-                                                ₱{{ $application->projectInfo->refunded_amount ? NF::formatNumber($application->projectInfo->refunded_amount) : '-' }}
-                                                @if ($application->projectInfo->actual_amount_to_be_refund > 0)
+                                                ₱{{ $application->projectInfo?->refunded_amount ? NF::formatNumber($application->projectInfo?->refunded_amount) : '-' }}
+                                                @if ($application->projectInfo?->actual_amount_to_be_refund > 0)
                                                     <span
                                                         class="badge rounded-pill bg-{{ $application->projectInfo->refunded_amount >= $application->projectInfo->actual_amount_to_be_refund ? 'success' : 'primary' }}"
                                                     >
@@ -121,15 +121,14 @@
                     </tbody>
                 </table>
             </div>
-            <div class="d-flex justify-content-end">
+            <div class="d-flex justify-content-end align-items-center gap-2">
                 <a
                     class="btn btn-primary btn-sm {{ !$allProjectsCompleted ? 'disabled' : '' }}"
-                    href="{{ !$allProjectsCompleted ? '#' : route('application.form') }}"
-                    @if (!$allProjectsCompleted) aria-disabled="true"
-                        tabindex="-1"
-                    @else
-                        target="_blank" @endif
-                >Apply New Project</a>
+                    href="{{ !$allProjectsCompleted ? '#' : URL::signedRoute('apply.for.new.project', auth()->user()->id) }}"
+                    @if (!$allProjectsCompleted) aria-disabled="true" tabindex="-1" @else target="_blank" @endif
+                >
+                    Apply for New Project
+                </a>
             </div>
         </div>
     </div>

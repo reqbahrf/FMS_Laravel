@@ -150,7 +150,7 @@ class NewRegistrationRequest extends FormRequest
             'b_date' => 'required|date_format:Y-m-d',
             'designation' => 'required|max:20',
             'country_code' => 'required|max:4',
-            'mobile_no' => 'required|max:15',
+            'mobile_no' => 'required|max:20',
             'landline' => 'nullable|max:20',
 
             //Home Address Information

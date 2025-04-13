@@ -1,4 +1,4 @@
-@props(['ownerId', 'draft_type', 'personalInfo'])
+@props(['ownerId', 'draft_type', 'personalInfo' => [], 'coopUserInfo' => []])
 <div class="container mt-5 shadow">
     <div id="smartwizard">
         <ul class="nav nav-progress">
@@ -7,8 +7,8 @@
                     class="nav-link default active"
                     href="#step-1"
                 >
-                    <div class="num">1</div>
-                    Personal Info
+                    <span class="num">1</span>
+                    <span class="fw-bold fs-5">Personal Info</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -17,7 +17,7 @@
                     href="#step-2"
                 >
                     <span class="num">2</span>
-                    Business Info
+                    <span class="fw-bold fs-5">Business Info</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -26,16 +26,7 @@
                     href="#step-3"
                 >
                     <span class="num">3</span>
-                    Requirements
-                </a>
-            </li>
-            <li class="nav-item">
-                <a
-                    class="nav-link default"
-                    href="#step-4"
-                >
-                    <span class="num">4</span>
-                    Confirm Details
+                    <span class="fw-bold fs-5">Requirements</span>
                 </a>
             </li>
         </ul>
@@ -62,7 +53,10 @@
                     aria-labelledby="step-1"
                     style="position: static; left: 0px; display: block;"
                 >
-                    <x-application-form.personal-info :$personalInfo />
+                    <x-application-form.personal-info
+                        :$personalInfo
+                        :$coopUserInfo
+                    />
                 </div>
                 <div
                     class="tab-pane py-5"
@@ -83,13 +77,12 @@
                     <x-application-form.file-requirements />
                 </div>
                 <div
-                    class="tab-pane py-5"
-                    id="step-4"
-                    role="tabpanel"
-                    aria-labelledby="step-4"
-                    style="position: static; left: 0px; display: none;"
+                    class="alert alert-warning m-0"
+                    role="alert"
                 >
-                    <x-application-form.review-details />
+                    <i class="ri-information-2-fill ri-lg"></i>
+                    <span class="fw-bold fs-6">Please review your Information before proceeding to the next steps and
+                        submitting the form</span>
                 </div>
             </div>
         </x-application-form.form>

@@ -759,6 +759,7 @@ async function initializeAdminPageJs() {
                         }
                     );
                     const data = await response.json();
+                    if (data.length === 0) return;
                     ForApprovalDataTable.clear();
                     ForApprovalDataTable.rows.add(
                         data.map((project) => {
@@ -1355,6 +1356,7 @@ async function initializeAdminPageJs() {
                         }
                     );
                     const data = await response.json();
+                    if (data.length === 0) return;
                     CompletedDataTable.clear();
                     CompletedDataTable.rows.add(
                         data.map((completed) => {
