@@ -459,17 +459,27 @@
         >
     </div>
 @endif
-@if (isset($organizationalStructure['base64']) && isset($organizationalStructure['mimeType']))
-    <img
-        src="data:{{ $organizationalStructure['mimeType'] }};base64,{{ $organizationalStructure['base64'] }}"
-        alt=""
-        style="width: 16.17cm; height: 16.17cm"
-    >
-@else
-    <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;"><br>&nbsp;</p>
-    <p>No image available</p>
-    <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;"><br>&nbsp;</p>
-@endif
+<table style="width: 100%; border-collapse: collapse;">
+    <tbody>
+        <tr>
+            <td style="width: 100%; text-align: center; align-items: center;">
+                @if (isset($organizationalStructure['base64']) && isset($organizationalStructure['mimeType']))
+                    <img
+                        src="data:{{ $organizationalStructure['mimeType'] }};base64,{{ $organizationalStructure['base64'] }}"
+                        alt=""
+                        style="width: 16.17cm; height: 16.17cm; object-fit: contain; max-width: 100%; max-height: 100%;"
+                    >
+                @else
+                    <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;">
+                        <br>&nbsp;</p>
+                    <p>No image available</p>
+                    <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;">
+                        <br>&nbsp;</p>
+                @endif
+            </td>
+        </tr>
+    </tbody>
+</table>
 <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;"><br>&nbsp;</p>
 <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;"><br>&nbsp;</p>
 <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;"><span lang="en-US">4.
@@ -575,7 +585,7 @@
     @endif
     <table
         id="productAndSupplyChainTable"
-        style="width: 100%; table-layout: fixed;"
+        style="width: 100%; table-layout: fixed; border-collapse: collapse;"
         cellpadding="7"
     >
         <thead>
