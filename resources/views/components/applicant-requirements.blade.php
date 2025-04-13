@@ -1,12 +1,12 @@
-<div class="w-md-75 p-3 mt-3 overflow-auto">
-    <h2>Application Requirements:</h2>
-    <div class="table-responsive">
+<div class="w-100 p-5 mt-3 overflow-auto">
+    <h2 class="mb-4 fw-bold text-primary">Application Requirements:</h2>
+    <div class="table-responsive shadow-sm rounded">
         <table
             class="table table-hover"
             style="width: 100%; min-width: 600px;"
         >
-            <thead>
-                <tr>
+            <thead class="bg-light">
+                <tr class="text-secondary">
                     <th
                         style="width: 20%"
                         scope="col"
@@ -38,13 +38,13 @@
                 </tr>
             </thead>
             <tbody id="requirementsTableBody">
-                @forelse ($Requirements as $Requirement)
+                @forelse ($filteredUploadedRequirements as $Requirement)
                     <tr>
                         <td>{{ $Requirement->file_name }}</td>
                         <td>{{ $Requirement->file_type }}</td>
                         <td>
                             <span
-                                class="badge {{ $Requirement->remarks == 'Pending'
+                                class="badge rounded-pill {{ $Requirement->remarks == 'Pending'
                                     ? 'bg-info'
                                     : ($Requirement->remarks == 'Approved'
                                         ? 'bg-success'
@@ -64,20 +64,21 @@
                                 aria-label="Requirement actions"
                             >
                                 <a
-                                    class="btn btn-outline-secondary"
+                                    class="btn btn-sm btn-outline-secondary"
                                     href="{{ $Requirement->accessLink }}"
                                     target="_blank"
                                 >
-                                    view
+                                    <i class="bi bi-eye me-1"></i> View
                                 </a>
                                 <button
-                                    class="btn btn-info"
+                                    class="btn btn-sm btn-info "
                                     data-bs-toggle="modal"
                                     data-bs-target="#updateFileModal"
                                     type="button"
                                     @if ($Requirement->remarks != 'Rejected') disabled @endif
                                     @if ($Requirement->remarks == 'Rejected') data-id="{{ $Requirement->id }}" data-file-link="{{ $Requirement->file_link }}" @endif
-                                >edit
+                                >
+                                    <i class="bi bi-pencil me-1"></i> Edit
                                 </button>
                             </div>
                         </td>
@@ -85,14 +86,67 @@
                 @empty
                     <tr>
                         <td
-                            class="text-center"
+                            class="text-center text-muted py-4"
                             colspan="7"
-                        >No requirements found</td>
+                        >
+                            <i class="bi bi-inbox-fill fs-4 d-block mb-2"></i>
+                            No requirements found
+                        </td>
                     </tr>
                 @endforelse
             </tbody>
         </table>
     </div>
+    <div class="my-5">
+        <h2 class="mb-4 fw-bold text-primary border-bottom pb-2">Additional Requirements</h2>
+
+        @forelse ($filteredForSubmissionRequirements as $Requirement)
+            <div class="card mb-4 border-0 shadow-sm rounded-4 hover-shadow transition">
+                <div class="card-body p-4">
+                    <div class="row gy-3 align-items-start">
+                        <!-- Text Content -->
+                        <div class="col-12 col-md-8">
+                            <h4 class="card-title fw-semibold mb-2 text-dark">
+                                {{ $Requirement->file_name }}
+                            </h4>
+
+                            @if (!empty($Requirement->description))
+                                <p class="mb-2">
+                                    <span class="fw-medium text-muted">Description:</span><br>
+                                    <span class="text-muted fs-6">{{ $Requirement->description }}</span>
+                                </p>
+                            @endif
+                        </div>
+
+                        <!-- Upload + Timestamp -->
+                        <div class="col-12 col-md-4 text-md-end">
+                            <button
+                                class="btn btn-outline-primary btn-sm px-3 mb-2 w-100 d-flex align-items-center justify-content-center"
+                                data-bs-toggle="modal"
+                                data-bs-target="#updateFileModal"
+                                data-id="{{ $Requirement->id }}"
+                                data-file-name="{{ $Requirement->file_name }}"
+                                type="button"
+                            >
+                                <i class="ri-upload-cloud-2-line me-2"></i> Upload
+                            </button>
+
+                            <small class="text-muted d-block">Created:</small>
+                            <p class="text-muted mb-0 small">
+                                {{ $Requirement->created_at->format('F j, Y h:i A') }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @empty
+            <div class="alert alert-info rounded-3 shadow-sm d-flex align-items-center">
+                <i class="bi bi-info-circle me-2 fs-5"></i>
+                <span class="fs-6">No additional requirements found.</span>
+            </div>
+        @endforelse
+    </div>
+
 </div>
 <div
     class="modal fade"
@@ -102,10 +156,10 @@
     tabindex="-1"
 >
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
+        <div class="modal-content rounded-4 shadow">
+            <div class="modal-header border-bottom-0">
                 <h5
-                    class="modal-title"
+                    class="modal-title fw-bold"
                     id="updateFileModalLabel"
                 >Update File</h5>
                 <button
@@ -132,31 +186,37 @@
                     >
                     <div class="mb-3">
                         <label
-                            class="form-label"
+                            class="form-label fw-semibold"
                             for="updateFile"
                         >Select File</label>
                         <input
+                            class="form-control form-control-lg"
                             id="updateFile"
                             name="file"
                             type="file"
                         >
+                        <div class="form-text">
+                            <i class="bi bi-info-circle me-1"></i>
+                            Accepted file formats: PDF, DOC, DOCX, JPG, PNG
+                        </div>
                         <div class="invalid-feedback">
-
+                            Please select a valid file
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer border-top-0">
                 <button
-                    class="btn btn-secondary"
+                    class="btn btn-light rounded-pill px-4"
                     data-bs-dismiss="modal"
                     type="button"
-                >Close</button>
+                >Cancel</button>
                 <button
-                    class="btn btn-primary"
+                    class="btn btn-primary rounded-pill px-4 d-flex align-items-center"
                     id="updateFileSubmit"
                     type="button"
-                >Update</button>
+                >
+                    <i class="bi bi-cloud-arrow-up me-2"></i> Upload File
             </div>
         </div>
     </div>
