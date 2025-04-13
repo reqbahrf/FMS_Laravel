@@ -7,6 +7,7 @@ use App\Models\Requirement;
 use Illuminate\View\Component;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Storage;
 
 class ApplicantRequirements extends Component
 {
@@ -18,7 +19,7 @@ class ApplicantRequirements extends Component
      */
     public function __construct($businessId)
     {
-        $this->$businessId = $businessId;
+        $this->businessId = $businessId;
 
         $this->Requirements = Requirement::where('business_id', $businessId)->select([
             'id',
@@ -29,7 +30,9 @@ class ApplicantRequirements extends Component
             'remark_comments',
             'created_at',
             'updated_at'
-        ])->get()->map(function ($file) {
+        ])->get()->filter(function ($file) {
+            return !($file->file_link === null && $file->remarks === 'For Submission');
+        })->map(function ($file) {
             $file->accessLink = URL::signedRoute('Requirements.show', ['id' => $file->id]);
             return $file;
         });
