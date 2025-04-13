@@ -15,13 +15,17 @@ use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
 class ApplicantRequirementController extends Controller
 {
+
+    public function __construct(
+        private Requirement $requirement
+    ) {}
     /**
      * Display a listing of the resource.
      */
     public function index(int $business_id)
     {
         try {
-            $applicantUploadedFiles = Requirement::where('business_id', $business_id)
+            $applicantUploadedFiles = $this->requirement->where('business_id', $business_id)
                 ->select([
                     'id',
                     'file_name',
@@ -36,6 +40,9 @@ class ApplicantRequirementController extends Controller
                 ->get();
 
             $result = $applicantUploadedFiles->map(function ($file) {
+                if ($file->file_link === null && $file->remarks === 'For Submission') {
+                    return;
+                }
                 if (!Storage::disk('private')->exists($file->file_link)) {
                     return;
                 }
@@ -74,7 +81,7 @@ class ApplicantRequirementController extends Controller
     {
         try {
             // Retrieve the file path from the database using the ID
-            $requirement = Requirement::findOrFail($id);
+            $requirement = $this->requirement->findOrFail($id);
             $filePath = $requirement->file_link;
 
             $fullPath = storage_path("app/private/{$filePath}");
@@ -132,6 +139,29 @@ class ApplicantRequirementController extends Controller
         }
     }
 
+    public function newRequirement(Request $request)
+    {
+        $businessId = $request->business_id;
+        $applicationId = $request->application_id;
+        Log::info($request->all());
+        try {
+            $validated = $request->validate([
+                'requirement_name' => 'required|string',
+                'requirement_description' => 'required|string',
+            ]);
+            $this->requirement->business_id = $businessId;
+            $this->requirement->application_id = $applicationId;
+            $this->requirement->file_name = $validated['requirement_name'];
+            $this->requirement->description = $validated['requirement_description'];
+            $this->requirement->remarks = 'For Submission';
+            $this->requirement->can_edit = true;
+            $this->requirement->save();
+            return response()->json(['message' => 'New requirement added'], 200);
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
+    }
+
     protected function updateReviewedFile($request, $id)
     {
 
@@ -180,7 +210,7 @@ class ApplicantRequirementController extends Controller
                 ->first();
 
             if (!$ToBeUpdatedFile) {
-                return response()->json(['message' => 'Action is not allowed'], 500);
+                return response()->json(['message' => 'Cannot update this file'], 500);
             }
 
             if (Storage::disk('private')->delete($validated['file_link'])) {

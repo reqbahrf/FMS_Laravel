@@ -21,14 +21,15 @@ class Requirement extends Model
         'can_edit',
         'remarks',
         'remark_comments',
+        'description'
     ];
 
-    public function business() : BelongsTo
+    public function business(): BelongsTo
     {
         return $this->belongsTo(BusinessInfo::class, 'business_id', 'id');
     }
 
-    public function applicationInfo() : BelongsTo
+    public function applicationInfo(): BelongsTo
     {
         return $this->belongsTo(ApplicationInfo::class, 'application_id', 'id');
     }

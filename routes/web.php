@@ -99,13 +99,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])
         ->name('logout');
 
-    Route::get('/Applicant-Requirements/{business_id}', [ApplicantRequirementController::class, 'index'])
-        ->name('Requirements.index');
+    Route::controller(ApplicantRequirementController::class)->group(function () {
+        Route::get('/Applicant-Requirements/{business_id}', 'index')
+            ->name('Requirements.index');
 
-    Route::get('/Applicant-Requirement/view/{id}', [ApplicantRequirementController::class, 'show'])
-        ->name('Requirements.show')
-        ->middleware('signed');
+        Route::get('/Applicant-Requirement/view/{id}', 'show')
+            ->name('Requirements.show')
+            ->middleware('signed');
 
+        Route::put('/Applicant-Requirements/additional-submission/{business_id}/{application_id}', 'newRequirement')
+            ->name('Requirements.newRequirement');
+    });
     Route::resource('/Applicant-Requirements', ApplicantRequirementController::class)
         ->only(['update']);
 

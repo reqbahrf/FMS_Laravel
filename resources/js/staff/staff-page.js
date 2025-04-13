@@ -3007,6 +3007,9 @@ async function initializeStaffPageJs() {
                 projectProposalForm: null,
                 rtecReportForm: null,
             };
+            const REQUIREMENTS_CLASS_INSTANCE = {
+                requirements: null,
+            };
 
             $('#evaluationSchedule-datepicker').on('change', function () {
                 const selectedDate = new Date(this.value);
@@ -3240,6 +3243,10 @@ async function initializeStaffPageJs() {
                         ApplicationID
                     );
                     FORM_CLASS_INSTANCE.rtecReportForm.setId(
+                        businessID,
+                        ApplicationID
+                    );
+                    REQUIREMENTS_CLASS_INSTANCE.requirements.setId(
                         businessID,
                         ApplicationID
                     );
@@ -3753,6 +3760,11 @@ async function initializeStaffPageJs() {
             const { default: RTECReportForm } = await import(
                 './application-process-form-class/RTECReportForm'
             );
+
+            const { default: NewRequirements } = await import(
+                './add-new-requirements/NewRequirements'
+            );
+            REQUIREMENTS_CLASS_INSTANCE.requirements = new NewRequirements();
             const TNADocumentContainerModal = $('#tnaDocContainerModal');
             const ProjectProposalDocumentContainerModal = $(
                 '#projectProposalDocContainerModal'

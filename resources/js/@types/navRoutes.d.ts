@@ -26,6 +26,7 @@ declare module 'global' {
     interface APPLICANT_TAB_ROUTE {
         GET_TNA_FORM_STATUS: string;
         GET_APPLICANTS: string;
+        ADD_NEW_REQUIREMENT: string;
         GET_TNA_DOCUMENT: string;
         GET_PROJECT_PROPOSAL_STATUS: string;
         GET_PROJECT_PROPOSAL: string;
