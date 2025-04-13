@@ -193,7 +193,7 @@
                         {{ in_array($TNAdata['enterpriseType'] ?? '', ['Sole Proprietorship', 'Single Proprietorship']) ? 'checked' : '' }}
                     >
                 @else
-                    {{ in_array($TNAdata['enterpriseType'] ?? '', ['Sole Proprietorship', 'Single Proprietorship']) ? '/' : '' }}
+                    {{ in_array($TNAdata['enterpriseType'] ?? '', ['Sole Proprietorship', 'Single Proprietorship']) ? '✓' : '' }}
                 @endIf
             </td>
             <td
@@ -227,7 +227,7 @@
                         {{ ($TNAdata['enterpriseType'] ?? '') == 'Cooperative' ? 'checked' : '' }}
                     >
                 @else
-                    {{ ($TNAdata['enterpriseType'] ?? '') == 'Cooperative' ? '/' : '' }}
+                    {{ ($TNAdata['enterpriseType'] ?? '') == 'Cooperative' ? '✓' : '' }}
                 @endIf
             </td>
             <td
@@ -261,7 +261,7 @@
                         {{ ($TNAdata['enterpriseType'] ?? '') == 'Partnership' ? 'checked' : '' }}
                     >
                 @else
-                    {{ ($TNAdata['enterpriseType'] ?? '') == 'Partnership' ? '/' : '' }}
+                    {{ ($TNAdata['enterpriseType'] ?? '') == 'Partnership' ? '✓' : '' }}
                 @endIf
             </td>
             <td
@@ -295,7 +295,7 @@
                         {{ in_array($TNAdata['enterpriseType'] ?? '', ['Corporation (Profit)', 'Corporation (Non-Profit)']) ? 'checked' : '' }}
                     >
                 @else
-                    {{ in_array($TNAdata['enterpriseType'] ?? '', ['Corporation (Profit)', 'Corporation (Non-Profit)']) ? '/' : '' }}
+                    {{ in_array($TNAdata['enterpriseType'] ?? '', ['Corporation (Profit)', 'Corporation (Non-Profit)']) ? '✓' : '' }}
                 @endIf
             </td>
             <td
@@ -327,7 +327,7 @@
                         {{ $TNA_data['type_of_corporation'] ?? (($TNAdata['enterpriseType'] ?? '') == 'Corporation (Profit)' ? 'checked' : '') }}
                     >
                 @else
-                    {{ $TNA_data['type_of_cooperation'] ?? (($TNAdata['enterpriseType'] ?? '') == 'Corporation (Profit)' ? '/' : '') }}
+                    {{ $TNA_data['type_of_cooperation'] ?? (($TNAdata['enterpriseType'] ?? '') == 'Corporation (Profit)' ? '✓' : '') }}
                 @endIf
                 <span lang="en-US">Profit</span>
             </td>
@@ -352,7 +352,7 @@
                         {{ $TNA_data['type_of_cooperation'] ?? (($TNAdata['enterpriseType'] ?? '') == 'Corporation (Non-Profit)' ? 'checked' : '') }}
                     >
                 @else
-                    {{ $TNA_data['type_of_cooperation'] ?? (($TNAdata['enterpriseType'] ?? '') == 'Corporation (Non-Profit)' ? '/' : '') }}
+                    {{ $TNA_data['type_of_cooperation'] ?? (($TNAdata['enterpriseType'] ?? '') == 'Corporation (Non-Profit)' ? '✓' : '') }}
                 @endIf
                 <span lang="en-US">Non-profit</span>
             </td>
@@ -476,13 +476,13 @@
                     <input
                         name="CapitalClassification"
                         type="radio"
-                        value="Small (less - 1.5M)"
+                        value="Micro (less - 1.5M)"
                         {{ $total <= 1500000 ? 'checked' : '' }}
                     >
                 @else
-                    {{ $total <= 1500000 ? '/' : '' }}
+                    {{ $total <= 1500000 ? '✓' : '' }}
                 @endIf
-                <span lang="en-US">Small (1.5 &ndash; 15M)</span><span lang="en-US">Micro (less than 1.5M)</span>
+                <span lang="en-US">Micro (less than 1.5M)</span>
             </td>
         </tr>
         <tr>
@@ -524,7 +524,7 @@
                         {{ $total <= 1500000 && $total >= 1500000 ? 'checked' : '' }}
                     >
                 @else
-                    {{ $total <= 1500000 && $total >= 1500000 ? '/' : '' }}
+                    {{ $total <= 1500000 && $total >= 1500000 ? '✓' : '' }}
                 @endIf
                 <span lang="en-US">Small (1.5 &ndash; 15M)</span>
             </td>
@@ -568,7 +568,7 @@
                         {{ $total > 1500000 && $total < 10000000 ? 'checked' : '' }}
                     >
                 @else
-                    {{ $total > 1500000 && $total < 10000000 ? '/' : '' }}
+                    {{ $total > 1500000 && $total < 10000000 ? '✓' : '' }}
                 @endIf
                 <span lang="en-US">Medium (15 &ndash; 100M)</span>
             </td>
@@ -651,13 +651,13 @@
                     <input
                         name="numberOfEmployees"
                         type="radio"
-                        value="Small (1 - 9)"
+                        value="Micro (1 - 9)"
                         {{ $TotalEmployees <= 9 && $TotalEmployees >= 1 ? 'checked' : '' }}
                     >
                 @else
-                    {{ $TotalEmployees <= 9 && $TotalEmployees >= 1 ? '/' : '' }}
+                    {{ $TotalEmployees <= 9 && $TotalEmployees >= 1 ? '✓' : '' }}
                 @endIf
-                <span lang="en-US">Medium (1 &ndash; 9)</span>
+                <span lang="en-US">Micro (1 &ndash; 9)</span>
             </td>
         </tr>
         <tr>
@@ -699,7 +699,7 @@
                         {{ $TotalEmployees <= 99 && $TotalEmployees >= 10 ? 'checked' : '' }}
                     >
                 @else
-                    {{ $TotalEmployees <= 99 && $TotalEmployees >= 10 ? '/' : '' }}
+                    {{ $TotalEmployees <= 99 && $TotalEmployees >= 10 ? '✓' : '' }}
                 @endIf
                 <span lang="en-US">Small (10 - 99)</span>
             </td>
@@ -739,11 +739,11 @@
                     <input
                         name="numberOfEmployees"
                         type="radio"
-                        value="Small (100 - 199)"
+                        value="Medium (100 - 199)"
                         {{ $TotalEmployees <= 199 && $TotalEmployees >= 100 ? 'checked' : '' }}
                     >
                 @else
-                    {{ $TotalEmployees <= 199 && $TotalEmployees >= 100 ? '/' : '' }}
+                    {{ $TotalEmployees <= 199 && $TotalEmployees >= 100 ? '✓' : '' }}
                 @endIf
                 <span lang="en-US">Medium (100 &ndash; 199)</span>
             </td>
