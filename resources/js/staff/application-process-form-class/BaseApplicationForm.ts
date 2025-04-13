@@ -134,7 +134,7 @@ abstract class BaseApplicationForm {
         this.statusTable
             ?.find('tbody td:nth-child(1)')
             .html(
-                /*html*/ `<span class="badge rounded-pill bg-${response.status == 'pending' ? 'secondary' : 'success'} text-center">${response.status}</span>`
+                /*html*/ `<span class="badge rounded-pill bg-${response.status == 'pending' ? 'secondary' : 'success'} text-center document-status">${response.status}</span>`
             );
         this.statusTable
             ?.find('tbody td:nth-child(2)')
