@@ -123,7 +123,7 @@
                             <button
                                 class="btn btn-outline-primary btn-sm px-3 mb-2 w-100 d-flex align-items-center justify-content-center"
                                 data-bs-toggle="modal"
-                                data-bs-target="#updateFileModal"
+                                data-bs-target="#fileUploadModal"
                                 data-id="{{ $Requirement->id }}"
                                 data-file-name="{{ $Requirement->file_name }}"
                                 type="button"
@@ -157,13 +157,13 @@
 >
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content rounded-4 shadow">
-            <div class="modal-header border-bottom-0">
-                <h5
-                    class="modal-title fw-bold"
+            <div class="modal-header border-bottom-0 bg-primary">
+                <h1
+                    class="modal-title text-white"
                     id="updateFileModalLabel"
-                >Update File</h5>
+                >Update File</h1>
                 <button
-                    class="btn-close"
+                    class="btn-close text-white"
                     data-bs-dismiss="modal"
                     type="button"
                     aria-label="Close"
@@ -217,6 +217,77 @@
                     type="button"
                 >
                     <i class="bi bi-cloud-arrow-up me-2"></i> Upload File
+            </div>
+        </div>
+    </div>
+</div>
+
+<div
+    class="modal fade"
+    id="fileUploadModal"
+    aria-labelledby="fileUploadModalLabel"
+    aria-hidden="true"
+    tabindex="-1"
+>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4 shadow">
+            <div class="modal-header border-bottom-0 bg-primary">
+                <h1
+                    class="modal-title text-white"
+                    id="fileUploadModalLabel"
+                >Upload Requirement: <span id="requirementFileName"></span></h1>
+                <button
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    type="button"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <form
+                    id="fileUploadForm"
+                    enctype="multipart/form-data"
+                    method="POST"
+                >
+                    @csrf
+                    <input
+                        id="requirement_id"
+                        name="requirement_id"
+                        type="hidden"
+                    >
+                    <div class="mb-3">
+                        <label
+                            class="form-label fw-semibold"
+                            for="uploadFile"
+                        >Select File</label>
+                        <input
+                            class="form-control form-control-lg"
+                            id="uploadFile"
+                            name="file"
+                            type="file"
+                            required
+                        >
+                        <div class="form-text">
+                            <i class="bi bi-info-circle me-1"></i>
+                            Accepted file formats: PDF, DOC, DOCX, JPG, PNG
+                        </div>
+                    </div>
+                    <div class="modal-footer border-top-0 px-0 pt-0">
+                        <button
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal"
+                            type="button"
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            class="btn btn-primary"
+                            type="submit"
+                        >
+                            <i class="ri-upload-cloud-2-line me-2"></i> Upload File
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
