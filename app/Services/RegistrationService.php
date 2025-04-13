@@ -86,7 +86,7 @@ class RegistrationService
             $successful_inserts++;
             if ($successful_inserts == 6) {
                 $firm_name = $validatedInputs['firm_name'];
-                $this->fileHandler->storeFile($validatedInputs, $businessId, $firm_name);
+                $this->fileHandler->storeFile($validatedInputs, $businessId, $applicationId, $firm_name);
                 $this->initializeApplicationProcessFormContainer($businessId, $applicationId);
                 $this->TNAdataHandlerService->setTNAData(
                     $validatedInputs,

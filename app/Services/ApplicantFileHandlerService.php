@@ -15,7 +15,7 @@ class ApplicantFileHandlerService
         private PathGenerationService $pathGenerationService
     ) {}
 
-    public function storeFile(array $validatedInputs, int $businessId, string $firm_name): void
+    public function storeFile(array $validatedInputs, int $businessId, int $applicationId, string $firm_name): void
     {
         $file_to_insert = [
             'OrganizationalStructurePath' => $validatedInputs['OrganizationalStructureFileID_Data_Handler'] ?? '',
@@ -59,7 +59,7 @@ class ApplicantFileHandlerService
         }
 
         foreach ($file_to_insert as $filekey => $fileIdentifier) {
-            $this->processAndStoreFile($filekey, $fileIdentifier, $fileNames, $businessId);
+            $this->processAndStoreFile($filekey, $fileIdentifier, $fileNames, $businessId, $applicationId);
         }
     }
 
@@ -70,10 +70,16 @@ class ApplicantFileHandlerService
      * @param string $fileIdentifier
      * @param array $fileNames
      * @param int $businessId
+     * @param int $applicationId
      * @throws Exception
      */
-    private function processAndStoreFile(string $filekey, string $fileIdentifier, array $fileNames, int $businessId): void
-    {
+    private function processAndStoreFile(
+        string $filekey,
+        string $fileIdentifier,
+        array $fileNames,
+        int $businessId,
+        int $applicationId
+    ): void {
         try {
             // Extract the unique_id from the path (assuming format like "tmp/_67ecd4f446dbc/filename.ext")
             $uniqueId = null;
@@ -100,7 +106,7 @@ class ApplicantFileHandlerService
             $fileName = $fileNames[$filekey];
             $fileExtension = pathinfo($tempFile->original_file_name, PATHINFO_EXTENSION);
 
-            $requirementsPath = $this->pathGenerationService->generateRequirementsPath($businessId);
+            $requirementsPath = $this->pathGenerationService->generateRequirementsPath($businessId, $applicationId);
 
             if (!Storage::disk('private')->exists($requirementsPath)) {
                 Storage::disk('private')->makeDirectory($requirementsPath, 0755, true);
@@ -156,7 +162,8 @@ class ApplicantFileHandlerService
         int $businessId,
         string $fileKey,
         string $fileIdentifier,
-        array $fileNames
+        array $fileNames,
+        int $applicationId
     ): void {
         try {
             $existingRequirement = DB::table('requirements')
@@ -186,7 +193,7 @@ class ApplicantFileHandlerService
             }
 
             // Generate paths for the new file
-            $requirementsPath = $this->pathGenerationService->generateRequirementsPath($businessId);
+            $requirementsPath = $this->pathGenerationService->generateRequirementsPath($businessId, $applicationId);
 
             if (!Storage::disk('private')->exists($requirementsPath)) {
                 Storage::disk('private')->makeDirectory($requirementsPath, 0755, true);

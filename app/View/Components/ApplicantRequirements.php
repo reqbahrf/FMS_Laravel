@@ -38,14 +38,14 @@ class ApplicantRequirements extends Component
         ])->get();
 
         $this->filteredUploadedRequirements = $this->Requirements->filter(function ($file) {
-            return !($file->file_link === null && $file->remarks === 'For Submission');
+            return !($file->file_link === null || $file->remarks === 'For Submission');
         })->map(function ($file) {
             $file->accessLink = URL::signedRoute('Requirements.show', ['id' => $file->id]);
             return $file;
         });
 
         $this->filteredForSubmissionRequirements = $this->Requirements->filter(function ($file) {
-            return ($file->file_link === null && $file->remarks === 'For Submission');
+            return ($file->file_link === null || $file->remarks === 'For Submission');
         });
     }
 

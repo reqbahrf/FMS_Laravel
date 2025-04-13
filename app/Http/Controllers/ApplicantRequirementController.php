@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Models\Requirement;
+use App\Services\PathGenerationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
@@ -17,7 +19,8 @@ class ApplicantRequirementController extends Controller
 {
 
     public function __construct(
-        private Requirement $requirement
+        private Requirement $requirement,
+        private PathGenerationService $pathGenerationService
     ) {}
     /**
      * Display a listing of the resource.
@@ -169,6 +172,31 @@ class ApplicantRequirementController extends Controller
             'file' => 'required|file|mimes:pdf,jpg,jpeg,png,webp|max:10240',
         ]);
         try {
+
+
+            $requirementInstance = $this->requirement->find($id);
+
+            $fileType = $validated['file']->getClientOriginalExtension();
+
+
+            if (!$requirementInstance) {
+                return response()->json([
+                    'message' => 'Requirement submission bin not found or does not exist. The requirement might have been submitted. Please refresh the page and try again.'
+                ], 404);
+            }
+            $requirementsPath = $this->pathGenerationService->generateRequirementsPath($validated['business_id'], $validated['application_id']);
+            $finalPath = $this->pathGenerationService->generateFinalPath($requirementsPath, $requirementInstance->file_name, $fileType);
+
+            $validated['file']->storeAs('private', $finalPath);
+
+            $requirementInstance->update([
+                'file_link' => $finalPath,
+                'file_type' => $fileType,
+                'can_edit' => false,
+                'remarks' => 'Pending',
+            ]);
+
+            return response()->json(['message' => 'File uploaded successfully'], 200);
         } catch (Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);
         }

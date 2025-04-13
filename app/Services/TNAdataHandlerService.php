@@ -97,7 +97,7 @@ class TNAdataHandlerService
                 $file_to_insert = array_filter($file_to_insert);
 
                 foreach ($file_to_insert as $filekey => $fileIdentifier) {
-                    $this->applicantFileHandler->replaceOrCreateRequirementFile($business_id, $filekey, $fileIdentifier, $fileNames);
+                    $this->applicantFileHandler->replaceOrCreateRequirementFile($business_id, $filekey, $fileIdentifier, $fileNames, $application_id);
                 }
                 $statusData = DSA::determineReviewerOrModifier($documentStatus, $user, $existingStatusData);
             }

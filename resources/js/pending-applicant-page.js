@@ -107,10 +107,15 @@ UPLOAD_NEW_REQUIRED_FILE_FORM.on('submit', async function (e) {
     const formData = new FormData(this);
     const file = FILE_POND_INSTANCE.uploadAdditional.getFiles()[0].file;
     formData.append('file', file);
+    formData.append('business_id', ID.business_id);
+    formData.append('application_id', ID.application_id);
     formData.append('_method', 'PUT');
 
     $.ajax({
-        url: REQUIREMENT_ROUTE.UPLOAD_NEW_REQUIRED_FILE,
+        url: REQUIREMENT_ROUTE.UPLOAD_NEW_REQUIRED_FILE.replace(
+            ':id',
+            ID.file_id
+        ),
         type: 'POST',
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
@@ -119,7 +124,7 @@ UPLOAD_NEW_REQUIRED_FILE_FORM.on('submit', async function (e) {
         processData: false,
         contentType: false,
         success: function (response) {
-            showToastFeedback('text-bg-success', response.success);
+            showToastFeedback('text-bg-success', response.message);
             hideProcessToast(processToast);
             window.location.reload();
         },
