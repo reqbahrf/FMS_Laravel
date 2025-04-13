@@ -38,6 +38,7 @@ import 'datatables.net-fixedheader-bs5';
 import 'datatables.net-responsive-bs5';
 import 'datatables.net-scroller-bs5';
 import '../Utilities/dataTableCustomConfig';
+import { processError } from '../Utilities/error-handler-util';
 
 const MAIN_CONTENT_CONTAINER = $('#main-content');
 const ACTIVITY_LOG_MODAL = $('#userActivityLogModal');
@@ -307,6 +308,9 @@ async function initializeAdminPageJs() {
                 const approvedBtn = approvedDetailContainer.find(
                     'button#approvedButton'
                 );
+                const revertBtn = approvedDetailContainer.find(
+                    'button#revertButton'
+                );
                 const offCanvaReadonlyInputs =
                     approvedDetailContainer.find('input[type="text"]');
 
@@ -370,6 +374,9 @@ async function initializeAdminPageJs() {
                 approvedBtn
                     .attr('data-business-id', businessId)
                     .attr('data-project-id', projectId);
+                revertBtn
+                    .attr('data-business-id', businessId)
+                    .attr('data-application-id', applicationId);
 
                 const staffListSelector = $('#Assigned_to');
                 getProjectFormList(businessId, applicationId);
@@ -1069,6 +1076,52 @@ async function initializeAdminPageJs() {
                 }
             });
 
+            const revertProposal = async (businessId, applicationId) => {
+                const isConfirmed = await createConfirmationModal({
+                    title: 'Revert Project',
+                    titleBg: 'bg-primary',
+                    message:
+                        'Are you sure you want to revert this project? This will be send back to staff for evaluation.',
+                    confirmText: 'Yes',
+                    confirmButtonClass: 'btn-primary',
+                    cancelText: 'No',
+                });
+                if (!isConfirmed) {
+                    return;
+                }
+
+                const processToast = showProcessToast('Reverting Project...');
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                            'content'
+                        ),
+                    },
+                    url: PROJECT_LIST_ROUTE.RETURN_TO_STAFF,
+                    type: 'PUT',
+                    data: {
+                        business_id: businessId,
+                        application_id: applicationId,
+                    },
+                    success: function (response) {
+                        hideProcessToast(processToast);
+                        showToastFeedback('text-bg-success', response.message);
+                        getforApprovalProject();
+                        closeOffcanvasInstances('#approvalDetails');
+                    },
+                    error: function (error) {
+                        hideProcessToast(processToast);
+                        processError(
+                            'Error in Reverting Project',
+                            error.responseJSON.message ||
+                                error.message ||
+                                error,
+                            true
+                        );
+                    },
+                });
+            };
+
             const approvedProjectProposal = async (
                 businessId,
                 projectId,
@@ -1101,19 +1154,20 @@ async function initializeAdminPageJs() {
                         assigned_staff_id: assignedStaff_Id,
                     },
                     success: function (response) {
-                        if (response.status === 'success') {
-                            hideProcessToast(processToast);
-                            showToastFeedback(
-                                'text-bg-success',
-                                response.message
-                            );
-                            getforApprovalProject();
-                            closeOffcanvasInstances('#approvalDetails');
-                        }
+                        hideProcessToast(processToast);
+                        showToastFeedback('text-bg-success', response.message);
+                        getforApprovalProject();
+                        closeOffcanvasInstances('#approvalDetails');
                     },
                     error: function (xhr, status, error) {
                         hideProcessToast(processToast);
-                        showToastFeedback('text-bg-danger', error);
+                        processError(
+                            'Error in Approving Project',
+                            error.responseJSON.message ||
+                                error.message ||
+                                error,
+                            true
+                        );
                     },
                 });
             };
@@ -1143,6 +1197,29 @@ async function initializeAdminPageJs() {
                         error.message ||
                             error ||
                             'Error in Approved Project Proposal'
+                    );
+                }
+            });
+
+            //Revert the Approved Proposal
+            $('#revertButton').on('click', async function () {
+                try {
+                    const btn = $(this);
+                    const businessId = btn.attr('data-business-id');
+                    const applicationId = btn.attr('data-application-id');
+
+                    if (
+                        typeof businessId !== 'undefined' &&
+                        typeof applicationId !== 'undefined'
+                    ) {
+                        await revertProposal(businessId, applicationId);
+                    }
+                } catch (error) {
+                    showToastFeedback(
+                        'text-bg-danger',
+                        error.message ||
+                            error ||
+                            'Error in Revert Project Proposal'
                     );
                 }
             });

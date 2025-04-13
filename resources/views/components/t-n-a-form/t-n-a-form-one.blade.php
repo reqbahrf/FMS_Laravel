@@ -23,8 +23,8 @@
 >
     <tbody>
         <tr>
-            <td style="width: 3%;"></td>
-            <td style="width: 57%;"></td>
+            <td style="width: 5%;"></td>
+            <td style="width: 55%;"></td>
             <td style="width: 40%;"></td>
         </tr>
         <tr>
@@ -135,7 +135,7 @@
                         @checked(isset($TNAdata['metals_and_engineering_activity']) && $TNAdata['metals_and_engineering_activity'] == 'on')
                     />
                 @else
-                    {{ isset($TNAdata['metals_and_engineering_activity']) && $TNAdata['metals_and_engineering_activity'] == 'on' ? '/' : '' }}
+                    {{ isset($TNAdata['metals_and_engineering_activity']) && $TNAdata['metals_and_engineering_activity'] == 'on' ? '✓' : '' }}
                 @endIf
             </td>
             <td style="">
@@ -471,10 +471,12 @@
                     >
                 @else
                     <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;">
-                        <br>&nbsp;</p>
+                        <br>&nbsp;
+                    </p>
                     <p>No image available</p>
                     <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;">
-                        <br>&nbsp;</p>
+                        <br>&nbsp;
+                    </p>
                 @endif
             </td>
         </tr>

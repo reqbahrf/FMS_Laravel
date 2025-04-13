@@ -1385,6 +1385,11 @@
                                 >
                                     <tbody>
                                         <tr>
+                                            <td style="width: 5%;"></td>
+                                            <td style="width: 40%;"></td>
+                                            <td style="width: 55%;"></td>
+                                        </tr>
+                                        <tr>
                                             <td style="border: none;padding: 0cm;">
                                                 @if ($isEditable)
                                                     <input
@@ -1395,7 +1400,7 @@
                                                         {{ isset($TNAdata['nutritionEvaluation']) && $TNAdata['nutritionEvaluation'] == 'on' ? 'checked' : '' }}
                                                     />
                                                 @else
-                                                    {{ isset($TNAdata['nutritionEvaluation']) && $TNAdata['nutritionEvaluation'] == 'on' ? '/' : '' }}
+                                                    {{ isset($TNAdata['nutritionEvaluation']) && $TNAdata['nutritionEvaluation'] == 'on' ? '✓' : '' }}
                                                 @endif
                                             </td>
                                             <td style="border: none;padding: 0cm;">
@@ -1429,7 +1434,7 @@
                                                         {{ isset($TNAdata['barCode']) && $TNAdata['barCode'] == 'on' ? 'checked' : '' }}
                                                     />
                                                 @else
-                                                    {{ isset($TNAdata['barCode']) && $TNAdata['barCode'] == 'on' ? '/' : '' }}
+                                                    {{ isset($TNAdata['barCode']) && $TNAdata['barCode'] == 'on' ? '✓' : '' }}
                                                 @endif
                                             </td>
                                             <td style="border: none;padding: 0cm;">
@@ -1463,7 +1468,7 @@
                                                         {{ isset($TNAdata['productLabel']) && $TNAdata['productLabel'] == 'on' ? 'checked' : '' }}
                                                     />
                                                 @else
-                                                    {{ isset($TNAdata['productLabel']) && $TNAdata['productLabel'] == 'on' ? '/' : '' }}
+                                                    {{ isset($TNAdata['productLabel']) && $TNAdata['productLabel'] == 'on' ? '✓' : '' }}
                                                 @endif
                                             </td>
                                             <td style="border: none;padding: 0cm;">
@@ -1497,7 +1502,7 @@
                                                         {{ isset($TNAdata['expiryDate']) && $TNAdata['expiryDate'] == 'on' ? 'checked' : '' }}
                                                     />
                                                 @else
-                                                    {{ isset($TNAdata['expiryDate']) && $TNAdata['expiryDate'] == 'on' ? '/' : '' }}
+                                                    {{ isset($TNAdata['expiryDate']) && $TNAdata['expiryDate'] == 'on' ? '✓' : '' }}
                                                 @endif
                                             </td>
                                             <td style="border: none;padding: 0cm;">

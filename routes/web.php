@@ -429,6 +429,9 @@ Route::middleware([CheckAdminUser::class, 'verified', 'check.password.change'])-
         Route::post('/Admin/Project/Approved-Project', 'approvedProjectProposal')
             ->name('admin.Project.ApprovedProjectProposal');
 
+        Route::put('/admin/return-to-staff', 'returnProjectProposalToStaff')
+            ->name('admin.return-to-staff');
+
         Route::post('/Admin/Assign-New-Staff', 'assignNewStaff')
             ->name('admin.AssignNewStaff');
 
