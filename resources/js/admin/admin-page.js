@@ -164,7 +164,7 @@ async function initializeAdminPageJs() {
                         width: '15%',
                     },
                     {
-                        title: 'Project title',
+                        title: 'Proposed Project Title',
                         width: '30%',
                     },
                     {
@@ -316,11 +316,12 @@ async function initializeAdminPageJs() {
                 const designation = inputs.filter('.designation').val();
                 const businessId = inputs.filter('.business_id').val();
                 const projectId = inputs.filter('.Project_id').val();
-                const officeAddress = inputs.filter('.officeAddress').val();
-                const factoryAddress = inputs.filter('.factoryAddress').val();
+                const officeAddress = inputs.filter('.business_address').val();
+                const factoryAddress = inputs.filter('.factory_address').val();
                 const typeOfEnterprise = inputs
                     .filter('.type_of_enterprise')
                     .val();
+                console.log(officeAddress, factoryAddress);
                 const landline = inputs.filter('.landline').val();
                 const mobilePhone = inputs.filter('.mobile_number').val();
                 const email = inputs.filter('.email').val();
@@ -811,12 +812,28 @@ async function initializeAdminPageJs() {
                                         type="hidden"
                                         class="business_address"
                                         value=" ${[
-                                            project?.landMark,
-                                            project?.barangay,
-                                            project?.city,
-                                            project?.province,
-                                            project?.region,
-                                            project?.zip_code,
+                                            project?.office_landmark,
+                                            project?.office_barangay,
+                                            project?.office_city,
+                                            project?.office_province,
+                                            project?.office_region,
+                                            project?.office_zip_code,
+                                        ]
+                                            .filter(Boolean)
+                                            .map(String)
+                                            .map((part) => part.trim())
+                                            .join(', ')}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="factory_address"
+                                        value="${[
+                                            project?.factory_landmark,
+                                            project?.factory_barangay,
+                                            project?.factory_city,
+                                            project?.factory_province,
+                                            project?.factory_region,
+                                            project?.factory_zip_code,
                                         ]
                                             .filter(Boolean)
                                             .map(String)

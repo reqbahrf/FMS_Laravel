@@ -502,15 +502,19 @@ ul#myTab li.nav-item button.tab-Nav:hover {
     overflow: auto;
 }
 
-#approvalDetails {
-    width: 45%;
-    max-width: 100%;
-}
-
+#approvalDetails,
 #ongoingDetails,
 #completedDetails {
     width: 50vw;
     max-width: 100%;
+}
+
+@media (max-width: 768px) {
+    #approvalDetails,
+    #ongoingDetails,
+    #completedDetails {
+        width: 100vw;
+    }
 }
 
 /*
@@ -752,5 +756,39 @@ table.no-border td {
 table.no-border {
     border-collapse: separate !important;
     border-spacing: 0 !important;
+}
+
+/*
+----------------------------------------------------
+Form Styles
+
+
+*/
+
+#TNAForm {
+    width: 100%;
+    min-width: 794px;
+    max-width: 794px;
+    margin: 0 auto;
+    padding: 2cm;
+    border: 1px solid #ccc;
+}
+
+#ProjectProposalForm {
+    width: 100%;
+    min-width: 794px;
+    max-width: 794px;
+    margin: 0 auto;
+    padding: 2cm;
+    border: 1px solid #ccc;
+}
+
+#RTECReportForm {
+    width: 100%;
+    max-width: 794px;
+    min-width: 794px;
+    margin: 0 auto;
+    padding: 2cm;
+    border: 1px solid #ccc;
 }
 
