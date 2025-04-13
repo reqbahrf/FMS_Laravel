@@ -25,6 +25,8 @@ class ApplicantRequirements extends Component
 
         $this->Requirements = Requirement::where('business_id', $businessId)->select([
             'id',
+            'business_id',
+            'application_id',
             'file_name',
             'file_link',
             'file_type',

@@ -109,6 +109,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::put('/Applicant-Requirements/additional-submission/{business_id}/{application_id}', 'newRequirement')
             ->name('Requirements.newRequirement');
+
+        Route::put('/Applicant-Requirements/submit/additional-submission/{id}', 'uploadNewRequiredFile')
+            ->name('Requirements.uploadNewRequiredFile');
     });
     Route::resource('/Applicant-Requirements', ApplicantRequirementController::class)
         ->only(['update']);

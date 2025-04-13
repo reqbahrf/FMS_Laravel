@@ -125,6 +125,8 @@
                                 data-bs-toggle="modal"
                                 data-bs-target="#fileUploadModal"
                                 data-id="{{ $Requirement->id }}"
+                                data-business-id="{{ $Requirement->business_id }}"
+                                data-application-id="{{ $Requirement->application_id }}"
                                 data-file-name="{{ $Requirement->file_name }}"
                                 type="button"
                             >

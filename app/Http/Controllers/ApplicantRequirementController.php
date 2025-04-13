@@ -143,7 +143,6 @@ class ApplicantRequirementController extends Controller
     {
         $businessId = $request->business_id;
         $applicationId = $request->application_id;
-        Log::info($request->all());
         try {
             $validated = $request->validate([
                 'requirement_name' => 'required|string',
@@ -157,6 +156,19 @@ class ApplicantRequirementController extends Controller
             $this->requirement->can_edit = true;
             $this->requirement->save();
             return response()->json(['message' => 'New requirement added'], 200);
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
+    }
+
+    public function uploadNewRequiredFile(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'business_id' => 'required|integer',
+            'application_id' => 'required|integer',
+            'file' => 'required|file|mimes:pdf,jpg,jpeg,png,webp|max:10240',
+        ]);
+        try {
         } catch (Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);
         }
