@@ -203,6 +203,8 @@ class StoreExistingProjectRequest extends FormRequest
             'factory_faxNo' => 'nullable',
             'factory_emailAddress' => 'nullable|email',
 
+            'sectors' => 'nullable',
+
             'buildings' => 'required',
             'equipments' => 'required',
             'working_capital' => 'required',
