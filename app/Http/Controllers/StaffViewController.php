@@ -38,12 +38,13 @@ class StaffViewController extends Controller
     {
         try {
             $listOfYears = GetAvailableChartYearList::execute();
-            $selectedYear = $yearToLoad ?? $listOfYears[0];
+            $selectedYear = $yearToLoad ?? ($listOfYears->isEmpty() ? null : $listOfYears[0]);
+
             if (Cache::has('monthly_project_categories' . $selectedYear)) {
                 $monthlyData = Cache::get('monthly_project_categories' . $selectedYear);
             } else {
                 $chartData = ChartYearOf::select('monthly_project_categories')->where('year_of', '=',  $selectedYear)->first();
-                $monthlyData = json_decode($chartData->monthly_project_categories, true);
+                $monthlyData = json_decode($chartData?->monthly_project_categories, true) ?? [];
                 Cache::put('monthly_project_categories' . $selectedYear, $monthlyData, 1800);
             }
 

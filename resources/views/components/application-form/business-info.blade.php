@@ -1514,6 +1514,7 @@
 
                 </div>
             </div>
+        </div>
     @endIf
     <div
         class="row p-0 mt-0 g-3"

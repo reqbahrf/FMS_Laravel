@@ -31,7 +31,7 @@ class SendApplicationFormLink extends Mailable
         $this->user = $user;
         $this->applicationFormUrl = $applicationFormUrl;
         $this->userName = $coopUserInfo->f_name ?? $user->name;
-        $this->initial_password = str_replace('-', '', $coopUserInfo->birth_date?->format('Y-m-d'));
+        $this->initial_password = $coopUserInfo->l_name . str_replace('-', '', $coopUserInfo->birth_date?->format('Y-m-d'));
     }
 
     /**

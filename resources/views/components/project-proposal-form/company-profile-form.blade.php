@@ -2197,7 +2197,7 @@
                 id="fund_release_date"
                 name="fund_release_date"
                 type="date"
-                value="{{ $ProjectProposaldata['fundReleaseDate'] ?? '' }}"
+                value="{{ $ProjectProposaldata['fund_release_date'] ?? '' }}"
             >
         </label>
         <label
@@ -2278,11 +2278,17 @@
 
         <tr>
             <th style="text-align: center;">Months</th>
-            <th style="text-align: center;">Y1</th>
-            <th style="text-align: center;">Y2</th>
-            <th style="text-align: center;">Y3</th>
-            <th style="text-align: center;">Y4</th>
-            <th style="text-align: center;">Y5</th>
+            @php
+                $fundReleaseYear = isset($ProjectProposaldata['fund_release_date'])
+                    ? date('Y', strtotime($ProjectProposaldata['fund_release_date']))
+                    : null;
+                $yearHeaders = $fundReleaseYear
+                    ? range($fundReleaseYear + 1, $fundReleaseYear + 5)
+                    : ['Y1', 'Y2', 'Y3', 'Y4', 'Y5'];
+            @endphp
+            @foreach ($yearHeaders as $year)
+                <th style="text-align: center;">{{ $year }}</th>
+            @endforeach
             <th style="text-align: center;">Total</th>
         </tr>
         @foreach ($months as $month)

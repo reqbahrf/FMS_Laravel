@@ -124,7 +124,13 @@
                     id="b_date"
                     name="b_date"
                     type="date"
-                    value="{{ \Carbon\Carbon::parse($coopUserInfo->birth_date)->format('Y-m-d') ?? '' }}"
+                    value="{{ is_array($coopUserInfo)
+                        ? (isset($coopUserInfo['birth_date'])
+                            ? \Carbon\Carbon::parse($coopUserInfo['birth_date'])->format('Y-m-d')
+                            : '')
+                        : ($coopUserInfo?->birth_date
+                            ? \Carbon\Carbon::parse($coopUserInfo?->birth_date)->format('Y-m-d')
+                            : '') }}"
                     placeholder="DD/MM/YYYY"
                     required
                 >
