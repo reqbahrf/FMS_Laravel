@@ -609,11 +609,18 @@ async function initializeStaffPageJs() {
                     const monthlyData = response.monthlyData;
                     const listOfYears = response.listOfYears;
                     const currentSelectedYear = response.currentSelectedYear;
-                    await processYearListSelector(
-                        listOfYears,
-                        currentSelectedYear
-                    );
-                    await processMonthlyDataChart(monthlyData);
+                    if (
+                        listOfYears.length > 0 &&
+                        currentSelectedYear !== null
+                    ) {
+                        await processYearListSelector(
+                            listOfYears,
+                            currentSelectedYear
+                        );
+                    }
+                    if (monthlyData.length > 0) {
+                        await processMonthlyDataChart(monthlyData);
+                    }
                 } catch (error) {
                     throw new Error(
                         'Failed to get dashboard chart data: ' + error.message
