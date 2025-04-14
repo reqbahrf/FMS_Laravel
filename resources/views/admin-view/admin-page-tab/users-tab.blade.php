@@ -166,6 +166,11 @@
                                                 aria-describedby="inputGroupPrepend"
                                                 required
                                             >
+                                            <div class="form-text">
+                                                To ensure successful delivery of login
+                                                credentials, please enter a valid email address for the user
+                                                registration.
+                                            </div>
                                             <div class="valid-feedback">
                                                 Looks good!
                                             </div>
