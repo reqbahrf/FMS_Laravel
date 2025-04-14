@@ -73,6 +73,61 @@ class StoreExistingProjectRequest extends FormRequest
                 'office_emailAddress' => $this->factory_emailAddress,
             ]);
         }
+        // Consolidate activity sectors into a structured array
+        $sectors = [];
+
+        $activityMapping = [
+            'food_processing_activity' => [
+                'name' => 'Food Processing',
+                'specific' => 'food_processing_specific_sector'
+            ],
+            'furniture_activity' => [
+                'name' => 'Furniture',
+                'specific' => 'furniture_specific_sector'
+            ],
+            'natural_fibers_activity' => [
+                'name' => 'Natural Fibers',
+                'specific' => 'natural_fibers_specific_sector'
+            ],
+            'metals_and_engineering_activity' => [
+                'name' => 'Metals and Engineering',
+                'specific' => 'metals_and_engineering_specific_sector'
+            ],
+            'aquatic_and_marine_activity' => [
+                'name' => 'Aquatic and Marine',
+                'specific' => 'aquatic_and_marine_specific_sector'
+            ],
+            'horticulture_activity' => [
+                'name' => 'Horticulture',
+                'specific' => 'horticulture_specific_sector'
+            ],
+            'other_activity' => [
+                'name' => 'Other',
+                'specific' => 'other_specific_sector'
+            ],
+        ];
+
+        foreach ($activityMapping as $activity => $details) {
+            if ($this->input($activity) === 'on') {
+                $specificSector = $this->input($details['specific']);
+                $sectorName = $details['name'];
+
+                if (!empty($specificSector)) {
+                    $sectors[] = [
+                        'name' => $sectorName,
+                        'specific' => $specificSector
+                    ];
+                } else {
+                    $sectors[] = [
+                        'name' => $sectorName
+                    ];
+                }
+            }
+        }
+
+        $this->merge([
+            'sectors' => $sectors
+        ]);
     }
 
     /**
