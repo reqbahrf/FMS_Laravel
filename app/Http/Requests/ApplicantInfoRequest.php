@@ -39,7 +39,7 @@ class ApplicantInfoRequest extends FormRequest
 
             // Contact Information
             'country_code' => 'required|string',
-            'mobile_no' => 'required|string|regex:/^\d{3}-\d{3}-\d{4}$/',
+            'mobile_no' => 'required|string',
             'landline' => 'nullable|string|max:20',
 
             // Address Information

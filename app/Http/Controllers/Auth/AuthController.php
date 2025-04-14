@@ -98,6 +98,10 @@ class AuthController extends Controller
 
                 switch ($user->role) {
                     case 'Cooperator':
+                        $coopUserInfo = $user->coopUserInfo->businessInfo;
+                        if ($coopUserInfo->isEmpty()) {
+                            return response()->json(['no_record' => 'no record found', 'redirect' => URL::signedRoute('application.form', ['id' => $user->id])]);
+                        }
                         return response()->json(['success' => 'Login successfully', 'redirect' => route('Cooperator.index')]);
                         break;
                     case 'Staff':
