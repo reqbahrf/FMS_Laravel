@@ -25,10 +25,10 @@ class PathGenerationService
      * @param int|string $businessId The business ID
      * @return string The formatted requirements path
      */
-    public function generateRequirementsPath($businessId): string
+    public function generateRequirementsPath($businessId, $applicationId): string
     {
         $businessPath = $this->generateBusinessPath($businessId);
-        return "{$businessPath}/requirements";
+        return "{$businessPath}/requirements{$applicationId}";
     }
 
     /**

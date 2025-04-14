@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Models\Requirement;
+use App\Services\PathGenerationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
@@ -15,13 +17,18 @@ use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
 class ApplicantRequirementController extends Controller
 {
+
+    public function __construct(
+        private Requirement $requirement,
+        private PathGenerationService $pathGenerationService
+    ) {}
     /**
      * Display a listing of the resource.
      */
     public function index(int $business_id)
     {
         try {
-            $applicantUploadedFiles = Requirement::where('business_id', $business_id)
+            $applicantUploadedFiles = $this->requirement->where('business_id', $business_id)
                 ->select([
                     'id',
                     'file_name',
@@ -36,6 +43,9 @@ class ApplicantRequirementController extends Controller
                 ->get();
 
             $result = $applicantUploadedFiles->map(function ($file) {
+                if ($file->file_link === null && $file->remarks === 'For Submission') {
+                    return;
+                }
                 if (!Storage::disk('private')->exists($file->file_link)) {
                     return;
                 }
@@ -74,7 +84,7 @@ class ApplicantRequirementController extends Controller
     {
         try {
             // Retrieve the file path from the database using the ID
-            $requirement = Requirement::findOrFail($id);
+            $requirement = $this->requirement->findOrFail($id);
             $filePath = $requirement->file_link;
 
             $fullPath = storage_path("app/private/{$filePath}");
@@ -132,6 +142,66 @@ class ApplicantRequirementController extends Controller
         }
     }
 
+    public function newRequirement(Request $request)
+    {
+        $businessId = $request->business_id;
+        $applicationId = $request->application_id;
+        try {
+            $validated = $request->validate([
+                'requirement_name' => 'required|string',
+                'requirement_description' => 'required|string',
+            ]);
+            $this->requirement->business_id = $businessId;
+            $this->requirement->application_id = $applicationId;
+            $this->requirement->file_name = $validated['requirement_name'];
+            $this->requirement->description = $validated['requirement_description'];
+            $this->requirement->remarks = 'For Submission';
+            $this->requirement->can_edit = true;
+            $this->requirement->save();
+            return response()->json(['message' => 'New requirement added'], 200);
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
+    }
+
+    public function uploadNewRequiredFile(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'business_id' => 'required|integer',
+            'application_id' => 'required|integer',
+            'file' => 'required|file|mimes:pdf,jpg,jpeg,png,webp|max:10240',
+        ]);
+        try {
+
+
+            $requirementInstance = $this->requirement->find($id);
+
+            $fileType = $validated['file']->getClientOriginalExtension();
+
+
+            if (!$requirementInstance) {
+                return response()->json([
+                    'message' => 'Requirement submission bin not found or does not exist. The requirement might have been submitted. Please refresh the page and try again.'
+                ], 404);
+            }
+            $requirementsPath = $this->pathGenerationService->generateRequirementsPath($validated['business_id'], $validated['application_id']);
+            $finalPath = $this->pathGenerationService->generateFinalPath($requirementsPath, $requirementInstance->file_name, $fileType);
+
+            $validated['file']->storeAs('private', $finalPath);
+
+            $requirementInstance->update([
+                'file_link' => $finalPath,
+                'file_type' => $fileType,
+                'can_edit' => false,
+                'remarks' => 'Pending',
+            ]);
+
+            return response()->json(['message' => 'File uploaded successfully'], 200);
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
+    }
+
     protected function updateReviewedFile($request, $id)
     {
 
@@ -180,7 +250,7 @@ class ApplicantRequirementController extends Controller
                 ->first();
 
             if (!$ToBeUpdatedFile) {
-                return response()->json(['message' => 'Action is not allowed'], 500);
+                return response()->json(['message' => 'Cannot update this file'], 500);
             }
 
             if (Storage::disk('private')->delete($validated['file_link'])) {

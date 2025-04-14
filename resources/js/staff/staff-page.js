@@ -3007,6 +3007,9 @@ async function initializeStaffPageJs() {
                 projectProposalForm: null,
                 rtecReportForm: null,
             };
+            const REQUIREMENTS_CLASS_INSTANCE = {
+                requirements: null,
+            };
 
             $('#evaluationSchedule-datepicker').on('change', function () {
                 const selectedDate = new Date(this.value);
@@ -3243,13 +3246,69 @@ async function initializeStaffPageJs() {
                         businessID,
                         ApplicationID
                     );
+                    REQUIREMENTS_CLASS_INSTANCE.requirements.setId(
+                        businessID,
+                        ApplicationID
+                    );
                 }
             );
+
+            function documentStatusCheck() {
+                return new Promise((resolve, reject) => {
+                    try {
+                        const tableNameMap = {
+                            tnaTable: 'TNA Document',
+                            projectProposalTable: 'Project Proposal',
+                            rtecReportTable: 'RTEC Report',
+                        };
+
+                        const documentTables =
+                            APPLICANT_PROGRESS_CONTAINER.find(
+                                '#tnaTable, #projectProposalTable, #rtecReportTable'
+                            );
+
+                        const unreviewed = [];
+
+                        documentTables
+                            .find('tbody span.document-status')
+                            .each(function () {
+                                const status = $(this).text().trim();
+                                const tableId = $(this)
+                                    .closest('table')
+                                    .attr('id');
+                                const readableName =
+                                    tableNameMap[tableId] || tableId;
+
+                                if (status !== 'reviewed') {
+                                    unreviewed.push(readableName);
+                                }
+                            });
+
+                        if (unreviewed.length > 0) {
+                            reject(
+                                new Error(
+                                    `The following documents must be reviewed: ${unreviewed.join(', ')}`
+                                )
+                            );
+                        } else {
+                            resolve();
+                        }
+                    } catch (error) {
+                        reject(error);
+                    }
+                });
+            }
 
             APPLICANT_PROGRESS_CONTAINER.on(
                 'click',
                 'button#submitToAdmin',
                 async function (e) {
+                    try {
+                        await documentStatusCheck();
+                    } catch (error) {
+                        processError('Error: ', error, true);
+                        return;
+                    }
                     const isConfirmed = await createConfirmationModal({
                         title: 'Submit to Admin',
                         message:
@@ -3753,6 +3812,11 @@ async function initializeStaffPageJs() {
             const { default: RTECReportForm } = await import(
                 './application-process-form-class/RTECReportForm'
             );
+
+            const { default: NewRequirements } = await import(
+                './add-new-requirements/NewRequirements'
+            );
+            REQUIREMENTS_CLASS_INSTANCE.requirements = new NewRequirements();
             const TNADocumentContainerModal = $('#tnaDocContainerModal');
             const ProjectProposalDocumentContainerModal = $(
                 '#projectProposalDocContainerModal'

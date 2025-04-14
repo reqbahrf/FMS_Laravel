@@ -333,6 +333,9 @@
 </div>
 <x-toast-ssr-notification />
 <script>
-    const UPDATEFILE = '{{ route('Applicant-Requirements.update', ['Applicant_Requirement' => ':id']) }}'
+    const REQUIREMENT_ROUTE = {
+        UPDATE_FILE: '{{ route('Applicant-Requirements.update', ['Applicant_Requirement' => ':id']) }}',
+        UPLOAD_NEW_REQUIRED_FILE: '{{ route('Requirements.uploadNewRequiredFile', ':id') }}'
+    };
 </script>
 @vite('resources/js/pending-applicant-page.js')

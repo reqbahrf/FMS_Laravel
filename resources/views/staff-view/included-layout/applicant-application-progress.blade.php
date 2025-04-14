@@ -47,10 +47,20 @@
             >
                 <!-- Where Requirement Verification Info Displayed -->
                 <div class="card">
-                    <div class="card-header bg-primary">
-                        <div class="fw-bold fs-6 text-white">
-                            <i class="ri-file-list-3-fill"></i>
-                            Application requirements
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="fw-bold fs-6">
+                                <i class="ri-file-list-3-fill"></i>
+                                Applicant Submitted Requirements
+                            </div>
+                            <button
+                                class="btn btn-primary btn-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#addRequirementModal"
+                                type="button"
+                            >
+                                <i class="ri-add-box-fill me-1"></i>
+                            </button>
                         </div>
                     </div>
                     <div class="card-body">

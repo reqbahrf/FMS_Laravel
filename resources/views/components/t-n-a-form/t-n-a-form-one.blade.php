@@ -18,14 +18,14 @@
         lang="en-US">Business Activity:</span></p>
 <table
     id="businessActivityTable"
-    style="width: 553px;"
+    style="width: 100%; table-layout: fixed;"
     cellpadding="7"
 >
     <tbody>
         <tr>
-            <td width="3"></td>
-            <td width="27"></td>
-            <td width="80"></td>
+            <td style="width: 5%;"></td>
+            <td style="width: 55%;"></td>
+            <td style="width: 40%;"></td>
         </tr>
         <tr>
             <td style="">
@@ -37,7 +37,7 @@
                         @checked(isset($TNAdata['food_processing_activity']) && $TNAdata['food_processing_activity'] == 'on')
                     />
                 @else
-                    {{ isset($TNAdata['food_processing_activity']) && $TNAdata['food_processing_activity'] == 'on' ? '/' : '' }}
+                    {{ isset($TNAdata['food_processing_activity']) && $TNAdata['food_processing_activity'] == 'on' ? '✓' : '' }}
                 @endIf
             </td>
             <td style="">
@@ -45,8 +45,8 @@
                         lang="en-US"
                     >Food processing (please specify specific sector)</span></p>
             </td>
-            <td style="">
-                <p style="border-bottom: 1px solid black;">
+            <td style="border-bottom: 1px solid black;">
+                <p>
                     @if ($isEditable)
                         <input
                             name="food_processing_specific_sector"
@@ -70,7 +70,7 @@
                         @checked(isset($TNAdata['furniture_activity']) && $TNAdata['furniture_activity'] == 'on')
                     />
                 @else
-                    {{ isset($TNAdata['furniture_activity']) && $TNAdata['furniture_activity'] == 'on' ? '/' : '' }}
+                    {{ isset($TNAdata['furniture_activity']) && $TNAdata['furniture_activity'] == 'on' ? '✓' : '' }}
                 @endIf
             </td>
             <td style="">
@@ -78,19 +78,19 @@
                         lang="en-US"
                     >Furniture (please specify specific sector)</span></p>
             </td>
-            <td style="">
-                <p style="border-bottom: 1px solid black;">
-                    @if ($isEditable)
-                        <input
-                            name="furniture_specific_sector"
-                            type="text"
-                            value="{{ $TNAdata['furniture_specific_sector'] ?? '' }}"
-                            style="width: 100%;"
-                        />
-                    @else
-                        {{ $TNAdata['furniture_specific_sector'] ?? '' }}
-                    @endIf
-                </p>
+            <td style="border-bottom: 1px solid black;">
+
+                @if ($isEditable)
+                    <input
+                        name="furniture_specific_sector"
+                        type="text"
+                        value="{{ $TNAdata['furniture_specific_sector'] ?? '' }}"
+                        style="width: 100%;"
+                    />
+                @else
+                    {{ $TNAdata['furniture_specific_sector'] ?? '' }}
+                @endIf
+
             </td>
         </tr>
         <tr>
@@ -103,26 +103,26 @@
                         @checked(isset($TNAdata['natural_fibers_activity']) && $TNAdata['natural_fibers_activity'] == 'on')
                     />
                 @else
-                    {{ isset($TNAdata['natural_fibers_activity']) && $TNAdata['natural_fibers_activity'] == 'on' ? '/' : '' }}
+                    {{ isset($TNAdata['natural_fibers_activity']) && $TNAdata['natural_fibers_activity'] == 'on' ? '✓' : '' }}
                 @endIf
             </td>
             <td style="">
                 <p style=""><span lang="en-US">Natural fibers, gifts and home decors and fashion&nbsp;</span>
                 </p>
             </td>
-            <td style="">
-                <p style="border-bottom: 1px solid black;">
-                    @if ($isEditable)
-                        <input
-                            name="natural_fibers_specific_sector"
-                            type="text"
-                            value="{{ $TNAdata['natural_fibers_specific_sector'] ?? '' }}"
-                            style="width: 100%;"
-                        />
-                    @else
-                        {{ $TNAdata['natural_fibers_specific_sector'] ?? '' }}
-                    @endIf
-                </p>
+            <td style="border-bottom: 1px solid black;">
+
+                @if ($isEditable)
+                    <input
+                        name="natural_fibers_specific_sector"
+                        type="text"
+                        value="{{ $TNAdata['natural_fibers_specific_sector'] ?? '' }}"
+                        style="width: 100%;"
+                    />
+                @else
+                    {{ $TNAdata['natural_fibers_specific_sector'] ?? '' }}
+                @endIf
+
             </td>
         </tr>
         <tr>
@@ -135,26 +135,26 @@
                         @checked(isset($TNAdata['metals_and_engineering_activity']) && $TNAdata['metals_and_engineering_activity'] == 'on')
                     />
                 @else
-                    {{ isset($TNAdata['metals_and_engineering_activity']) && $TNAdata['metals_and_engineering_activity'] == 'on' ? '/' : '' }}
+                    {{ isset($TNAdata['metals_and_engineering_activity']) && $TNAdata['metals_and_engineering_activity'] == 'on' ? '✓' : '' }}
                 @endIf
             </td>
             <td style="">
                 <p style=""><span lang="en-US">Metals and engineering (please specify specific sector)</span>
                 </p>
             </td>
-            <td style="">
-                <p style="border-bottom: 1px solid black;">
-                    @if ($isEditable)
-                        <input
-                            name="metals_and_engineering_specific_sector"
-                            type="text"
-                            value="{{ $TNAdata['metals_and_engineering_specific_sector'] ?? '' }}"
-                            style="width: 100%;"
-                        />
-                    @else
-                        {{ $TNAdata['metals_and_engineering_specific_sector'] ?? '' }}
-                    @endIf
-                </p>
+            <td style="border-bottom: 1px solid black;">
+
+                @if ($isEditable)
+                    <input
+                        name="metals_and_engineering_specific_sector"
+                        type="text"
+                        value="{{ $TNAdata['metals_and_engineering_specific_sector'] ?? '' }}"
+                        style="width: 100%;"
+                    />
+                @else
+                    {{ $TNAdata['metals_and_engineering_specific_sector'] ?? '' }}
+                @endIf
+
             </td>
 
         </tr>
@@ -168,26 +168,26 @@
                         @checked(isset($TNAdata['aquatic_and_marine_activity']) && $TNAdata['aquatic_and_marine_activity'] == 'on')
                     />
                 @else
-                    {{ isset($TNAdata['aquatic_and_marine_activity']) && $TNAdata['aquatic_and_marine_activity'] == 'on' ? '/' : '' }}
+                    {{ isset($TNAdata['aquatic_and_marine_activity']) && $TNAdata['aquatic_and_marine_activity'] == 'on' ? '✓' : '' }}
                 @endIf
             </td>
             <td style="">
                 <p style=""><span lang="en-US">Aquatic and marine resources (please specify specific
                         sector)</span></p>
             </td>
-            <td style="">
-                <p style="border-bottom: 1px solid black;">
-                    @if ($isEditable)
-                        <input
-                            name="aquatic_and_marine_specific_sector"
-                            type="text"
-                            value="{{ $TNAdata['aquatic_and_marine_specific_sector'] ?? '' }}"
-                            style="width: 100%;"
-                        />
-                    @else
-                        {{ $TNAdata['aquatic_and_marine_specific_sector'] ?? '' }}
-                    @endIf
-                </p>
+            <td style="border-bottom: 1px solid black;">
+
+                @if ($isEditable)
+                    <input
+                        name="aquatic_and_marine_specific_sector"
+                        type="text"
+                        value="{{ $TNAdata['aquatic_and_marine_specific_sector'] ?? '' }}"
+                        style="width: 100%;"
+                    />
+                @else
+                    {{ $TNAdata['aquatic_and_marine_specific_sector'] ?? '' }}
+                @endIf
+
             </td>
         </tr>
         <tr>
@@ -200,26 +200,24 @@
                         @checked(isset($TNAdata['horticulture_activity']) && $TNAdata['horticulture_activity'] == 'on')
                     />
                 @else
-                    {{ isset($TNAdata['horticulture_activity']) && $TNAdata['horticulture_activity'] == 'on' ? '/' : '' }}
+                    {{ isset($TNAdata['horticulture_activity']) && $TNAdata['horticulture_activity'] == 'on' ? '✓' : '' }}
                 @endIf
             </td>
             <td style="">
                 <p style=""><span lang="en-US">Horticulture/Agriculture (please specify specific sector)</span>
                 </p>
             </td>
-            <td style="">
-                <p style="border-bottom: 1px solid black;">
-                    @if ($isEditable)
-                        <input
-                            name="horticulture_specific_sector"
-                            type="text"
-                            value="{{ $TNAdata['horticulture_specific_sector'] ?? '' }}"
-                            style="width: 100%;"
-                        />
-                    @else
-                        {{ $TNAdata['horticulture_specific_sector'] ?? '' }}
-                    @endIf
-                </p>
+            <td style="border-bottom: 1px solid black;">
+                @if ($isEditable)
+                    <input
+                        name="horticulture_specific_sector"
+                        type="text"
+                        value="{{ $TNAdata['horticulture_specific_sector'] ?? '' }}"
+                        style="width: 100%;"
+                    />
+                @else
+                    {{ $TNAdata['horticulture_specific_sector'] ?? '' }}
+                @endIf
             </td>
         </tr>
         <tr>
@@ -232,25 +230,23 @@
                         @checked(isset($TNAdata['other_activity']) && $TNAdata['other_activity'] == 'on')
                     />
                 @else
-                    {{ isset($TNAdata['other_activity']) && $TNAdata['other_activity'] == 'on' ? '/' : '' }}
+                    {{ isset($TNAdata['other_activity']) && $TNAdata['other_activity'] == 'on' ? '✓' : '' }}
                 @endIf
             </td>
             <td style="">
                 <p style=""><span lang="en-US">Others, please specify</span></p>
             </td>
-            <td style="">
-                <p style="border-bottom: 1px solid black;">
-                    @if ($isEditable)
-                        <input
-                            name="other_specific_sector"
-                            type="text"
-                            value="{{ $TNAdata['other_specific_sector'] ?? '' }}"
-                            style="width: 100%;"
-                        />
-                    @else
-                        {{ $TNAdata['other_specific_sector'] ?? '' }}
-                    @endIf
-                </p>
+            <td style="border-bottom: 1px solid black;">
+                @if ($isEditable)
+                    <input
+                        name="other_specific_sector"
+                        type="text"
+                        value="{{ $TNAdata['other_specific_sector'] ?? '' }}"
+                        style="width: 100%;"
+                    />
+                @else
+                    {{ $TNAdata['other_specific_sector'] ?? '' }}
+                @endIf
             </td>
         </tr>
     </tbody>
@@ -463,17 +459,29 @@
         >
     </div>
 @endif
-@if (isset($organizationalStructure['base64']) && isset($organizationalStructure['mimeType']))
-    <img
-        src="data:{{ $organizationalStructure['mimeType'] }};base64,{{ $organizationalStructure['base64'] }}"
-        alt=""
-        style="width: 16.17cm; height: 16.17cm"
-    >
-@else
-    <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;"><br>&nbsp;</p>
-    <p>No image available</p>
-    <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;"><br>&nbsp;</p>
-@endif
+<table style="width: 100%; border-collapse: collapse;">
+    <tbody>
+        <tr>
+            <td style="width: 100%; text-align: center; align-items: center;">
+                @if (isset($organizationalStructure['base64']) && isset($organizationalStructure['mimeType']))
+                    <img
+                        src="data:{{ $organizationalStructure['mimeType'] }};base64,{{ $organizationalStructure['base64'] }}"
+                        alt=""
+                        style="width: 16.17cm; height: 16.17cm; object-fit: contain; max-width: 100%; max-height: 100%;"
+                    >
+                @else
+                    <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;">
+                        <br>&nbsp;
+                    </p>
+                    <p>No image available</p>
+                    <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;">
+                        <br>&nbsp;
+                    </p>
+                @endif
+            </td>
+        </tr>
+    </tbody>
+</table>
 <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;"><br>&nbsp;</p>
 <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;"><br>&nbsp;</p>
 <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;"><span lang="en-US">4.
@@ -579,7 +587,7 @@
     @endif
     <table
         id="productAndSupplyChainTable"
-        style="width: 100%; table-layout: fixed;"
+        style="width: 100%; table-layout: fixed; border-collapse: collapse;"
         cellpadding="7"
     >
         <thead>

@@ -16,10 +16,10 @@ return new class extends Migration
             $table->bigInteger('business_id')->unsigned();
             $table->bigInteger('application_id')->unsigned()->nullable();
             $table->string('file_name', 32);
-            $table->string('file_link', 500);
-            $table->string('file_type', 20);
+            $table->string('file_link', 500)->nullable();
+            $table->string('file_type', 20)->nullable();
             $table->boolean('can_edit')->default(false);
-            $table->enum('remarks', ['Approved', 'Rejected', 'Pending'])->default('Pending');
+            $table->enum('remarks', ['Approved', 'Rejected', 'Pending', 'For Submission'])->default('Pending');
             $table->string('remark_comments', 100)->nullable();
             $table->timestamps();
             $table->foreign('business_id')->references('id')->on('business_info')->onDelete('cascade')->onUpdate('cascade');

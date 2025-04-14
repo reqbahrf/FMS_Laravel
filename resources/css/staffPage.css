@@ -609,6 +609,13 @@ ul#myTab li.nav-item button.tab-Nav:hover {
     width: 50vw;
     max-width: 100%;
 }
+@media (max-width: 768px) {
+    #approvedDetails,
+    #ongoingDetails,
+    #completedDetails {
+        width: 100vw;
+    }
+}
 
 #sw-AddProject th {
     font-size: 0.75rem;
@@ -693,6 +700,8 @@ ul#myTab li.nav-item button.tab-Nav:hover {
 
 /*
 
+
+
 --------------------------------------------------------
     Staff Applicant Tab CSS
 --------------------------------------------------------
@@ -713,6 +722,12 @@ ul#myTab li.nav-item button.tab-Nav:hover {
 #applicantDetails {
     width: 70vw;
     max-width: 100%;
+}
+
+@media (max-width: 768px) {
+    #applicantDetails {
+        width: 100vw;
+    }
 }
 
 .card-body label {
@@ -980,6 +995,7 @@ Form Styles
 
 .section--sub--title {
     font-weight: bold;
+    padding-left: 10pt;
 }
 
 .no-border,

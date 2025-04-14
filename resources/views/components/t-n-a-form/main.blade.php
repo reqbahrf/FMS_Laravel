@@ -649,7 +649,7 @@
             @endif
             <table
                 id="productionTable"
-                style="width: 100%; table-layout: fixed;"
+                style="width: 100%; table-layout: fixed; border-collapse: collapse;"
                 cellpadding="7"
             >
                 <thead>
@@ -784,7 +784,7 @@
             @endif
             <table
                 id="productionEquipmentTable"
-                style="width: 100%; table-layout: fixed;"
+                style="width: 100%; table-layout: fixed; border-collapse: collapse;"
                 cellpadding="7"
             >
                 <thead>
@@ -1009,21 +1009,31 @@
                         >
                     </div>
                 @endif
-                @if (isset($planLayout['base64']) && isset($planLayout['mimeType']))
-                    <img
-                        src="data:{{ $planLayout['mimeType'] }};base64,{{ $planLayout['base64'] }}"
-                        alt=""
-                        style="width: 16.17cm; height: 16.17cm"
-                    >
-                @else
-                    <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;">
-                        <br>&nbsp;
-                    </p>
-                    <p>No image available</p>
-                    <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;">
-                        <br>&nbsp;
-                    </p>
-                @endif
+                <table style="width: 100%; table-layout: fixed;">
+                    <tbody>
+                        <tr>
+                            <td style="width: 100%; ">
+                                @if (isset($planLayout['base64']) && isset($planLayout['mimeType']))
+                                    <img
+                                        src="data:{{ $planLayout['mimeType'] }};base64,{{ $planLayout['base64'] }}"
+                                        alt=""
+                                        style="width: 16.17cm; height: 16.17cm; object-fit: contain; max-width: 100%; max-height: 100%;"
+                                    >
+                                @else
+                                    <p
+                                        style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;">
+                                        <br>&nbsp;
+                                    </p>
+                                    <p>No image available</p>
+                                    <p
+                                        style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;">
+                                        <br>&nbsp;
+                                    </p>
+                                @endif
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </li>
         </ul>
         <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;">
@@ -1055,21 +1065,31 @@
                         >
                     </div>
                 @endif
-                @if (isset($processFlow['base64']) && isset($processFlow['mimeType']))
-                    <img
-                        src="data:{{ $processFlow['mimeType'] }};base64,{{ $processFlow['base64'] }}"
-                        alt=""
-                        style="width: 16.17cm; height: 16.17cm"
-                    >
-                @else
-                    <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;">
-                        <br>&nbsp;
-                    </p>
-                    <p>No image available</p>
-                    <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;">
-                        <br>&nbsp;
-                    </p>
-                @endif
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tbody>
+                        <tr>
+                            <td>
+                                @if (isset($processFlow['base64']) && isset($processFlow['mimeType']))
+                                    <img
+                                        src="data:{{ $processFlow['mimeType'] }};base64,{{ $processFlow['base64'] }}"
+                                        alt=""
+                                        style="width: 16.17cm; height: 16.17cm; object-fit: contain; max-width: 100%; max-height: 100%;"
+                                    >
+                                @else
+                                    <p
+                                        style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;">
+                                        <br>&nbsp;
+                                    </p>
+                                    <p>No image available</p>
+                                    <p
+                                        style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;">
+                                        <br>&nbsp;
+                                    </p>
+                                @endif
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </li>
         </ul>
         <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
@@ -1365,6 +1385,11 @@
                                 >
                                     <tbody>
                                         <tr>
+                                            <td style="width: 5%;"></td>
+                                            <td style="width: 40%;"></td>
+                                            <td style="width: 55%;"></td>
+                                        </tr>
+                                        <tr>
                                             <td style="border: none;padding: 0cm;">
                                                 @if ($isEditable)
                                                     <input
@@ -1375,7 +1400,7 @@
                                                         {{ isset($TNAdata['nutritionEvaluation']) && $TNAdata['nutritionEvaluation'] == 'on' ? 'checked' : '' }}
                                                     />
                                                 @else
-                                                    {{ isset($TNAdata['nutritionEvaluation']) && $TNAdata['nutritionEvaluation'] == 'on' ? '/' : '' }}
+                                                    {{ isset($TNAdata['nutritionEvaluation']) && $TNAdata['nutritionEvaluation'] == 'on' ? '✓' : '' }}
                                                 @endif
                                             </td>
                                             <td style="border: none;padding: 0cm;">
@@ -1409,7 +1434,7 @@
                                                         {{ isset($TNAdata['barCode']) && $TNAdata['barCode'] == 'on' ? 'checked' : '' }}
                                                     />
                                                 @else
-                                                    {{ isset($TNAdata['barCode']) && $TNAdata['barCode'] == 'on' ? '/' : '' }}
+                                                    {{ isset($TNAdata['barCode']) && $TNAdata['barCode'] == 'on' ? '✓' : '' }}
                                                 @endif
                                             </td>
                                             <td style="border: none;padding: 0cm;">
@@ -1443,7 +1468,7 @@
                                                         {{ isset($TNAdata['productLabel']) && $TNAdata['productLabel'] == 'on' ? 'checked' : '' }}
                                                     />
                                                 @else
-                                                    {{ isset($TNAdata['productLabel']) && $TNAdata['productLabel'] == 'on' ? '/' : '' }}
+                                                    {{ isset($TNAdata['productLabel']) && $TNAdata['productLabel'] == 'on' ? '✓' : '' }}
                                                 @endif
                                             </td>
                                             <td style="border: none;padding: 0cm;">
@@ -1477,7 +1502,7 @@
                                                         {{ isset($TNAdata['expiryDate']) && $TNAdata['expiryDate'] == 'on' ? 'checked' : '' }}
                                                     />
                                                 @else
-                                                    {{ isset($TNAdata['expiryDate']) && $TNAdata['expiryDate'] == 'on' ? '/' : '' }}
+                                                    {{ isset($TNAdata['expiryDate']) && $TNAdata['expiryDate'] == 'on' ? '✓' : '' }}
                                                 @endif
                                             </td>
                                             <td style="border: none;padding: 0cm;">

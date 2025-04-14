@@ -252,6 +252,7 @@
         const APPLICANT_TAB_ROUTE = {
             GET_APPLICANTS: '{{ route('Applicant.getApplicants') }}',
             GET_APPLICANT_REQUIREMENTS: '{{ route('Requirements.index', ['business_id' => ':id']) }}',
+            ADD_NEW_REQUIREMENT: '{{ route('Requirements.newRequirement', [':business_id', ':application_id']) }}',
             UPDATE_APPLICANT_REQUIREMENTS: '{{ route('Applicant-Requirements.update', ['Applicant_Requirement' => ':id']) }}',
             setEvaluationScheduleDate: '{{ route('staff.set.EvaluationSchedule') }}',
             getEvaluationScheduleDate: '{{ route('staff.get.EvaluationSchedule') }}',

@@ -76,6 +76,63 @@ class AdminProjectController extends Controller
         }
     }
 
+    private function revertToPending(int $business_id, int $application_id)
+    {
+        try {
+            DB::beginTransaction();
+
+            $applicationInfo = ApplicationInfo::where('business_id', $business_id)
+                ->where('id', $application_id)
+                ->firstOrFail();
+
+            $projectInfo = $applicationInfo->projectInfo; // Get this BEFORE nulling the FK
+
+            // Update the application status and detach the project
+            $applicationInfo->application_status = 'evaluation';
+            $applicationInfo->Project_id = null; // Detach project
+            $applicationInfo->save();
+
+            // Now safely delete the project
+            if ($projectInfo) {
+                $projectInfo->delete();
+            }
+
+            DB::commit();
+
+            Cache::forget('pendingProjects');
+            Cache::forget('applicants');
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw new Exception('Failed to revert to pending: ' . $e->getMessage());
+        }
+    }
+
+
+
+    public function returnProjectProposalToStaff(Request $request)
+    {
+        try {
+
+            $validated = $request->validate([
+                'business_id' => 'required|integer',
+                'application_id' => 'required|integer',
+            ]);
+
+            $business_id = $validated['business_id'];
+            $application_id = $validated['application_id'];
+
+            if (!$business_id || !$application_id) {
+                return response()->json(['message' => 'Invalid request data'], 400);
+            }
+
+            $this->revertToPending($business_id, $application_id);
+
+            return response()->json(['message' => 'Reverted to pending successfully'], 200);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to revert to pending: ' . $e->getMessage()], 400);
+        }
+    }
+
     private function dispatchBackgroundJobs(
         array $validated,
         ProjectInfo $project,

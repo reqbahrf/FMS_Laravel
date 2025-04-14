@@ -301,10 +301,15 @@
                         </div>
                         <div class="col-12 d-flex justify-content-end align-items-end">
                             <button
-                                class="btn btn-primary"
+                                class="btn btn-primary "
                                 id="approvedButton"
                                 type="button"
                             >Approved</button>
+                            <button
+                                class="btn btn-danger ms-2"
+                                id="revertButton"
+                                type="button"
+                            >Revert</button>
                         </div>
                     </div>
                 </div>

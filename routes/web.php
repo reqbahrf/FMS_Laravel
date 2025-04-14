@@ -99,13 +99,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])
         ->name('logout');
 
-    Route::get('/Applicant-Requirements/{business_id}', [ApplicantRequirementController::class, 'index'])
-        ->name('Requirements.index');
+    Route::controller(ApplicantRequirementController::class)->group(function () {
+        Route::get('/Applicant-Requirements/{business_id}', 'index')
+            ->name('Requirements.index');
 
-    Route::get('/Applicant-Requirement/view/{id}', [ApplicantRequirementController::class, 'show'])
-        ->name('Requirements.show')
-        ->middleware('signed');
+        Route::get('/Applicant-Requirement/view/{id}', 'show')
+            ->name('Requirements.show')
+            ->middleware('signed');
 
+        Route::put('/Applicant-Requirements/additional-submission/{business_id}/{application_id}', 'newRequirement')
+            ->name('Requirements.newRequirement');
+
+        Route::put('/Applicant-Requirements/submit/additional-submission/{id}', 'uploadNewRequiredFile')
+            ->name('Requirements.uploadNewRequiredFile');
+    });
     Route::resource('/Applicant-Requirements', ApplicantRequirementController::class)
         ->only(['update']);
 
@@ -421,6 +428,9 @@ Route::middleware([CheckAdminUser::class, 'verified', 'check.password.change'])-
     Route::controller(AdminProjectController::class)->group(function () {
         Route::post('/Admin/Project/Approved-Project', 'approvedProjectProposal')
             ->name('admin.Project.ApprovedProjectProposal');
+
+        Route::put('/admin/return-to-staff', 'returnProjectProposalToStaff')
+            ->name('admin.return-to-staff');
 
         Route::post('/Admin/Assign-New-Staff', 'assignNewStaff')
             ->name('admin.AssignNewStaff');

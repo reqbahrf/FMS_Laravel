@@ -3,6 +3,7 @@
 </div>
 <div>
     @include('staff-view.included-layout.tna-rejection-modal')
+    @include('staff-view.included-layout.add-requirement-modal')
     @include('staff-view.included-layout.application-process-form-modal')
     <div
         class="offcanvas offcanvas-end"

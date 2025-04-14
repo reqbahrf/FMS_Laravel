@@ -38,6 +38,15 @@
             border: 1px solid #000;
         }
 
+        .section--title {
+            font-weight: bolder;
+        }
+
+        .section--sub--title {
+            font-weight: bold;
+            padding-left: 10pt;
+        }
+
         #ProjectProposalForm #CompanyProfileTable tr:not(:first-child),
         #ProjectProposalForm #technicalConstraintTable tr:not(:first-child),
         #ProjectProposalForm #equipmentTable tr:not(:first-child),

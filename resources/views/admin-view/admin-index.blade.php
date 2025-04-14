@@ -252,6 +252,7 @@
             GET_PROJECTS_PROPOSAL: '{{ route('admin.Project.GetProposalDetails', ['business_id' => ':business_id', 'project_id' => ':project_id']) }}',
             GET_ONGOING_PROJECTS: '{{ route('getOngoingProjects') }}',
             APPROVED_PROJECT: '{{ route('admin.Project.ApprovedProjectProposal') }}',
+            RETURN_TO_STAFF: '{{ route('admin.return-to-staff') }}',
             GET_COMPLETED_PROJECTS: '{{ route('getCompletedProject') }}',
             ASSIGNED_NEW_STAFF: '{{ route('admin.AssignNewStaff') }}',
 

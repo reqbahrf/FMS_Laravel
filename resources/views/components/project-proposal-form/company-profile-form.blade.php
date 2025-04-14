@@ -960,19 +960,67 @@
         </td>
     </tr>
 </table>
-<table width="100%">
+<table
+    style="table-layout: fixed;"
+    width="100%"
+>
     <tr>
-        <td>
-            <p class="section--title">B. Project Background</p>
+        <td style="width: 100%;">
+            <p class="section--sub--title">B. Management/Administrative Aspect</p>
         </td>
     </tr>
     <tr>
         <td>
-            <p class="section--sub-title">1. Organizational Chart</p>
+            <p class="section--sub--title">1. Organizational Chart</p>
         </td>
     </tr>
     <tr>
-        <td></td>
+        <td>
+            @if ($isEditable)
+                <div class="organizational-chart-image-upload">
+                    <label
+                        class="form-label"
+                        for="organizationalChart"
+                    >Upload Organizational Chart</label>
+                    <input
+                        id="organizationalChart"
+                        name="organizationalChart"
+                        type="file"
+                    >
+                    <input
+                        id="OrganizationalChartFileID_Data_Handler"
+                        name="OrganizationalChartFileID_Data_Handler"
+                        type="hidden"
+                    >
+                </div>
+            @endif
+            <table style="width: 100%; table-layout: fixed;">
+                <tbody>
+                    <tr>
+                        <td style="width: 100%; ">
+                            @if (isset($organizationalChart['base64']) && isset($organizationalChart['mimeType']))
+                                <img
+                                    src="data:{{ $organizationalChart['mimeType'] }};base64,{{ $organizationalChart['base64'] }}"
+                                    alt=""
+                                    style="width: 16.17cm; height: 16.17cm; object-fit: contain; max-width: 100%; max-height: 100%;"
+                                >
+                            @else
+                                <p
+                                    style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;">
+                                    <br>&nbsp;
+                                </p>
+                                <p>No image available</p>
+                                <p
+                                    style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;">
+                                    <br>&nbsp;
+                                </p>
+                            @endif
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </td>
     </tr>
     <tr>
         <td>
@@ -989,6 +1037,7 @@
             @else
                 {{ $ProjectProposaldata['skills_and_expertise'] ?? '' }}
             @endif
+
         </td>
     </tr>
     <tr>
@@ -1006,6 +1055,7 @@
             @else
                 {{ $ProjectProposaldata['compensation'] ?? '' }}
             @endif
+
         </td>
     </tr>
     <tr>
@@ -1023,6 +1073,49 @@
             @else
                 {{ $ProjectProposaldata['plant_site_or_location'] ?? '' }}
             @endif
+            @if ($isEditable)
+                <div class="plant-site-or-layout-image-upload">
+                    <label
+                        class="form-label"
+                        for="plantSiteOrLocation"
+                    >Upload Plant Site or Location</label>
+                    <input
+                        id="plantSiteOrLocation"
+                        name="plantSiteOrLocation"
+                        type="file"
+                    >
+                    <input
+                        id="PlantSiteOrLocationFileID_Data_Handler"
+                        name="PlantSiteOrLocationFileID_Data_Handler"
+                        type="hidden"
+                    >
+                </div>
+            @endif
+            <table style="width: 100%; table-layout: fixed;">
+                <tbody>
+                    <tr>
+                        <td style="width: 100%; ">
+                            @if (isset($plantSiteOrLocation['base64']) && isset($plantSiteOrLocation['mimeType']))
+                                <img
+                                    src="data:{{ $plantSiteOrLocation['mimeType'] }};base64,{{ $plantSiteOrLocation['base64'] }}"
+                                    alt=""
+                                    style="width: 16.17cm; height: 16.17cm; object-fit: contain; max-width: 100%; max-height: 100%;"
+                                >
+                            @else
+                                <p
+                                    style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;">
+                                    <br>&nbsp;
+                                </p>
+                                <p>No image available</p>
+                                <p
+                                    style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;">
+                                    <br>&nbsp;
+                                </p>
+                            @endif
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </td>
     </tr>
     <tr>
@@ -1065,8 +1158,11 @@
     width="100%"
 >
     <tr>
-        <td>
-            <p class="section--title">MARKETING ASPECTS</p>
+        <td
+            class="section--title"
+            style="font-weight: bold;"
+        >
+            MARKETING ASPECTS
         </td>
     </tr>
     <tr>
@@ -1126,7 +1222,16 @@
         </td>
     </tr>
     <tr>
-        <td></td>
+        <td>
+            @if ($isEditable)
+                <textarea
+                    class="form-control"
+                    name="competitors"
+                >{{ $ProjectProposaldata['competitors'] ?? '' }}</textarea>
+            @else
+                {{ $ProjectProposaldata['competitors'] ?? '' }}
+            @endif
+        </td>
     </tr>
     <tr>
         <td>
@@ -1176,14 +1281,44 @@
     </tr>
     <tr>
         <td>
-            <p class="section--sub-title">A. Production Process</p>
+            <p class="section--sub--title">A. Production Process</p>
         </td>
     </tr>
     <tr>
-        <td>- Process Flow of Production</td>
+        <td
+            class="section--sub--title"
+            style="padding-left: 20pt;"
+        >- Process Flow of Production</td>
     </tr>
     <tr>
-        <td>- Material Balance</td>
+        <td>
+            @if ($isEditable)
+                <textarea
+                    class="form-control"
+                    name="process_flow_of_production"
+                >{{ $ProjectProposaldata['process_flow_of_production'] ?? '' }}</textarea>
+            @else
+                {{ $ProjectProposaldata['process_flow_of_production'] ?? '' }}
+            @endif
+        </td>
+    </tr>
+    <tr>
+        <td
+            class="section--sub--title"
+            style="padding-left: 20pt;"
+        >- Material Balance</td>
+    </tr>
+    <tr>
+        <td>
+            @if ($isEditable)
+                <textarea
+                    class="form-control"
+                    name="material_balance"
+                >{{ $ProjectProposaldata['material_balance'] ?? '' }}</textarea>
+            @else
+                {{ $ProjectProposaldata['material_balance'] ?? '' }}
+            @endif
+        </td>
     </tr>
     <tr>
         <td>
@@ -1191,7 +1326,16 @@
         </td>
     </tr>
     <tr>
-        <td></td>
+        <td>
+            @if ($isEditable)
+                <textarea
+                    class="form-control"
+                    name="existing_production_equipment"
+                >{{ $ProjectProposaldata['existing_production_equipment'] ?? '' }}</textarea>
+            @else
+                {{ $ProjectProposaldata['existing_production_equipment'] ?? '' }}
+            @endif
+        </td>
     </tr>
     <tr>
         <td>
@@ -1304,8 +1448,58 @@
 </div>
 <table width="100%">
     <tr>
+        <td
+            class="section--title"
+            style="font-weight: bold;"
+        >
+            Proposed Plant Layout
+        </td>
+    </tr>
+    <tr>
         <td>
-            <p class="section--title">Proposed Plant Layout</p>
+            @if ($isEditable)
+                <div class="proposed-plant-layout-image-upload">
+                    <label
+                        class="form-label"
+                        for="proposedPlantLayout"
+                    >Upload Proposed Plant Layout</label>
+                    <input
+                        id="proposedPlantLayout"
+                        name="proposedPlantLayout"
+                        type="file"
+                    >
+                    <input
+                        id="ProposedPlantLayoutFileID_Data_Handler"
+                        name="ProposedPlantLayoutFileID_Data_Handler"
+                        type="hidden"
+                    >
+                </div>
+            @endif
+            <table style="width: 100%; table-layout: fixed;">
+                <tbody>
+                    <tr>
+                        <td style="width: 100%; ">
+                            @if (isset($proposedPlantLayout['base64']) && isset($proposedPlantLayout['mimeType']))
+                                <img
+                                    src="data:{{ $proposedPlantLayout['mimeType'] }};base64,{{ $proposedPlantLayout['base64'] }}"
+                                    alt=""
+                                    style="width: 16.17cm; height: 16.17cm; object-fit: contain; max-width: 100%; max-height: 100%;"
+                                >
+                            @else
+                                <p
+                                    style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;">
+                                    <br>&nbsp;
+                                </p>
+                                <p>No image available</p>
+                                <p
+                                    style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;">
+                                    <br>&nbsp;
+                                </p>
+                            @endif
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </td>
     </tr>
     <tr>
@@ -1498,20 +1692,84 @@
     <tr>
         <td>
             <ol>
-                <li>Percentage increase in productivity</li>
-                <li>Improved quality of products</li>
-                <li>Contribution to the production line/process</li>
-                <li>Percentage decrease in rejects</li>
-                <li>Additional Clients</li>
-                <li>Others (please specify)</li>
+                <li>
+                    Percentage increase in productivity<br>
+                    @if ($isEditable)
+                        <textarea
+                            class="form-control"
+                            name="percentage_increase_in_productivity"
+                        >{{ $ProjectProposaldata['percentage_increase_in_productivity'] ?? '' }}</textarea>
+                    @else
+                        {{ $ProjectProposaldata['percentage_increase_in_productivity'] ?? '' }}
+                    @endif
+
+                </li>
+                <li>
+                    Improved quality of products<br>
+                    @if ($isEditable)
+                        <textarea
+                            class="form-control"
+                            name="improved_quality_of_products"
+                        >{{ $ProjectProposaldata['improved_quality_of_products'] ?? '' }}</textarea>
+                    @else
+                        {{ $ProjectProposaldata['improved_quality_of_products'] ?? '' }}
+                    @endif
+                </li>
+                <li>
+                    Contribution to the production line/process<br>
+                    @if ($isEditable)
+                        <textarea
+                            class="form-control"
+                            name="contribution_to_production_line_process"
+                        >{{ $ProjectProposaldata['contribution_to_production_line_process'] ?? '' }}</textarea>
+                    @else
+                        {{ $ProjectProposaldata['contribution_to_production_line_process'] ?? '' }}
+                    @endif
+                </li>
+                <li>
+                    Percentage decrease in rejects<br>
+                    @if ($isEditable)
+                        <textarea
+                            class="form-control"
+                            name="percentage_decrease_in_rejects"
+                        >{{ $ProjectProposaldata['percentage_decrease_in_rejects'] ?? '' }}</textarea>
+                    @else
+                        {{ $ProjectProposaldata['percentage_decrease_in_rejects'] ?? '' }}
+                    @endif
+                </li>
+                <li>
+                    Additional Clients<br>
+                    @if ($isEditable)
+                        <textarea
+                            class="form-control"
+                            name="additional_clients"
+                        >{{ $ProjectProposaldata['additional_clients'] ?? '' }}</textarea>
+                    @else
+                        {{ $ProjectProposaldata['additional_clients'] ?? '' }}
+                    @endif
+                </li>
+                <li>
+                    Others (please specify)<br>
+                    @if ($isEditable)
+                        <textarea
+                            class="form-control"
+                            name="others_please_specify"
+                        >{{ $ProjectProposaldata['others_please_specify'] ?? '' }}</textarea>
+                    @else
+                        {{ $ProjectProposaldata['others_please_specify'] ?? '' }}
+                    @endif
+                </li>
             </ol>
         </td>
     </tr>
 </table>
 <table id="WasteManagementTable">
     <tr>
-        <td>
-            <p class="section--title">WASTE MANAGEMENT/DISPOSAL</p>
+        <td
+            class="section--title"
+            style="font-weight: bold;"
+        >
+            WASTE MANAGEMENT/DISPOSAL
         </td>
     </tr>
     <tr>
@@ -1551,6 +1809,11 @@
     </tr>
     <tr>
         <td>
+            <p class="section--sub--title">D. Methods of disposal</p>
+        </td>
+    </tr>
+    <tr>
+        <td>
             @if ($isEditable)
                 <textarea
                     class="form-control"
@@ -1564,8 +1827,11 @@
 </table>
 <table id="FinancialAsspectTable">
     <tr>
-        <td>
-            <p class="section--title">FINANCIAL ASPECT</p>
+        <td
+            class="section--title"
+            style="font-weight: bold;"
+        >
+            FINANCIAL ASPECT
         </td>
     </tr>
     <tr>
@@ -1576,11 +1842,56 @@
     <tr>
         <td>
             <ul>
-                <li>Financial ratio and analysis</li>
-                <li>Partial Budget Analysis</li>
-                <li>Net profit margin ratio</li>
-                <li>Liquidity ratio</li>
-                <li>ROI</li>
+                <li>Financial ratio and analysis
+                    @if ($isEditable)
+                        <textarea
+                            class="form-control"
+                            name="financial_ratio_and_analysis"
+                        >{{ $ProjectProposaldata['financial_ratio_and_analysis'] ?? '' }}</textarea>
+                    @else
+                        {{ $ProjectProposaldata['financial_ratio_and_analysis'] ?? '' }}
+                    @endif
+                </li>
+                <li>Partial Budget Analysis
+                    @if ($isEditable)
+                        <textarea
+                            class="form-control"
+                            name="partial_budget_analysis"
+                        >{{ $ProjectProposaldata['partial_budget_analysis'] ?? '' }}</textarea>
+                    @else
+                        {{ $ProjectProposaldata['partial_budget_analysis'] ?? '' }}
+                    @endif
+                </li>
+                <li>Net profit margin ratio
+                    @if ($isEditable)
+                        <textarea
+                            class="form-control"
+                            name="net_profit_margin_ratio"
+                        >{{ $ProjectProposaldata['net_profit_margin_ratio'] ?? '' }}</textarea>
+                    @else
+                        {{ $ProjectProposaldata['net_profit_margin_ratio'] ?? '' }}
+                    @endif
+                </li>
+                <li>Liquidity ratio
+                    @if ($isEditable)
+                        <textarea
+                            class="form-control"
+                            name="liquidity_ratio"
+                        >{{ $ProjectProposaldata['liquidity_ratio'] ?? '' }}</textarea>
+                    @else
+                        {{ $ProjectProposaldata['liquidity_ratio'] ?? '' }}
+                    @endif
+                </li>
+                <li>ROI
+                    @if ($isEditable)
+                        <textarea
+                            class="form-control"
+                            name="roi"
+                        >{{ $ProjectProposaldata['roi'] ?? '' }}</textarea>
+                    @else
+                        {{ $ProjectProposaldata['roi'] ?? '' }}
+                    @endif
+                </li>
             </ul>
         </td>
     </tr>
@@ -2020,8 +2331,11 @@
 </table>
 <table id="riskManagementPlanTable">
     <tr>
-        <td>
-            <p class="section--title">RISK MANAGEMENT</p>
+        <td
+            class="section--title"
+            style="font-weight: bold;"
+        >
+            RISK MANAGEMENT
         </td>
     </tr>
 </table>
@@ -2048,11 +2362,11 @@
         id="riskTable"
         style="table-layout: fixed; width: 100%; border-collapse: collapse"
     >
-        <thead>
-            <th style="text-align: center; width: 33.33%">OBJECTIVES</th>
-            <th style="text-align: center; width: 33.33%">RISKS AND ASSUMPTIONS</th>
-            <th style="text-align: center; width: 33.33%">RISK MANAGEMENT PLAN</th>
-        </thead>
+        <tr>
+            <th style="text-align: center; width: 33.33%; font-weight: bold;">OBJECTIVES</th>
+            <th style="text-align: center; width: 33.33%; font-weight: bold;">RISKS AND ASSUMPTIONS</th>
+            <th style="text-align: center; width: 33.33%; font-weight: bold;">RISK MANAGEMENT PLAN</th>
+        </tr>
         <tbody>
             @forelse ($ProjectProposaldata['riskManagement'] ?? [] as $data)
                 <tr>

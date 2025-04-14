@@ -32,6 +32,7 @@ class SubmitToAdminService
             throw new Exception('Failed to update project info: ' . $e->getMessage() || 'Failed to update project info');
         }
     }
+
     private function updateApplicationInfo(int $business_id, int $application_id, ?array $data, string $status)
     {
         try {
@@ -84,8 +85,7 @@ class SubmitToAdminService
             $this->updateApplicationInfo($business_id, $application_id, $extractedApplicationData, 'pending');
 
             DB::commit();
-            Cache::forget('pendingProjects');
-            Cache::forget('applicants');
+            $this->refreshCache();
             $adminUser = User::where('role', 'Admin')->get();
             Notification::send($adminUser, new ProjectProposalNotification([
                 'project_title' => $projectTitle,
@@ -96,7 +96,6 @@ class SubmitToAdminService
             throw new Exception('Failed to submit for review: ' . $e->getMessage());
         }
     }
-
     private function generateProjectId(): string
     {
         // Generate a random string of 9 characters (to make total length 15 with 'SETUP' prefix)
@@ -112,5 +111,11 @@ class SubmitToAdminService
         } while (ProjectInfo::where('project_id', $projectId)->exists());
 
         return $projectId;
+    }
+
+    private function refreshCache()
+    {
+        Cache::forget('pendingProjects');
+        Cache::forget('applicants');
     }
 }
