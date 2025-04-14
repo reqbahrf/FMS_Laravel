@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('payment_records', function (Blueprint $table) {
             $table->id();
-            $table->char('Project_id', 15)->collation('utf8mb4_bin');
+            $table->char('Project_id', 32)->collation('utf8mb4_bin');
             $table->string('reference_number', 64)->unique();
             $table->decimal('amount', 10, 2);
             $table->enum('payment_status', ['Due', 'Pending', 'Paid', 'Overdue'])->default('Pending');

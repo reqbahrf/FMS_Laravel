@@ -17,8 +17,8 @@ return new class extends Migration
         Schema::create('application_info', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('business_id')->unsigned();
-            $table->char('Project_id', 15)->nullable()->collation('utf8mb4_bin');
-            $table->enum('application_status', ['new','evaluation' ,'pending', 'approved', 'ongoing', 'completed', 'rejected'])->default('new');
+            $table->char('Project_id', 32)->nullable()->collation('utf8mb4_bin');
+            $table->enum('application_status', ['new', 'evaluation', 'pending', 'approved', 'ongoing', 'completed', 'rejected'])->default('new');
             $table->dateTime('Evaluation_date')->nullable();
             $table->string('Evaluation_status', 15)->nullable();
             $table->timestamps();
