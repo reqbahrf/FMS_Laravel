@@ -13,12 +13,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('project_file_links', function (Blueprint $table) {
-           $table->id();
-           $table->char('Project_id', 15)->collation('utf8mb4_bin');
-           $table->string('file_name', 64)->unique();
-           $table->string('file_link', 500)->unique();
-           $table->timestamps();
-           $table->foreign('Project_id')->references('Project_id')->on('project_info')->onDelete('cascade')->onUpdate('cascade');
+            $table->id();
+            $table->char('Project_id', 32)->collation('utf8mb4_bin');
+            $table->string('file_name', 64)->unique();
+            $table->string('file_link', 500)->unique();
+            $table->timestamps();
+            $table->foreign('Project_id')->references('Project_id')->on('project_info')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

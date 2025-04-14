@@ -36,6 +36,7 @@ export default class RefundStructureCalculator {
     private tableRefundStructure: JQuery<HTMLTableElement>;
     private monthNames: string[];
     private isWithRefundedChecklist: boolean;
+    private fundReleaseDate: Date | null = null;
 
     constructor(
         tableRefundStructure: JQuery<HTMLTableElement>,
@@ -144,6 +145,13 @@ export default class RefundStructureCalculator {
     }
 
     /**
+     * Sets the fund release date for year header calculations
+     */
+    public setFundReleaseDate(date: Date | null): void {
+        this.fundReleaseDate = date;
+    }
+
+    /**
      * Calculates the payment structure based on input parameters
      */
     public calculatePaymentStructure(
@@ -171,8 +179,14 @@ export default class RefundStructureCalculator {
             throw new Error('Total amount must be a positive number');
         }
 
+        // Set the fund release date for header calculations
+        this.setFundReleaseDate(fundReleaseDate);
+
         // Clear the table first
         this.clearTableValues();
+
+        // Regenerate table structure with the new fund release date
+        this.generateTableStructure();
 
         const totalMonths: number = refundDurationYears * 12;
         const baseMonthlyPayment: number = Math.floor(
@@ -352,13 +366,40 @@ export default class RefundStructureCalculator {
     private _generateHeaderRow(): JQuery {
         const headerRow = $('<tr></tr>');
         headerRow.append($('<th style="text-align: center;">Months</th>'));
-        for (let year = 1; year <= 5; year++) {
+
+        // Generate year headers based on fund release date if available
+        const yearHeaders = this._getYearHeaders();
+
+        for (let i = 0; i < 5; i++) {
             headerRow.append(
-                $(`<th style="text-align: center;">Y${year}</th>`)
+                $(`<th style="text-align: center;">${yearHeaders[i]}</th>`)
             );
         }
+
         headerRow.append($('<th style="text-align: center;">Total</th>'));
         return headerRow;
+    }
+
+    /**
+     * Gets the year headers based on fund release date
+     * @returns Array of year headers (either actual years or Y1, Y2, etc.)
+     */
+    private _getYearHeaders(): string[] {
+        if (
+            this.fundReleaseDate instanceof Date &&
+            !isNaN(this.fundReleaseDate.getTime())
+        ) {
+            const fundReleaseYear = this.fundReleaseDate.getFullYear();
+            return [
+                (fundReleaseYear + 1).toString(),
+                (fundReleaseYear + 2).toString(),
+                (fundReleaseYear + 3).toString(),
+                (fundReleaseYear + 4).toString(),
+                (fundReleaseYear + 5).toString(),
+            ];
+        } else {
+            return ['Y1', 'Y2', 'Y3', 'Y4', 'Y5'];
+        }
     }
 
     /**

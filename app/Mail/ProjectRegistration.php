@@ -3,12 +3,13 @@
 namespace App\Mail;
 
 use App\Models\User;
+use App\Models\ProjectInfo;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
-use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 class ProjectRegistration extends Mailable implements ShouldQueue
 {
@@ -46,11 +47,11 @@ class ProjectRegistration extends Mailable implements ShouldQueue
      * Create a new message instance.
      *
      * @param User $user
-     * @param object $project
+     * @param ProjectInfo $project
      * @param string $password
      * @return void
      */
-    public function __construct(User $user, $project, string $password)
+    public function __construct(User $user, ProjectInfo $project, string $password)
     {
         $this->user = $user;
         $this->project = $project;
