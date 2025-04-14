@@ -1,14 +1,14 @@
 <x-mail::message>
 # Project Registration Confirmation
 
-Dear {{ $user->name }},
+Dear {{ $user->email }},
 
 We are pleased to inform you that you have been successfully registered for the following project:
 
 <x-mail::panel>
-- **Project Name:** {{ $project->name }}
-- **Project ID:** {{ $project->id }}
-- **Project Description:** {{ $project->description }}
+- **Project Title:** {{ $project->project_title }}
+- **Fund Amount:** ₱{{ number_format($project->actual_amount_to_be_refund, 2, '.', ',') }}
+- **Project Duration:** {{ $project->project_duration }} Years
 </x-mail::panel>
 
 ## Your Login Credentials
