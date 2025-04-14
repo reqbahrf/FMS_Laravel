@@ -1,5 +1,5 @@
 @component('mail::message')
-# Hello, {{ $userName }}!
+# Hello, {{ $email }}!
 
 Thank you for signing up with {{ config('app.name') }}. We're excited to have you on board!
 
