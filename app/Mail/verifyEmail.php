@@ -26,6 +26,7 @@ class verifyEmail extends Mailable
         return $this->markdown('mail.confirm-email')
             ->with([
                 'userName' => $this->user->user_name,
+                'email' => $this->user->email,
                 'otp' => $this->user->otp,
             ]);
     }
