@@ -1294,3 +1294,10 @@ Project Data Sheet Styles
     padding: 5px;
 }
 
+#Enterprise_Level,
+#to_Assets,
+#EstimatedFund{
+    font-weight: bold;
+    color: #318791;
+}
+

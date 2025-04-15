@@ -58,10 +58,7 @@
 
         #Enterprise_Level,
         #to_Assets,
-        #re_to_Assets,
-        #re_Enterprise_Level,
-        #EstimatedFund,
-        #re_EstimatedFund {
+        #EstimatedFund {
             font-weight: bold;
             color: #318791;
         }

@@ -102,6 +102,12 @@ export default class AddProject {
 
         this.draftClass = new FormDraftHandler(this.form);
         this.draftClass.syncTextInputData();
+        this.draftClass.syncTablesData('#exportMarketTable tbody', {
+            exportMarket: ExportAndLocalMarketTableConfig.exportMarket,
+        });
+        this.draftClass.syncTablesData('#localMarketTable tbody', {
+            localMarket: ExportAndLocalMarketTableConfig.localMarket,
+        });
         await this.draftClass.loadDraftData(
             EXISTING_PROJECT_FORM_CONFIG,
             undefined,
