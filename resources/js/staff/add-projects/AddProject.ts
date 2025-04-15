@@ -1,6 +1,7 @@
 import { processError } from '../../Utilities/error-handler-util';
 import { customFormatNumericInput } from '../../Utilities/input-utils';
 import RefundStructureCalculator from '../../Utilities/RefundStructureCalculator';
+import ExportAndLocalMarketTableConfig from '../../Form_Config/form-table-config/exportAndLocalMarket-table-config';
 import {
     parseFormattedNumberToFloat,
     serializeFormData,
@@ -20,6 +21,7 @@ import {
 } from '../../Utilities/feedback-toast';
 import EXISTING_PROJECT_FORM_CONFIG from '../../Form_Config/EXISTING_PROJECT_CONFIG';
 import { FormDraftHandler } from '../../Utilities/FormDraftHandler';
+import { TableDataExtractor } from '../../Utilities/TableDataExtractor';
 
 export default class AddProject {
     private form: JQuery<HTMLFormElement> | null;
@@ -136,7 +138,10 @@ export default class AddProject {
                 const formData = this.form.serializeArray();
                 if (!formData || !formData.length || !url)
                     throw new Error('Form data not found');
-                const formDataObject = serializeFormData(formData);
+                const formDataObject = {
+                    ...serializeFormData(formData),
+                    ...TableDataExtractor(ExportAndLocalMarketTableConfig),
+                };
                 await this._saveProject(formDataObject, url);
             } catch (error: any) {
                 processError('Error in Adding Project: ', error, true);
