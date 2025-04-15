@@ -1,10 +1,15 @@
 import { processError } from '../../Utilities/error-handler-util';
 import { customFormatNumericInput } from '../../Utilities/input-utils';
 import RefundStructureCalculator from '../../Utilities/RefundStructureCalculator';
+import ExportAndLocalMarketTableConfig from '../../Form_Config/form-table-config/exportAndLocalMarket-table-config';
 import {
     parseFormattedNumberToFloat,
     serializeFormData,
 } from '../../Utilities/utilFunctions';
+import {
+    addNewRowHandler,
+    removeRowHandler,
+} from '../../Utilities/add-and-remove-table-row-handler';
 import { AddressFormInput } from '../../Utilities/AddressInputHandler';
 import calculateEnterpriseLevel from '../../Utilities/calculate-enterprise-level';
 import { setupPhoneNumberInput } from '../../Utilities/phone-formatter';
@@ -16,6 +21,7 @@ import {
 } from '../../Utilities/feedback-toast';
 import EXISTING_PROJECT_FORM_CONFIG from '../../Form_Config/EXISTING_PROJECT_CONFIG';
 import { FormDraftHandler } from '../../Utilities/FormDraftHandler';
+import { TableDataExtractor } from '../../Utilities/TableDataExtractor';
 
 export default class AddProject {
     private form: JQuery<HTMLFormElement> | null;
@@ -35,7 +41,7 @@ export default class AddProject {
         this._initFormDataSubmitEvent();
     }
 
-    private _initDependencies() {
+    private async _initDependencies() {
         this.form = $('#ExistingProjectForm');
         if (!this.form) return;
         this.refundStrutureTable = this.form.find('#refundStructureTable');
@@ -73,6 +79,21 @@ export default class AddProject {
             'input'
         );
 
+        addNewRowHandler('.add-new-local-product-row', '#localMarketContainer');
+        removeRowHandler(
+            '.remove-new-local-product-row',
+            '#localMarketContainer'
+        );
+
+        addNewRowHandler(
+            '.add-new-export-product-row',
+            '#exportMarketContainer'
+        );
+        removeRowHandler(
+            '.remove-new-export-product-row',
+            '#exportMarketContainer'
+        );
+
         const addressInputHandler = [
             new AddressFormInput({ prefix: 'home' }),
             new AddressFormInput({ prefix: 'office' }),
@@ -81,7 +102,13 @@ export default class AddProject {
 
         this.draftClass = new FormDraftHandler(this.form);
         this.draftClass.syncTextInputData();
-        this.draftClass.loadDraftData(
+        this.draftClass.syncTablesData('#exportMarketTable tbody', {
+            exportMarket: ExportAndLocalMarketTableConfig.exportMarket,
+        });
+        this.draftClass.syncTablesData('#localMarketTable tbody', {
+            localMarket: ExportAndLocalMarketTableConfig.localMarket,
+        });
+        await this.draftClass.loadDraftData(
             EXISTING_PROJECT_FORM_CONFIG,
             undefined,
             undefined,
@@ -95,6 +122,8 @@ export default class AddProject {
                     AddressFormInput.loadFactoryAddressDropdowns,
             }
         );
+        this.refundCalculator.calculateAllTotals();
+        calculateEnterpriseLevel(ASSET_CARD);
         this._initDeleteDraftEvent();
     }
 
@@ -116,7 +145,10 @@ export default class AddProject {
                 const formData = this.form.serializeArray();
                 if (!formData || !formData.length || !url)
                     throw new Error('Form data not found');
-                const formDataObject = serializeFormData(formData);
+                const formDataObject = {
+                    ...serializeFormData(formData),
+                    ...TableDataExtractor(ExportAndLocalMarketTableConfig),
+                };
                 await this._saveProject(formDataObject, url);
             } catch (error: any) {
                 processError('Error in Adding Project: ', error, true);
@@ -194,6 +226,7 @@ export default class AddProject {
                     refundDurationYears,
                     parsedTotalAmount
                 );
+                this.draftClass?.syncTextInputData();
             } catch (error) {
                 processError(
                     'Error while calculating refund structure: ',

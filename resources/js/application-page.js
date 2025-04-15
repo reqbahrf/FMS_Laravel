@@ -18,6 +18,7 @@ import {
 } from './Utilities/add-and-remove-table-row-handler';
 import APPLICATION_FORM_CONFIG from './Form_Config/APPLICATION_CONFIG';
 import BENCHMARKTableConfig from './Form_Config/form-table-config/tnaFormBenchMarkTableConfig';
+import ExportAndLocalMarketTableConfig from './Form_Config/form-table-config/exportAndLocalMarket-table-config';
 import { TableDataExtractor } from './Utilities/TableDataExtractor';
 import 'smartwizard/dist/css/smart_wizard_all.css';
 import smartWizard from 'smartwizard';
@@ -469,7 +470,7 @@ export function initializeForm() {
             formDataObject = {
                 ...formDataObject,
                 ...beachMarkTableData(BENCHMARKTableConfig),
-                ...getMarketProductsData(tableConfigurations),
+                ...getMarketProductsData(ExportAndLocalMarketTableConfig),
             };
 
             const response = await $.ajax({
@@ -561,29 +562,6 @@ export function initializeForm() {
         return allMarketData;
     };
 
-    const tableConfigurations = {
-        exportMarket: {
-            id: 'exportMarketTable',
-            selectors: {
-                product: '.product',
-                location: '.location',
-                volume: '.volume',
-                unit: '.unit',
-            },
-            requiredFields: ['product'],
-        },
-        localMarket: {
-            id: 'localMarketTable',
-            selectors: {
-                product: '.product',
-                location: '.location',
-                volume: '.volume',
-                unit: '.unit',
-            },
-            requiredFields: ['product'],
-        },
-    };
-
     const formDraftHandler = new FormDraftHandler(APPLICATION_FORM);
 
     formDraftHandler.syncTextInputData();
@@ -597,10 +575,10 @@ export function initializeForm() {
         productionEquipment: BENCHMARKTableConfig.productionEquipment,
     });
     formDraftHandler.syncTablesData('#exportMarketTable tbody', {
-        exportMarket: tableConfigurations.exportMarket,
+        exportMarket: ExportAndLocalMarketTableConfig.exportMarket,
     });
     formDraftHandler.syncTablesData('#localMarketTable tbody', {
-        localMarket: tableConfigurations.localMarket,
+        localMarket: ExportAndLocalMarketTableConfig.localMarket,
     });
 
     const FileMetaHiddenInputs = [

@@ -1828,12 +1828,47 @@
                                             ></td>
                                         <td>
                                             <select class="form-select unit">
-                                                <option value="kg">Kilogram (kg)</option>
-                                                <option value="g">Gram (g)</option>
-                                                <option value="l">Liter (L)</option>
-                                                <option value="ml">Milliliter (ml)</option>
-                                                <option value="pcs">Pieces (pcs)</option>
-                                                <option value="dozen">Dozen</option>
+                                                <optgroup label="Weight">
+                                                    <option value="kg">Kilogram (kg)</option>
+                                                    <option value="g">Gram (g)</option>
+                                                    <option value="mg">Milligram (mg)</option>
+                                                    <option value="lb">Pound (lb)</option>
+                                                    <option value="oz">Ounce (oz)</option>
+                                                    <option value="ton">Ton (t)</option>
+                                                </optgroup>
+                                                <optgroup label="Volume">
+                                                    <option value="l">Liter (L)</option>
+                                                    <option value="ml">Milliliter (ml)</option>
+                                                    <option value="m3">Cubic Meter (m³)</option>
+                                                    <option value="gal">Gallon (gal)</option>
+                                                    <option value="pt">Pint (pt)</option>
+                                                    <option value="qt">Quart (qt)</option>
+                                                </optgroup>
+                                                <optgroup label="Length">
+                                                    <option value="m">Meter (m)</option>
+                                                    <option value="cm">Centimeter (cm)</option>
+                                                    <option value="mm">Millimeter (mm)</option>
+                                                    <option value="km">Kilometer (km)</option>
+                                                    <option value="in">Inch (in)</option>
+                                                    <option value="ft">Foot (ft)</option>
+                                                    <option value="yd">Yard (yd)</option>
+                                                </optgroup>
+                                                <optgroup label="Pieces/Count">
+                                                    <option value="pcs">Pieces (pcs)</option>
+                                                    <option value="dozen">Dozen</option>
+                                                    <option value="pack">Pack</option>
+                                                    <option value="box">Box</option>
+                                                    <option value="set">Set</option>
+                                                    <option value="pair">Pair</option>
+                                                </optgroup>
+                                                <optgroup label="Other">
+                                                    <option value="bottle">Bottle</option>
+                                                    <option value="bag">Bag</option>
+                                                    <option value="roll">Roll</option>
+                                                    <option value="sheet">Sheet</option>
+                                                    <option value="carton">Carton</option>
+                                                    <option value="bundle">Bundle</option>
+                                                </optgroup>
                                             </select>
                                         </td>
                                     </tr>
@@ -1912,12 +1947,47 @@
                                             ></td>
                                         <td>
                                             <select class="form-select unit">
-                                                <option value="kg">Kilogram (kg)</option>
-                                                <option value="g">Gram (g)</option>
-                                                <option value="l">Liter (L)</option>
-                                                <option value="ml">Milliliter (ml)</option>
-                                                <option value="pcs">Pieces (pcs)</option>
-                                                <option value="dozen">Dozen</option>
+                                                <optgroup label="Weight">
+                                                    <option value="kg">Kilogram (kg)</option>
+                                                    <option value="g">Gram (g)</option>
+                                                    <option value="mg">Milligram (mg)</option>
+                                                    <option value="lb">Pound (lb)</option>
+                                                    <option value="oz">Ounce (oz)</option>
+                                                    <option value="ton">Ton (t)</option>
+                                                </optgroup>
+                                                <optgroup label="Volume">
+                                                    <option value="l">Liter (L)</option>
+                                                    <option value="ml">Milliliter (ml)</option>
+                                                    <option value="m3">Cubic Meter (m³)</option>
+                                                    <option value="gal">Gallon (gal)</option>
+                                                    <option value="pt">Pint (pt)</option>
+                                                    <option value="qt">Quart (qt)</option>
+                                                </optgroup>
+                                                <optgroup label="Length">
+                                                    <option value="m">Meter (m)</option>
+                                                    <option value="cm">Centimeter (cm)</option>
+                                                    <option value="mm">Millimeter (mm)</option>
+                                                    <option value="km">Kilometer (km)</option>
+                                                    <option value="in">Inch (in)</option>
+                                                    <option value="ft">Foot (ft)</option>
+                                                    <option value="yd">Yard (yd)</option>
+                                                </optgroup>
+                                                <optgroup label="Pieces/Count">
+                                                    <option value="pcs">Pieces (pcs)</option>
+                                                    <option value="dozen">Dozen</option>
+                                                    <option value="pack">Pack</option>
+                                                    <option value="box">Box</option>
+                                                    <option value="set">Set</option>
+                                                    <option value="pair">Pair</option>
+                                                </optgroup>
+                                                <optgroup label="Other">
+                                                    <option value="bottle">Bottle</option>
+                                                    <option value="bag">Bag</option>
+                                                    <option value="roll">Roll</option>
+                                                    <option value="sheet">Sheet</option>
+                                                    <option value="carton">Carton</option>
+                                                    <option value="bundle">Bundle</option>
+                                                </optgroup>
                                             </select>
                                         </td>
 

@@ -553,6 +553,7 @@ async function initializeAdminPageJs() {
                 }
                 const processToast = showProcessToast('Assigning new staff...');
                 const formdata = new FormData(this);
+                // Check projectlist-tab.blade.php for these ids
                 formdata.append('project_id', $('#OngoingProjectID').val());
                 formdata.append('business_id', $('#OngoingBusinessId').val());
 
@@ -745,7 +746,7 @@ async function initializeAdminPageJs() {
                     selector_element.children('option:not(:first)').remove();
                     data.forEach((staff) => {
                         selector_element.append(
-                            `<option value="${staff.staff_id}">${staff?.prefix} ${staff.f_name} ${staff.mid_name} ${staff.l_name} ${staff?.suffix}</option>`
+                            `<option value="${staff.staff_id}">${staff?.prefix || ''} ${staff.f_name} ${staff?.mid_name || ''} ${staff.l_name} ${staff?.suffix || ''}</option>`
                         );
                     });
                 } catch (error) {

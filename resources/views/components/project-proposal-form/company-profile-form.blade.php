@@ -2190,14 +2190,14 @@
 @if ($isEditable)
     <div style="display: flex; align-items: center; margin-bottom: 1rem; justify-content: space-between; gap: 1rem;">
         <label
-            for="fund_release_date"
+            for="fund_released_date"
             style="margin-right: 1rem;"
         >Fund Release Date:
             <input
-                id="fund_release_date"
-                name="fund_release_date"
+                id="fund_released_date"
+                name="fund_released_date"
                 type="date"
-                value="{{ $ProjectProposaldata['fund_release_date'] ?? '' }}"
+                value="{{ $ProjectProposaldata['fund_released_date'] ?? '' }}"
             >
         </label>
         <label
@@ -2279,8 +2279,8 @@
         <tr>
             <th style="text-align: center;">Months</th>
             @php
-                $fundReleaseYear = isset($ProjectProposaldata['fund_release_date'])
-                    ? date('Y', strtotime($ProjectProposaldata['fund_release_date']))
+                $fundReleaseYear = isset($ProjectProposaldata['fund_released_date'])
+                    ? date('Y', strtotime($ProjectProposaldata['fund_released_date']))
                     : null;
                 $yearHeaders = $fundReleaseYear
                     ? range($fundReleaseYear + 1, $fundReleaseYear + 5)

@@ -502,8 +502,8 @@ class RegistrationService
         $factory_faxNo = $validatedInputs['factory_faxNo'];
         $factory_emailAddress = $validatedInputs['factory_emailAddress'];
         $sectors = $validatedInputs['sectors'];
-        $export_market = json_encode($validatedInputs['exportMarket'] ?? []);
-        $local_market = json_encode($validatedInputs['localMarket'] ?? []);
+        $export_market = $validatedInputs['exportMarket'];
+        $local_market = $validatedInputs['localMarket'];
 
         $businessInfo = BusinessInfo::updateOrCreate([
             'user_info_id' => $personalInfoId,
