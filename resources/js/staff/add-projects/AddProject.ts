@@ -46,6 +46,7 @@ export default class AddProject {
         );
         this.refundCalculator.generateTableStructure();
         this.calculationBtn = this.form.find('button#generateRefundStructure');
+        this.refundCalculator.calculateAllTotals();
 
         customFormatNumericInput(this.form, 'input#funded_amount');
         customFormatNumericInput(
