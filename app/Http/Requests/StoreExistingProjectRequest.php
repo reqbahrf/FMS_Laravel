@@ -139,7 +139,7 @@ class StoreExistingProjectRequest extends FormRequest
     {
         $rules = [
             'email' => 'required|email|unique:users,email',
-            'project_id' => 'nullable|unique:project_info,Project_id|max:15',
+            'project_id' => 'nullable|unique:project_info,Project_id|max:30',
             'project_title' => 'required|string|max:255',
             'fund_released_date' => 'required|date|before_or_equal:today',
             'project_duration' => 'required|integer|min:1',
@@ -267,7 +267,7 @@ class StoreExistingProjectRequest extends FormRequest
 
         foreach ($months as $month) {
 
-            for ($year = 1; $year <= 5; $year++) {
+            for ($year = 1; $year <= 6; $year++) {
                 $fieldName = "{$month}_Y{$year}";
                 $rules[$fieldName] = 'nullable|string|min:0';
 
