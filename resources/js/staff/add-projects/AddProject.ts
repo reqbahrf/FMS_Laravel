@@ -117,6 +117,7 @@ export default class AddProject {
             }
         );
         this.refundCalculator.calculateAllTotals();
+        calculateEnterpriseLevel(ASSET_CARD);
         this._initDeleteDraftEvent();
     }
 
