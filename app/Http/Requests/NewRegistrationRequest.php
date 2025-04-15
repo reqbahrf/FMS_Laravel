@@ -166,7 +166,7 @@ class NewRegistrationRequest extends FormRequest
 
 
             //TNA Important Data
-            'firm_name' => 'required|string|max:30',
+            'firm_name' => 'required|string|max:255',
             'enterpriseType' => 'required|in:Sole Proprietorship,Partnership,Corporation (Non-Profit),Corporation (Profit)',
             'brief_background' => 'required|string|max:1000',
             'website' => 'nullable|string',
