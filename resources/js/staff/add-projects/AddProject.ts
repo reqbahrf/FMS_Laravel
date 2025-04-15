@@ -5,6 +5,10 @@ import {
     parseFormattedNumberToFloat,
     serializeFormData,
 } from '../../Utilities/utilFunctions';
+import {
+    addNewRowHandler,
+    removeRowHandler,
+} from '../../Utilities/add-and-remove-table-row-handler';
 import { AddressFormInput } from '../../Utilities/AddressInputHandler';
 import calculateEnterpriseLevel from '../../Utilities/calculate-enterprise-level';
 import { setupPhoneNumberInput } from '../../Utilities/phone-formatter';
@@ -35,7 +39,7 @@ export default class AddProject {
         this._initFormDataSubmitEvent();
     }
 
-    private _initDependencies() {
+    private async _initDependencies() {
         this.form = $('#ExistingProjectForm');
         if (!this.form) return;
         this.refundStrutureTable = this.form.find('#refundStructureTable');
@@ -46,7 +50,6 @@ export default class AddProject {
         );
         this.refundCalculator.generateTableStructure();
         this.calculationBtn = this.form.find('button#generateRefundStructure');
-        this.refundCalculator.calculateAllTotals();
 
         customFormatNumericInput(this.form, 'input#funded_amount');
         customFormatNumericInput(
@@ -74,6 +77,21 @@ export default class AddProject {
             'input'
         );
 
+        addNewRowHandler('.add-new-local-product-row', '#localMarketContainer');
+        removeRowHandler(
+            '.remove-new-local-product-row',
+            '#localMarketContainer'
+        );
+
+        addNewRowHandler(
+            '.add-new-export-product-row',
+            '#exportMarketContainer'
+        );
+        removeRowHandler(
+            '.remove-new-export-product-row',
+            '#exportMarketContainer'
+        );
+
         const addressInputHandler = [
             new AddressFormInput({ prefix: 'home' }),
             new AddressFormInput({ prefix: 'office' }),
@@ -82,7 +100,7 @@ export default class AddProject {
 
         this.draftClass = new FormDraftHandler(this.form);
         this.draftClass.syncTextInputData();
-        this.draftClass.loadDraftData(
+        await this.draftClass.loadDraftData(
             EXISTING_PROJECT_FORM_CONFIG,
             undefined,
             undefined,
@@ -96,6 +114,7 @@ export default class AddProject {
                     AddressFormInput.loadFactoryAddressDropdowns,
             }
         );
+        this.refundCalculator.calculateAllTotals();
         this._initDeleteDraftEvent();
     }
 
@@ -195,6 +214,7 @@ export default class AddProject {
                     refundDurationYears,
                     parsedTotalAmount
                 );
+                this.draftClass?.syncTextInputData();
             } catch (error) {
                 processError(
                     'Error while calculating refund structure: ',

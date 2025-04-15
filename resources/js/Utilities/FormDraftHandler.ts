@@ -67,6 +67,7 @@ export class FormDraftHandler {
         inputSelectors =
             inputSelectors ??
             'textarea[name]:not([readonly]), input[name]:not([readonly]), select[name]:not([readonly])';
+        this.formInstance.find(inputSelectors).off('input change');
         this.formInstance.find(inputSelectors).on('input change', (event) => {
             const target = event.target as
                 | HTMLInputElement
