@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('business_info', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_info_id')->unsigned();
-            $table->string('firm_name', 40);
+            $table->string('firm_name', 255);
             $table->enum('enterprise_type', ['Sole Proprietorship', 'Partnership', 'Corporation (Profit)', 'Corporation (Non-profit)']);
             $table->enum('enterprise_level', ['Micro Enterprise', 'Small Enterprise', 'Medium Enterprise', 'Large Enterprise']);
             $table->json('Export_Mkt_Outlet')->nullable();

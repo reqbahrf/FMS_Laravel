@@ -170,7 +170,7 @@ class StoreExistingProjectRequest extends FormRequest
             'home_zipcode' => 'required|string',
 
             //Business Information
-            'firm_name' => 'required|string|max:30',
+            'firm_name' => 'required|string|max:255',
             'enterpriseType' => 'required|string',
             'brief_background' => 'required|string|max:1000',
             'website' => 'nullable|string',
