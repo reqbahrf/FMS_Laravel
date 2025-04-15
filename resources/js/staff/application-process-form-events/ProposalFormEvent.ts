@@ -95,7 +95,7 @@ export default class ProposalFormEvent {
                 try {
                     this.refundCalculator.clearTableValues();
                     const fundReleasedDate = this.form
-                        ?.find('#fund_release_date')
+                        ?.find('#fund_released_date')
                         .val() as string;
                     const refundDurationYears =
                         parseInt(

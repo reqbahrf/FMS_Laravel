@@ -180,7 +180,7 @@ class ProjectProposaldataHandlerService
         try {
             $projectProposalData = $this->getProjectProposalData($business_id, $application_id);
 
-            $fundReleaseDate = $projectProposalData['fund_release_date'];
+            $fundReleaseDate = $projectProposalData['fund_released_date'];
 
             $paymentStructure = PaymentProcessingService::extractPaymentStructure($projectProposalData);
 

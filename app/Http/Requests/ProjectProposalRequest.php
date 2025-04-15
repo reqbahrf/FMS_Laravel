@@ -167,7 +167,7 @@ class ProjectProposalRequest extends FormRequest
             'budget.*.cooperatorCost' => 'nullable|string',
             'budget.*.totalCost' => 'nullable|string',
 
-            'fund_release_date' => 'nullable|date',
+            'fund_released_date' => 'nullable|date',
 
             //E. Proposed Refund structure
             'January_Y1' => 'nullable',
