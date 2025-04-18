@@ -43,17 +43,12 @@ class ApplicantRequirementController extends Controller
                 ->get();
 
             $result = $applicantUploadedFiles->map(function ($file) {
-                // if ($file->file_link === null && $file->remarks === 'For Submission') {
-                //     return;
-                // }
-                // if (!Storage::disk('private')->exists($file->file_link)) {
-                //     return;
-                // }
 
                 return [
                     'id' => $file->id,
                     'file_name' => $file->file_name,
-                    'full_url' => $this->generateSecureFileUrl($file->id, $file->file_link),
+                    'full_url' => $this->generateSecureFileUrl($file->id),
+                    'delete_url' => $this->generateSecureDeleteFileUrl($file->id),
                     'file_type' => $file->file_type,
                     'can_edit' => $file->can_edit,
                     'remarks' => $file->remarks,
@@ -139,6 +134,27 @@ class ApplicantRequirementController extends Controller
         } catch (Exception $e) {
             Log::error('An error occurred: ' . $e->getMessage());
             return response()->json(['message' => $e->getMessage() || 'Something went wrong'], 500);
+        }
+    }
+
+    public function deleteRequirement(Request $request, $id)
+    {
+        try {
+            $requirement = $this->requirement->find($id);
+
+            if (!$requirement) {
+                return response()->json(['message' => 'Requirement not found'], 404);
+            }
+
+            if ($requirement->file_link && Storage::disk('private')->exists($requirement->file_link)) {
+                Storage::disk('private')->delete($requirement->file_link);
+            }
+
+            $requirement->delete();
+            return response()->json(['success' => true, 'message' => 'Requirement deleted successfully'], 200);
+        } catch (Exception $e) {
+            Log::error('An error occurred: ' . $e->getMessage());
+            return response()->json(['success' => false, 'message' => $e->getMessage() || 'Something went wrong'], 500);
         }
     }
 
@@ -272,6 +288,13 @@ class ApplicantRequirementController extends Controller
     protected function generateSecureFileUrl(int $fileId): string
     {
         return URL::signedRoute('Requirements.show', [
+            'id' => $fileId,
+        ]);
+    }
+
+    protected function generateSecureDeleteFileUrl(int $fileId): string
+    {
+        return URL::signedRoute('Requirements.deleteRequirement', [
             'id' => $fileId,
         ]);
     }

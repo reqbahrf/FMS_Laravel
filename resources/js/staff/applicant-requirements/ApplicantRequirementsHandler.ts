@@ -98,7 +98,7 @@ export default class ApplicantRequirementsHandler {
                                 >
                             </span>
                             </button>
-                            <button class="btn btn-sm btn-danger">
+                            <button class="btn btn-sm btn-danger deleteReq" data-delete-url="${requirement.delete_url}">
                             <i class="ri-delete-bin-2-line"></i>
                             </button>
                         </td>`);
@@ -195,6 +195,41 @@ export default class ApplicantRequirementsHandler {
                     error,
                     false
                 );
+            } finally {
+                hideProcessToast(processToast);
+            }
+        });
+
+        this.requirementTable.on('click', '.deleteReq', async function (event) {
+            const isconfirmed = await createConfirmationModal({
+                title: 'Delete File',
+                titleBg: 'bg-danger',
+                message: 'Are you sure you want to delete this file?',
+                confirmText: 'Yes',
+                confirmButtonClass: 'btn-danger',
+                cancelText: 'No',
+            });
+            if (!isconfirmed) {
+                return;
+            }
+            const processToast = showProcessToast('Deleting file...');
+            try {
+                const thisBtnDataUrl = $(this).data('delete-url');
+                const response = await $.ajax({
+                    method: 'DELETE',
+                    url: thisBtnDataUrl,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                            'content'
+                        ),
+                    },
+                });
+                if (response.success) {
+                    showToastFeedback('success', response.message);
+                }
+                await getApplicantRequirements();
+            } catch (error) {
+                processError('Error deleting File Requirement', error, false);
             } finally {
                 hideProcessToast(processToast);
             }
@@ -310,6 +345,7 @@ export default class ApplicantRequirementsHandler {
 
     private cleanUpEventListeners() {
         this.requirementTable.off('click', '.viewReq');
+        this.requirementTable.off('click', '.deleteReq');
         this.reviewForm[0].reset();
         this.reviewForm.off('submit');
     }

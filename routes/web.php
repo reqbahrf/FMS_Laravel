@@ -107,6 +107,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('Requirements.show')
             ->middleware('signed');
 
+        Route::delete('/Applicant-Requirements/delete/{id}', 'deleteRequirement')
+            ->name('Requirements.deleteRequirement')
+            ->middleware('signed');
+
         Route::put('/Applicant-Requirements/additional-submission/{business_id}/{application_id}', 'newRequirement')
             ->name('Requirements.newRequirement');
 
