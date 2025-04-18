@@ -57,7 +57,7 @@ class ApplicantRequirementController extends Controller
                     'file_type' => $file->file_type,
                     'can_edit' => $file->can_edit,
                     'remarks' => $file->remarks,
-                    'remark_comments' => $file->remarks_comments,
+                    'remark_comments' => $file->remark_comments,
                     'created_at' => $file->created_at->format('Y-m-d H:i:s'),
                     'updated_at' => $file->updated_at->format('Y-m-d H:i:s'),
                 ];

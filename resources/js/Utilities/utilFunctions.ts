@@ -152,6 +152,16 @@ function serializeFormData(
     return FormDataObject;
 }
 
+function sanitizeNullableString(val: any): string {
+    // Handles null, undefined, and their string representations
+    return val === null ||
+        val === undefined ||
+        val === 'null' ||
+        val === 'undefined'
+        ? ''
+        : String(val);
+}
+
 export {
     formatNumber,
     customDateFormatter,
@@ -160,4 +170,5 @@ export {
     closeModal,
     sanitize,
     serializeFormData,
+    sanitizeNullableString,
 };

@@ -6,7 +6,10 @@ import {
     showToastFeedback,
 } from '../../Utilities/feedback-toast';
 import createConfirmationModal from '../../Utilities/confirmation-modal';
-import { customDateFormatter } from '../../Utilities/utilFunctions';
+import {
+    customDateFormatter,
+    sanitizeNullableString,
+} from '../../Utilities/utilFunctions';
 export default class ApplicantRequirementsHandler {
     private reviewForm: JQuery<HTMLFormElement>;
     private businessId: string | null;
@@ -100,6 +103,11 @@ export default class ApplicantRequirementsHandler {
                     '">'
             );
             row.append(
+                '<input type="hidden"  name="remark_comments" value="' +
+                    requirement.remark_comments +
+                    '">'
+            );
+            row.append(
                 '<input type="hidden"  name="created_at" value="' +
                     requirement.created_at +
                     '">'
@@ -139,8 +147,12 @@ export default class ApplicantRequirementsHandler {
                     .find('input[type="hidden"][name="updated_at"]')
                     .val() as string;
                 const uploader = $('#contact_person').val() as string;
+                const remarkComments = row
+                    .find('input[type="hidden"][name="remark_comments"]')
+                    .val();
 
-                const reviewFileModalInput = reviewFileModal.find('input');
+                const reviewFileModalInput =
+                    reviewFileModal.find('input, textarea');
 
                 reviewFileModalInput.filter('#selectedFile_ID').val(fileID);
                 reviewFileModalInput.filter('#fileName').val(file_Name);
@@ -153,7 +165,9 @@ export default class ApplicantRequirementsHandler {
                     .filter('#fileUpdated')
                     .val(customDateFormatter(updatedDate));
                 reviewFileModalInput.filter('#fileUploadedBy').val(uploader);
-                console.log(fileUrl, fileType);
+                reviewFileModalInput
+                    .filter('#remark_comments')
+                    .val(sanitizeNullableString(remarkComments));
                 await retrieveAndDisplayFile(fileUrl, fileType);
             } catch (error) {
                 processError(
