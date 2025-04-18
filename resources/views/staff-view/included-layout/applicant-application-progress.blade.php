@@ -70,6 +70,7 @@
                                     <tr>
                                         <th class="fw-bold">File Name</th>
                                         <th class="fw-bold">File Type</th>
+                                        <th class="fw-bold text-center">Status</th>
                                         <th class="fw-bold text-center">Action</th>
                                     </tr>
                                 </thead>

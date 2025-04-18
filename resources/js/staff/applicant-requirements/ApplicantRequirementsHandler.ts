@@ -61,12 +61,29 @@ export default class ApplicantRequirementsHandler {
         $.each(response, (index, requirement) => {
             const row = $('<tr>');
             row.append('<td>' + requirement.file_name + '</td>');
-            row.append('<td>' + requirement.file_type + '</td>');
+            row.append(
+                '<td>' + sanitizeNullableString(requirement.file_type) + '</td>'
+            );
+            row.append(/*html*/ `<td class="text-center">
+                <span class="badge bg-${(() => {
+                    switch (requirement.remarks) {
+                        case 'Approved':
+                            return 'success';
+                        case 'Pending':
+                            return 'secondary';
+                        case 'For Submission':
+                            return 'info';
+                        default:
+                            return 'danger';
+                    }
+                })()}">${requirement.remarks}</span>
+                </td>`);
             row.append(/*html*/ `<td class="text-center">
                             <button
-                                class="btn btn-primary viewReq position-relative"
+                                class="btn btn-primary viewReq position-relative btn-sm"
+                                ${requirement.remarks === 'For Submission' ? 'disabled' : ''}
                             >
-                            View
+                            <i class="ri-eye-line"></i>
                             <span
                                 class="position-absolute top-0 start-100 translate-middle p-2 ${
                                     requirement.remarks === 'Pending'
@@ -80,6 +97,9 @@ export default class ApplicantRequirementsHandler {
                                     >New alerts</span
                                 >
                             </span>
+                            </button>
+                            <button class="btn btn-sm btn-danger">
+                            <i class="ri-delete-bin-2-line"></i>
                             </button>
                         </td>`);
             row.append(

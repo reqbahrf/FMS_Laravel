@@ -43,12 +43,12 @@ class ApplicantRequirementController extends Controller
                 ->get();
 
             $result = $applicantUploadedFiles->map(function ($file) {
-                if ($file->file_link === null && $file->remarks === 'For Submission') {
-                    return;
-                }
-                if (!Storage::disk('private')->exists($file->file_link)) {
-                    return;
-                }
+                // if ($file->file_link === null && $file->remarks === 'For Submission') {
+                //     return;
+                // }
+                // if (!Storage::disk('private')->exists($file->file_link)) {
+                //     return;
+                // }
 
                 return [
                     'id' => $file->id,
