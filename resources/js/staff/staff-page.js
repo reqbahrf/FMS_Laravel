@@ -3231,7 +3231,6 @@ async function initializeStaffPageJs() {
                         AUTH_USER_NAME
                     );
 
-                    //getApplicantRequirements(businessID);
                     getEvaluationScheduledDate(businessID, ApplicationID);
 
                     FORM_CLASS_INSTANCE.tnaForm.setId(
@@ -3575,9 +3574,6 @@ async function initializeStaffPageJs() {
                 './application-process-form-class/RTECReportForm'
             );
 
-            // const { default: NewRequirements } = await import(
-            //     './applicant-requirements/NewRequirements'
-            // );
             const { default: ApplicantRequirementsHandler } = await import(
                 './applicant-requirements/ApplicantRequirementsHandler'
             );
@@ -3586,7 +3582,6 @@ async function initializeStaffPageJs() {
                     REQUIREMENTS_TABLE,
                     REVIEW_FILE_MODAL_CONTAINER
                 );
-            //REQUIREMENTS_CLASS_INSTANCE.newRequirements = new NewRequirements();
             const TNADocumentContainerModal = $('#tnaDocContainerModal');
             const ProjectProposalDocumentContainerModal = $(
                 '#projectProposalDocContainerModal'
