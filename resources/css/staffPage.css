@@ -735,11 +735,25 @@ ul#myTab li.nav-item button.tab-Nav:hover {
     font-weight: 600;
 }
 
-.fixPosition {
-    position: fixed;
-    height: 60vh;
-    top: 10%;
-    right: 0;
+/* staffPage.css */
+@media (min-width: 768px) {
+    .fixPosition {
+        position: fixed;
+        height: 60vh;
+        top: 10%;
+        right: 0;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .fixPosition {
+        position: static !important;
+        height: auto !important;
+        top: unset !important;
+        right: unset !important;
+        width: 100% !important;
+        margin-top: 1rem;
+    }
 }
 
 .reviewer-container {
