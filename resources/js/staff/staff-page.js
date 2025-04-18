@@ -3009,7 +3009,6 @@ async function initializeStaffPageJs() {
             };
             const REQUIREMENTS_CLASS_INSTANCE = {
                 requirementsClassHandler: null,
-                newRequirements: null,
             };
 
             $('#evaluationSchedule-datepicker').on('change', function () {
@@ -3250,11 +3249,6 @@ async function initializeStaffPageJs() {
                     await REQUIREMENTS_CLASS_INSTANCE.requirementsClassHandler
                         .setId(businessID, ApplicationID)
                         .getApplicantRequirements();
-
-                    REQUIREMENTS_CLASS_INSTANCE.newRequirements.setId(
-                        businessID,
-                        ApplicationID
-                    );
                 }
             );
 
@@ -3581,9 +3575,9 @@ async function initializeStaffPageJs() {
                 './application-process-form-class/RTECReportForm'
             );
 
-            const { default: NewRequirements } = await import(
-                './applicant-requirements/NewRequirements'
-            );
+            // const { default: NewRequirements } = await import(
+            //     './applicant-requirements/NewRequirements'
+            // );
             const { default: ApplicantRequirementsHandler } = await import(
                 './applicant-requirements/ApplicantRequirementsHandler'
             );
@@ -3592,7 +3586,7 @@ async function initializeStaffPageJs() {
                     REQUIREMENTS_TABLE,
                     REVIEW_FILE_MODAL_CONTAINER
                 );
-            REQUIREMENTS_CLASS_INSTANCE.newRequirements = new NewRequirements();
+            //REQUIREMENTS_CLASS_INSTANCE.newRequirements = new NewRequirements();
             const TNADocumentContainerModal = $('#tnaDocContainerModal');
             const ProjectProposalDocumentContainerModal = $(
                 '#projectProposalDocContainerModal'

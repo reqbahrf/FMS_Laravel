@@ -7,6 +7,7 @@ import {
 } from '../../Utilities/feedback-toast';
 import createConfirmationModal from '../../Utilities/confirmation-modal';
 import {
+    closeModal,
     customDateFormatter,
     sanitizeNullableString,
 } from '../../Utilities/utilFunctions';
@@ -14,6 +15,8 @@ export default class ApplicantRequirementsHandler {
     private reviewForm: JQuery<HTMLFormElement>;
     private businessId: string | null;
     private applicationId: string | null;
+    private addRequirementModal: JQuery<HTMLElement>;
+    private addRequirementForm: JQuery<HTMLFormElement>;
     constructor(
         private requirementTable: JQuery<HTMLTableElement>,
         private reviewFileModal: JQuery<HTMLElement>
@@ -23,6 +26,12 @@ export default class ApplicantRequirementsHandler {
         this.requirementTable = requirementTable;
         this.reviewFileModal = reviewFileModal;
         this.reviewForm = reviewFileModal.find('#reviewedFileForm');
+
+        //New Requirements
+        this.addRequirementModal = $('#addRequirementModal');
+        this.addRequirementForm = this.addRequirementModal.find(
+            '#addRequirementForm'
+        );
     }
     public setId(businessId: string, applicationId: string) {
         this.businessId = businessId;
@@ -145,6 +154,7 @@ export default class ApplicantRequirementsHandler {
     public initializeEventListeners() {
         const reviewFileModal = this.reviewFileModal;
         const reviewForm = this.reviewForm;
+        const newRequirementForm = this.addRequirementForm;
         const retrieveAndDisplayFile = this._retrieveAndDisplayFile.bind(this);
         const getApplicantRequirements =
             this.getApplicantRequirements.bind(this);
@@ -288,6 +298,58 @@ export default class ApplicantRequirementsHandler {
                 hideProcessToast(processToast);
             }
         });
+
+        newRequirementForm.on('submit', async (e: JQuery.SubmitEvent) => {
+            e.preventDefault();
+            const isConfirmed = await createConfirmationModal({
+                title: 'Confirm Requirement Addition',
+                message: 'Are you sure you want to add this requirement?',
+                confirmText: 'Yes',
+                cancelText: 'No',
+            });
+            if (!isConfirmed) return;
+            const processToast = showProcessToast('Adding Requirement...');
+            try {
+                const formData = new FormData(newRequirementForm[0]);
+                await this._saveRequirement(formData);
+            } catch (error: any) {
+                processError(
+                    'Error in submitting new requirement: ',
+                    error,
+                    true
+                );
+            } finally {
+                hideProcessToast(processToast);
+            }
+        });
+    }
+
+    private async _saveRequirement(formData: FormData) {
+        try {
+            if (!this.businessId || !this.applicationId) {
+                throw new Error('Business ID and Application ID are required');
+            }
+            const url = APPLICANT_TAB_ROUTE.ADD_NEW_REQUIREMENT.replace(
+                ':business_id',
+                this.businessId as string
+            ).replace(':application_id', this.applicationId as string);
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN':
+                        $('meta[name="csrf-token"]').attr('content') || '',
+                },
+                body: formData,
+            });
+            const data = await response.json();
+            if (response.ok) {
+                showToastFeedback('success', data?.message);
+                this.getApplicantRequirements();
+                closeModal(this.addRequirementModal);
+            }
+        } catch (error: any) {
+            processError('Error in submitting new requirement: ', error, true);
+        }
     }
 
     private async _retrieveAndDisplayFile(fileUrl: string, fileType: string) {
@@ -347,6 +409,8 @@ export default class ApplicantRequirementsHandler {
         this.requirementTable.off('click', '.viewReq');
         this.requirementTable.off('click', '.deleteReq');
         this.reviewForm[0].reset();
+        this.addRequirementForm[0].reset();
         this.reviewForm.off('submit');
+        this.addRequirementForm.off('submit');
     }
 }
