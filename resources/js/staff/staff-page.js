@@ -3008,7 +3008,8 @@ async function initializeStaffPageJs() {
                 rtecReportForm: null,
             };
             const REQUIREMENTS_CLASS_INSTANCE = {
-                requirements: null,
+                requirementsClassHandler: null,
+                newRequirements: null,
             };
 
             $('#evaluationSchedule-datepicker').on('change', function () {
@@ -3231,7 +3232,7 @@ async function initializeStaffPageJs() {
                         AUTH_USER_NAME
                     );
 
-                    getApplicantRequirements(businessID);
+                    //getApplicantRequirements(businessID);
                     getEvaluationScheduledDate(businessID, ApplicationID);
 
                     FORM_CLASS_INSTANCE.tnaForm.setId(
@@ -3246,7 +3247,11 @@ async function initializeStaffPageJs() {
                         businessID,
                         ApplicationID
                     );
-                    REQUIREMENTS_CLASS_INSTANCE.requirements.setId(
+                    await REQUIREMENTS_CLASS_INSTANCE.requirementsClassHandler
+                        .setId(businessID, ApplicationID)
+                        .getApplicantRequirements();
+
+                    REQUIREMENTS_CLASS_INSTANCE.newRequirements.setId(
                         businessID,
                         ApplicationID
                     );
@@ -3370,26 +3375,6 @@ async function initializeStaffPageJs() {
                 REQUIREMENTS_TABLE.empty();
             });
 
-            const getApplicantRequirements = async (businessID) => {
-                try {
-                    const response = await $.ajax({
-                        type: 'GET',
-                        url: APPLICANT_TAB_ROUTE.GET_APPLICANT_REQUIREMENTS.replace(
-                            ':id',
-                            businessID
-                        ),
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                                'content'
-                            ),
-                        },
-                    });
-                    populateReqTable(response);
-                } catch (error) {
-                    console.log(error);
-                }
-            };
-
             async function getEvaluationScheduledDate(
                 businessID,
                 applicationID
@@ -3425,223 +3410,6 @@ async function initializeStaffPageJs() {
                     console.log(error);
                 }
             }
-            //Get applicant requirements to populate the requirements table
-            function populateReqTable(response) {
-                REQUIREMENTS_TABLE.empty();
-
-                $.each(response, function (index, requirement) {
-                    const row = $('<tr>');
-                    row.append('<td>' + requirement.file_name + '</td>');
-                    row.append('<td>' + requirement.file_type + '</td>');
-                    row.append(/*html*/ `<td class="text-center">
-                            <button
-                                class="btn btn-primary viewReq position-relative"
-                            >
-                                View
-                                <span
-                                    class="position-absolute top-0 start-100 translate-middle p-2 ${
-                                        requirement.remarks === 'Pending'
-                                            ? 'bg-info'
-                                            : requirement.remarks === 'Approved'
-                                              ? 'bg-primary'
-                                              : 'bg-danger'
-                                    } border border-light rounded-circle"
-                                >
-                                    <span class="visually-hidden"
-                                        >New alerts</span
-                                    >
-                                </span>
-                            </button>
-                        </td>`);
-                    row.append(
-                        '<input type="hidden"  name="file_id" value="' +
-                            requirement.id +
-                            '">'
-                    );
-                    row.append(
-                        '<input type="hidden"  name="file_url" value="' +
-                            requirement.full_url +
-                            '">'
-                    );
-                    row.append(
-                        '<input type="hidden"  name="can_edit" value="' +
-                            requirement.can_edit +
-                            '">'
-                    );
-                    row.append(
-                        '<input type="hidden"  name"remark" value="' +
-                            requirement.remarks +
-                            '">'
-                    );
-                    row.append(
-                        '<input type="hidden"  name="created_at" value="' +
-                            requirement.created_at +
-                            '">'
-                    );
-                    row.append(
-                        '<input type="hidden"  name="updated_at" value="' +
-                            requirement.updated_at +
-                            '">'
-                    );
-
-                    REQUIREMENTS_TABLE.append(row);
-                });
-            }
-            //View applicant requirements
-            REQUIREMENTS_TABLE.on('click', '.viewReq', async function () {
-                const processToast = showProcessToast('Retrieving file...');
-                try {
-                    const row = $(this).closest('tr');
-                    const fileID = row
-                        .find('input[type="hidden"][name="file_id"]')
-                        .val();
-                    const file_Name = row.find('td:nth-child(1)').text();
-                    const fileUrl = row
-                        .find('input[type="hidden"][name="file_url"]')
-                        .val();
-                    const fileType = row.find('td:nth-child(2)').text();
-                    const uploadedDate = row
-                        .find('input[type="hidden"][name="created_at"]')
-                        .val();
-                    const updatedDate = row
-                        .find('input[type="hidden"][name="updated_at"]')
-                        .val();
-                    const uploader = $('#contact_person').val();
-
-                    const reviewFileModalInput =
-                        REVIEW_FILE_MODAL_CONTAINER.find('input');
-
-                    reviewFileModalInput.filter('#selectedFile_ID').val(fileID);
-                    reviewFileModalInput.filter('#fileName').val(file_Name);
-                    reviewFileModalInput.filter('#filetype').val(fileType);
-                    reviewFileModalInput.filter('#file_url').val(fileUrl);
-                    reviewFileModalInput
-                        .filter('#fileUploaded')
-                        .val(customDateFormatter(uploadedDate));
-                    reviewFileModalInput
-                        .filter('#fileUpdated')
-                        .val(customDateFormatter(updatedDate));
-                    reviewFileModalInput
-                        .filter('#fileUploadedBy')
-                        .val(uploader);
-
-                    // Wait for the file to be fully loaded
-                    await retrieveAndDisplayFile(fileUrl, fileType);
-                } catch (error) {
-                    console.error('Error viewing file:', error);
-                    showToastFeedback(
-                        'text-bg-danger',
-                        'Failed to load file. Please try again.'
-                    );
-                } finally {
-                    hideProcessToast(processToast);
-                }
-            });
-
-            async function retrieveAndDisplayFile(fileUrl, fileType) {
-                return new Promise((resolve, reject) => {
-                    try {
-                        const fileContent =
-                            REVIEW_FILE_MODAL_CONTAINER.find('#fileContent');
-                        fileContent.empty();
-
-                        if (fileType === 'pdf') {
-                            const embed = $('<iframe>', {
-                                src: fileUrl,
-                                type: 'application/pdf',
-                                width: '100%',
-                                height: '100%',
-                                frameborder: '0',
-                                allow: 'fullscreen',
-                            });
-
-                            embed.on('load', function () {
-                                resolve();
-                            });
-
-                            embed.on('error', function () {
-                                reject(new Error('Failed to load PDF'));
-                            });
-
-                            fileContent.append(embed);
-                        } else {
-                            const img = $('<img>', {
-                                src: fileUrl,
-                                class: 'img-fluid',
-                            });
-                            img.on('load', function () {
-                                resolve();
-                            });
-                            img.on('error', function () {
-                                reject(new Error('Failed to load image'));
-                            });
-
-                            fileContent.append(img);
-                        }
-
-                        // Show the modal
-                        const reviewFileModal = new bootstrap.Modal(
-                            REVIEW_FILE_MODAL_CONTAINER[0]
-                        );
-                        reviewFileModal.show();
-                    } catch (error) {
-                        reject(
-                            new Error(
-                                'Error in file retrieval and display: ' + error
-                            )
-                        );
-                    }
-                });
-            }
-
-            //TODO: need some working
-            REVIEWED_FILE_FORM_CONTAINER.on('submit', async function (e) {
-                e.preventDefault();
-
-                const action = $(e.originalEvent.submitter).val();
-                const selected_id = REVIEW_FILE_MODAL_CONTAINER.find(
-                    'input[type="hidden"]#selectedFile_ID'
-                ).val();
-                const isconfimed = await createConfirmationModal({
-                    title: 'Review File',
-                    titleBg: 'bg-primary',
-                    message: `Are you sure you want to ${action} this file?`,
-                    confirmText: 'Yes',
-                    confirmButtonClass: 'btn-primary',
-                    cancelText: 'No',
-                });
-                if (!isconfimed) {
-                    return;
-                }
-                const processToast = showProcessToast();
-                const formData = $(this).serialize() + '&action=' + action;
-                try {
-                    const response = await $.ajax({
-                        method: 'PUT',
-                        url: APPLICANT_TAB_ROUTE.UPDATE_APPLICANT_REQUIREMENTS.replace(
-                            ':id',
-                            selected_id
-                        ),
-                        data: formData,
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                                'content'
-                            ),
-                        },
-                        processData: false,
-                    });
-                    hideProcessToast(processToast);
-                    setTimeout(() => {
-                        showToastFeedback('text-bg-success', response.success);
-                    }, 500);
-                } catch (error) {
-                    hideProcessToast(processToast);
-                    showToastFeedback(
-                        'text-bg-danger',
-                        error.responseJSON.error
-                    );
-                }
-            });
 
             //set evaluation date
             SET_EVALUATION_DATE_BTN.on('click', async function () {
@@ -3814,9 +3582,17 @@ async function initializeStaffPageJs() {
             );
 
             const { default: NewRequirements } = await import(
-                './add-new-requirements/NewRequirements'
+                './applicant-requirements/NewRequirements'
             );
-            REQUIREMENTS_CLASS_INSTANCE.requirements = new NewRequirements();
+            const { default: ApplicantRequirementsHandler } = await import(
+                './applicant-requirements/ApplicantRequirementsHandler'
+            );
+            REQUIREMENTS_CLASS_INSTANCE.requirementsClassHandler =
+                new ApplicantRequirementsHandler(
+                    REQUIREMENTS_TABLE,
+                    REVIEW_FILE_MODAL_CONTAINER
+                );
+            REQUIREMENTS_CLASS_INSTANCE.newRequirements = new NewRequirements();
             const TNADocumentContainerModal = $('#tnaDocContainerModal');
             const ProjectProposalDocumentContainerModal = $(
                 '#projectProposalDocContainerModal'

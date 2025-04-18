@@ -27,6 +27,8 @@ declare module 'global' {
         GET_TNA_FORM_STATUS: string;
         GET_APPLICANTS: string;
         ADD_NEW_REQUIREMENT: string;
+        GET_APPLICANT_REQUIREMENTS: string;
+        UPDATE_APPLICANT_REQUIREMENTS: string;
         GET_TNA_DOCUMENT: string;
         GET_PROJECT_PROPOSAL_STATUS: string;
         GET_PROJECT_PROPOSAL: string;
