@@ -960,8 +960,10 @@
                     name="products_services"
                 >{{ $ProjectProposaldata['products_services'] ?? '' }}</textarea>
             @else
-                {{ $ProjectProposaldata['products_services'] ?? '' }}
-            @endif
+                <p class="custom--justify">
+                    <u>{{ $ProjectProposaldata['products_services'] ?? '' }}</u>
+                </p>
+            @endIf
         </td>
     </tr>
     <tr>
@@ -973,8 +975,10 @@
                     name="brief_enterprise_background"
                 >{{ $ProjectProposaldata['brief_enterprise_background'] ?? '' }}</textarea>
             @else
-                {{ $ProjectProposaldata['brief_enterprise_background'] ?? '' }}
-            @endif
+                <p class="custom--justify">
+                    <u>{{ $ProjectProposaldata['brief_enterprise_background'] ?? '' }}</u>
+                </p>
+            @endIf
         </td>
     </tr>
 </table>
@@ -1050,9 +1054,10 @@
                     name="skills_and_expertise"
                 >{{ $ProjectProposaldata['skills_and_expertise'] ?? '' }}</textarea>
             @else
-                {{ $ProjectProposaldata['skills_and_expertise'] ?? '' }}
-            @endif
-
+                <p class="custom--justify">
+                    <u>{{ $ProjectProposaldata['skills_and_expertise'] ?? '' }}</u>
+                </p>
+            @endIf
         </td>
     </tr>
     <tr>
@@ -1068,9 +1073,10 @@
                     name="compensation"
                 >{{ $ProjectProposaldata['compensation'] ?? '' }}</textarea>
             @else
-                {{ $ProjectProposaldata['compensation'] ?? '' }}
-            @endif
-
+                <p class="custom--justify">
+                    <u>{{ $ProjectProposaldata['compensation'] ?? '' }}</u>
+                </p>
+            @endIf
         </td>
     </tr>
     <tr>
@@ -1086,8 +1092,10 @@
                     name="plant_site_or_location"
                 >{{ $ProjectProposaldata['plant_site_or_location'] ?? '' }}</textarea>
             @else
-                {{ $ProjectProposaldata['plant_site_or_location'] ?? '' }}
-            @endif
+                <p class="custom--justify">
+                    <u>{{ $ProjectProposaldata['plant_site_or_location'] ?? '' }}</u>
+                </p>
+            @endIf
             @if ($isEditable)
                 <div class="plant-site-or-layout-image-upload">
                     <label
@@ -1146,8 +1154,10 @@
                     name="capacity_volume_and_cost_of_production"
                 >{{ $ProjectProposaldata['capacity_volume_and_cost_of_production'] ?? '' }}</textarea>
             @else
-                {{ $ProjectProposaldata['capacity_volume_and_cost_of_production'] ?? '' }}
-            @endif
+                <p class="custom--justify">
+                    <u>{{ $ProjectProposaldata['capacity_volume_and_cost_of_production'] ?? '' }}</u>
+                </p>
+            @endIf
         </td>
     </tr>
     <tr>
@@ -1163,8 +1173,10 @@
                     name="raw_materials_used_and_sources_of_raw_material"
                 >{{ $ProjectProposaldata['raw_materials_used_and_sources_of_raw_material'] ?? '' }}</textarea>
             @else
-                {{ $ProjectProposaldata['raw_materials_used_and_sources_of_raw_material'] ?? '' }}
-            @endif
+                <p class="custom--justify">
+                    <u>{{ $ProjectProposaldata['raw_materials_used_and_sources_of_raw_material'] ?? '' }}</u>
+                </p>
+            @endIf
         </td>
     </tr>
 </table>
@@ -1193,8 +1205,10 @@
                     name="market_situation_product_demand_and_supply"
                 >{{ $ProjectProposaldata['market_situation_product_demand_and_supply'] ?? '' }}</textarea>
             @else
-                {{ $ProjectProposaldata['market_situation_product_demand_and_supply'] ?? '' }}
-            @endif
+                <p class="custom--justify">
+                    <u>{{ $ProjectProposaldata['market_situation_product_demand_and_supply'] ?? '' }}</u>
+                </p>
+            @endIf
         </td>
     </tr>
     <tr>
@@ -1210,8 +1224,10 @@
                     name="product_specifications_and_product_price"
                 >{{ $ProjectProposaldata['product_specifications_and_product_price'] ?? '' }}</textarea>
             @else
-                {{ $ProjectProposaldata['product_specifications_and_product_price'] ?? '' }}
-            @endif
+                <p class="custom--justify">
+                    <u>{{ $ProjectProposaldata['product_specifications_and_product_price'] ?? '' }}</u>
+                </p>
+            @endIf
         </td>
     </tr>
     <tr>
@@ -1227,8 +1243,10 @@
                     name="distribution_channel_local_export"
                 >{{ $ProjectProposaldata['distribution_channel_local_export'] ?? '' }}</textarea>
             @else
-                {{ $ProjectProposaldata['distribution_channel_local_export'] ?? '' }}
-            @endif
+                <p class="custom--justify">
+                    <u>{{ $ProjectProposaldata['distribution_channel_local_export'] ?? '' }}</u>
+                </p>
+            @endIf
         </td>
     </tr>
     <tr>
@@ -1244,8 +1262,10 @@
                     name="competitors"
                 >{{ $ProjectProposaldata['competitors'] ?? '' }}</textarea>
             @else
-                {{ $ProjectProposaldata['competitors'] ?? '' }}
-            @endif
+                <p class="custom--justify">
+                    <u>{{ $ProjectProposaldata['competitors'] ?? '' }}</u>
+                </p>
+            @endIf
         </td>
     </tr>
     <tr>
@@ -1261,8 +1281,10 @@
                     name="existing_problems_if_any"
                 >{{ $ProjectProposaldata['existing_problems_if_any'] ?? '' }}</textarea>
             @else
-                {{ $ProjectProposaldata['existing_problems_if_any'] ?? '' }}
-            @endif
+                <p class="custom--justify">
+                    <u>{{ $ProjectProposaldata['existing_problems_if_any'] ?? '' }}</u>
+                </p>
+            @endIf
         </td>
     </tr>
     <tr>
@@ -1278,8 +1300,10 @@
                     name="market_plans_strategies"
                 >{{ $ProjectProposaldata['market_plans_strategies'] ?? '' }}</textarea>
             @else
-                {{ $ProjectProposaldata['market_plans_strategies'] ?? '' }}
-            @endif
+                <p class="custom--justify">
+                    <u>{{ $ProjectProposaldata['market_plans_strategies'] ?? '' }}</u>
+                </p>
+            @endIf
         </td>
     </tr>
 </table>
@@ -1313,8 +1337,10 @@
                     name="process_flow_of_production"
                 >{{ $ProjectProposaldata['process_flow_of_production'] ?? '' }}</textarea>
             @else
-                {{ $ProjectProposaldata['process_flow_of_production'] ?? '' }}
-            @endif
+                <p class="custom--justify">
+                    <u>{{ $ProjectProposaldata['process_flow_of_production'] ?? '' }}</u>
+                </p>
+            @endIf
         </td>
     </tr>
     <tr>
@@ -1331,8 +1357,10 @@
                     name="material_balance"
                 >{{ $ProjectProposaldata['material_balance'] ?? '' }}</textarea>
             @else
-                {{ $ProjectProposaldata['material_balance'] ?? '' }}
-            @endif
+                <p class="custom--justify">
+                    <u>{{ $ProjectProposaldata['material_balance'] ?? '' }}</u>
+                </p>
+            @endIf
         </td>
     </tr>
     <tr>
@@ -1348,8 +1376,10 @@
                     name="existing_production_equipment"
                 >{{ $ProjectProposaldata['existing_production_equipment'] ?? '' }}</textarea>
             @else
-                {{ $ProjectProposaldata['existing_production_equipment'] ?? '' }}
-            @endif
+                <p class="custom--justify">
+                    <u>{{ $ProjectProposaldata['existing_production_equipment'] ?? '' }}</u>
+                </p>
+            @endIf
         </td>
     </tr>
     <tr>
@@ -1410,28 +1440,28 @@
                             <textarea class="form-control Process_existing_practice_problem">{{ $data['processExistingPracticeProblem'] ?? '' }}</textarea>
                         @else
                             {{ $data['processExistingPracticeProblem'] ?? '' }}
-                        @endif
+                        @endIf
                     </td>
                     <td>
                         @if ($isEditable)
                             <textarea class="form-control Proposed_s_t_intervention">{{ $data['proposedSTIntervention'] ?? '' }}</textarea>
                         @else
                             {{ $data['proposedSTIntervention'] ?? '' }}
-                        @endif
+                        @endIf
                     </td>
                     <td>
                         @if ($isEditable)
                             <textarea class="form-control Proposed_s_t_intervention_related_equipment_skills_upgrading">{{ $data['proposedSTInterventionRelatedEquipmentSkillsUpgrading'] ?? '' }}</textarea>
                         @else
                             {{ $data['proposedSTInterventionRelatedEquipmentSkillsUpgrading'] ?? '' }}
-                        @endif
+                        @endIf
                     </td>
                     <td>
                         @if ($isEditable)
                             <textarea class="form-control Impact">{{ $data['impact'] ?? '' }}</textarea>
                         @else
                             {{ $data['impact'] ?? '' }}
-                        @endif
+                        @endIf
                     </td>
                 </tr>
             @empty
@@ -1678,8 +1708,10 @@
                     name="list_of_equipment_fabricators"
                 >{{ $ProjectProposaldata['list_of_equipment_fabricators'] ?? '' }}</textarea>
             @else
-                {{ $ProjectProposaldata['list_of_equipment_fabricators'] ?? '' }}
-            @endif
+                <p class="custom--justify">
+                    <u>{{ $ProjectProposaldata['list_of_equipment_fabricators'] ?? '' }}</u>
+                </p>
+            @endIf
         </td>
     </tr>
     <tr>
@@ -1695,8 +1727,10 @@
                     name="schedule_of_activities_for_proposed_project"
                 >{{ $ProjectProposaldata['schedule_of_activities_for_proposed_project'] ?? '' }}</textarea>
             @else
-                {{ $ProjectProposaldata['schedule_of_activities_for_proposed_project'] ?? '' }}
-            @endif
+                <p class="custom--justify">
+                    <u>{{ $ProjectProposaldata['schedule_of_activities_for_proposed_project'] ?? '' }}</u>
+                </p>
+            @endIf
         </td>
     </tr>
     <tr>
@@ -1715,8 +1749,10 @@
                             name="percentage_increase_in_productivity"
                         >{{ $ProjectProposaldata['percentage_increase_in_productivity'] ?? '' }}</textarea>
                     @else
-                        {{ $ProjectProposaldata['percentage_increase_in_productivity'] ?? '' }}
-                    @endif
+                        <p class="custom--justify">
+                            <u>{{ $ProjectProposaldata['percentage_increase_in_productivity'] ?? '' }}</u>
+                        </p>
+                    @endIf
 
                 </li>
                 <li>
@@ -1727,8 +1763,10 @@
                             name="improved_quality_of_products"
                         >{{ $ProjectProposaldata['improved_quality_of_products'] ?? '' }}</textarea>
                     @else
-                        {{ $ProjectProposaldata['improved_quality_of_products'] ?? '' }}
-                    @endif
+                        <p class="custom--justify">
+                            <u>{{ $ProjectProposaldata['improved_quality_of_products'] ?? '' }}</u>
+                        </p>
+                    @endIf
                 </li>
                 <li>
                     Contribution to the production line/process<br>
@@ -1738,8 +1776,10 @@
                             name="contribution_to_production_line_process"
                         >{{ $ProjectProposaldata['contribution_to_production_line_process'] ?? '' }}</textarea>
                     @else
-                        {{ $ProjectProposaldata['contribution_to_production_line_process'] ?? '' }}
-                    @endif
+                        <p class="custom--justify">
+                            <u>{{ $ProjectProposaldata['contribution_to_production_line_process'] ?? '' }}</u>
+                        </p>
+                    @endIf
                 </li>
                 <li>
                     Percentage decrease in rejects<br>
@@ -1749,8 +1789,10 @@
                             name="percentage_decrease_in_rejects"
                         >{{ $ProjectProposaldata['percentage_decrease_in_rejects'] ?? '' }}</textarea>
                     @else
-                        {{ $ProjectProposaldata['percentage_decrease_in_rejects'] ?? '' }}
-                    @endif
+                        <p class="custom--justify">
+                            <u>{{ $ProjectProposaldata['percentage_decrease_in_rejects'] ?? '' }}</u>
+                        </p>
+                    @endIf
                 </li>
                 <li>
                     Additional Clients<br>
@@ -1760,8 +1802,10 @@
                             name="additional_clients"
                         >{{ $ProjectProposaldata['additional_clients'] ?? '' }}</textarea>
                     @else
-                        {{ $ProjectProposaldata['additional_clients'] ?? '' }}
-                    @endif
+                        <p class="custom--justify">
+                            <u>{{ $ProjectProposaldata['additional_clients'] ?? '' }}</u>
+                        </p>
+                    @endIf
                 </li>
                 <li>
                     Others (please specify)<br>
@@ -1771,8 +1815,10 @@
                             name="others_please_specify"
                         >{{ $ProjectProposaldata['others_please_specify'] ?? '' }}</textarea>
                     @else
-                        {{ $ProjectProposaldata['others_please_specify'] ?? '' }}
-                    @endif
+                        <p class="custom--justify">
+                            <u>{{ $ProjectProposaldata['others_please_specify'] ?? '' }}</u>
+                        </p>
+                    @endIf
                 </li>
             </ol>
         </td>
@@ -1803,8 +1849,10 @@
                     name="volume_of_waste_generated_monthly"
                 >{{ $ProjectProposaldata['volume_of_waste_generated_monthly'] ?? '' }}</textarea>
             @else
-                {{ $ProjectProposaldata['volume_of_waste_generated_monthly'] ?? '' }}
-            @endif
+                <p class="custom--justify">
+                    <u>{{ $ProjectProposaldata['volume_of_waste_generated_monthly'] ?? '' }}</u>
+                </p>
+            @endIf
         </td>
     </tr>
     <tr>
@@ -1821,8 +1869,10 @@
                     name="kinds_of_wastes"
                 >{{ $ProjectProposaldata['kinds_of_wastes'] ?? '' }}</textarea>
             @else
-                {{ $ProjectProposaldata['kinds_of_wastes'] ?? '' }}
-            @endif
+                <p class="custom--justify">
+                    <u>{{ $ProjectProposaldata['kinds_of_wastes'] ?? '' }}</u>
+                </p>
+            @endIf
         </td>
     </tr>
     <tr>
@@ -1838,8 +1888,10 @@
                     name="methods_of_disposal"
                 >{{ $ProjectProposaldata['methods_of_disposal'] ?? '' }}</textarea>
             @else
-                {{ $ProjectProposaldata['methods_of_disposal'] ?? '' }}
-            @endif
+                <p class="custom--justify">
+                    <u>{{ $ProjectProposaldata['methods_of_disposal'] ?? '' }}</u>
+                </p>
+            @endIf
         </td>
     </tr>
 </table>
@@ -1870,8 +1922,10 @@
                             name="financial_ratio_and_analysis"
                         >{{ $ProjectProposaldata['financial_ratio_and_analysis'] ?? '' }}</textarea>
                     @else
-                        {{ $ProjectProposaldata['financial_ratio_and_analysis'] ?? '' }}
-                    @endif
+                        <p class="custom--justify">
+                            <u>{{ $ProjectProposaldata['financial_ratio_and_analysis'] ?? '' }}</u>
+                        </p>
+                    @endIf
                 </li>
                 <li>Partial Budget Analysis
                     @if ($isEditable)
@@ -1880,8 +1934,10 @@
                             name="partial_budget_analysis"
                         >{{ $ProjectProposaldata['partial_budget_analysis'] ?? '' }}</textarea>
                     @else
-                        {{ $ProjectProposaldata['partial_budget_analysis'] ?? '' }}
-                    @endif
+                        <p class="custom--justify">
+                            <u>{{ $ProjectProposaldata['partial_budget_analysis'] ?? '' }}</u>
+                        </p>
+                    @endIf
                 </li>
                 <li>Net profit margin ratio
                     @if ($isEditable)
@@ -1890,8 +1946,10 @@
                             name="net_profit_margin_ratio"
                         >{{ $ProjectProposaldata['net_profit_margin_ratio'] ?? '' }}</textarea>
                     @else
-                        {{ $ProjectProposaldata['net_profit_margin_ratio'] ?? '' }}
-                    @endif
+                        <p class="custom--justify">
+                            <u>{{ $ProjectProposaldata['net_profit_margin_ratio'] ?? '' }}</u>
+                        </p>
+                    @endIf
                 </li>
                 <li>Liquidity ratio
                     @if ($isEditable)
@@ -1900,8 +1958,10 @@
                             name="liquidity_ratio"
                         >{{ $ProjectProposaldata['liquidity_ratio'] ?? '' }}</textarea>
                     @else
-                        {{ $ProjectProposaldata['liquidity_ratio'] ?? '' }}
-                    @endif
+                        <p class="custom--justify">
+                            <u>{{ $ProjectProposaldata['liquidity_ratio'] ?? '' }}</u>
+                        </p>
+                    @endIf
                 </li>
                 <li>ROI
                     @if ($isEditable)
@@ -1910,8 +1970,10 @@
                             name="roi"
                         >{{ $ProjectProposaldata['roi'] ?? '' }}</textarea>
                     @else
-                        {{ $ProjectProposaldata['roi'] ?? '' }}
-                    @endif
+                        <p class="custom--justify">
+                            <u>{{ $ProjectProposaldata['roi'] ?? '' }}</u>
+                        </p>
+                    @endIf
                 </li>
             </ul>
         </td>
@@ -1929,8 +1991,10 @@
                     name="financial_constraints"
                 >{{ $ProjectProposaldata['financial_constraints'] ?? '' }}</textarea>
             @else
-                {{ $ProjectProposaldata['financial_constraints'] ?? '' }}
-            @endif
+                <p class="custom--justify">
+                    <u>{{ $ProjectProposaldata['financial_constraints'] ?? '' }}</u>
+                </p>
+            @endIf
         </td>
     </tr>
     <tr>
@@ -1946,8 +2010,10 @@
                     name="cash_flow_financial_statement_balance_sheet"
                 >{{ $ProjectProposaldata['cash_flow_financial_statement_balance_sheet'] ?? '' }}</textarea>
             @else
-                {{ $ProjectProposaldata['cash_flow_financial_statement_balance_sheet'] ?? '' }}
-            @endif
+                <p class="custom--justify">
+                    <u>{{ $ProjectProposaldata['cash_flow_financial_statement_balance_sheet'] ?? '' }}</u>
+                </p>
+            @endIf
         </td>
     </tr>
     <tr>
@@ -2408,7 +2474,7 @@
                             > {{ $data['objectives'] ?? '' }}</textarea>
                         @else
                             {{ $data['objectives'] ?? '' }}
-                        @endif
+                        @endIf
                     </td>
                     <td>
                         @if ($isEditable)
@@ -2418,7 +2484,7 @@
                             >  {{ $data['risksAndAssumptions'] ?? '' }}</textarea>
                         @else
                             {{ $data['risksAndAssumptions'] ?? '' }}
-                        @endif
+                        @endIf
                     </td>
                     <td>
                         @if ($isEditable)
@@ -2428,7 +2494,7 @@
                             >  {{ $data['riskManagementPlan'] ?? '' }}</textarea>
                         @else
                             {{ $data['riskManagementPlan'] ?? '' }}
-                        @endif
+                        @endIf
                     </td>
                 </tr>
             @empty
