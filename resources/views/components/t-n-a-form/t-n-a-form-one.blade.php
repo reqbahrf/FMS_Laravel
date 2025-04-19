@@ -255,7 +255,7 @@
 <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;"><span lang="en-US">1.
         Specific product or service the enterprise offers its customers:</span></p>
 <table
-    style="width: 587px;"
+    style="width: 100%;"
     cellpadding="7"
 >
     <tbody>
@@ -282,7 +282,7 @@
 <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;"><span lang="en-US">2.
         Reasons why assistance is being sought:</span></p>
 <table
-    style="width: 587px;"
+    style="width: 100%;"
     cellpadding="7"
 >
     <tbody>
@@ -308,7 +308,7 @@
 <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;">3. Have you consulted any
     other&nbsp;individual/organization on any assistance?</p>
 <table
-    style="width: 564px;"
+    style="width: 100%;"
     cellpadding="7"
 >
     <tbody>
@@ -495,7 +495,7 @@
 <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;"><span lang="en-US">4.
         Enterprise&rsquo;s plan for the next 5 years?</span></p>
 <table
-    style="width: 587px;"
+    style="width: 100%;"
     cellpadding="7"
 >
     <tbody>
@@ -519,7 +519,7 @@
 <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;"><span lang="en-US">Next
         10 years?</span></p>
 <table
-    style="width: 587px;"
+    style="width: 100%;"
     cellpadding="7"
 >
     <tbody>
@@ -543,7 +543,7 @@
 <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;"><span lang="en-US">5.
         Current agreement and alliances undertaken</span></p>
 <table
-    style="width: 587px;"
+    style="width: 100%;"
     cellpadding="7"
 >
     <tbody>

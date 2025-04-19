@@ -23,7 +23,7 @@
         lang="en-US">Enterprise Profile</span></p>
 <p style="text-align: center;background: transparent;line-height: 108%;margin-bottom: 0.28cm;"><br>&nbsp;</p>
 <table
-    style="width: 587px;"
+    style="width: 100%;"
     cellpadding="7"
 >
     <tbody>
@@ -171,7 +171,7 @@
 </table>
 <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;"><br>&nbsp;</p>
 <table
-    style="width: 487px;"
+    style="width: 100%;"
     cellpadding="7"
 >
     <tbody>
@@ -362,7 +362,7 @@
 </table>
 <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;"><br>&nbsp;</p>
 <table
-    style="width: 559px;"
+    style="width: 100%;"
     cellpadding="7"
 >
     <tbody>
@@ -448,7 +448,7 @@
     </tbody>
 </table>
 <table
-    style="float: left;width: 411px;"
+    style="float: left;width: 100%;"
     dir="ltr"
     cellpadding="7"
 >

@@ -76,7 +76,7 @@ export default async function generatePDF(
         processError(`Error generating PDF for ${fileName}:`, error, true);
 
         newWindow.document.body.innerHTML = `
-            <p style="color: red; font-family: sans-serif;">Failed to generate PDF. Please try again later.</p>
+            <p style="color: red; font-family: sans-serif;">Failed to generate PDF. ${error.message} Please try again later.</p>
         `;
     } finally {
         overlay.remove();

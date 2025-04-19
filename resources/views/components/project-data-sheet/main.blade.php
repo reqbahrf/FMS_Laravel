@@ -220,7 +220,7 @@
         <div class="tg-wrap">
             <table
                 class="tg"
-                style="table-layout: fixed;"
+                style="table-layout: fixed; width: 100%;"
             >
                 <tbody>
                     <tr>
