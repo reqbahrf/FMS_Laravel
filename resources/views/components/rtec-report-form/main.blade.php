@@ -164,7 +164,9 @@
                             name="company_profile"
                         >{{ $RTECReportdata['company_profile'] ?? '' }}</textarea>
                     @else
-                        {{ $RTECReportdata['company_profile'] ?? '' }}
+                        <p class="custom--justify">
+                            <u>{{ $RTECReportdata['company_profile'] ?? '' }}</u>
+                        </p>
                     @endif
                 </td>
             </tr>
@@ -180,7 +182,9 @@
                             name="objectives"
                         >{{ $RTECReportdata['objectives'] ?? '' }}</textarea>
                     @else
-                        {{ $RTECReportdata['objectives'] ?? '' }}
+                        <p class="custom--justify">
+                            <u>{{ $RTECReportdata['objectives'] ?? '' }}</u>
+                        </p>
                     @endif
                 </td>
             </tr>
@@ -196,7 +200,9 @@
                             name="expected_outputs"
                         >{{ $RTECReportdata['expected_outputs'] ?? '' }}</textarea>
                     @else
-                        {{ $RTECReportdata['expected_outputs'] ?? '' }}
+                        <p class="custom--justify">
+                            <u>{{ $RTECReportdata['expected_outputs'] ?? '' }}</u>
+                        </p>
                     @endif
                 </td>
             </tr>
@@ -624,7 +630,9 @@
                             name="management_administrative_aspect"
                         >{{ $RTECReportdata['management_administrative_aspect'] ?? '' }}</textarea>
                     @else
-                        {{ $RTECReportdata['management_administrative_aspect'] ?? '' }}
+                        <p class="custom--justify">
+                            <u>{{ $RTECReportdata['management_administrative_aspect'] ?? '' }}</u>
+                        </p>
                     @endif
                 </td>
             </tr>
@@ -637,7 +645,9 @@
                             name="technical_aspect"
                         >{{ $RTECReportdata['technical_aspect'] ?? '' }}</textarea>
                     @else
-                        {{ $RTECReportdata['technical_aspect'] ?? '' }}
+                        <p class="custom--justify">
+                            <u>{{ $RTECReportdata['technical_aspect'] ?? '' }}</u>
+                        </p>
                     @endif
                 </td>
             </tr>
@@ -657,7 +667,9 @@
                             name="process_flow_of_production"
                         >{{ $RTECReportdata['process_flow_of_production'] ?? '' }}</textarea>
                     @else
-                        {{ $RTECReportdata['process_flow_of_production'] ?? '' }}
+                        <p class="custom--justify">
+                            <u>{{ $RTECReportdata['process_flow_of_production'] ?? '' }}</u>
+                        </p>
                     @endif
                 </td>
             </tr>
@@ -671,7 +683,9 @@
                             name="material_balance"
                         >{{ $RTECReportdata['material_balance'] ?? '' }}</textarea>
                     @else
-                        {{ $RTECReportdata['material_balance'] ?? '' }}
+                        <p class="custom--justify">
+                            <u>{{ $RTECReportdata['material_balance'] ?? '' }}</u>
+                        </p>
                     @endif
                 </td>
             </tr>
@@ -685,7 +699,9 @@
                             name="existing_production_equipment"
                         >{{ $RTECReportdata['existing_production_equipment'] ?? '' }}</textarea>
                     @else
-                        {{ $RTECReportdata['existing_production_equipment'] ?? '' }}
+                        <p class="custom--justify">
+                            <u>{{ $RTECReportdata['existing_production_equipment'] ?? '' }}</u>
+                        </p>
                     @endif
                 </td>
             </tr>
@@ -699,7 +715,9 @@
                             name="technical_constraints_on_the_production_line_and_proposed_s_t_intervention"
                         >{{ $RTECReportdata['technical_constraints_on_the_production_line_and_proposed_s_t_intervention'] ?? '' }}</textarea>
                     @else
-                        {{ $RTECReportdata['technical_constraints_on_the_production_line_and_proposed_s_t_intervention'] ?? '' }}
+                        <p class="custom--justify">
+                            <u>{{ $RTECReportdata['technical_constraints_on_the_production_line_and_proposed_s_t_intervention'] ?? '' }}</u>
+                        </p>
                     @endif
                 </td>
             </tr>
@@ -960,7 +978,9 @@
                     @if ($isEditable)
                         <textarea class="form-control MarketingAspect">{{ $RTECReportdata['marketing_aspect'] ?? '' }}</textarea>
                     @else
-                        {{ $RTECReportdata['marketing_aspect'] ?? '' }}
+                        <p class="custom--justify">
+                            <u>{{ $RTECReportdata['marketing_aspect'] ?? '' }}</u>
+                        </p>
                     @endif
                 </td>
             </tr>
@@ -973,7 +993,9 @@
                     @if ($isEditable)
                         <textarea class="form-control FinancialAspect">{{ $RTECReportdata['financial_aspect'] ?? '' }}</textarea>
                     @else
-                        {{ $RTECReportdata['financial_aspect'] ?? '' }}
+                        <p class="custom--justify">
+                            <u>{{ $RTECReportdata['financial_aspect'] ?? '' }}</u>
+                        </p>
                     @endif
                 </td>
             </tr>
@@ -984,7 +1006,9 @@
                     @if ($isEditable)
                         <textarea class="form-control WasteDisposal">{{ $RTECReportdata['waste_disposal'] ?? '' }}</textarea>
                     @else
-                        {{ $RTECReportdata['waste_disposal'] ?? '' }}
+                        <p class="custom--justify">
+                            <u>{{ $RTECReportdata['waste_disposal'] ?? '' }}</u>
+                        </p>
                     @endif
                 </td>
             </tr>
@@ -995,7 +1019,9 @@
                     @if ($isEditable)
                         <textarea class="form-control RiskManagement">{{ $RTECReportdata['risk_management'] ?? '' }}</textarea>
                     @else
-                        {{ $RTECReportdata['risk_management'] ?? '' }}
+                        <p class="custom--justify">
+                            <u>{{ $RTECReportdata['risk_management'] ?? '' }}</u>
+                        </p>
                     @endif
                 </td>
             </tr>
@@ -1006,7 +1032,9 @@
                     @if ($isEditable)
                         <textarea class="form-control Recommendation">{{ $RTECReportdata['recommendation'] ?? '' }}</textarea>
                     @else
-                        {{ $RTECReportdata['recommendation'] ?? '' }}
+                        <p class="custom--justify">
+                            <u>{{ $RTECReportdata['recommendation'] ?? '' }}</u>
+                        </p>
                     @endif
                 </td>
             </tr>
