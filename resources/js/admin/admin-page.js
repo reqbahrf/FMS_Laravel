@@ -7,6 +7,10 @@ import {
     closeModal,
     sanitize,
 } from '../Utilities/utilFunctions';
+import {
+    extractApplicantDetailedInfo,
+    populateApplicantDetails,
+} from '../Helpers/applicant-details-helper';
 import getProjectPaymentHistory from '../Utilities/project-payment-history';
 import {
     hideProcessToast,
@@ -39,6 +43,7 @@ import 'datatables.net-responsive-bs5';
 import 'datatables.net-scroller-bs5';
 import '../Utilities/dataTableCustomConfig';
 import { processError } from '../Utilities/error-handler-util';
+import { generateApplicantTableRow } from '../Helpers/applicant-details-helper';
 
 const MAIN_CONTENT_CONTAINER = $('#main-content');
 const ACTIVITY_LOG_MODAL = $('#userActivityLogModal');
@@ -1633,10 +1638,9 @@ async function initializeAdminPageJs() {
         },
 
         ApplicantList: async () => {
+            const APPLICANT_DETAILS_CONTAINER = $('#applicantDetails');
             const applicantDataTable = $('#applicant').DataTable({
-                responsive: true,
                 autoWidth: false,
-                fixedColumns: true,
                 columns: [
                     {
                         title: 'Applicant',
@@ -1678,343 +1682,41 @@ async function initializeAdminPageJs() {
                     }
                 );
                 const data = await response.json();
-                if (data.length === 0) return;
+                if (!data || data.length === 0) {
+                    return;
+                }
                 applicantDataTable.clear();
                 applicantDataTable.rows
-                    .add(
-                        data.map((item) => {
-                            return [
-                                /*html*/ `${
-                                    (item.prefix ? item.prefix : '') +
-                                    ' ' +
-                                    item.f_name +
-                                    ' ' +
-                                    (item.mid_name ? item.mid_name : '') +
-                                    ' ' +
-                                    (item.suffix ? item.suffix : '')
-                                }<input
-                                type="hidden"
-                                name="requested_fund_amount"
-                                value="${item.requested_fund_amount}"
-                            />`,
-                                /*html*/ `<span class="designation">${item.designation}</span>`,
-                                /*html*/ `<div>
-                                    <strong>Firm Name:</strong>
-                                    <span class="firm_name"
-                                        >${item.firm_name}</span
-                                    ><br />
-                                    <input
-                                        type="hidden"
-                                        name="userID"
-                                        value="${item.user_id}"
-                                    />
-                                    <input
-                                        type="hidden"
-                                        name="applicationID"
-                                        value="${item.Application_ID}"
-                                    />
-                                    <input
-                                        type="hidden"
-                                        name="businessID"
-                                        value="${item.business_id}"
-                                    />
-                                    <input
-                                        type="hidden"
-                                        name="personnelMaleDirectRe"
-                                        value="${item.male_direct_re || 0}"
-                                    />
-                                    <input
-                                        type="hidden"
-                                        name="personnelFemaleDirectRe"
-                                        value="${item.female_direct_re || 0}"
-                                    />
-                                    <input
-                                        type="hidden"
-                                        name="personnelMaleDirectPart"
-                                        value="${item.male_direct_part || 0}"
-                                    />
-                                    <input
-                                        type="hidden"
-                                        name="personnelFemaleDirectPart"
-                                        value="${item.female_direct_part || 0}"
-                                    />
-                                    <input
-                                        type="hidden"
-                                        name="personnelMaleIndirectRe"
-                                        value="${item.male_indirect_re || 0}"
-                                    />
-                                    <input
-                                        type="hidden"
-                                        name="personnelFemaleIndirectRe"
-                                        value="${item.female_indirect_re || 0}"
-                                    />
-                                    <input
-                                        type="hidden"
-                                        name="personnelMaleIndirectPart"
-                                        value="${item.male_indirect_part || 0}"
-                                    />
-                                    <input
-                                        type="hidden"
-                                        name="personnelFemaleIndirectPart"
-                                        value="${
-                                            item.female_indirect_part || 0
-                                        }"
-                                    />
-                                    <input
-                                        type="hidden"
-                                        name="personnelTotal"
-                                        value="${item.total_personnel || 0}"
-                                    />
-                                    <strong class="ps-2"> Office Address:</strong>
-                                    <span class="office_address text-truncate ps-3"
-                                        >${item.office_landmark || ''}, ${item.office_barangay || ''},
-                                        ${item.office_city || ''}, ${item.office_province || ''},
-                                        ${item.office_region || ''}</span
-                                    ><br />
-                                    <strong class="ps-2">Factory Address:</strong>
-                                    <span class="factory_address text-truncate ps-3"
-                                        >${item.factory_landmark || ''}, ${item.factory_barangay || ''},
-                                        ${item.factory_city || ''}, ${item.factory_province || ''},
-                                        ${item.factory_region || ''}</span
-                                    ><br />
-                                    <strong>Type of Enterprise:</strong>
-                                    <span class="enterprise_type"
-                                        >${item.enterprise_type}</span
-                                    >
-                                    <p>
-                                        <strong>Assets:</strong> <br />
-                                        <span class="ps-2 building_assets"
-                                            >Building:
-                                            <span class="building_value"
-                                                >${formatNumber(
-                                                    parseFloat(
-                                                        item.building_value || 0
-                                                    )
-                                                )}</span
-                                            ></span
-                                        ><br />
-                                        <span class="ps-2 equipment_assets"
-                                            >Equipment:
-                                            <span class="equipment_value"
-                                                >${formatNumber(
-                                                    parseFloat(
-                                                        item.equipment_value ||
-                                                            0
-                                                    )
-                                                )}</span
-                                            ></span
-                                        >
-                                        <br />
-                                        <span
-                                            class="ps-2 working_capital_assets"
-                                            >Working Capital:
-                                            <span class="working_capital"
-                                                >${formatNumber(
-                                                    parseFloat(
-                                                        item.working_capital ||
-                                                            0
-                                                    )
-                                                )}</span
-                                            ></span
-                                        >
-                                    </p>
-                                    <strong>Contact Details:</strong>
-                                    <p>
-                                        <strong class="p-2">Landline:</strong>
-                                        <span class="landline"
-                                            >${item.landline || ''}</span
-                                        >
-                                        <br />
-                                        <strong class="p-2"
-                                            >Mobile Phone:</strong
-                                        >
-                                        <span class="mobile_num"
-                                            >${item.mobile_number || ''}</span
-                                        >
-                                        <br />
-                                        <strong class="p-2">Email:</strong>
-                                        <span class="email_add"
-                                            >${item.email ?? ''}</span
-                                        >
-                                    </p>
-                                </div>`,
-                                `${customDateFormatter(item.date_applied)}`,
-                                /*html*/ `<span
-                                    class="badge ${
-                                        item.application_status === 'new'
-                                            ? 'bg-primary'
-                                            : item.application_status ===
-                                                'evaluation'
-                                              ? 'bg-info'
-                                              : item.application_status ===
-                                                  'pending'
-                                                ? 'bg-primary'
-                                                : 'bg-danger'
-                                    }"
-                                    >${item.application_status}</span
-                                >`,
-                                /*html*/ ` <button
-                                    class="btn btn-primary viewApplicant"
-                                    type="button"
-                                    data-bs-toggle="offcanvas"
-                                    data-bs-target="#applicantDetails"
-                                    aria-controls="applicantDetails"
-                                >
-                                    <i class="ri-menu-unfold-4-line ri-1x"></i>
-                                </button>`,
-                            ];
-                        })
-                    )
+                    .add(data.map((item) => generateApplicantTableRow(item)))
                     .draw();
             };
 
-            $('#ApplicanttableBody').on('click', '.viewApplicant', function () {
-                const row = $(this).closest('tr');
-                const offCanvaReadonlyInputs =
-                    $('#applicantDetails').find('input');
+            $('#ApplicantTableBody').on(
+                'click',
+                '.applicantDetailsBtn',
+                function () {
+                    const row = $(this).closest('tr');
 
-                const cooperatorName = row
-                    .find('td:nth-child(1)')
-                    .text()
-                    .trim();
-                const designation = row.find('.designation').text().trim();
-                const businessId = row.find('input[name="businessID"]').val();
-                const officeAddress = row.find('.office_address').text().trim();
-                const requestedFundAmount = row
-                    .find('input[name="requested_fund_amount"]')
-                    .val();
-                const factoryAddress = row
-                    .find('.factory_address')
-                    .text()
-                    .trim();
+                    const {
+                        CONTACT_PERSON_INFO,
+                        BUSINESS_INFO,
+                        userID,
+                        ApplicationID,
+                        businessID,
+                        personnel,
+                    } = extractApplicantDetailedInfo(row);
 
-                const personnelMaleDirectRe = row
-                    .find('input[name="personnelMaleDirectRe"]')
-                    .val();
-                const personnelFemaleDirectRe = row
-                    .find('input[name="personnelFemaleDirectRe"]')
-                    .val();
-                const personnelMaleDirectPart = row
-                    .find('input[name="personnelMaleDirectPart"]')
-                    .val();
-                const personnelFemaleDirectPart = row
-                    .find('input[name="personnelFemaleDirectPart"]')
-                    .val();
-                const personnelMaleIndirectRe = row
-                    .find('input[name="personnelMaleIndirectRe"]')
-                    .val();
-                const personnelFemaleIndirectRe = row
-                    .find('input[name="personnelFemaleIndirectRe"]')
-                    .val();
-                const personnelMaleIndirectPart = row
-                    .find('input[name="personnelMaleIndirectPart"]')
-                    .val();
-                const personnelFemaleIndirectPart = row
-                    .find('input[name="personnelFemaleIndirectPart"]')
-                    .val();
-                const personnelTotal = row
-                    .find('input[name="personnelTotal"]')
-                    .val();
-
-                const typeOfEnterprise = row
-                    .find('.enterprise_type')
-                    .text()
-                    .trim();
-                const landline = row.find('.landline').text().trim();
-                const mobilePhone = row.find('.mobile_num').text().trim();
-                const email = row.find('.email_add').text().trim();
-                const building = row.find('.building_value').text().trim();
-                const equipment = row.find('.equipment_value').text().trim();
-                const workingCapital = row
-                    .find('.working_capital')
-                    .text()
-                    .trim();
-
-                console.log(offCanvaReadonlyInputs);
-                offCanvaReadonlyInputs
-                    .filter('.cooperator-name')
-                    .val(cooperatorName);
-                offCanvaReadonlyInputs.filter('.designation').val(designation);
-                offCanvaReadonlyInputs.filter('.business-id').val(businessId);
-                offCanvaReadonlyInputs
-                    .filter('.office-address')
-                    .val(officeAddress.replace(/\s+/g, ' ').trim());
-
-                offCanvaReadonlyInputs
-                    .filter('.factory-address')
-                    .val(factoryAddress.replace(/\s+/g, ' ').trim());
-                offCanvaReadonlyInputs
-                    .filter('.type-of-enterprise')
-                    .val(typeOfEnterprise);
-                offCanvaReadonlyInputs.filter('.landline').val(landline);
-                offCanvaReadonlyInputs.filter('.mobile-phone').val(mobilePhone);
-                offCanvaReadonlyInputs.filter('.email').val(email);
-                offCanvaReadonlyInputs.filter('.building').val(building);
-                offCanvaReadonlyInputs.filter('.equipment').val(equipment);
-                offCanvaReadonlyInputs
-                    .filter('.working-capital')
-                    .val(workingCapital);
-
-                offCanvaReadonlyInputs
-                    .filter('#requested_fund_amount')
-                    .val(formatNumber(parseFloat(requestedFundAmount)));
-
-                offCanvaReadonlyInputs
-                    .filter('.personnel-male-direct-re')
-                    .val(personnelMaleDirectRe);
-                offCanvaReadonlyInputs
-                    .filter('.personnel-female-direct-re')
-                    .val(personnelFemaleDirectRe);
-                offCanvaReadonlyInputs
-                    .filter('.personnel-direct-re-total')
-                    .val(
-                        parseInt(personnelMaleDirectRe || 0) +
-                            parseInt(personnelFemaleDirectRe || 0)
+                    populateApplicantDetails(
+                        APPLICANT_DETAILS_CONTAINER,
+                        CONTACT_PERSON_INFO,
+                        BUSINESS_INFO,
+                        userID,
+                        ApplicationID,
+                        businessID,
+                        personnel
                     );
-
-                offCanvaReadonlyInputs
-                    .filter('.personnel-male-direct-part')
-                    .val(personnelMaleDirectPart);
-                offCanvaReadonlyInputs
-                    .filter('.personnel-female-direct-part')
-                    .val(personnelFemaleDirectPart);
-                offCanvaReadonlyInputs
-                    .filter('.personnel-direct-part-total')
-                    .val(
-                        parseInt(personnelMaleDirectPart || 0) +
-                            parseInt(personnelFemaleDirectPart || 0)
-                    );
-
-                offCanvaReadonlyInputs
-                    .filter('.personnel-male-indirect-re')
-                    .val(personnelMaleIndirectRe);
-                offCanvaReadonlyInputs
-                    .filter('.personnel-female-indirect-re')
-                    .val(personnelFemaleIndirectRe);
-                offCanvaReadonlyInputs
-                    .filter('.personnel-indirect-re-total')
-                    .val(
-                        parseInt(personnelMaleIndirectRe || 0) +
-                            parseInt(personnelFemaleIndirectRe || 0)
-                    );
-
-                offCanvaReadonlyInputs
-                    .filter('.personnel-male-indirect-part')
-                    .val(personnelMaleIndirectPart);
-                offCanvaReadonlyInputs
-                    .filter('.personnel-female-indirect-part')
-                    .val(personnelFemaleIndirectPart);
-                offCanvaReadonlyInputs
-                    .filter('.personnel-indirect-part-total')
-                    .val(
-                        parseInt(personnelMaleIndirectPart || 0) +
-                            parseInt(personnelFemaleIndirectPart || 0)
-                    );
-
-                offCanvaReadonlyInputs
-                    .filter('.personnel-total')
-                    .val(personnelTotal);
-            });
+                }
+            );
 
             await getApplicants();
         },

@@ -12,6 +12,10 @@ import {
     showProcessToast,
     hideProcessToast,
 } from '../Utilities/feedback-toast';
+import {
+    extractApplicantDetailedInfo,
+    populateApplicantDetails,
+} from '../Helpers/applicant-details-helper';
 import getProjectPaymentHistory from '../Utilities/project-payment-history';
 import EsignatureHandler from '../Utilities/EsignatureHandler';
 import NotificationManager from '../Utilities/NotificationManager';
@@ -3027,107 +3031,18 @@ async function initializeStaffPageJs() {
                 '.applicantDetailsBtn',
                 async function () {
                     const row = $(this).closest('tr');
-                    const fullName = row.find('td:nth-child(1)').text().trim();
                     const actionBtn = APPLICANT_PROGRESS_CONTAINER.find(
                         '#viewTNA, #editTNA, #viewProjectProposal, #editProjectProposal, #viewRTECReport, #editRTECReport, #submitToAdmin'
                     );
 
-                    const birthDate = row
-                        .find('input[name="birth_date"]')
-                        .val();
-                    const CONTACT_PERSON_INFO = {
-                        fullName: row.find('td:nth-child(1)').text().trim(),
-                        sex: row.find("input[name='sex']").val(),
-                        age: (
-                            new Date().getFullYear() -
-                            new Date(birthDate).getFullYear()
-                        ).toString(),
-                        homeAddress: row
-                            .find('input[name="applicant_home_address"]')
-                            .val(),
-                        designation: row.find('td:nth-child(2)').text().trim(),
-                        contactNumber: row
-                            .find('span.mobile_num')
-                            .text()
-                            .trim(),
-                        landline: row.find('span.landline').text().trim(),
-                        email: row.find('span.email_add').text().trim(),
-                        requestedFundAmount: row
-                            .find('input[name="requested_fund_amount"]')
-                            .val(),
-                    };
-
-                    const BUSINESS_INFO = {
-                        firmName: row.find('span.firm_name').text().trim(),
-                        sectors: row.find('input[name="sectors"]').val(),
-                        officeAddress: row
-                            .find('span.business_address')
-                            .text()
-                            .trim(),
-                        factoryAddress: row
-                            .find('span.factory_address')
-                            .text()
-                            .trim(),
-                        enterpriseType: row
-                            .find('span.enterprise_l')
-                            .text()
-                            .trim(),
-                        buildingAsset: row
-                            .find('span.asset-building')
-                            .text()
-                            .replace('Building:', '')
-                            .trim(),
-                        equipmentAsset: row
-                            .find('span.asset-equipment')
-                            .text()
-                            .replace('Equipment:', '')
-                            .trim(),
-                        workingCapitalAsset: row
-                            .find('span.asset-working-capital')
-                            .text()
-                            .replace('Working Capital:', '')
-                            .trim(),
-                    };
-                    const userID = row.find('input[name="userID"]').val();
-                    const ApplicationID = row
-                        .find('input[name="applicationID"]')
-                        .val();
-                    const businessID = row
-                        .find('input[name="businessID"]')
-                        .val();
-                    const personnel = {
-                        male_direct_re: row
-                            .find('input[name="male_direct_re"]')
-                            .val(),
-                        female_direct_re: row
-                            .find('input[name="female_direct_re"]')
-                            .val(),
-                        male_direct_part: row
-                            .find('input[name="male_direct_part"]')
-                            .val(),
-                        female_direct_part: row
-                            .find('input[name="female_direct_part"]')
-                            .val(),
-                        male_indirect_re: row
-                            .find('input[name="male_indirect_re"]')
-                            .val(),
-                        female_indirect_re: row
-                            .find('input[name="female_indirect_re"]')
-                            .val(),
-                        male_indirect_part: row
-                            .find('input[name="male_indirect_part"]')
-                            .val(),
-                        female_indirect_part: row
-                            .find('input[name="female_indirect_part"]')
-                            .val(),
-                        total_personnel: row
-                            .find('input[name="total_personnel"]')
-                            .val(),
-                    };
-
-                    const ApplicantDetails = APPLICANT_DETAILS_CONTAINER.find(
-                        '#applicantDetails input'
-                    );
+                    const {
+                        CONTACT_PERSON_INFO,
+                        BUSINESS_INFO,
+                        userID,
+                        ApplicationID,
+                        businessID,
+                        personnel,
+                    } = extractApplicantDetailedInfo(row);
 
                     actionBtn
                         .attr('data-business-id', businessID)
@@ -3137,99 +3052,15 @@ async function initializeStaffPageJs() {
                         .attr('data-business-id', businessID)
                         .attr('data-application-id', ApplicationID);
 
-                    ApplicantDetails.filter('#contact_person').val(
-                        CONTACT_PERSON_INFO.fullName
+                    populateApplicantDetails(
+                        APPLICANT_DETAILS_CONTAINER,
+                        CONTACT_PERSON_INFO,
+                        BUSINESS_INFO,
+                        userID,
+                        ApplicationID,
+                        businessID,
+                        personnel
                     );
-                    ApplicantDetails.filter('#age').val(
-                        CONTACT_PERSON_INFO.age
-                    );
-                    ApplicantDetails.filter('#designation').val(
-                        CONTACT_PERSON_INFO.designation
-                    );
-                    ApplicantDetails.filter('#sex').val(
-                        CONTACT_PERSON_INFO.sex
-                    );
-                    ApplicantDetails.filter('#landline').val(
-                        CONTACT_PERSON_INFO.landline
-                    );
-                    ApplicantDetails.filter('#mobile_phone').val(
-                        CONTACT_PERSON_INFO.contactNumber
-                    );
-                    ApplicantDetails.filter('#email').val(
-                        CONTACT_PERSON_INFO.email
-                    );
-                    ApplicantDetails.filter('#requested_fund_amount').val(
-                        formatNumber(
-                            parseFloat(
-                                CONTACT_PERSON_INFO.requestedFundAmount ?? 0
-                            )
-                        )
-                    );
-
-                    ApplicantDetails.filter('#firm_name').val(
-                        BUSINESS_INFO.firmName
-                    );
-                    ApplicantDetails.filter('#selected_userId').val(userID);
-                    ApplicantDetails.filter('#selected_businessID').val(
-                        businessID
-                    );
-                    ApplicantDetails.filter('#selected_applicationId').val(
-                        ApplicationID
-                    );
-                    ApplicantDetails.filter('#contactPersonHomeAddress').val(
-                        CONTACT_PERSON_INFO.homeAddress
-                            .replace(/\s+/g, ' ')
-                            .trim()
-                    );
-                    ApplicantDetails.filter('#factoryAddress').val(
-                        BUSINESS_INFO.factoryAddress.replace(/\s+/g, ' ').trim()
-                    );
-                    ApplicantDetails.filter('#officeAddress').val(
-                        BUSINESS_INFO.officeAddress.replace(/\s+/g, ' ').trim()
-                    );
-                    ApplicantDetails.filter('#building').val(
-                        BUSINESS_INFO.buildingAsset
-                    );
-                    ApplicantDetails.filter('#equipment').val(
-                        BUSINESS_INFO.equipmentAsset
-                    );
-                    ApplicantDetails.filter('#working_capital').val(
-                        BUSINESS_INFO.workingCapitalAsset
-                    );
-                    ApplicantDetails.filter('#enterpriseType').val(
-                        BUSINESS_INFO.enterpriseType
-                    );
-                    ApplicantDetails.filter('#enterpriseSector').val(
-                        BUSINESS_INFO.sectors
-                    );
-                    ApplicantDetails.filter('#male_direct_re').val(
-                        personnel.male_direct_re || '0'
-                    );
-                    ApplicantDetails.filter('#female_direct_re').val(
-                        personnel.female_direct_re || '0'
-                    );
-                    ApplicantDetails.filter('#male_direct_part').val(
-                        personnel.male_direct_part || '0'
-                    );
-                    ApplicantDetails.filter('#female_direct_part').val(
-                        personnel.female_direct_part || '0'
-                    );
-                    ApplicantDetails.filter('#male_indirect_re').val(
-                        personnel.male_indirect_re || '0'
-                    );
-                    ApplicantDetails.filter('#female_indirect_re').val(
-                        personnel.female_indirect_re || '0'
-                    );
-                    ApplicantDetails.filter('#male_indirect_part').val(
-                        personnel.male_indirect_part || '0'
-                    );
-                    ApplicantDetails.filter('#female_indirect_part').val(
-                        personnel.female_indirect_part || '0'
-                    );
-                    ApplicantDetails.filter('#total_personnel').val(
-                        personnel.total_personnel || '0'
-                    );
-
                     applicantTable.broadcastViewingEvent(
                         ApplicationID,
                         AUTH_USER_NAME
