@@ -20,8 +20,7 @@
 @endphp
 <table
     id="CompanyProfileTable"
-    style="border-collapse: collapse; table-layout: fixed;"
-    width="100%"
+    style="border-collapse: collapse; table-layout: fixed; width: 100%;"
     cellpadding="5"
 >
     <tr class="no-border">
@@ -979,10 +978,7 @@
         </td>
     </tr>
 </table>
-<table
-    style="table-layout: fixed;"
-    width="100%"
->
+<table style="table-layout: fixed; width: 100%;">
     <tr>
         <td style="width: 100%;">
             <p class="section--sub--title">B. Management/Administrative Aspect</p>
@@ -1174,7 +1170,7 @@
 </table>
 <table
     id="MarketAspectTable"
-    width="100%"
+    style="table-layout: fixed; width: 100%;"
 >
     <tr>
         <td
@@ -1289,7 +1285,7 @@
 </table>
 <table
     id="TechnicalAspectTable"
-    width="100%"
+    style="table-layout: fixed; width: 100%;"
 >
     <tr>
         <td>
@@ -1465,7 +1461,7 @@
         </tbody>
     </table>
 </div>
-<table width="100%">
+<table style="table-layout: fixed; width: 100%;">
     <tr>
         <td
             class="section--title"
@@ -1668,7 +1664,7 @@
         </tfoot>
     </table>
 </div>
-<table>
+<table style="table-layout: fixed; width: 100%;">
     <tr>
         <td>
             <p class="section--sub--title">E. List of equipment fabricators (name and address)</p>
@@ -1782,7 +1778,10 @@
         </td>
     </tr>
 </table>
-<table id="WasteManagementTable">
+<table
+    id="WasteManagementTable"
+    style="table-layout: fixed; width: 100%;"
+>
     <tr>
         <td
             class="section--title"
@@ -1844,7 +1843,10 @@
         </td>
     </tr>
 </table>
-<table id="FinancialAsspectTable">
+<table
+    id="FinancialAsspectTable"
+    style="table-layout: fixed; width: 100%;"
+>
     <tr>
         <td
             class="section--title"
@@ -2199,7 +2201,7 @@
         </tfoot>
     </table>
 </div>
-<table>
+<table style="table-layout: fixed; width: 100%;">
     <tr>
         <td>
             <p class="section--sub--title">E. Proposed Refund Structure</p>
@@ -2354,7 +2356,10 @@
         </tr>
     </tbody>
 </table>
-<table id="riskManagementPlanTable">
+<table
+    id="riskManagementPlanTable"
+    style="table-layout: fixed; width: 100%;"
+>
     <tr>
         <td
             class="section--title"
