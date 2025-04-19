@@ -123,11 +123,12 @@
                         class="form-control"
                         name="brief_background"
                         style="width:100%"
+                        rows="5"
                     >{{ $TNAdata['brief_background'] ?? '' }}</textarea>
                 @else
-                    <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span
-                            lang="en-US"
-                        >{{ $TNAdata['brief_background'] ?? '' }}</span></p>
+                    <p class="custom--justify">
+                        <u>{{ $TNAdata['brief_background'] ?? '' }}</u>
+                    </p>
                 @endIf
             </td>
         </tr>

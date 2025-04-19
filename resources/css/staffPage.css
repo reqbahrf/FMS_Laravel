@@ -837,6 +837,13 @@ Form Styles
 
 */
 
+.custom--justify {
+    text-align: justify;
+    white-space: normal;
+    text-decoration: underline;
+    text-underline-offset: 2px; /* Optional: makes underline more readable */
+}
+
 #TNAForm {
     width: 100%;
     min-width: 794px;
@@ -1314,4 +1321,3 @@ Project Data Sheet Styles
     font-weight: bold;
     color: #318791;
 }
-

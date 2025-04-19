@@ -264,12 +264,16 @@
             <td>
                 @if ($isEditable)
                     <textarea
+                        class="form-control"
                         name="specificProductOrService"
-                        style="width:100%"
+                        style="width:100%;"
+                        rows="5"
                     >{{ $TNAdata['specificProductOrService'] ?? '' }}
             </textarea>
                 @else
-                    {{ $TNAdata['specificProductOrService'] ?? '' }}
+                    <p class="custom--justify">
+                        <u>{{ $TNAdata['specificProductOrService'] ?? '' }}</u>
+                    </p>
                 @endif
             </td>
         </tr>
@@ -283,16 +287,19 @@
 >
     <tbody>
         <tr>
-            <td
-                style="border-width: medium medium 1px;border-style: none none solid;border-color: currentcolor currentcolor rgb(0, 0, 0);padding: 0cm;vertical-align: top;">
+            <td>
                 @if ($isEditable)
                     <textarea
+                        class="form-control"
                         name="reasonsWhyAssistanceIsBeingSought"
                         style="width: 100%;"
+                        rows="5"
                     >{{ $TNAdata['reasonsWhyAssistanceIsBeingSought'] ?? '' }}
                 </textarea>
                 @else
-                    {{ $TNAdata['reasonsWhyAssistanceIsBeingSought'] ?? '' }}
+                    <p class="custom--justify">
+                        <u>{{ $TNAdata['reasonsWhyAssistanceIsBeingSought'] ?? '' }}</u>
+                    </p>
                 @endif
             </td>
         </tr>
@@ -312,10 +319,10 @@
                         name="consultationAnswer"
                         type="radio"
                         value="yes"
-                        {{ ($TNAdata['consultationAnswer'] ?? '') == 'yes' ? 'checked' : '' }}
+                        {{ ($TNAdata['consultationAnswer'] ?? '') === 'yes' ? 'checked' : '' }}
                     />
                 @else
-                    {{ $TNAdata['consultationAnswer'] ?? '' }}
+                    {{ ($TNAdata['consultationAnswer'] ?? '') === 'yes' ? '✓' : '' }}
                 @endIf
             </td>
             <td style="">
@@ -361,16 +368,17 @@
             </td>
             <td style="">
                 @if ($isEditable)
-                    <input
+                    <textarea
+                        class="form-control"
                         name="pleaseSpecifyTheTypeOfAssistanceSought"
-                        type="text"
-                        value="{{ $TNAdata['pleaseSpecifyTheTypeOfAssistanceSought'] ?? '' }}"
                         style="width: 100%;"
-                    >
+                    >{{ $TNAdata['pleaseSpecifyTheTypeOfAssistanceSought'] ?? '' }}</textarea>
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br>
                     </p>
                 @else
-                    {{ $TNAdata['pleaseSpecifyTheTypeOfAssistanceSought'] ?? '' }}
+                    <p class="custom--justify">
+                        <u>{{ $TNAdata['pleaseSpecifyTheTypeOfAssistanceSought'] ?? '' }}</u>
+                    </p>
                 @endIf
             </td>
         </tr>
@@ -386,10 +394,10 @@
                         name="consultationAnswer"
                         type="radio"
                         value="no"
-                        {{ ($TNAdata['consultationAnswer'] ?? '') == 'no' ? 'checked' : '' }}
+                        {{ ($TNAdata['consultationAnswer'] ?? '') === 'no' ? 'checked' : '' }}
                     />
                 @else
-                    {{ $TNAdata['consultationAnswer'] ?? '' }}
+                    {{ ($TNAdata['consultationAnswer'] ?? '') === 'no' ? '✓' : '' }}
                 @endIf
             </td>
             <td style="">
@@ -498,10 +506,11 @@
                     <textarea
                         name="enterprisePlanForTheNext5Years"
                         style="width: 100%;"
-                    >{{ $TNAdata['enterprisePlanForTheNext5Years'] ?? '' }}
-            </textarea>
+                    >{{ $TNAdata['enterprisePlanForTheNext5Years'] ?? '' }}</textarea>
                 @else
-                    {{ $TNAdata['enterprisePlanForTheNext5Years'] ?? '' }}
+                    <p class="custom--justify">
+                        <u>{{ $TNAdata['enterprisePlanForTheNext5Years'] ?? '' }}</u>
+                    </p>
                 @endIf
             </td>
         </tr>
@@ -523,7 +532,9 @@
                         style="width: 100%;"
                     >{{ $TNAdata['nextTenYears'] ?? '' }}</textarea>
                 @else
-                    <u>{{ $TNAdata['nextTenYears'] ?? '' }}</u>
+                    <p class="custom--justify">
+                        <u>{{ $TNAdata['nextTenYears'] ?? '' }}</u>
+                    </p>
                 @endIf
             </td>
         </tr>
@@ -545,7 +556,9 @@
                         style="width: 100%;"
                     >{{ $TNAdata['currentAgreementAndAlliancesUndertaken'] ?? '' }}</textarea>
                 @else
-                    <u>{{ $TNAdata['currentAgreementAndAlliancesUndertaken'] ?? '' }}</u>
+                    <p class="custom--justify">
+                        <u>{{ $TNAdata['currentAgreementAndAlliancesUndertaken'] ?? '' }}</u>
+                    </p>
                 @endIf
             </td>
         </tr>
