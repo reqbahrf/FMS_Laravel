@@ -45,6 +45,14 @@
             border: 1px solid #000;
             padding: 10px;
         }
+
+        .custom--justify {
+            text-align: justify;
+            white-space: normal;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+            /* Optional: makes underline more readable */
+        }
     </style>
 </head>
 

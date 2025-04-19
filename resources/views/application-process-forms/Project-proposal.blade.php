@@ -117,6 +117,14 @@
         #ProjectProposalForm .padding-md {
             padding: 12pt;
         }
+
+        .custom--justify {
+            text-align: justify;
+            white-space: normal;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+            /* Optional: makes underline more readable */
+        }
     </style>
 </head>
 
