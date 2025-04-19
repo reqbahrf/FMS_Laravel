@@ -901,9 +901,8 @@
                                 style="width: 100%;"
                             >{{ $TNAdata['ProductionProblemAndConcern'] ?? '' }}</textarea>
                         @else
-                            <p
-                                style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;">
-                                <span lang="en-US">{{ $TNAdata['ProductionProblemAndConcern'] ?? '' }}</span>
+                            <p class="custom--justify">
+                                <u>{{ $TNAdata['ProductionProblemAndConcern'] ?? '' }}</u>
                             </p>
                         @endIf
                     </td>
@@ -934,9 +933,8 @@
                                 style="width: 100%;"
                             >{{ $TNAdata['ProductionWasteManageSystem'] ?? '' }}</textarea>
                         @else
-                            <p
-                                style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;">
-                                <span lang="en-US">{{ $TNAdata['ProductionWasteManageSystem'] ?? '' }}</span>
+                            <p class="custom--justify">
+                                <u>{{ $TNAdata['ProductionWasteManageSystem'] ?? '' }}</u>
                             </p>
                         @endIf
                     </td>
@@ -969,9 +967,8 @@
                                 style="width: 100%;"
                             >{{ $TNAdata['ProductionPlan'] ?? '' }}</textarea>
                         @else
-                            <p
-                                style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;">
-                                <span lang="en-US">{{ $TNAdata['ProductionPlan'] ?? '' }}</span>
+                            <p class="custom--justify">
+                                <u>{{ $TNAdata['ProductionPlan'] ?? '' }}</u>
                             </p>
                         @endIf
                     </td>
@@ -1117,9 +1114,8 @@
                                 style="width: 100%;"
                             >{{ $TNAdata['InventorySystem'] ?? '' }}</textarea>
                         @else
-                            <p
-                                style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;">
-                                <span lang="en-US">{{ $TNAdata['InventorySystem'] ?? '' }}</span>
+                            <p class="custom--justify">
+                                <u>{{ $TNAdata['InventorySystem'] ?? '' }}</u>
                             </p>
                         @endIf
                     </td>
@@ -1149,9 +1145,8 @@
                                 style="width: 100%;"
                             >{{ $TNAdata['MaintenanceProgram'] ?? '' }}</textarea>
                         @else
-                            <p
-                                style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;">
-                                <span lang="en-US">{{ $TNAdata['MaintenanceProgram'] ?? '' }}</span>
+                            <p class="custom--justify">
+                                <u>{{ $TNAdata['MaintenanceProgram'] ?? '' }}</u>
                             </p>
                         @endIf
                     </td>
@@ -1181,9 +1176,8 @@
                                 style="width: 100%;"
                             >{{ $TNAdata['cGMPHACCPActivities'] ?? '' }}</textarea>
                         @else
-                            <p
-                                style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;">
-                                <span lang="en-US">{{ $TNAdata['cGMPHACCPActivities'] ?? '' }}</span>
+                            <p class="custom--justify">
+                                <u>{{ $TNAdata['cGMPHACCPActivities'] ?? '' }}</u>
                             </p>
                         @endIf
                     </td>
@@ -1213,9 +1207,8 @@
                                 style="width: 100%;"
                             >{{ $TNAdata['SuppliesPurchasingSystem'] ?? '' }}</textarea>
                         @else
-                            <p
-                                style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;">
-                                <span lang="en-US">{{ $TNAdata['SuppliesPurchasingSystem'] ?? '' }}</span>
+                            <p class="custom--justify">
+                                <u>{{ $TNAdata['SuppliesPurchasingSystem'] ?? '' }}</u>
                             </p>
                         @endIf
                     </td>
@@ -1254,9 +1247,8 @@
                                 style="width: 100%;"
                             >{{ $TNAdata['MarketingPlan'] ?? '' }}</textarea>
                         @else
-                            <p
-                                style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;">
-                                <span lang="en-US">{{ $TNAdata['MarketingPlan'] ?? '' }}</span>
+                            <p class="custom--justify">
+                                <u>{{ $TNAdata['MarketingPlan'] ?? '' }}</u>
                             </p>
                         @endIf
                     </td>
@@ -1288,9 +1280,8 @@
                                 style="width: 100%;"
                             >{{ $TNAdata['MarketOutletsAndNumber'] ?? '' }}</textarea>
                         @else
-                            <p
-                                style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;">
-                                <span lang="en-US">{{ $TNAdata['MarketOutletsAndNumber'] ?? '' }}</span>
+                            <p class="custom--justify">
+                                <u>{{ $TNAdata['MarketOutletsAndNumber'] ?? '' }}</u>
                             </p>
                         @endIf
                     </td>
@@ -1324,9 +1315,8 @@
                                 style="width: 100%;"
                             >{{ $TNAdata['PromotionalStrategies'] ?? '' }}</textarea>
                         @else
-                            <p
-                                style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;">
-                                <span lang="en-US">{{ $TNAdata['PromotionalStrategies'] ?? '' }}</span>
+                            <p class="custom--justify">
+                                <u>{{ $TNAdata['PromotionalStrategies'] ?? '' }}</u>
                             </p>
                         @endIf
                     </td>
@@ -1356,9 +1346,8 @@
                                 style="width: 100%;"
                             >{{ $TNAdata['MarketCompetitors'] ?? '' }}</textarea>
                         @else
-                            <p
-                                style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;">
-                                <span lang="en-US">{{ $TNAdata['MarketCompetitors'] ?? '' }}</span>
+                            <p class="custom--justify">
+                                <u>{{ $TNAdata['MarketCompetitors'] ?? '' }}</u>
                             </p>
                         @endIf
                     </td>
@@ -1567,8 +1556,10 @@
                                 style="width: 100%;"
                             >{{ $TNAdata['CashFlowAndRelatedDocuments'] ?? '' }}</textarea>
                         @else
-                            {{ $TNAdata['CashFlowAndRelatedDocuments'] ?? '' }}
-                        @endif
+                            <p class="custom--justify">
+                                <u>{{ $TNAdata['CashFlowAndRelatedDocuments'] ?? '' }}</u>
+                            </p>
+                        @endIf
                     </td>
                 </tr>
 
@@ -1598,8 +1589,10 @@
                                 style="width: 100%;"
                             >{{ $TNAdata['SourceOfCapitalCredits'] ?? '' }}</textarea>
                         @else
-                            {{ $TNAdata['SourceOfCapitalCredits'] ?? '' }}
-                        @endif
+                            <p class="custom--justify">
+                                <u>{{ $TNAdata['SourceOfCapitalCredits'] ?? '' }}</u>
+                            </p>
+                        @endIf
                     </td>
                 </tr>
 
@@ -1628,8 +1621,10 @@
                                 style="width: 100%;"
                             >{{ $TNAdata['AccountingSystem'] ?? '' }}</textarea>
                         @else
-                            {{ $TNAdata['AccountingSystem'] ?? '' }}
-                        @endif
+                            <p class="custom--justify">
+                                <u>{{ $TNAdata['AccountingSystem'] ?? '' }}</u>
+                            </p>
+                        @endIf
                     </td>
                 </tr>
             </tbody>
@@ -1667,8 +1662,10 @@
                                 style="width: 100%;"
                             >{{ $TNAdata['HiringAndCriteria'] ?? '' }}</textarea>
                         @else
-                            {{ $TNAdata['HiringAndCriteria'] ?? '' }}
-                        @endif
+                            <p class="custom--justify">
+                                <u>{{ $TNAdata['HiringAndCriteria'] ?? '' }}</u>
+                            </p>
+                        @endIf
                     </td>
                 </tr>
             </tbody>
@@ -1696,8 +1693,10 @@
                                 style="width: 100%;"
                             >{{ $TNAdata['IncentivesToEmployees'] ?? '' }}</textarea>
                         @else
-                            {{ $TNAdata['IncentivesToEmployees'] ?? '' }}
-                        @endif
+                            <p class="custom--justify">
+                                <u>{{ $TNAdata['IncentivesToEmployees'] ?? '' }}</u>
+                            </p>
+                        @endIf
                     </td>
                 </tr>
             </tbody>
@@ -1725,8 +1724,10 @@
                                 style="width: 100%;"
                             >{{ $TNAdata['TrainingAndDevelopment'] ?? '' }}</textarea>
                         @else
-                            {{ $TNAdata['TrainingAndDevelopment'] ?? '' }}
-                        @endif
+                            <p class="custom--justify">
+                                <u>{{ $TNAdata['TrainingAndDevelopment'] ?? '' }}</u>
+                            </p>
+                        @endIf
                     </td>
                 </tr>
             </tbody>
@@ -1754,8 +1755,10 @@
                                 style="width: 100%;"
                             >{{ $TNAdata['SafetyMeasuresPracticed'] ?? '' }}</textarea>
                         @else
-                            {{ $TNAdata['SafetyMeasuresPracticed'] ?? '' }}
-                        @endif
+                            <p class="custom--justify">
+                                <u>{{ $TNAdata['SafetyMeasuresPracticed'] ?? '' }}</u>
+                            </p>
+                        @endIf
                     </td>
                 </tr>
             </tbody>
@@ -1785,7 +1788,9 @@
                                 style="width: 100%;"
                             >{{ $TNAdata['OtherEmployeeWelfare'] ?? '' }}</textarea>
                         @else
-                            {{ $TNAdata['OtherEmployeeWelfare'] ?? '' }}
+                            <p class="custom--justify">
+                                <u>{{ $TNAdata['OtherEmployeeWelfare'] ?? '' }}</u>
+                            </p>
                         @endif
                     </td>
                 </tr>
@@ -1817,7 +1822,9 @@
                                 style="width: 100%;"
                             >{{ $TNAdata['OtherConcerns'] ?? '' }}</textarea>
                         @else
-                            {{ $TNAdata['OtherConcerns'] ?? '' }}
+                            <p class="custom--justify">
+                                <u>{{ $TNAdata['OtherConcerns'] ?? '' }}</u>
+                            </p>
                         @endif
                     </td>
                 </tr>
