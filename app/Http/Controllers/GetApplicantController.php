@@ -11,6 +11,8 @@ class GetApplicantController extends Controller
 {
     /**
      * Handle the incoming request.
+     * Used DB::table facade to prevent loading all models into memory and for improve performance
+     * Used Cache::remember to cache the result for 30 minutes
      */
     public function __invoke(Request $request)
     {
@@ -46,6 +48,7 @@ class GetApplicantController extends Controller
                         'users_address_info.zip_code',
                         'business_info.firm_name',
                         'business_info.enterprise_type',
+                        'business_info.sectors',
                         'business_address_info.office_landmark',
                         'business_address_info.office_barangay',
                         'business_address_info.office_city',
@@ -79,7 +82,14 @@ class GetApplicantController extends Controller
                                 COALESCE(male_indirect_re, 0) + COALESCE(female_indirect_re, 0) +
                                 COALESCE(male_indirect_part, 0) + COALESCE(female_indirect_part, 0)) as total_personnel')
                     )
-                    ->get();
+                    ->get()
+                    ->map(function ($item) {
+                        $sectors = json_decode($item->sectors, true) ?: [];
+                        $item->sectors = collect($sectors)->map(function ($sector) {
+                            return $sector['name'] . '(' . $sector['specific'] . ')';
+                        })->implode(', ');
+                        return $item;
+                    });
             });
 
             return response()->json($applicants, 200);

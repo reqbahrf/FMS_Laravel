@@ -223,7 +223,7 @@
                                     >Enterprise Sector:</label>
                                     <input
                                         class="form-control"
-                                        id="enterpriseSector:"
+                                        id="enterpriseSector"
                                         type="text"
                                         readonly
                                     >

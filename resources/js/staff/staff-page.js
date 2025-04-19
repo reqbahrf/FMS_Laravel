@@ -3059,6 +3059,7 @@ async function initializeStaffPageJs() {
 
                     const BUSINESS_INFO = {
                         firmName: row.find('span.firm_name').text().trim(),
+                        sectors: row.find('input[name="sectors"]').val(),
                         officeAddress: row
                             .find('span.business_address')
                             .text()
@@ -3197,6 +3198,9 @@ async function initializeStaffPageJs() {
                     );
                     ApplicantDetails.filter('#enterpriseType').val(
                         BUSINESS_INFO.enterpriseType
+                    );
+                    ApplicantDetails.filter('#enterpriseSector').val(
+                        BUSINESS_INFO.sectors
                     );
                     ApplicantDetails.filter('#male_direct_re').val(
                         personnel.male_direct_re || '0'

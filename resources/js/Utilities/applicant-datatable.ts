@@ -359,6 +359,7 @@ export default class ApplicantDataTable {
                                 ><br />
                                 <strong>Business Address:</strong>
                                 <br>
+                                <input type="hidden" name="sectors" value="${item.sectors}" />
                                 <input
                                     type="hidden"
                                     name="userID"
