@@ -1,4 +1,4 @@
-@props(['projectInfo', 'projectInfoSheetData', 'isEditable', 'isExporting' => false])
+@props(['projectInfo', 'projectInfoSheetData', 'isEditable', 'isExporting' => false, 'isPreImplementation' => true])
 <div id="formWrapper">
     @if (!$isExporting)
         <nav
@@ -66,7 +66,14 @@
                             class="tg-hvke"
                             colspan="5"
                         >Project title:</td>
-                        <td class="tg-j6zm ">Project Code</td>
+                        <td class="tg-j6zm ">Project Code:
+                            <x-custom-input.input
+                                name="projectCode"
+                                type="text"
+                                :isEditable="$isEditable"
+                                :value="$projectInfoSheetData['projectCode'] ?? ''"
+                            />
+                        </td>
                     </tr>
                     <tr>
                         <td
@@ -83,7 +90,13 @@
                                 />
                             </strong>
                         </td>
-                        <td class="tg-7zrl row--description">Indicate here the exact title of the project</td>
+                        <td class="tg-7zrl row--description">
+                            @if ($isPreImplementation)
+                                Indicate here the exact title of the project
+                            @else
+                                Indicate here the exact title of the project
+                            @endif
+                        </td>
                     </tr>
                     <tr>
                         <td
@@ -98,9 +111,15 @@
                                 :value="$projectInfo->firm_name ?? ''"
                             />
                         </td>
-                        <td class="tg-7zrl row--description">Indicate the name of the company if available (usually if
-                            registered); if
-                            not use surname of owner and add enterprises at the end e.g. Perez Enterprises </td>
+                        <td class="tg-7zrl row--description">
+                            @if ($isPreImplementation)
+                                Indicate the name of the company if available (usually if
+                                registered); if
+                                not use surname of owner and add enterprises at the end e.g. Perez Enterprises
+                            @else
+                                Fill this up only if there has been any change in the information provided earlier
+                            @endif
+                        </td>
                     </tr>
                     <tr>
                         <td
@@ -152,10 +171,17 @@
                                     : ''"
                             />
                         </td>
-                        <td class="tg-7zrl row--description">Indicate the owner and the contact person of the company;
-                            in some instances
-                            the owner may be different from the contact person who generally is the one available more
-                            frequently</td>
+                        <td class="tg-7zrl row--description">
+                            @if ($isPreImplementation)
+                                Indicate the owner and the contact person of the company;
+                                in some instances
+                                the owner may be different from the contact person who generally is the one available
+                                more
+                                frequently
+                            @else
+                                Fill this up only if there has been any change in the information provided earlier
+                            @endif
+                        </td>
                     </tr>
                     <tr>
                         <td
@@ -165,7 +191,13 @@
                         <td
                             class="tg-7zrl row--description"
                             rowspan="2"
-                        >Can be a cooperative, single ownership, partnership or corporation</td>
+                        >
+                            @if ($isPreImplementation)
+                                Can be a cooperative, single ownership, partnership or corporation
+                            @else
+                                Fill this up only if there has been any change in the information provided earlier
+                            @endif
+                        </td>
                     </tr>
                     <tr>
                         <td
@@ -189,8 +221,15 @@
                         <td
                             class="tg-7zrl row--description"
                             rowspan="2"
-                        >Please complete the address where the factory is located not where the display area or show
-                            room is located</td>
+                        >
+                            @if ($isPreImplementation)
+                                Please complete the address where the factory is located not where the display area or
+                                show
+                                room is located
+                            @else
+                                Fill this up only if there has been any change in the information provided earlier
+                            @endif
+                        </td>
                     </tr>
                     <tr>
                         <td
@@ -213,6 +252,7 @@
                                         ', ' .
                                         ($projectInfo->office_zip_code ?? '')"
                             /></td>
+
                     </tr>
                     <tr>
                         <td class="tg-j6zm">Contact Details: </td>
@@ -236,7 +276,13 @@
                         <td
                             class="tg-7zrl row--description"
                             rowspan="2"
-                        >If email address is not available use DOST Regional office email address as alternative</td>
+                        >
+                            @if ($isPreImplementation)
+                                If email address is not available use DOST Regional office email address as alternative
+                            @else
+                                Fill this up only if there has been any change in the information provided earlier
+                            @endif
+                        </td>
                     </tr>
                     <tr>
                         <td
@@ -262,6 +308,43 @@
                             />
                         </td>
                     </tr>
+                    @if ($isPreImplementation)
+                        <tr>
+                            <td
+                                class="tg-j6zm"
+                                colspan="5"
+                            >
+                                Year Firm Established:
+                                <x-custom-input.input
+                                    name="yearFirmEstablished"
+                                    type="text"
+                                    :isEditable="$isEditable"
+                                    :value="$projectInfoSheetData['yearFirmEstablished'] ?? ''"
+                                />
+                            </td>
+                            <td class="tg-7zrl row--description">
+                                Actual year firm was registered or if not registered year firm started operating
+                            </td>
+                        </tr>
+                        <tr>
+                            <td
+                                class="tg-j6zm"
+                                colspan="5"
+                            >
+                                Date SETUP Assistance Approved:
+                                <x-custom-input.input
+                                    id="totalAssests"
+                                    name="dateSetupAssistanceApproved"
+                                    type="date"
+                                    :isEditable="$isEditable"
+                                    :value="$projectInfoSheetData['dateSetupAssistanceApproved'] ?? ''"
+                                />
+                            </td>
+                            <td class="tg-7zrl row--description">
+                                Date project was approved as indicated in the approval letter
+                            </td>
+                        </tr>
+                    @endif
                     <tr>
                         <td
                             class="tg-j6zm"
@@ -282,10 +365,18 @@
                             />
                         </td>
                         <td
-                            class="tg-8d8j"
+                            class="tg-8d8j row--description"
                             colspan="1"
-                            rowspan="5"
-                        ></td>
+                            @if ($isPreImplementation) rowspan="5"
+                            @else
+                                rowspan="1" @endif
+                        >
+                            @if ($isPreImplementation)
+                                Please indicate the estimated value of total assets of the SME prior to SET-UP
+                                assistance; Need not be the exact figure but should check to ensure that data provided
+                                are realistic and as close to the real value as possible
+                            @endif
+                        </td>
                     </tr>
                     <tr>
                         <td class="tg-7zrl"> </td>
@@ -303,6 +394,11 @@
                                 :value="$projectInfoSheetData['land'] ?? ''"
                             />
                         </td>
+                        @if (!$isPreImplementation)
+                            <td class="tg-7zrl row--description">
+
+                            </td>
+                        @endif
                     </tr>
                     <tr>
                         <td class="tg-7zrl"> </td>
@@ -320,6 +416,11 @@
                                 :value="$projectInfoSheetData['building'] ?? ''"
                             />
                         </td>
+                        @if (!$isPreImplementation)
+                            <td class="tg-7zrl row--description">
+
+                            </td>
+                        @endif
                     </tr>
                     <tr>
                         <td class="tg-7zrl"> </td>
@@ -337,6 +438,11 @@
                                 :value="$projectInfoSheetData['equipment'] ?? ''"
                             />
                         </td>
+                        @if (!$isPreImplementation)
+                            <td class="tg-7zrl row--description">
+
+                            </td>
+                        @endif
                     </tr>
                     <tr>
                         <td class="tg-7zrl"> </td>
@@ -354,6 +460,11 @@
                                 :value="$projectInfoSheetData['workingCapital'] ?? ''"
                             />
                         </td>
+                        @if (!$isPreImplementation)
+                            <td class="tg-7zrl row--description">
+
+                            </td>
+                        @endif
                     </tr>
                     <tr class="employment--inputs">
                         <td
@@ -373,16 +484,29 @@
                                 :value="$projectInfoSheetData['TotalmanMonths'] ?? ''"
                             />&nbsp;&nbsp;man-mouth</td>
                         <td
-                            class="tg-8d8j"
-                            colspan="1"
-                        ></td>
+                            class="tg-8d8j row--description"
+                            @if ($isPreImplementation) colspan="2"
+                            rowspan="2"
+                            @else
+                                colspan="2"
+                                rowspan="13" @endif
+                        >
+                            @if ($isPreImplementation)
+                                Please indicate current level of employment when project was approved; please be guided
+                                by the definition of employment i.e. 1 man-month (20 working days) = 1 employment; sum
+                                of direct & indirect employment
+                            @else
+                                Please indicate total employment for the period covered; please be guided by the
+                                definition of employment i.e. 1 man-month (20 working days) = 1 employment; sum of
+                                direct & indirect employment
+                            @endif
+                        </td>
                     </tr>
                     <tr class="employment--inputs">
                         <td
                             class="tg-7zrl"
                             colspan="5"
                         >Direct&nbsp;Employment:</td>
-                        <td class="tg-7zrl"></td>
                     </tr>
                     <tr class="employment--inputs">
                         <td
@@ -562,6 +686,82 @@
                     </tr>
                     <tr class="employment--inputs">
                         <td
+                            class="tg-0lax"
+                            colspan="2"
+                        >PWD</td>
+                        <td class="tg-7zrl">
+                            <x-custom-input.input
+                                class="maleInput"
+                                id="PWD_male"
+                                name="PWD_male"
+                                type="text"
+                                :isEditable="$isEditable"
+                                :value="$projectInfoSheetData['PWD_male'] ?? ''"
+                            />
+                        </td>
+                        <td class="tg-7zrl">
+                            <x-custom-input.input
+                                class="femaleInput"
+                                id="PWD_female"
+                                name="PWD_female"
+                                type="text"
+                                :isEditable="$isEditable"
+                                :value="$projectInfoSheetData['PWD_female'] ?? ''"
+                            />
+                        </td>
+                        <td class="tg-7zrl">
+                            <x-custom-input.input
+                                class="thisRowSubtotal"
+                                id="PWD_subtotal"
+                                name="PWD_subtotal"
+                                type="text"
+                                readonly
+                                :isEditable="$isEditable"
+                                :value="$projectInfoSheetData['PWD_subtotal'] ?? ''"
+                            />
+                        </td>
+                        <td class="tg-7zrl row--description"></td>
+                    </tr>
+                    <tr class="employment--inputs">
+                        <td
+                            class="tg-7zrl"
+                            colspan="2"
+                        >Senior Citizen</td>
+                        <td class="tg-7zrl">
+                            <x-custom-input.input
+                                class="maleInput"
+                                id="SeniorCitizen_male"
+                                name="SeniorCitizen_male"
+                                type="text"
+                                :isEditable="$isEditable"
+                                :value="$projectInfoSheetData['SeniorCitizen_male'] ?? ''"
+                            />
+                        </td>
+                        <td class="tg-7zrl">
+                            <x-custom-input.input
+                                class="femaleInput"
+                                id="SeniorCitizen_female"
+                                name="SeniorCitizen_female"
+                                type="text"
+                                :isEditable="$isEditable"
+                                :value="$projectInfoSheetData['SeniorCitizen_female'] ?? ''"
+                            />
+                        </td>
+                        <td class="tg-7zrl">
+                            <x-custom-input.input
+                                class="thisRowSubtotal"
+                                id="SeniorCitizen_subtotal"
+                                name="SeniorCitizen_subtotal"
+                                type="text"
+                                readonly
+                                :isEditable="$isEditable"
+                                :value="$projectInfoSheetData['SeniorCitizen_subtotal'] ?? ''"
+                            />
+                        </td>
+                        <td class="tg-7zrl row--description"></td>
+                    </tr>
+                    <tr class="employment--inputs">
+                        <td
                             class="tg-7zrl"
                             colspan="2"
                         >Indirect Employment</td>
@@ -577,144 +777,321 @@
                         <td
                             class="tg-7zrl"
                             colspan="2"
-                        >*Regular </td>
+                        >*Backward </td>
                         <td class="tg-7zrl">
-                            <x-custom-input.input
-                                class="maleInput"
-                                id="Indirect_Regular_male"
-                                name="Indirect_Regular_male"
-                                type="text"
-                                :isEditable="$isEditable"
-                                :value="$projectInfoSheetData['Indirect_Regular_male'] ?? ''"
-                            />
+                            @if (!$isPreImplementation)
+                                <x-custom-input.input
+                                    class="maleInput"
+                                    id="Indirect_backward_male"
+                                    name="Indirect_backward_male"
+                                    type="text"
+                                    :isEditable="$isEditable"
+                                    :value="$projectInfoSheetData['Indirect_backward_male'] ?? ''"
+                                />
+                            @endif
                         </td>
                         <td class="tg-7zrl">
-                            <x-custom-input.input
-                                class="femaleInput"
-                                id="Indirect_Regular_female"
-                                name="Indirect_Regular_female"
-                                type="text"
-                                :isEditable="$isEditable"
-                                :value="$projectInfoSheetData['Indirect_Regular_female'] ?? ''"
-                            />
+                            @if (!$isPreImplementation)
+                                <x-custom-input.input
+                                    class="femaleInput"
+                                    id="Indirect_backward_female"
+                                    name="Indirect_backward_female"
+                                    type="text"
+                                    :isEditable="$isEditable"
+                                    :value="$projectInfoSheetData['Indirect_backward_female'] ?? ''"
+                                />
+                            @endif
                         </td>
                         <td class="tg-7zrl">
-                            <x-custom-input.input
-                                class="thisRowSubtotal"
-                                id="Indirect_Regular_subtotal"
-                                name="Indirect_Regular_subtotal"
-                                type="text"
-                                readonly
-                                :isEditable="$isEditable"
-                                :value="$projectInfoSheetData['Indirect_Regular_subtotal'] ?? ''"
-                            />
+                            @if (!$isPreImplementation)
+                                <x-custom-input.input
+                                    class="thisRowSubtotal"
+                                    id="Indirect_backward_subtotal"
+                                    name="Indirect_backward_subtotal"
+                                    type="text"
+                                    readonly
+                                    :isEditable="$isEditable"
+                                    :value="$projectInfoSheetData['Indirect_backward_subtotal'] ?? ''"
+                                />
+                            @endif
                         </td>
-                        <td class="tg-7zrl"> </td>
+                        @if ($isPreImplementation)
+                            <td class="tg-7zrl row--description">
+                                Refers to employment generated by suppliers of inputs and other raw materials needed to
+                                produce the final product of the company
+                            </td>
+                        @endif
                     </tr>
+                    @if ($isPreImplementation)
+                        <tr class="employment--inputs">
+                            <td
+                                class="tg-7zrl"
+                                colspan="2"
+                            >PWD</td>
+                            <td class="tg-7zrl">
+                                <x-custom-input.input
+                                    class="maleInput"
+                                    id="PWD_backward_male"
+                                    name="PWD_backward_male"
+                                    type="text"
+                                    :isEditable="$isEditable"
+                                    :value="$projectInfoSheetData['PWD_backward_male'] ?? ''"
+                                />
+                            </td>
+                            <td class="tg-7zrl">
+                                <x-custom-input.input
+                                    class="femaleInput"
+                                    id="PWD_backward_female"
+                                    name="PWD_backward_female"
+                                    type="text"
+                                    :isEditable="$isEditable"
+                                    :value="$projectInfoSheetData['PWD_backward_female'] ?? ''"
+                                />
+                            </td>
+                            <td class="tg-7zrl">
+                                <x-custom-input.input
+                                    class="thisRowSubtotal"
+                                    id="PWD_backward_subtotal"
+                                    name="PWD_backward_subtotal"
+                                    type="text"
+                                    readonly
+                                    :isEditable="$isEditable"
+                                    :value="$projectInfoSheetData['PWD_backward_subtotal'] ?? ''"
+                                />
+                            </td>
+                            <td class="tg-7zrl row--description"></td>
+                        </tr>
+                        <tr class="employment--inputs">
+                            <td
+                                class="tg-7zrl"
+                                colspan="2"
+                            >Senior Citizen</td>
+                            <td class="tg-7zrl">
+                                <x-custom-input.input
+                                    class="maleInput"
+                                    id="SeniorCitizen_backward_male"
+                                    name="SeniorCitizen_backward_male"
+                                    type="text"
+                                    :isEditable="$isEditable"
+                                    :value="$projectInfoSheetData['SeniorCitizen_backward_male'] ?? ''"
+                                />
+                            </td>
+                            <td class="tg-7zrl">
+                                <x-custom-input.input
+                                    class="femaleInput"
+                                    id="SeniorCitizen_backward_female"
+                                    name="SeniorCitizen_backward_female"
+                                    type="text"
+                                    :isEditable="$isEditable"
+                                    :value="$projectInfoSheetData['SeniorCitizen_backward_female'] ?? ''"
+                                />
+                            </td>
+                            <td class="tg-7zrl">
+                                <x-custom-input.input
+                                    class="thisRowSubtotal"
+                                    id="SeniorCitizen_backward_subtotal"
+                                    name="SeniorCitizen_backward_subtotal"
+                                    type="text"
+                                    readonly
+                                    :isEditable="$isEditable"
+                                    :value="$projectInfoSheetData['SeniorCitizen_backward_subtotal'] ?? ''"
+                                />
+                            </td>
+                            <td class="tg-7zrl row--description"></td>
+                        </tr>
+                    @endif
                     <tr class="employment--inputs">
                         <td
                             class="tg-7zrl"
                             colspan="2"
-                        >*Part-time</td>
+                        >*Forward</td>
                         <td class="tg-7zrl">
-                            <x-custom-input.input
-                                class="maleInput"
-                                id="Indirect_Parttime_male"
-                                name="Indirect_Parttime_male"
-                                type="text"
-                                :isEditable="$isEditable"
-                                :value="$projectInfoSheetData['Indirect_Parttime_male'] ?? ''"
-                            />
+                            @if ($isPreImplementation)
+                                <x-custom-input.input
+                                    class="maleInput"
+                                    id="Indirect_forward_male"
+                                    name="Indirect_forward_male"
+                                    type="text"
+                                    :isEditable="$isEditable"
+                                    :value="$projectInfoSheetData['Indirect_forward_male'] ?? ''"
+                                />
+                            @endif
                         </td>
                         <td class="tg-7zrl">
-                            <x-custom-input.input
-                                class="femaleInput"
-                                id="Indirect_Parttime_female"
-                                name="Indirect_Parttime_female"
-                                type="text"
-                                :isEditable="$isEditable"
-                                :value="$projectInfoSheetData['Indirect_Parttime_female'] ?? ''"
-                            />
+                            @if ($isPreImplementation)
+                                <x-custom-input.input
+                                    class="femaleInput"
+                                    id="Indirect_forward_female"
+                                    name="Indirect_forward_female"
+                                    type="text"
+                                    :isEditable="$isEditable"
+                                    :value="$projectInfoSheetData['Indirect_forward_female'] ?? ''"
+                                />
+                            @endif
                         </td>
                         <td class="tg-7zrl">
-                            <x-custom-input.input
-                                class="thisRowSubtotal"
-                                id="Indirect_Parttime_subtotal"
-                                name="Indirect_Parttime_subtotal"
-                                type="text"
-                                readonly
-                                :isEditable="$isEditable"
-                                :value="$projectInfoSheetData['Indirect_Parttime_subtotal'] ?? ''"
-                            />
+                            @if ($isPreImplementation)
+                                <x-custom-input.input
+                                    class="thisRowSubtotal"
+                                    id="Indirect_forward_subtotal"
+                                    name="Indirect_forward_subtotal"
+                                    type="text"
+                                    readonly
+                                    :isEditable="$isEditable"
+                                    :value="$projectInfoSheetData['Indirect_forward_subtotal'] ?? ''"
+                                />
+                            @endif
                         </td>
-                        <td class="tg-7zrl"> </td>
+                        @if ($isPreImplementation)
+                            <td class="tg-7zrl row--description">
+                                Refers to employment generated by other companies using the products of the company or
+                                as a consequence of the production of the company such as suppliers of packaging
+                                materials, transport groups, etc.
+                            </td>
+                        @endif
                     </tr>
+                    @if (!$isPreImplementation)
+                        <tr class="employment--inputs">
+                            <td
+                                class="tg-7zrl"
+                                colspan="2"
+                            >PWD</td>
+                            <td class="tg-7zrl">
+                                <x-custom-input.input
+                                    class="maleInput"
+                                    id="PWD_forward_male"
+                                    name="PWD_forward_male"
+                                    type="text"
+                                    :isEditable="$isEditable"
+                                    :value="$projectInfoSheetData['PWD_forward_male'] ?? ''"
+                                />
+                            </td>
+                            <td class="tg-7zrl">
+                                <x-custom-input.input
+                                    class="femaleInput"
+                                    id="PWD_forward_female"
+                                    name="PWD_forward_female"
+                                    type="text"
+                                    :isEditable="$isEditable"
+                                    :value="$projectInfoSheetData['PWD_forward_female'] ?? ''"
+                                />
+                            </td>
+                            <td class="tg-7zrl">
+                                <x-custom-input.input
+                                    class="thisRowSubtotal"
+                                    id="PWD_forward_subtotal"
+                                    name="PWD_forward_subtotal"
+                                    type="text"
+                                    readonly
+                                    :isEditable="$isEditable"
+                                    :value="$projectInfoSheetData['PWD_forward_subtotal'] ?? ''"
+                                />
+                            </td>
+                            <td class="tg-7zrl row--description"></td>
+                        </tr>
+                        <tr class="employment--inputs">
+                            <td
+                                class="tg-7zrl"
+                                colspan="2"
+                            >
+                                Senior Citizen
+                            </td>
+                            <td class="tg-7zrl">
+                                <x-custom-input.input
+                                    class="maleInput"
+                                    id="SeniorCitizen_forward_male"
+                                    name="SeniorCitizen_forward_male"
+                                    type="text"
+                                    :isEditable="$isEditable"
+                                    :value="$projectInfoSheetData['SeniorCitizen_forward_male'] ?? ''"
+                                />
+                            </td>
+                            <td class="tg-7zrl">
+                                <x-custom-input.input
+                                    class="femaleInput"
+                                    id="SeniorCitizen_forward_female"
+                                    name="SeniorCitizen_forward_female"
+                                    type="text"
+                                    :isEditable="$isEditable"
+                                    :value="$projectInfoSheetData['SeniorCitizen_forward_female'] ?? ''"
+                                />
+                            </td>
+                            <td class="tg-7zrl">
+                                <x-custom-input.input
+                                    class="thisRowSubtotal"
+                                    id="SeniorCitizen_forward_subtotal"
+                                    name="SeniorCitizen_forward_subtotal"
+                                    type="text"
+                                    readonly
+                                    :isEditable="$isEditable"
+                                    :value="$projectInfoSheetData['SeniorCitizen_forward_subtotal'] ?? ''"
+                                />
+                            </td>
+                            <td class="tg-7zrl row--description"></td>
+                        </tr>
+                    @endif
                     <tr>
                         <td
                             class="tg-wa1i"
                             colspan="2"
-                            rowspan="2"
                         >Total Volume of Production
                         </td>
-                        <td class="tg-7zrl"> </td>
-                        <td class="tg-7zrl"> </td>
-                        <td class="tg-7zrl"> </td>
+                        <td
+                            class="tg-7zrl row--description"
+                            colspan="3"
+                        >Please specify by type of product and indicate unit of measurement; please use additional sheet
+                            for details</td>
                         <td class="tg-7zrl row--description">Total volume of products produced within the period
                             (reckoned on semester
                             basis - Jan/June and July/Dec); Please report volume of production for the semester closest
                             to the date of project approval. </td>
                     </tr>
                     <tr>
-                        <td class="tg-7zrl"> </td>
-                        <td class="tg-7zrl"> </td>
-                        <td class="tg-7zrl"> </td>
-                        <td class="tg-7zrl"> </td>
-                    </tr>
-                    <tr>
                         <td
                             class="tg-cly1"
                             colspan="2"
-                            rowspan="2"
                         >*Local</td>
                         <td
                             class="tg-8d8j"
                             colspan="3"
-                            rowspan="2"
                         >
                             &nbsp;&nbsp;<br>&nbsp;&nbsp;
-                            <x-custom-input.input
-                                name="localProduct"
-                                type="text"
-                                :isEditable="$isEditable"
-                                :value="$projectInfoSheetData['localProduct'] ?? ''"
-                            />
+                            @if ($isEditable)
+                                <textarea
+                                    class="form-control"
+                                    name="localProduct"
+                                    style="width: 100%; height: 100px;"
+                                    :isEditable="$isEditable"
+                                >{{ $projectInfoSheetData['localProduct'] ?? '' }}</textarea>
+                            @else
+                                {{ $projectInfoSheetData['localProduct'] ?? '' }}
+                            @endif
                         </td>
 
                         <td class="tg-7zrl row--description">Refers to products sold within the Philippines</td>
                     </tr>
                     <tr>
-                        <td class="tg-7zrl row--description">Refers to products sold outside of the Philippines</td>
-                    </tr>
-                    <tr>
                         <td
                             class="tg-cly1"
                             colspan="2"
-                            rowspan="2"
                         >*Export</td>
                         <td
                             class="tg-8d8j"
                             colspan="3"
-                            rowspan="2"
                         >
                             &nbsp;&nbsp;<br>&nbsp;&nbsp;
-                            <x-custom-input.input
-                                name="exportProduct"
-                                type="text"
-                                :isEditable="$isEditable"
-                                :value="$projectInfoSheetData['exportProduct'] ?? ''"
-                            />
+                            @if ($isEditable)
+                                <textarea
+                                    class="form-control"
+                                    name="exportProduct"
+                                    style="width: 100%; height: 100px;"
+                                    :isEditable="$isEditable"
+                                >{{ $projectInfoSheetData['exportProduct'] ?? '' }}</textarea>
+                            @else
+                                {{ $projectInfoSheetData['exportProduct'] ?? '' }}
+                            @endif
                         </td>
-                        <td class="tg-7zrl"> </td>
+                        <td class="tg-7zrl row--description">Refers to products sold outside of the Philippines</td>
                     </tr>
                     <tr>
                         <td class="tg-7zrl"> </td>
@@ -723,13 +1100,11 @@
                         <td
                             class="tg-wa1i"
                             colspan="2"
-                            rowspan="2"
                         >Total&nbsp;&nbsp;&nbsp;Gross Sales(₱):
                         </td>
                         <td
                             class="tg-8d8j"
                             colspan="3"
-                            rowspan="2"
                         >
                             &nbsp;&nbsp;<br>₱
                             <x-custom-input.input
@@ -753,12 +1128,10 @@
                         <td
                             class="tg-cly1"
                             colspan="2"
-                            rowspan="2"
                         >*Local(₱)</td>
                         <td
                             class="tg-8d8j"
                             colspan="3"
-                            rowspan="2"
                         >
                             &nbsp;&nbsp;<br>&nbsp;&nbsp;₱
                             <x-custom-input.input
@@ -779,12 +1152,10 @@
                         <td
                             class="tg-cly1"
                             colspan="2"
-                            rowspan="2"
                         >*Export(₱)</td>
                         <td
                             class="tg-8d8j"
                             colspan="3"
-                            rowspan="2"
                         >
                             &nbsp;&nbsp;<br>&nbsp;&nbsp;₱
                             <x-custom-input.input
@@ -798,9 +1169,6 @@
                         </td>
                         <td class="tg-7zrl row--description">Peso value of products sold outside of the Philippines
                         </td>
-                    </tr>
-                    <tr>
-                        <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>
                         <td
