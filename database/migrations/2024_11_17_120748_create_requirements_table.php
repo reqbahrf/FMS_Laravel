@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('business_id')->unsigned();
             $table->bigInteger('application_id')->unsigned()->nullable();
-            $table->string('file_name', 32);
+            $table->string('file_name', 64);
             $table->string('file_link', 500)->nullable();
             $table->string('file_type', 20)->nullable();
             $table->boolean('can_edit')->default(false);

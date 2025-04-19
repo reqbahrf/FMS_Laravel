@@ -3,12 +3,14 @@ import {
     customFormatNumericInput,
     yearInputs,
 } from '../../Utilities/input-utils';
+import { InitializeFilePond } from '../../Utilities/FilepondHandlers';
 import { parseFormattedNumberToFloat } from '../../Utilities/utilFunctions';
 import RefundStructureCalculator from '../../Utilities/RefundStructureCalculator';
 import {
     addNewRowHandler,
     removeRowHandler,
 } from '../../Utilities/add-and-remove-table-row-handler';
+import FilePond from 'filepond';
 
 export default class ProposalFormEvent {
     private form: JQuery<HTMLFormElement> | null;
@@ -17,6 +19,9 @@ export default class ProposalFormEvent {
     private numberInputSelectors: string[] | null;
     private yearInputSelectors: string[] | null;
     private refundCalculator: RefundStructureCalculator;
+    private filePondInstance: {
+        [key: string]: FilePond.FilePond | null;
+    };
 
     constructor(form: JQuery<HTMLFormElement>) {
         this.form = form;
@@ -36,12 +41,18 @@ export default class ProposalFormEvent {
 
         customFormatNumericInput(this.form, this.numberInputSelectors);
         yearInputs(this.form, this.yearInputSelectors);
+        this.filePondInstance = {
+            organizationalChart: null,
+            plantSiteOrLocation: null,
+            proposedPlantLayout: null,
+        };
         this._initTableTotalsCalculator();
         this._initWorkerTotalsCalculator();
         this._initEquipmentTableCalculator();
         this._initBudgetTableCalculator();
         this.refundCalculator.calculateAllTotals();
         this._initTableAddRowEvent();
+        this._initFilePondUploadInput();
     }
 
     private _getNumericInputs(): string[] {
@@ -82,6 +93,25 @@ export default class ProposalFormEvent {
             () => {
                 this.refundCalculator.calculateAllTotals();
             }
+        );
+    }
+
+    private _initFilePondUploadInput(): void {
+        if (!this.form) return;
+        this.filePondInstance.organizationalChart = InitializeFilePond(
+            'proposal_organizationalChart',
+            { acceptedFileTypes: ['image/png', 'image/jpeg'] },
+            'proposal_organizationalChartFileID_Data_Handler'
+        );
+        this.filePondInstance.plantSiteOrLocation = InitializeFilePond(
+            'proposal_plantSiteOrLocation',
+            { acceptedFileTypes: ['image/png', 'image/jpeg'] },
+            'proposal_plantSiteOrLocationFileID_Data_Handler'
+        );
+        this.filePondInstance.proposedPlantLayout = InitializeFilePond(
+            'proposal_proposedPlantLayout',
+            { acceptedFileTypes: ['image/png', 'image/jpeg'] },
+            'proposal_proposedPlantLayoutFileID_Data_Handler'
         );
     }
 

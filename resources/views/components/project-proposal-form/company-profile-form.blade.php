@@ -1,4 +1,23 @@
 @props(['isEditable', 'ProjectProposaldata'])
+@php
+    use App\Services\ApplicantFileHandlerService;
+    try {
+        $organizationalChart = ApplicantFileHandlerService::getRequirementImageAsBase64(
+            'Organizational Chart in Proposal Form',
+            $ProjectProposaldata['business_id'],
+        );
+        $plantSiteOrLocation = ApplicantFileHandlerService::getRequirementImageAsBase64(
+            'Plant Site or Location in Proposal Form',
+            $ProjectProposaldata['business_id'],
+        );
+        $proposedPlantLayout = ApplicantFileHandlerService::getRequirementImageAsBase64(
+            'Proposed Plant Layout in Proposal Form',
+            $ProjectProposaldata['business_id'],
+        );
+    } catch (Exception $e) {
+        Log::error('Error retrieving file: ' . $e->getMessage());
+    }
+@endphp
 <table
     id="CompanyProfileTable"
     style="border-collapse: collapse; table-layout: fixed;"
@@ -980,16 +999,16 @@
                 <div class="organizational-chart-image-upload">
                     <label
                         class="form-label"
-                        for="organizationalChart"
+                        for="proposal_organizationalChart"
                     >Upload Organizational Chart</label>
                     <input
-                        id="organizationalChart"
-                        name="organizationalChart"
+                        id="proposal_organizationalChart"
+                        name="proposal_organizationalChart"
                         type="file"
                     >
                     <input
-                        id="OrganizationalChartFileID_Data_Handler"
-                        name="OrganizationalChartFileID_Data_Handler"
+                        id="proposal_organizationalChartFileID_Data_Handler"
+                        name="proposal_organizationalChartFileID_Data_Handler"
                         type="hidden"
                     >
                 </div>
@@ -1077,16 +1096,16 @@
                 <div class="plant-site-or-layout-image-upload">
                     <label
                         class="form-label"
-                        for="plantSiteOrLocation"
+                        for="proposal_plantSiteOrLocation"
                     >Upload Plant Site or Location</label>
                     <input
-                        id="plantSiteOrLocation"
-                        name="plantSiteOrLocation"
+                        id="proposal_plantSiteOrLocation"
+                        name="proposal_plantSiteOrLocation"
                         type="file"
                     >
                     <input
-                        id="PlantSiteOrLocationFileID_Data_Handler"
-                        name="PlantSiteOrLocationFileID_Data_Handler"
+                        id="proposal_plantSiteOrLocationFileID_Data_Handler"
+                        name="proposal_plantSiteOrLocationFileID_Data_Handler"
                         type="hidden"
                     >
                 </div>
@@ -1461,16 +1480,16 @@
                 <div class="proposed-plant-layout-image-upload">
                     <label
                         class="form-label"
-                        for="proposedPlantLayout"
+                        for="proposal_proposedPlantLayout"
                     >Upload Proposed Plant Layout</label>
                     <input
-                        id="proposedPlantLayout"
-                        name="proposedPlantLayout"
+                        id="proposal_proposedPlantLayout"
+                        name="proposal_proposedPlantLayout"
                         type="file"
                     >
                     <input
-                        id="ProposedPlantLayoutFileID_Data_Handler"
-                        name="ProposedPlantLayoutFileID_Data_Handler"
+                        id="proposal_proposedPlantLayoutFileID_Data_Handler"
+                        name="proposal_proposedPlantLayoutFileID_Data_Handler"
                         type="hidden"
                     >
                 </div>

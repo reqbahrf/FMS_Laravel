@@ -272,6 +272,14 @@ class ProjectProposalRequest extends FormRequest
             'riskManagement.*.objectives' => 'nullable',
             'riskManagement.*.risksAndAssumptions' => 'nullable',
             'riskManagement.*.riskManagementPlan' => 'nullable',
+
+            //Image Upload
+            'proposal_organizationalChart' => 'nullable',
+            'proposal_organizationalChartFileID_Data_Handler' => 'nullable',
+            'proposal_plantSiteOrLocation' => 'nullable',
+            'proposal_plantSiteOrLocationFileID_Data_Handler' => 'nullable',
+            'proposal_proposedPlantLayout' => 'nullable',
+            'proposal_proposedPlantLayoutFileID_Data_Handler' => 'nullable',
         ];
     }
 }

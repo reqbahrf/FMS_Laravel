@@ -12,10 +12,10 @@ use App\Actions\DocumentStatusAction as DSA;
 class ProjectProposaldataHandlerService
 {
     private const PROJECT_PROPOSAL_FORM = 'project_proposal_form';
-    public function __construct(private ApplicationForm $ProjectProposalForm)
-    {
-        $this->ProjectProposalForm = $ProjectProposalForm;
-    }
+    public function __construct(
+        private ApplicationForm $ProjectProposalForm,
+        private ApplicantFileHandlerService $applicantFileHandler
+    ) {}
 
     public function getProjectProposalStatus(int $business_id, int $application_id): array
     {
@@ -66,6 +66,24 @@ class ProjectProposaldataHandlerService
                     'reviewed_by' => $existingRecord->reviewed_by,
                     'reviewed_at' => $existingRecord->reviewed_at
                 ] : null;
+
+                $file_to_insert = [
+                    'OrganizationalChartPath' => $data['proposal_organizationalChartFileID_Data_Handler'] ?? '',
+                    'PlantSiteOrLocationPath' => $data['proposal_plantSiteOrLocationFileID_Data_Handler'] ?? '',
+                    'ProposedPlantLayoutPath' => $data['proposal_proposedPlantLayoutFileID_Data_Handler'] ?? '',
+                ];
+
+                $fileNames = [
+                    'OrganizationalChartPath' => 'Organizational Chart in Proposal Form',
+                    'PlantSiteOrLocationPath' => 'Plant Site or Location in Proposal Form',
+                    'ProposedPlantLayoutPath' => 'Proposed Plant Layout in Proposal Form',
+                ];
+
+                $file_to_insert = array_filter($file_to_insert);
+
+                foreach ($file_to_insert as $filekey => $fileIdentifier) {
+                    $this->applicantFileHandler->replaceOrCreateRequirementFile($business_id, $filekey, $fileIdentifier, $fileNames, $application_id);
+                }
 
                 $statusData = DSA::determineReviewerOrModifier($documentStatus, $user, $existingStatusData);
             }
